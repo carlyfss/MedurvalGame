@@ -9,6 +9,8 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
+				"ModularGameplay",
+				"GameFeatures",
 				"GameplayAbilities",
 				"Engine",
 				"UMG"
@@ -18,6 +20,14 @@
 	"Plugins": [
 		{
 			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "ModularGameplay",
+			"Enabled": true
+		},
+		{
+			"Name": "GameFeatures",
 			"Enabled": true
 		},
 		{
@@ -126,6 +136,14 @@
 				"Win64",
 				"Linux"
 			]
+		},
+		{
+			"Name": "InventoryManager",
+			"Enabled": true
+		},
+		{
+			"Name": "Water",
+			"Enabled": true
 		}
 	]
 }
