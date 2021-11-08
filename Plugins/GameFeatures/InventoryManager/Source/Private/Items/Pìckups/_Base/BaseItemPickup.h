@@ -16,7 +16,11 @@ class ABaseItemPickup : public AActor
 {
 	GENERATED_BODY()
 
+	UPROPERTY(Transient)
 	bool bIsPickupReady = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Base")
+	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> PickupRange = nullptr;
@@ -24,14 +28,14 @@ class ABaseItemPickup : public AActor
 	UPROPERTY(VisibleAnywhere)
 	TSoftObjectPtr<UStaticMeshComponent> PickupMesh = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category="Pickup|Configuration")
+	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Configuration")
 	float PickupRangeRadius = 200;
 
-	UPROPERTY(EditDefaultsOnly, Category="Pickup")
+	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
 	TSoftObjectPtr<UBaseItemDA> ItemData = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category="Pickup")
-	int AmountToAdd = 1;
+	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
+	uint8 AmountToAdd = 1;
 	
 
 public:
@@ -42,7 +46,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	virtual bool ConstructPickupItem();
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	void LoadPickupItem();
+
+	void UnloadPickupItem();
 
 	// declare overlap begin function
 	UFUNCTION()

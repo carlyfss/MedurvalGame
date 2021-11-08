@@ -3,7 +3,8 @@
 
 #include "Components/InventoryComponent.h"
 #include "GameFramework/Character.h"
-#include "Items/BaseItemDA.h"
+#include "Items/_Base/BaseItemDA.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 UInventoryComponent::UInventoryComponent()
@@ -21,17 +22,24 @@ void UInventoryComponent::BeginPlay()
 
 	SetPlayerReference(Owner);
 
-	Slots.Reserve(AmountOfSlots);
+	Slots.SetNum(SlotAmount);
+}
+
+void UInventoryComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	SetPlayerReference(nullptr);
 }
 
 /** Checks if a given index is empty or not */
-bool UInventoryComponent::IsSlotEmpty(const int Index) const
+bool UInventoryComponent::IsSlotEmpty(const int32 Index) const
 {
 	return !Slots[Index].ItemData.IsValid();
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
-TSoftObjectPtr<UBaseItemDA> UInventoryComponent::GetItemInfoAtIndex(const int Index, bool& bIsSlotEmpty, int& Amount) const
+TSoftObjectPtr<UBaseItemDA> UInventoryComponent::GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
 {
 	check(Slots.Num() > Index)
 
@@ -53,15 +61,25 @@ TSoftObjectPtr<UBaseItemDA> UInventoryComponent::GetItemInfoAtIndex(const int In
 	return nullptr;
 }
 
-int UInventoryComponent::GetAmountAtIndex(const int Index) const
+int UInventoryComponent::GetAmountAtIndex(const int32 Index) const
 {
 	check(Slots.Num() > Index)
 
 	return Slots[Index].Amount;
 }
 
+void UInventoryComponent::SetSlotAmount(const uint8 AmountOfSlots)
+{
+	SlotAmount = FMath::Clamp(static_cast<int32>(AmountOfSlots), 1, 1000);
+}
+
+void UInventoryComponent::SetMaxStackSize(const uint8 StackSize)
+{
+	MaxStackSize = FMath::Clamp(static_cast<int32>(StackSize), 1, 1000);
+}
+
 /** Searches for a empty slot, and if it finds, store the index in the parameter &Index */
-bool UInventoryComponent::SearchEmptySlot(int& Index)
+bool UInventoryComponent::SearchEmptySlot(int32& Index)
 {
 	bool bEmptySlot = false;
 	int FoundIndex = 0;
@@ -72,7 +90,7 @@ bool UInventoryComponent::SearchEmptySlot(int& Index)
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (!Slots[i].ItemData.IsValid())
+			if (!Slots[Index].ItemData.IsValid())
 			{
 				bEmptySlot = true;
 				FoundIndex = i;
@@ -86,7 +104,6 @@ bool UInventoryComponent::SearchEmptySlot(int& Index)
 		bEmptySlot = true;
 	}
 
-
 	Index = FoundIndex;
 	return bEmptySlot;
 }
@@ -94,9 +111,9 @@ bool UInventoryComponent::SearchEmptySlot(int& Index)
 /** Searches for a empty slot, and if it finds, check the MaxStackSize of the slot and stores the index in the parameter &Index
  * and if the stack is full it return false
  */
-bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int& Index)
+bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int32& Index)
 {
-	bool bEmptySlot = false;
+	bool bAvaiableSlot = false;
 	int FoundIndex = 0;
 
 	if (!Slots.IsEmpty())
@@ -105,13 +122,11 @@ bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> Item
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			FInventorySlot Slot = Slots[i];
-
-			if (Slot.ItemData.IsValid())
+			if (Slots[Index].ItemData.IsValid())
 			{
-				if (Slot.ItemData == ItemData && Slot.Amount < MaxStackSize)
+				if (Slots[i].ItemData == ItemData && Slots[i].Amount < MaxStackSize)
 				{
-					bEmptySlot = true;
+					bAvaiableSlot = true;
 					FoundIndex = i;
 
 					break;
@@ -121,10 +136,11 @@ bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> Item
 	}
 
 	Index = FoundIndex;
-	return bEmptySlot;
+	
+	return bAvaiableSlot;
 }
 
-bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const int Amount, int& Rest)
+bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -153,7 +169,7 @@ bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemDat
 	return false;
 }
 
-bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const int Amount, int& Rest)
+bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -165,20 +181,14 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 		{
 			if (Amount > MaxStackSize)
 			{
-				FInventorySlot* TemporaryData = new FInventorySlot();
-				FoundIndex = Slots.Add(*TemporaryData);
-
 				Slots[FoundIndex].ItemData = ItemData;
-				Slots[FoundIndex].Amount = MaxStackSize;
+				Slots[FoundIndex].Amount = Amount;
 
 				const int NewAmount = Amount - MaxStackSize;
 
 				return AddItem(ItemData, NewAmount, Rest);
 			}
-
-			FInventorySlot* TemporaryData = new FInventorySlot();
-			FoundIndex = Slots.Add(*TemporaryData);
-
+			
 			Slots[FoundIndex].ItemData = ItemData;
 			Slots[FoundIndex].Amount = Amount;
 
@@ -214,7 +224,7 @@ void UInventoryComponent::SetPlayerReference(ACharacter* PlayerRef)
 	PlayerReference = PlayerRef;
 }
 
-bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const int Amount, int& Rest)
+bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	if (ItemData.IsValid())
 	{

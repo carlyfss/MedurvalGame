@@ -18,6 +18,9 @@ public:
 	FText Name = FText::FromString(TEXT("Rock"));
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+	float Weight = 0.1f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	FText Description = FText::FromString(TEXT("Just a rock"));
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")

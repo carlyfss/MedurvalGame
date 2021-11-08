@@ -4,6 +4,9 @@
 #include "MDBaseCharacter.h"
 
 #include "Abilities/GameplayAbilityTypes.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+#include "InputMappingContext.h"
 #include "Abilities/Components/MDAbilitySystemComponent.h"
 #include "Abilities/Components/MDBaseAttributeSet.h"
 #include "Abilities/Components/MDBaseGameplayAbility.h"
@@ -62,60 +65,49 @@ AMDBaseCharacter::AMDBaseCharacter()
 	AttributeSetComponent = CreateDefaultSubobject<UMDBaseAttributeSet>(TEXT("AttributeSetComponent"));
 }
 
+#pragma region Overrides
 void AMDBaseCharacter::PreInitializeComponents()
 {
 	Super::PreInitializeComponents();
 
 	UGameFrameworkComponentManager::AddGameFrameworkComponentReceiver(this);
-	
+
 	UE_LOG(LogTemp, Warning, TEXT("Added receiver"))
 }
 
 // Called when the game starts or when spawned
 void AMDBaseCharacter::BeginPlay()
 {
-	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(this, UGameFrameworkComponentManager::NAME_GameActorReady);
+	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(
+		this, UGameFrameworkComponentManager::NAME_GameActorReady);
 
 	Super::BeginPlay();
 }
 
 void AMDBaseCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
-	
 	Super::EndPlay(EndPlayReason);
+
+	UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
 }
 
-
-void AMDBaseCharacter::MoveForward(const float Value)
+void AMDBaseCharacter::PawnClientRestart()
 {
-	if ((Controller != nullptr) && (Value != 0.0f))
+	Super::PawnClientRestart();
+
+	// Make sure that we have a valid PlayerController.
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// Get the Enhanced Input Local Player Subsystem from the Local Player related to our Player Controller.
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			// PawnClientRestart can run more than once in an Actor's lifetime, so start by clearing out any leftover mappings.
+			Subsystem->ClearAllMappings();
 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-
-		AddMovementInput(Direction, Value);
+			// Add each mapping context, along with their priority values. Higher values outprioritize lower values.
+			Subsystem->AddMappingContext(BaseMappingContext, BaseMappingPriority);
+		}
 	}
-}
-
-void AMDBaseCharacter::MoveRight(const float Value)
-{
-	if ((Controller != nullptr) && (Value != 0.0f))
-	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-		AddMovementInput(Direction, Value);
-	}
-}
-
-UAbilitySystemComponent* AMDBaseCharacter::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
 }
 
 void AMDBaseCharacter::PossessedBy(AController* NewController)
@@ -150,6 +142,13 @@ void AMDBaseCharacter::OnRep_PlayerState()
 
 		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
 	}
+}
+#pragma endregion Overrides
+
+#pragma region GameplayAbilityFunc
+UAbilitySystemComponent* AMDBaseCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 void AMDBaseCharacter::InitializeAttributes()
@@ -211,26 +210,49 @@ void AMDBaseCharacter::GetMana(float& Mana, float& MaxMana) const
 		MaxMana = AttributeSetComponent->GetMaxMana();
 	}
 }
+#pragma endregion GameplayAbilityFunc
 
-// Called to bind functionality to input
+#pragma region Inputs
 void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("MoveForward", this, &AMDBaseCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AMDBaseCharacter::MoveRight);
+	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
+	// Make sure that we are using a UEnhancedInputComponent; if not, the project is not configured correctly.
+	if (PlayerEnhancedInputComponent)
+	{
+		// This calls the handler function on the tick when MyInputAction starts, such as when pressing an action button.
+		if (JumpInputAction)
+		{
+			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		}
+		
+		if (MoveForwardInput)
+		{
+			PlayerEnhancedInputComponent->BindAction(MoveForwardInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedMoveForward);
+		}
+
+		if (MoveRightInput)
+		{
+			PlayerEnhancedInputComponent->BindAction(MoveRightInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedMoveRight);
+		}
+		
+		if (LookInput)
+		{
+			PlayerEnhancedInputComponent->BindAction(LookInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedLook);
+		}
+		
+	}
+	
 	// Setup Binds for the Ability System
 	if (AbilitySystemComponent && InputComponent)
 	{
-		int32 ConfirmBind = static_cast<int32>(EMDGameplayAbilityInputID::Confirm);
-		int32 CancelBind = static_cast<int32>(EMDGameplayAbilityInputID::Cancel);
+		const int32 ConfirmBind = static_cast<int32>(EMDGameplayAbilityInputID::Confirm);
+		const int32 CancelBind = static_cast<int32>(EMDGameplayAbilityInputID::Cancel);
 
 		const FString AbilityInputIDName = TEXT("EMDGameplayAbilityInputID");
 
@@ -239,3 +261,39 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, Binds);
 	}
 }
+
+void AMDBaseCharacter::EnhancedMoveForward(const FInputActionValue& Value)
+{
+	if ((Controller != nullptr) && (Value.GetMagnitude() != 0.0f))
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+		AddMovementInput(Direction, Value.GetMagnitude());
+	}
+}
+
+void AMDBaseCharacter::EnhancedMoveRight(const FInputActionValue& Value)
+{
+	if ((Controller != nullptr) && (Value.GetMagnitude() != 0.0f))
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+		AddMovementInput(Direction, Value.GetMagnitude());
+	}
+}
+
+void AMDBaseCharacter::EnhancedLook(const FInputActionValue& Value)
+{
+	if (Value.GetMagnitude() != 0.0f)
+	{
+		AddControllerPitchInput(Value[1] * -1);
+		AddControllerYawInput(Value[0]);	
+	}
+}
+#pragma endregion Inputs
