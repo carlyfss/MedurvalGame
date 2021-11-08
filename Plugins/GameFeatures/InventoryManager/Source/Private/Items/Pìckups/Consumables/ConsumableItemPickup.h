@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Items/Pìckups/BaseItemPickup.h"
+#include "Items/Pìckups/_Base/BaseItemPickup.h"
 #include "ConsumableItemPickup.generated.h"
 
 UCLASS()

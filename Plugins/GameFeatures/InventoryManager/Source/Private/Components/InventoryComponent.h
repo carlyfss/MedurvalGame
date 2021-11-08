@@ -8,7 +8,7 @@
 #include "InventoryComponent.generated.h"
 
 class ACharacter;
-class UInventoryItemDA;
+class UBaseItemDA;
 
 UCLASS()
 class UInventoryComponent : public UActorComponent
@@ -39,23 +39,23 @@ protected:
 
 	bool IsSlotEmpty(const int Index) const;
 
-	UInventoryItemDA* GetItemInfoAtIndex(const int Index, bool& bIsSlotEmpty, int& Amount) const;
-
-	int GetAmountAtIndex(const int Index) const;
+	TSoftObjectPtr<UBaseItemDA> GetItemInfoAtIndex(const int Index, bool& bIsSlotEmpty, int& Amount) const;
 	
 	bool SearchEmptySlot(int& Index);
 
-	bool SearchFreeStack(const TSoftClassPtr<UInventoryItemDA> ItemClass, int& Index);
+	bool SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int& Index);
 
-	bool AddUnstackableItem(TSoftClassPtr<UInventoryItemDA> ItemClass, int Amount, int& Rest);
+	bool AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, int Amount, int& Rest);
 
-	bool AddStackableItem(TSoftClassPtr<UInventoryItemDA> ItemClass, int Amount, int& Rest);
+	bool AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, int Amount, int& Rest);
 
 public:
+
+	int GetAmountAtIndex(const int Index) const;
 
 	UFUNCTION(BlueprintCallable, Category="Inventory|References")
 	void SetPlayerReference(ACharacter* PlayerRef);
 	
 	UFUNCTION(Category="Inventory|Interaction")
-	bool AddItem(const TSoftClassPtr<UInventoryItemDA> ItemClass, int Amount, int& Rest);
+	bool AddItem(const TSoftObjectPtr<UBaseItemDA> ItemClass, int Amount, int& Rest);
 };

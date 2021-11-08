@@ -3,7 +3,7 @@
 
 #include "Components/InventoryComponent.h"
 #include "GameFramework/Character.h"
-#include "Items/InventoryItemDA.h"
+#include "Items/BaseItemDA.h"
 
 // Sets default values
 UInventoryComponent::UInventoryComponent()
@@ -20,7 +20,7 @@ void UInventoryComponent::BeginPlay()
 	ACharacter* Owner = Cast<ACharacter>(GetOwner());
 
 	SetPlayerReference(Owner);
-	
+
 	Slots.Reserve(AmountOfSlots);
 }
 
@@ -31,7 +31,7 @@ bool UInventoryComponent::IsSlotEmpty(const int Index) const
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
-UInventoryItemDA* UInventoryComponent::GetItemInfoAtIndex(const int Index, bool& bIsSlotEmpty, int& Amount) const
+TSoftObjectPtr<UBaseItemDA> UInventoryComponent::GetItemInfoAtIndex(const int Index, bool& bIsSlotEmpty, int& Amount) const
 {
 	check(Slots.Num() > Index)
 
@@ -39,7 +39,7 @@ UInventoryItemDA* UInventoryComponent::GetItemInfoAtIndex(const int Index, bool&
 
 	if (Slot->ItemData.IsValid())
 	{
-		UInventoryItemDA* ItemInfo = Cast<UInventoryItemDA>(Slot->ItemData->GetDefaultObject());
+		TSoftObjectPtr<UBaseItemDA> ItemInfo = Slot->ItemData;
 
 		Amount = Slot->Amount;
 
@@ -69,7 +69,7 @@ bool UInventoryComponent::SearchEmptySlot(int& Index)
 	if (!Slots.IsEmpty())
 	{
 		FScopeLock Lock(&SocketsCriticalSection);
-		
+
 		for (int i = 0; i < Slots.Num(); i++)
 		{
 			if (!Slots[i].ItemData.IsValid())
@@ -94,7 +94,7 @@ bool UInventoryComponent::SearchEmptySlot(int& Index)
 /** Searches for a empty slot, and if it finds, check the MaxStackSize of the slot and stores the index in the parameter &Index
  * and if the stack is full it return false
  */
-bool UInventoryComponent::SearchFreeStack(const TSoftClassPtr<UInventoryItemDA> ItemClass, int& Index)
+bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int& Index)
 {
 	bool bEmptySlot = false;
 	int FoundIndex = 0;
@@ -102,14 +102,14 @@ bool UInventoryComponent::SearchFreeStack(const TSoftClassPtr<UInventoryItemDA> 
 	if (!Slots.IsEmpty())
 	{
 		FScopeLock Lock(&SocketsCriticalSection);
-		
+
 		for (int i = 0; i < Slots.Num(); i++)
 		{
 			FInventorySlot Slot = Slots[i];
 
 			if (Slot.ItemData.IsValid())
 			{
-				if (Slot.ItemData == ItemClass && Slot.Amount < MaxStackSize)
+				if (Slot.ItemData == ItemData && Slot.Amount < MaxStackSize)
 				{
 					bEmptySlot = true;
 					FoundIndex = i;
@@ -124,26 +124,25 @@ bool UInventoryComponent::SearchFreeStack(const TSoftClassPtr<UInventoryItemDA> 
 	return bEmptySlot;
 }
 
-bool UInventoryComponent::AddUnstackableItem(TSoftClassPtr<UInventoryItemDA> ItemClass, const int Amount, int& Rest)
+bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const int Amount, int& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
-	
+
 	int FoundIndex = 0;
 
 	if (SearchEmptySlot(FoundIndex))
 	{
-		FInventorySlot* ItemData = new FInventorySlot();
+		FInventorySlot* TemporaryData = new FInventorySlot();
+		FoundIndex = Slots.Add(*TemporaryData);
 
-		FoundIndex = Slots.Add(*ItemData);
-		
-		Slots[FoundIndex].ItemData = ItemClass;
+		Slots[FoundIndex].ItemData = ItemData;
 		Slots[FoundIndex].Amount = 1;
 
 		if (Amount > 1)
 		{
 			const int NewAmount = Amount - 1;
 
-			return AddItem(ItemClass, NewAmount, Rest);
+			return AddItem(ItemData, NewAmount, Rest);
 		}
 
 		Rest = 0;
@@ -154,34 +153,34 @@ bool UInventoryComponent::AddUnstackableItem(TSoftClassPtr<UInventoryItemDA> Ite
 	return false;
 }
 
-bool UInventoryComponent::AddStackableItem(TSoftClassPtr<UInventoryItemDA> ItemClass, const int Amount, int& Rest)
+bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const int Amount, int& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
-	
+
 	int FoundIndex = 0;
 
-	if (!SearchFreeStack(ItemClass, FoundIndex))
+	if (!SearchFreeStack(ItemData, FoundIndex))
 	{
 		if (SearchEmptySlot(FoundIndex))
 		{
 			if (Amount > MaxStackSize)
 			{
-				FInventorySlot* ItemData = new FInventorySlot();
-				FoundIndex = Slots.Add(*ItemData);
-				
-				Slots[FoundIndex].ItemData = ItemClass;
+				FInventorySlot* TemporaryData = new FInventorySlot();
+				FoundIndex = Slots.Add(*TemporaryData);
+
+				Slots[FoundIndex].ItemData = ItemData;
 				Slots[FoundIndex].Amount = MaxStackSize;
 
 				const int NewAmount = Amount - MaxStackSize;
 
-				return AddItem(ItemClass, NewAmount, Rest);
+				return AddItem(ItemData, NewAmount, Rest);
 			}
 
-			FInventorySlot* ItemData = new FInventorySlot();
-			FoundIndex = Slots.Add(*ItemData);
+			FInventorySlot* TemporaryData = new FInventorySlot();
+			FoundIndex = Slots.Add(*TemporaryData);
 
-			Slots[FoundIndex].ItemData = ItemClass;
-			Slots[FoundIndex].Amount = MaxStackSize;
+			Slots[FoundIndex].ItemData = ItemData;
+			Slots[FoundIndex].Amount = Amount;
 
 			Rest = 0;
 
@@ -196,15 +195,15 @@ bool UInventoryComponent::AddStackableItem(TSoftClassPtr<UInventoryItemDA> ItemC
 
 	if (CurrentStackAmount > MaxStackSize)
 	{
-		Slots[FoundIndex].ItemData = ItemClass;
+		Slots[FoundIndex].ItemData = ItemData;
 		Slots[FoundIndex].Amount = MaxStackSize;
 
 		const int RestAmount = CurrentStackAmount - MaxStackSize;
 
-		return AddItem(ItemClass, RestAmount, Rest);
+		return AddItem(ItemData, RestAmount, Rest);
 	}
 
-	Slots[FoundIndex].ItemData = ItemClass;
+	Slots[FoundIndex].ItemData = ItemData;
 	Slots[FoundIndex].Amount = CurrentStackAmount;
 
 	return true;
@@ -215,21 +214,16 @@ void UInventoryComponent::SetPlayerReference(ACharacter* PlayerRef)
 	PlayerReference = PlayerRef;
 }
 
-bool UInventoryComponent::AddItem(TSoftClassPtr<UInventoryItemDA> ItemClass, const int Amount, int& Rest)
+bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const int Amount, int& Rest)
 {
-	if (ItemClass.IsValid())
+	if (ItemData.IsValid())
 	{
-		UInventoryItemDA* ItemToAdd = Cast<UInventoryItemDA>(ItemClass->GetDefaultObject());
-
-		if (IsValid(ItemToAdd))
+		if (!ItemData->bCanBeStacked)
 		{
-			if (!ItemToAdd->bCanBeStacked)
-			{
-				return AddUnstackableItem(ItemClass, Amount, Rest);
-			}
-
-			return AddStackableItem(ItemClass, Amount, Rest);
+			return AddUnstackableItem(ItemData, Amount, Rest);
 		}
+
+		return AddStackableItem(ItemData, Amount, Rest);
 	}
 
 	return false;

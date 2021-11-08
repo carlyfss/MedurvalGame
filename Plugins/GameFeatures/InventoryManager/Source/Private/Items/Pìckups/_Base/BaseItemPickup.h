@@ -6,8 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "BaseItemPickup.generated.h"
 
-class UInventoryItemDA;
-class UStaticMesh;
+class UBaseItemDA;
 class UStaticMeshComponent;
 class USphereComponent;
 class UPrimitiveComponent;
@@ -17,20 +16,23 @@ class ABaseItemPickup : public AActor
 {
 	GENERATED_BODY()
 
+	bool bIsPickupReady = false;
+
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> PickupRange = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> PickupMesh = nullptr;
+	TSoftObjectPtr<UStaticMeshComponent> PickupMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pickup|Configuration")
 	float PickupRangeRadius = 200;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pickup")
-	TObjectPtr<UInventoryItemDA> ItemData = nullptr;
+	TSoftObjectPtr<UBaseItemDA> ItemData = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pickup")
-	float AmountToAdd = 1;
+	int AmountToAdd = 1;
+	
 
 public:
 	// Sets default values for this actor's properties
@@ -39,6 +41,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual bool ConstructPickupItem();
 
 	// declare overlap begin function
 	UFUNCTION()

@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Enums/EItemCategories.h"
-#include "InventoryItemDA.generated.h"
+#include "BaseItemDA.generated.h"
 
 UCLASS(meta = (DisplayName = "InventoryItemDataAsset"))
-class INVENTORYMANAGER_API UInventoryItemDA : public UDataAsset
+class INVENTORYMANAGER_API UBaseItemDA : public UDataAsset
 {
 	GENERATED_BODY()
 
@@ -21,13 +21,13 @@ public:
 	FText Description = FText::FromString(TEXT("Just a rock"));
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
-	TObjectPtr<UStaticMesh> ItemMesh = nullptr;
+	TSoftObjectPtr<UStaticMesh> ItemMesh = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="On 'Use' Event text"))
 	FText OnUseText = FText::FromString(TEXT(""));
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
-	TObjectPtr<UTexture2D> Thumbnail = nullptr;
+	TSoftObjectPtr<UTexture2D> Thumbnail = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Item can be used?"))
 	bool bCanBeUsed = false;
@@ -37,4 +37,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	EItemCategories Category = EItemCategories::Resource;
+
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override
+	{
+		return FPrimaryAssetId("DefaultItem", GetFName());
+	}
 };
