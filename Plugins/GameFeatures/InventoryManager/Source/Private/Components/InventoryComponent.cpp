@@ -90,7 +90,7 @@ bool UInventoryComponent::SearchEmptySlot(int32& Index)
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (!Slots[Index].ItemData.IsValid())
+			if (!Slots[i].ItemData.IsValid())
 			{
 				bEmptySlot = true;
 				FoundIndex = i;
@@ -122,7 +122,7 @@ bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> Item
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (Slots[Index].ItemData.IsValid())
+			if (Slots[i].ItemData.IsValid())
 			{
 				if (Slots[i].ItemData == ItemData && Slots[i].Amount < MaxStackSize)
 				{
@@ -148,9 +148,6 @@ bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemDat
 
 	if (SearchEmptySlot(FoundIndex))
 	{
-		FInventorySlot* TemporaryData = new FInventorySlot();
-		FoundIndex = Slots.Add(*TemporaryData);
-
 		Slots[FoundIndex].ItemData = ItemData;
 		Slots[FoundIndex].Amount = 1;
 
@@ -182,7 +179,7 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 			if (Amount > MaxStackSize)
 			{
 				Slots[FoundIndex].ItemData = ItemData;
-				Slots[FoundIndex].Amount = Amount;
+				Slots[FoundIndex].Amount = MaxStackSize;
 
 				const int NewAmount = Amount - MaxStackSize;
 

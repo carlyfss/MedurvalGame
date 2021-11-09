@@ -73,22 +73,16 @@ void ABaseItemPickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedCom
 
 	if (IsValid(InventoryComp) && bIsPickupReady)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Referenced inventory!"))
 		UInventoryComponent* InventoryRef = Cast<UInventoryComponent>(InventoryComp);
 
 		if (IsValid(InventoryRef) && ItemData.IsValid())
 		{
 			uint8 Rest = 0;
 
-			UE_LOG(LogTemp, Warning, TEXT("Adding item..."));
-
 			const bool bAddedItem = InventoryRef->AddItem(ItemData, AmountToAdd, Rest);
 
 			if (bAddedItem)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Added item"));
-				UE_LOG(LogTemp, Warning, TEXT("Amount index 1: %i"), InventoryRef->GetAmountAtIndex(1));
-				
 				if (Rest > 0)
 				{
 					AmountToAdd = Rest;
@@ -98,14 +92,8 @@ void ABaseItemPickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedCom
 					Destroy();
 				}
 			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Item not added"));
-			}
 		}
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Not referenced inventory!"))
 }
 
 void ABaseItemPickup::OnConstruction(const FTransform& Transform)
