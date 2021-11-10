@@ -58,6 +58,8 @@ protected:
 
 	virtual void PawnClientRestart() override;
 
+	
+
 #pragma region Inputs
 	// Input actions
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")

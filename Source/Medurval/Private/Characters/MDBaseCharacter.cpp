@@ -13,6 +13,8 @@
 #include "Abilities/Enums/EMDGameplayAbilityInputID.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include <GameplayEffectTypes.h>
+
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"

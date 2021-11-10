@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
 #include "Structs/InventorySlot.h"
 #include "InventoryComponent.generated.h"
 
+class UBaseInventoryWidget;
 class ACharacter;
 class UBaseItemDA;
 
@@ -17,14 +17,20 @@ class UInventoryComponent : public UActorComponent
 
 	FCriticalSection SocketsCriticalSection;
 
-	UPROPERTY(Transient)
+	UPROPERTY(EditDefaultsOnly, Category="_Inventory|Configuration")
 	uint8 SlotAmount = 10;
 
-	UPROPERTY(Transient)
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetSlotsPerRow, Category="_Inventory|Configuration")
+	uint8 SlotPerRow = 4;
+
+	UPROPERTY(EditDefaultsOnly, Category="_Inventory|Configuration")
 	uint8 MaxStackSize = 30;
 
-	UPROPERTY(BlueprintSetter=SetPlayerReference, Category="Inventory|Configuration")
+	UPROPERTY(BlueprintSetter=SetPlayerReference, Category="_Inventory|Configuration")
 	TObjectPtr<ACharacter> PlayerReference = nullptr;
+
+	UPROPERTY(BlueprintSetter=SetInventoryWidget, BlueprintGetter=GetInventoryWidget, Category="_Inventory|Configuration")
+	TObjectPtr<UBaseInventoryWidget> InventoryWidget = nullptr;
 
 protected:
 
@@ -35,16 +41,21 @@ public:
 	// Sets default values for this actor's properties
 	UInventoryComponent();
 
+	UFUNCTION(BlueprintCallable, Category="_Inventory")
+	bool IsSlotEmpty(const int32 Index) const;
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory")
+	TSoftObjectPtr<UBaseItemDA> GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const;
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory")
+	int GetAmountAtIndex(const int32 Index) const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	bool IsSlotEmpty(const int32 Index) const;
-
-	TSoftObjectPtr<UBaseItemDA> GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const;
-	
 	bool SearchEmptySlot(int32& Index);
 
 	bool SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int32& Index);
@@ -55,17 +66,30 @@ protected:
 
 public:
 
-	int GetAmountAtIndex(const int32 Index) const;
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	bool AddItem(const TSoftObjectPtr<UBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
 
-	UFUNCTION(BlueprintCallable, Category="Inventory|Configurations")
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Configurations")
+	void SetupInventoryComponent();
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetSlotAmount(const uint8 AmountOfSlots);
 
-	UFUNCTION(BlueprintCallable, Category="Inventory|Configurations")
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetMaxStackSize(const uint8 StackSize);
 
-	UFUNCTION(BlueprintCallable, Category="Inventory|References")
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetPlayerReference(ACharacter* PlayerRef);
-	
-	UFUNCTION(Category="Inventory|Interaction")
-	bool AddItem(const TSoftObjectPtr<UBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
+	void SetInventoryWidget(UBaseInventoryWidget* InventoryWidgetRef);
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
+	TArray<FInventorySlot> GetInventorySlots() const;
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
+	uint8 GetSlotsPerRow() const;
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
+	UBaseInventoryWidget* GetInventoryWidget() const;
 };

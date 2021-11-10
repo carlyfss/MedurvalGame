@@ -5,6 +5,8 @@
 #include "GameFramework/Character.h"
 #include "Items/_Base/BaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Macros/PrintString.h"
+#include "UI/_Base/BaseInventoryWidget.h"
 
 // Sets default values
 UInventoryComponent::UInventoryComponent()
@@ -18,11 +20,21 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ACharacter* Owner = Cast<ACharacter>(GetOwner());
+	ACharacter* ActorOwner = Cast<ACharacter>(GetOwner());
 
-	SetPlayerReference(Owner);
+	SetPlayerReference(ActorOwner);
 
 	Slots.SetNum(SlotAmount);
+
+	InventoryWidget = Cast<UBaseInventoryWidget>(CreateWidget(GetOwner()->GetWorld(), UBaseInventoryWidget::StaticClass()));
+
+	if (InventoryWidget != nullptr)
+	{
+		InventoryWidget->SetInventoryReference(this);
+		InventoryWidget->SetSlotsPerRow(SlotPerRow);
+
+		InventoryWidget->AddToViewport();
+	}
 }
 
 void UInventoryComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -32,6 +44,7 @@ void UInventoryComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	SetPlayerReference(nullptr);
 }
 
+#pragma region InventoryInteractions
 /** Checks if a given index is empty or not */
 bool UInventoryComponent::IsSlotEmpty(const int32 Index) const
 {
@@ -216,9 +229,24 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 	return true;
 }
 
-void UInventoryComponent::SetPlayerReference(ACharacter* PlayerRef)
+TArray<FInventorySlot> UInventoryComponent::GetInventorySlots() const
 {
-	PlayerReference = PlayerRef;
+	return Slots;
+}
+
+uint8 UInventoryComponent::GetSlotsPerRow() const
+{
+	return SlotPerRow;
+}
+
+void UInventoryComponent::SetInventoryWidget(UBaseInventoryWidget* InventoryWidgetRef)
+{
+	InventoryWidget = InventoryWidgetRef;
+}
+
+UBaseInventoryWidget* UInventoryComponent::GetInventoryWidget() const
+{
+	return InventoryWidget;
 }
 
 bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
@@ -234,4 +262,18 @@ bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const ui
 	}
 
 	return false;
+}
+#pragma endregion InventoryInteractions
+
+void UInventoryComponent::SetupInventoryComponent()
+{
+	if (InventoryWidget != nullptr)
+	{
+		InventoryWidget->GenerateSlotWidgets();
+	}
+}
+
+void UInventoryComponent::SetPlayerReference(ACharacter* PlayerRef)
+{
+	PlayerReference = PlayerRef;
 }

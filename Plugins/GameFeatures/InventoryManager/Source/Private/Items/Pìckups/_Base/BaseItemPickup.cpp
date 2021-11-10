@@ -8,6 +8,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Items/_Base/BaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Macros/PrintString.h"
 
 ABaseItemPickup::ABaseItemPickup()
 {
@@ -50,7 +51,7 @@ void ABaseItemPickup::LoadPickupItem()
 		UStaticMesh* Mesh = Cast<UStaticMesh>(
 			UKismetSystemLibrary::LoadAsset_Blocking(Item->ItemMesh));
 
-		if (Mesh)
+		if (Mesh != nullptr && PickupMesh != nullptr)
 		{
 			PickupMesh->SetStaticMesh(Mesh);
 			PickupMesh->AttachToComponent(PickupRange, FAttachmentTransformRules::SnapToTargetNotIncludingScale,
@@ -100,12 +101,12 @@ void ABaseItemPickup::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
-	if (IsValid(PickupRange))
+	if (PickupRange != nullptr)
 	{
 		PickupRange->SetSphereRadius(PickupRangeRadius);	
 	}
 
-	if (IsValid(DefaultStaticMesh))
+	if (DefaultStaticMesh != nullptr && PickupMesh != nullptr)
 	{
 		PickupMesh->SetStaticMesh(DefaultStaticMesh);
 	}
