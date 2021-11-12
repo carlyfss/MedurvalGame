@@ -2,10 +2,8 @@
 
 
 #include "Components/InventoryComponent.h"
-#include "GameFramework/Character.h"
 #include "Items/_Base/BaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Macros/PrintString.h"
 #include "UI/_Base/BaseInventoryWidget.h"
 
 // Sets default values
@@ -15,40 +13,11 @@ UInventoryComponent::UInventoryComponent()
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 }
 
-// Called when the game starts or when spawned
-void UInventoryComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	ACharacter* ActorOwner = Cast<ACharacter>(GetOwner());
-
-	SetPlayerReference(ActorOwner);
-
-	Slots.SetNum(SlotAmount);
-
-	InventoryWidget = Cast<UBaseInventoryWidget>(CreateWidget(GetOwner()->GetWorld(), UBaseInventoryWidget::StaticClass()));
-
-	if (InventoryWidget != nullptr)
-	{
-		InventoryWidget->SetInventoryReference(this);
-		InventoryWidget->SetSlotsPerRow(SlotPerRow);
-
-		InventoryWidget->AddToViewport();
-	}
-}
-
-void UInventoryComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	Super::EndPlay(EndPlayReason);
-
-	SetPlayerReference(nullptr);
-}
-
 #pragma region InventoryInteractions
 /** Checks if a given index is empty or not */
 bool UInventoryComponent::IsSlotEmpty(const int32 Index) const
 {
-	return !Slots[Index].ItemData.IsValid();
+	return Slots[Index].ItemData.IsNull();
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
@@ -164,6 +133,8 @@ bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemDat
 		Slots[FoundIndex].ItemData = ItemData;
 		Slots[FoundIndex].Amount = 1;
 
+		UpdateSlotAtIndex(FoundIndex);
+		
 		if (Amount > 1)
 		{
 			const int NewAmount = Amount - 1;
@@ -194,6 +165,8 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 				Slots[FoundIndex].ItemData = ItemData;
 				Slots[FoundIndex].Amount = MaxStackSize;
 
+				UpdateSlotAtIndex(FoundIndex);
+
 				const int NewAmount = Amount - MaxStackSize;
 
 				return AddItem(ItemData, NewAmount, Rest);
@@ -201,6 +174,8 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 			
 			Slots[FoundIndex].ItemData = ItemData;
 			Slots[FoundIndex].Amount = Amount;
+
+			UpdateSlotAtIndex(FoundIndex);
 
 			Rest = 0;
 
@@ -218,6 +193,8 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 		Slots[FoundIndex].ItemData = ItemData;
 		Slots[FoundIndex].Amount = MaxStackSize;
 
+		UpdateSlotAtIndex(FoundIndex);
+
 		const int RestAmount = CurrentStackAmount - MaxStackSize;
 
 		return AddItem(ItemData, RestAmount, Rest);
@@ -225,6 +202,8 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData,
 
 	Slots[FoundIndex].ItemData = ItemData;
 	Slots[FoundIndex].Amount = CurrentStackAmount;
+
+	UpdateSlotAtIndex(FoundIndex);
 
 	return true;
 }
@@ -237,6 +216,11 @@ TArray<FInventorySlot> UInventoryComponent::GetInventorySlots() const
 uint8 UInventoryComponent::GetSlotsPerRow() const
 {
 	return SlotPerRow;
+}
+
+uint8 UInventoryComponent::GetSlotAmount() const
+{
+	return SlotAmount;
 }
 
 void UInventoryComponent::SetInventoryWidget(UBaseInventoryWidget* InventoryWidgetRef)
@@ -264,16 +248,3 @@ bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const ui
 	return false;
 }
 #pragma endregion InventoryInteractions
-
-void UInventoryComponent::SetupInventoryComponent()
-{
-	if (InventoryWidget != nullptr)
-	{
-		InventoryWidget->GenerateSlotWidgets();
-	}
-}
-
-void UInventoryComponent::SetPlayerReference(ACharacter* PlayerRef)
-{
-	PlayerReference = PlayerRef;
-}

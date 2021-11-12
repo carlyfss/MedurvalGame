@@ -22,18 +22,21 @@ class UBaseInventoryWidget : public UUserWidget
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = true, BindWidget))
 	TObjectPtr<UUniformGridPanel> SlotPanel = nullptr;
 
-	UPROPERTY(Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
 	TObjectPtr<UInventoryComponent> InventoryReference = nullptr;
 
-	UPROPERTY(Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
 	uint8 SlotsPerRow = 4;
 
-	UPROPERTY(Transient)
-	TArray<UBaseInventorySlotWidget*> SlotsWidgets;
+	UPROPERTY(BlueprintReadWrite, Category="_InventoryWidget", meta=(AllowPrivateAccess=true))
+	TArray<UBaseInventorySlotWidget*> SlotWidgets;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="_InventoryWidget", meta=(AllowPrivateAccess=true))
+	TSubclassOf<UBaseInventorySlotWidget> SlotWidgetClass = nullptr;
 
 public:
 
-	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="_InventoryWidget")
 	void GenerateSlotWidgets();
 
 	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
@@ -41,7 +44,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
 	void SetSlotsPerRow(uint8 Slots);
-	
-	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
-	void SetSlotColumnAndRow(int32 Index, uint8& Column, uint8& Row) const;
 };

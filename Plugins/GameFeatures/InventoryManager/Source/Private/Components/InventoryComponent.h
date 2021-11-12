@@ -10,14 +10,15 @@ class UBaseInventoryWidget;
 class ACharacter;
 class UBaseItemDA;
 
-UCLASS()
+// TODO Remember to call generate slot widgets on the inventory widget
+UCLASS(BlueprintType, Blueprintable, meta=(DisplayName="InventoryComponent"))
 class UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 	FCriticalSection SocketsCriticalSection;
 
-	UPROPERTY(EditDefaultsOnly, Category="_Inventory|Configuration")
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetSlotAmount, Category="_Inventory|Configuration")
 	uint8 SlotAmount = 10;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetSlotsPerRow, Category="_Inventory|Configuration")
@@ -26,15 +27,13 @@ class UInventoryComponent : public UActorComponent
 	UPROPERTY(EditDefaultsOnly, Category="_Inventory|Configuration")
 	uint8 MaxStackSize = 30;
 
-	UPROPERTY(BlueprintSetter=SetPlayerReference, Category="_Inventory|Configuration")
-	TObjectPtr<ACharacter> PlayerReference = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Inventory|Configuration", meta=(AllowPrivateAccess=true))
+	TSubclassOf<UUserWidget> InventoryWidgetClass = nullptr;
 
 	UPROPERTY(BlueprintSetter=SetInventoryWidget, BlueprintGetter=GetInventoryWidget, Category="_Inventory|Configuration")
 	TObjectPtr<UBaseInventoryWidget> InventoryWidget = nullptr;
-
-protected:
-
-	UPROPERTY(Transient)
+	
+	UPROPERTY(BlueprintReadWrite, Category="_Inventory", meta=(AllowPrivateAccess=true))
 	TArray<FInventorySlot> Slots;
 	
 public:	
@@ -50,12 +49,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory")
 	int GetAmountAtIndex(const int32 Index) const;
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="_Inventory")
+	void UpdateSlotAtIndex(int32 Index);
+
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
+	
 	bool SearchEmptySlot(int32& Index);
 
 	bool SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int32& Index);
@@ -65,21 +63,15 @@ protected:
 	bool AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, uint8 Amount, uint8& Rest);
 
 public:
-
+	
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool AddItem(const TSoftObjectPtr<UBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
-
-	UFUNCTION(BlueprintCallable, Category="_Inventory|Configurations")
-	void SetupInventoryComponent();
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetSlotAmount(const uint8 AmountOfSlots);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetMaxStackSize(const uint8 StackSize);
-
-	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
-	void SetPlayerReference(ACharacter* PlayerRef);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetInventoryWidget(UBaseInventoryWidget* InventoryWidgetRef);
@@ -89,6 +81,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
 	uint8 GetSlotsPerRow() const;
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
+	uint8 GetSlotAmount() const;
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
 	UBaseInventoryWidget* GetInventoryWidget() const;

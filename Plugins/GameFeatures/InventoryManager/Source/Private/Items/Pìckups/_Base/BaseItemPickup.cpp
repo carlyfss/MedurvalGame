@@ -8,7 +8,6 @@
 #include "Components/PrimitiveComponent.h"
 #include "Items/_Base/BaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Macros/PrintString.h"
 
 ABaseItemPickup::ABaseItemPickup()
 {
@@ -46,7 +45,7 @@ void ABaseItemPickup::LoadPickupItem()
 {
 	UBaseItemDA* Item = Cast<UBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
 
-	if (Item)
+	if (Item != nullptr)
 	{
 		UStaticMesh* Mesh = Cast<UStaticMesh>(
 			UKismetSystemLibrary::LoadAsset_Blocking(Item->ItemMesh));

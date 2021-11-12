@@ -24,7 +24,7 @@ class UBaseInventorySlotWidget : public UUserWidget
 	int32 SlotIndex = 0;
 
 	UPROPERTY(Transient)
-	TSoftObjectPtr<UBaseItemDA> ItemData;
+	TSoftObjectPtr<UBaseItemDA> ItemData = nullptr;
 
 	UPROPERTY(Transient, BlueprintGetter=GetAmount)
 	uint8 Amount;

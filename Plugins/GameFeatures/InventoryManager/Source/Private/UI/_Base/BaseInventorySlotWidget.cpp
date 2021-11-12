@@ -36,33 +36,42 @@ void UBaseInventorySlotWidget::UpdateSlot()
 		{
 			SlotButton->SetIsEnabled(false);
 			ItemIcon->SetVisibility(ESlateVisibility::Hidden);
-			UKismetSystemLibrary::UnloadPrimaryAsset(ItemAtSlot->Thumbnail->GetPrimaryAssetId());
-			UKismetSystemLibrary::UnloadPrimaryAsset(ItemAtSlot->GetPrimaryAssetId());
-			ItemAtSlot = nullptr;
-			ItemData.Reset();
+
+			if (!ItemAtSlot.IsNull())
+			{
+				if (!!ItemAtSlot->Thumbnail.IsNull())
+				{
+					UKismetSystemLibrary::UnloadPrimaryAsset(ItemAtSlot->Thumbnail->GetPrimaryAssetId());	
+				}
+
+				UKismetSystemLibrary::UnloadPrimaryAsset(ItemAtSlot->GetPrimaryAssetId());	
+			}
 		}
 
 		SlotButton->SetIsEnabled(true);
 
 		bool bIsSlotEmpty = false;
-		constexpr uint8 AmountAtSlot = 0;
+		uint8 AmountAtSlot = 0;
 
-		ItemData = InventoryReference->GetItemInfoAtIndex(SlotIndex, bIsSlotEmpty, Amount);
+		ItemData = InventoryReference->GetItemInfoAtIndex(SlotIndex, bIsSlotEmpty, AmountAtSlot);
 
-		Amount = AmountAtSlot;
-
-		ItemAtSlot = Cast<UBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
-
-		if (ItemAtSlot != nullptr)
+		if (ItemAtSlot == nullptr)
 		{
-			UTexture2D* ItemIconAtSlot = Cast<UTexture2D>(UKismetSystemLibrary::LoadAsset_Blocking(ItemAtSlot->Thumbnail));
+			ItemAtSlot = Cast<UBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
 
-			if (ItemIconAtSlot)
+			if (ItemAtSlot != nullptr)
 			{
-				ItemIcon->SetBrushFromTexture(ItemIconAtSlot);
-				ItemIcon->SetVisibility(ESlateVisibility::HitTestInvisible);
+				UTexture2D* ItemIconAtSlot = Cast<UTexture2D>(UKismetSystemLibrary::LoadAsset_Blocking(ItemAtSlot->Thumbnail));
+
+				if (ItemIconAtSlot)
+				{
+					ItemIcon->SetBrushFromTexture(ItemIconAtSlot);
+					ItemIcon->SetVisibility(ESlateVisibility::HitTestInvisible);
+					Amount = AmountAtSlot;
+				}
 			}
 		}
+		
 	}
 }
 
