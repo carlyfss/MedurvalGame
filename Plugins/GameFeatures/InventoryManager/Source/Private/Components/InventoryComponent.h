@@ -10,7 +10,6 @@ class UBaseInventoryWidget;
 class ACharacter;
 class UBaseItemDA;
 
-// TODO Remember to call generate slot widgets on the inventory widget
 UCLASS(BlueprintType, Blueprintable, meta=(DisplayName="InventoryComponent"))
 class UInventoryComponent : public UActorComponent
 {
@@ -27,16 +26,21 @@ class UInventoryComponent : public UActorComponent
 	UPROPERTY(EditDefaultsOnly, Category="_Inventory|Configuration")
 	uint8 MaxStackSize = 30;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetIsVisible, BlueprintSetter=SetIsVisible,
+		Category="_Inventory|Configuration", meta=(AllowPrivateAccess=true))
+	bool bIsVisible = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Inventory|Configuration", meta=(AllowPrivateAccess=true))
 	TSubclassOf<UUserWidget> InventoryWidgetClass = nullptr;
 
-	UPROPERTY(BlueprintSetter=SetInventoryWidget, BlueprintGetter=GetInventoryWidget, Category="_Inventory|Configuration")
+	UPROPERTY(BlueprintSetter=SetInventoryWidget, BlueprintGetter=GetInventoryWidget,
+		Category="_Inventory|Configuration")
 	TObjectPtr<UBaseInventoryWidget> InventoryWidget = nullptr;
-	
+
 	UPROPERTY(BlueprintReadWrite, Category="_Inventory", meta=(AllowPrivateAccess=true))
 	TArray<FInventorySlot> Slots;
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	UInventoryComponent();
 
@@ -53,7 +57,6 @@ public:
 	void UpdateSlotAtIndex(int32 Index);
 
 protected:
-	
 	bool SearchEmptySlot(int32& Index);
 
 	bool SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int32& Index);
@@ -62,11 +65,26 @@ protected:
 
 	bool AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, uint8 Amount, uint8& Rest);
 
+	bool RemoveItemAtIndex(const int32 Index, const uint8 Amount);
+
+	bool SwapSlots(const int32 OriginIndex, const int32 TargetIndex);
+
+	bool SplitStack(const int32 Index, int32 Amount);
+
 public:
-	
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool AddItem(const TSoftObjectPtr<UBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
 
+	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Interaction")
+	void UseItemAtIndex(int32 Index);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Visibility")
+	void ShowInventory() const;
+
+	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Visibility")
+	void HideInventory() const;
+	
+#pragma region Setters
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetSlotAmount(const uint8 AmountOfSlots);
 
@@ -76,6 +94,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetInventoryWidget(UBaseInventoryWidget* InventoryWidgetRef);
 
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
+	void SetIsVisible(bool bIsInventoryVisible);
+#pragma endregion Setters
+
+#pragma region Getters
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
 	TArray<FInventorySlot> GetInventorySlots() const;
 
@@ -87,4 +110,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
 	UBaseInventoryWidget* GetInventoryWidget() const;
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
+	bool GetIsVisible() const;
+#pragma endregion Setters
+
+	
 };

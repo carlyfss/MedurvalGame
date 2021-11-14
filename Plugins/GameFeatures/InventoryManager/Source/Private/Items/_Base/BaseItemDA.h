@@ -5,15 +5,18 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Enums/EItemCategories.h"
+#include "Interfaces/UsableItemInterface.h"
+#include "Macros/PrintString.h"
 #include "BaseItemDA.generated.h"
 
 UCLASS(meta = (DisplayName = "InventoryItemDataAsset"))
-class INVENTORYMANAGER_API UBaseItemDA : public UDataAsset
+class INVENTORYMANAGER_API UBaseItemDA : public UDataAsset, public IUsableItemInterface
 {
 	GENERATED_BODY()
 
 public:
 
+	// Properties
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	FText Name = FText::FromString(TEXT("Rock"));
 
@@ -41,8 +44,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	EItemCategories Category = EItemCategories::Resource;
 
+	// Functions
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override
 	{
 		return FPrimaryAssetId("DefaultItem", GetFName());
 	}
+
+	virtual void UseItem_Implementation(AActor* ItemOwner) override;
 };
+
+inline void UBaseItemDA::UseItem_Implementation(AActor* ItemOwner)
+{
+	IUsableItemInterface::UseItem_Implementation(ItemOwner);
+
+	print("You used an base item");
+}

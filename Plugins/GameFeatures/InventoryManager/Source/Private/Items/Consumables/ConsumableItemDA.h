@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Enums/EConsumableEffectType.h"
 #include "Items/_Base/BaseItemDA.h"
+#include "Macros/PrintString.h"
 #include "ConsumableItemDA.generated.h"
 
 /**
@@ -36,5 +37,13 @@ public:
 	{
 		return FPrimaryAssetId("Consumable", GetFName());
 	}
-	
+
+	virtual void UseItem_Implementation(AActor* ItemOwner) override;
 };
+
+inline void UConsumableItemDA::UseItem_Implementation(AActor* ItemOwner)
+{
+	Super::UseItem_Implementation(ItemOwner);
+	
+	print("You used a consumable item");
+}
