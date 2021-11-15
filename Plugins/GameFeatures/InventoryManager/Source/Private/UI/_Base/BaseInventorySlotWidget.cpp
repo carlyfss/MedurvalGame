@@ -39,7 +39,7 @@ void UBaseInventorySlotWidget::UpdateSlot()
 
 			if (!ItemAtSlot.IsNull())
 			{
-				if (!!ItemAtSlot->Thumbnail.IsNull())
+				if (!ItemAtSlot->Thumbnail.IsNull())
 				{
 					UKismetSystemLibrary::UnloadPrimaryAsset(ItemAtSlot->Thumbnail->GetPrimaryAssetId());	
 				}
@@ -67,11 +67,11 @@ void UBaseInventorySlotWidget::UpdateSlot()
 				{
 					ItemIcon->SetBrushFromTexture(ItemIconAtSlot);
 					ItemIcon->SetVisibility(ESlateVisibility::HitTestInvisible);
-					Amount = AmountAtSlot;
 				}
 			}
 		}
-		
+
+		Amount = AmountAtSlot;
 	}
 }
 

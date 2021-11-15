@@ -26,13 +26,13 @@ TSoftObjectPtr<UBaseItemPrimaryDA> UInventoryComponent::GetItemInfoAtIndex(const
 {
 	check(Slots.Num() > Index)
 
-	const FInventorySlot* Slot = &Slots[Index];
+	const FInventorySlot Slot = Slots[Index];
 
-	if (Slot->ItemData.IsValid())
+	if (Slot.ItemData.IsValid())
 	{
-		TSoftObjectPtr<UBaseItemPrimaryDA> ItemInfo = Slot->ItemData;
+		TSoftObjectPtr<UBaseItemPrimaryDA> ItemInfo = Slot.ItemData;
 
-		Amount = Slot->Amount;
+		Amount = Slot.Amount;
 
 		bIsSlotEmpty = false;
 
@@ -192,12 +192,11 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> It
 
 	const int CurrentStackAmount = Slots[FoundIndex].Amount + Amount;
 
+	print("Found free stack");
 	if (CurrentStackAmount > MaxStackSize)
 	{
 		Slots[FoundIndex].ItemData = ItemData;
 		Slots[FoundIndex].Amount = MaxStackSize;
-
-		print("Higher current stack");
 
 		UpdateSlotAtIndex(FoundIndex);
 

@@ -65,25 +65,29 @@ protected:
 
 	bool AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, uint8 Amount, uint8& Rest);
 
-	bool RemoveItemAtIndex(const int32 Index, const uint8 Amount);
-
-	bool SwapSlots(const int32 OriginIndex, const int32 TargetIndex);
-
-	bool SplitStack(const int32 Index, int32 Amount);
 
 public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool AddItem(const TSoftObjectPtr<UBaseItemPrimaryDA> ItemClass, uint8 Amount, uint8& Rest);
 
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	bool RemoveItemAtIndex(const int32 Index, const uint8 Amount);
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	bool SwapSlots(const int32 OriginIndex, const int32 TargetIndex);
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	bool SplitStack(const int32 Index, int32 Amount);
+
 	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Interaction")
 	void UseItemAtIndex(int32 Index);
-	
+
 	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Visibility")
 	void ShowInventory() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Visibility")
 	void HideInventory() const;
-	
+
 #pragma region Setters
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetSlotAmount(const uint8 AmountOfSlots);
@@ -114,6 +118,4 @@ public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
 	bool GetIsVisible() const;
 #pragma endregion Setters
-
-	
 };
