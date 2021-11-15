@@ -6,7 +6,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PrimitiveComponent.h"
-#include "Items/_Base/BaseItemDA.h"
+#include "Items/_Base/BaseItemPrimaryDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 ABaseItemPickup::ABaseItemPickup()
@@ -43,7 +43,7 @@ void ABaseItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ABaseItemPickup::LoadPickupItem()
 {
-	UBaseItemDA* Item = Cast<UBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
+	UBaseItemPrimaryDA* Item = Cast<UBaseItemPrimaryDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
 
 	if (Item != nullptr)
 	{
@@ -79,6 +79,7 @@ void ABaseItemPickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedCom
 		{
 			uint8 Rest = 0;
 
+			print("Inventory valid");
 			const bool bAddedItem = InventoryRef->AddItem(ItemData, AmountToAdd, Rest);
 
 			if (bAddedItem)

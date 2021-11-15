@@ -23,7 +23,7 @@ void UBaseInventorySlotWidget::SetSlotIndex(int32 Index)
 	SlotIndex = Index;
 }
 
-UBaseItemDA* UBaseInventorySlotWidget::GetItemDataAtSlot() const
+UBaseItemPrimaryDA* UBaseInventorySlotWidget::GetItemDataAtSlot() const
 {
 	return ItemAtSlot;
 }
@@ -57,7 +57,7 @@ void UBaseInventorySlotWidget::UpdateSlot()
 
 		if (ItemAtSlot == nullptr)
 		{
-			ItemAtSlot = Cast<UBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
+			ItemAtSlot = Cast<UBaseItemPrimaryDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
 
 			if (ItemAtSlot != nullptr)
 			{

@@ -7,7 +7,7 @@
 #include "BaseInventorySlotWidget.generated.h"
 
 class UInventoryComponent;
-class UBaseItemDA;
+class UBaseItemPrimaryDA;
 class UTextBlock;
 class UButton;
 class UImage;
@@ -18,13 +18,13 @@ class UBaseInventorySlotWidget : public UUserWidget
 	GENERATED_BODY()
 
 	UPROPERTY(Transient, BlueprintGetter=GetItemDataAtSlot)
-	TObjectPtr<UBaseItemDA> ItemAtSlot = nullptr;
+	TObjectPtr<UBaseItemPrimaryDA> ItemAtSlot = nullptr;
 
 	UPROPERTY(Transient, BlueprintGetter=GetSlotIndex, BlueprintSetter=SetSlotIndex)
 	int32 SlotIndex = 0;
 
 	UPROPERTY(Transient)
-	TSoftObjectPtr<UBaseItemDA> ItemData = nullptr;
+	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
 
 	UPROPERTY(Transient, BlueprintGetter=GetAmount)
 	uint8 Amount;
@@ -63,5 +63,5 @@ public:
 	void SetSlotIndex(int32 Index);
 
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
-	UBaseItemDA* GetItemDataAtSlot() const;
+	UBaseItemPrimaryDA* GetItemDataAtSlot() const;
 };

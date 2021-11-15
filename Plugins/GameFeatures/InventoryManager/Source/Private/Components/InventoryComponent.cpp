@@ -2,7 +2,7 @@
 
 
 #include "Components/InventoryComponent.h"
-#include "Items/_Base/BaseItemDA.h"
+#include "Items/_Base/BaseItemPrimaryDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Macros/PrintString.h"
 #include "UI/_Base/BaseInventoryWidget.h"
@@ -22,7 +22,7 @@ bool UInventoryComponent::IsSlotEmpty(const int32 Index) const
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
-TSoftObjectPtr<UBaseItemDA> UInventoryComponent::GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
+TSoftObjectPtr<UBaseItemPrimaryDA> UInventoryComponent::GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
 {
 	check(Slots.Num() > Index)
 
@@ -30,7 +30,7 @@ TSoftObjectPtr<UBaseItemDA> UInventoryComponent::GetItemInfoAtIndex(const int32 
 
 	if (Slot->ItemData.IsValid())
 	{
-		TSoftObjectPtr<UBaseItemDA> ItemInfo = Slot->ItemData;
+		TSoftObjectPtr<UBaseItemPrimaryDA> ItemInfo = Slot->ItemData;
 
 		Amount = Slot->Amount;
 
@@ -94,7 +94,7 @@ bool UInventoryComponent::SearchEmptySlot(int32& Index)
 /** Searches for a empty slot, and if it finds, check the MaxStackSize of the slot and stores the index in the parameter &Index
  * and if the stack is full it return false
  */
-bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int32& Index)
+bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, int32& Index)
 {
 	bool bSlotAvaiable = false;
 	int FoundIndex = 0;
@@ -126,7 +126,7 @@ bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> Item
 	return bSlotAvaiable;
 }
 
-bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
+bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -154,7 +154,7 @@ bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemDat
 	return false;
 }
 
-bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
+bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 	
@@ -274,7 +274,7 @@ bool UInventoryComponent::SplitStack(const int32 Index, int32 Amount)
 
 	bool bIsSlotEmpty = false;
 	uint8 FoundSlotAmount = 0;
-	const TSoftObjectPtr<UBaseItemDA> ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, FoundSlotAmount);
+	const TSoftObjectPtr<UBaseItemPrimaryDA> ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, FoundSlotAmount);
 
 	if (!ItemInfo.IsNull())
 	{
@@ -337,7 +337,7 @@ UBaseInventoryWidget* UInventoryComponent::GetInventoryWidget() const
 	return InventoryWidget;
 }
 
-bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
+bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	if (ItemData.IsValid())
 	{

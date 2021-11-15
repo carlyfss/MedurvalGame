@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "BaseItemPickup.generated.h"
 
-class UBaseItemDA;
+class UBaseItemPrimaryDA;
 class UStaticMeshComponent;
 class USphereComponent;
 class UPrimitiveComponent;
@@ -32,7 +32,7 @@ class ABaseItemPickup : public AActor
 	float PickupRangeRadius = 200;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
-	TSoftObjectPtr<UBaseItemDA> ItemData = nullptr;
+	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
 	uint8 AmountToAdd = 1;
@@ -49,8 +49,6 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void LoadPickupItem();
-
-	void UnloadPickupItem();
 
 	// declare overlap begin function
 	UFUNCTION()

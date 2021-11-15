@@ -9,19 +9,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1eb9307-682e-43e1-81ba-e3dba428a742" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditor.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEditorPerProjectUserSettings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEditorPerProjectUserSettings.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Consumables/BaseConsumableItemPrimaryDA.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Consumables/BaseConsumableItemPrimaryDA.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_InventorySlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_InventorySlot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/95/RV/K0VK2WB71YW6V2YWRCCZU.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/95/RV/K0VK2WB71YW6V2YWRCCZU.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_Pickup.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/DA_SmallPotion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/DA_SmallPotion.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/DA_Template.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/PDA_SmallHealthPotion.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/BaseItemPrimaryDA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/BaseItemPrimaryDA.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/BaseItemPrimaryDA.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/BaseItemPrimaryDA.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventorySlotWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventorySlotWidget.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventorySlotWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventorySlotWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Structs/InventorySlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Structs/InventorySlot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,15 +46,15 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://C:/Program Files/Epic Games/UE_5.0EA/Engine/Source/Runtime/CoreUObject/Private/Serialization/AsyncLoading.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdio.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdio.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="20bhtbuWRrgQHEnOpW1KRSpzGfg" />
   <component name="ProjectLevelVcsManager">
@@ -227,6 +232,10 @@
       <workItem from="1636648217573" duration="11994000" />
       <workItem from="1636718376299" duration="2016000" />
       <workItem from="1636727539181" duration="2110000" />
+      <workItem from="1636911380127" duration="398000" />
+      <workItem from="1636919770156" duration="846000" />
+      <workItem from="1636923123960" duration="2557000" />
+      <workItem from="1636937394922" duration="2466000" />
     </task>
     <task id="LOCAL-00001" summary="Added Modular Game Features&#10;&#10;Implemented new Asset Manager (MedurvalAssetManager)&#10;Removed old InventoryManager module&#10;Added InventoryManager Game Feature&#10;Added Inventory and Attributes textures">
       <created>1636324767607</created>
@@ -270,7 +279,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636581362960</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Commit bug">
+      <created>1636911696027</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1636911696027</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,6 +313,7 @@
     <MESSAGE value="Fixed inventory bug when adding items. Now it properly adds items and distributes in the slots separating by the MaxStackSize per slot." />
     <MESSAGE value="Added some static meshes&#10;Added BaseInventorySlot Widget class" />
     <MESSAGE value="Testing inventory widget" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing inventory widget" />
+    <MESSAGE value="Commit bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit bug" />
   </component>
 </project>

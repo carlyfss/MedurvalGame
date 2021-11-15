@@ -8,7 +8,7 @@
 
 class UBaseInventoryWidget;
 class ACharacter;
-class UBaseItemDA;
+class UBaseItemPrimaryDA;
 
 UCLASS(BlueprintType, Blueprintable, meta=(DisplayName="InventoryComponent"))
 class UInventoryComponent : public UActorComponent
@@ -48,7 +48,7 @@ public:
 	bool IsSlotEmpty(const int32 Index) const;
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory")
-	TSoftObjectPtr<UBaseItemDA> GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const;
+	TSoftObjectPtr<UBaseItemPrimaryDA> GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const;
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory")
 	int GetAmountAtIndex(const int32 Index) const;
@@ -59,11 +59,11 @@ public:
 protected:
 	bool SearchEmptySlot(int32& Index);
 
-	bool SearchFreeStack(const TSoftObjectPtr<UBaseItemDA> ItemData, int32& Index);
+	bool SearchFreeStack(const TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, int32& Index);
 
-	bool AddUnstackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, uint8 Amount, uint8& Rest);
+	bool AddUnstackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, uint8 Amount, uint8& Rest);
 
-	bool AddStackableItem(TSoftObjectPtr<UBaseItemDA> ItemData, uint8 Amount, uint8& Rest);
+	bool AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, uint8 Amount, uint8& Rest);
 
 	bool RemoveItemAtIndex(const int32 Index, const uint8 Amount);
 
@@ -73,7 +73,7 @@ protected:
 
 public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
-	bool AddItem(const TSoftObjectPtr<UBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
+	bool AddItem(const TSoftObjectPtr<UBaseItemPrimaryDA> ItemClass, uint8 Amount, uint8& Rest);
 
 	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Interaction")
 	void UseItemAtIndex(int32 Index);
