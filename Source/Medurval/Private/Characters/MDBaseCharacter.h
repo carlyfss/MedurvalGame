@@ -25,10 +25,10 @@ class MEDURVAL_API AMDBaseCharacter : public ACharacter, public IAbilitySystemIn
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="BaseCharacter|Components", meta=(AllowPrivateAccess=true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_BaseCharacter|Components", meta=(AllowPrivateAccess=true))
 	TObjectPtr<USpringArmComponent> SpringArmComponent = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="BaseCharacter|Components", meta=(AllowPrivateAccess=true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_BaseCharacter|Components", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UCameraComponent> CameraComponent = nullptr;
 
 #pragma region AbilitiesProps
@@ -45,11 +45,32 @@ class MEDURVAL_API AMDBaseCharacter : public ACharacter, public IAbilitySystemIn
 	TObjectPtr<UMDBaseAttributeSet> AttributeSetComponent = nullptr;
 #pragma endregion AbilitiesProps
 
+	/** TODO Remender to add a new visibility channel for the line trace with the inventory items */
+	UPROPERTY(EditDefaultsOnly, Category="_BaseCharacter|Interaction", meta=(AllowPrivateAccess=true))
+	float LineTraceDistance = 1000.0f;
+
+	UPROPERTY(BlueprintReadWrite, Category="_BaseCharacter|Interaction", meta=(AllowPrivateAccess=true))
+	bool bIsLineTraceEnabled = false;
+
+	UPROPERTY(BlueprintGetter=GetLineTraceHitActor, Category="_BaseCharacter|Interaction", meta=(AllowPrivateAccess=true))
+	TObjectPtr<AActor> LineTraceHitActor = nullptr;
+
+	FTimerHandle LineTraceTimerHandle;
+
 public:
 	// Sets default values for this character's properties
 	AMDBaseCharacter();
 
 protected:
+
+	UFUNCTION(BlueprintCallable, Category="_BaseCharacter|Interaction")
+	void StartLineTrace();
+
+	UFUNCTION(BlueprintCallable, Category="_BaseCharacter|Interaction")
+	void StopLineTrace();
+
+	void CastLineTrace();
+	
 	virtual void PreInitializeComponents() override;
 
 	virtual void BeginPlay() override;
@@ -57,8 +78,6 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	virtual void PawnClientRestart() override;
-
-	
 
 #pragma region Inputs
 	// Input actions
@@ -115,5 +134,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="BaseCharacter|Getters")
 	virtual void GetMana(float& Mana, float& MaxMana) const;
 #pragma endregion AbilitySystem
-	
+
+	UFUNCTION(BlueprintCallable, Category="_BaseCharacter|Interaction")
+	AActor* GetLineTraceHitActor() const;
 };

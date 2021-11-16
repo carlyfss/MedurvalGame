@@ -14,6 +14,7 @@
 #include "Components/GameFrameworkComponentManager.h"
 #include <GameplayEffectTypes.h>
 
+#include "DrawDebugHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -65,6 +66,53 @@ AMDBaseCharacter::AMDBaseCharacter()
 	/** Create an attribute component so the player can have those attributes
 	*	Like Health, Stamina, etc... or any attributes in the AttributeSet */
 	AttributeSetComponent = CreateDefaultSubobject<UMDBaseAttributeSet>(TEXT("AttributeSetComponent"));
+}
+
+void AMDBaseCharacter::CastLineTrace()
+{
+	if (bIsLineTraceEnabled)
+	{
+		FVector Location;
+		FRotator Rotation;
+		FHitResult Hit;
+
+		GetController()->GetPlayerViewPoint(Location, Rotation);
+
+		FVector Start = Location;
+		FVector End = Start + (Rotation.Vector() * LineTraceDistance);
+
+		FCollisionQueryParams TraceParams;
+
+		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+
+		DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 2.f);
+
+		if (bHit)
+		{
+			DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 2.0f);
+
+			if (IsValid(Hit.GetActor()))
+			{
+				LineTraceHitActor = Hit.GetActor();
+			}
+		}
+	}
+}
+
+void AMDBaseCharacter::StartLineTrace()
+{
+	bIsLineTraceEnabled = true;
+	
+	GetWorldTimerManager().SetTimer(LineTraceTimerHandle, this, &AMDBaseCharacter::CastLineTrace, 0.1f, true);
+}
+
+void AMDBaseCharacter::StopLineTrace()
+{
+	GetWorldTimerManager().ClearTimer(LineTraceTimerHandle);
+
+	bIsLineTraceEnabled = false;
+
+	LineTraceHitActor = nullptr;
 }
 
 #pragma region Overrides
@@ -212,6 +260,12 @@ void AMDBaseCharacter::GetMana(float& Mana, float& MaxMana) const
 		MaxMana = AttributeSetComponent->GetMaxMana();
 	}
 }
+
+AActor* AMDBaseCharacter::GetLineTraceHitActor() const
+{
+	return LineTraceHitActor;
+}
+
 #pragma endregion GameplayAbilityFunc
 
 #pragma region Inputs
