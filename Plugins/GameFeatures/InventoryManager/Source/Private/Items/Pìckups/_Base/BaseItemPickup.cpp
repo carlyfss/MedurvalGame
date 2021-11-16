@@ -47,6 +47,8 @@ void ABaseItemPickup::LoadPickupItem()
 
 	if (Item != nullptr)
 	{
+		LoadedItem = Item;
+		
 		UStaticMesh* Mesh = Cast<UStaticMesh>(
 			UKismetSystemLibrary::LoadAsset_Blocking(Item->ItemMesh));
 
@@ -69,32 +71,7 @@ void ABaseItemPickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedCom
                                               int32 OtherBodyIndex,
                                               bool bFromSweep, const FHitResult& SweepResult)
 {
-	UActorComponent* InventoryComp = OtherActor->GetComponentByClass(UInventoryComponent::StaticClass());
-
-	if (IsValid(InventoryComp) && bIsPickupReady)
-	{
-		UInventoryComponent* InventoryRef = Cast<UInventoryComponent>(InventoryComp);
-
-		if (IsValid(InventoryRef) && ItemData.IsValid())
-		{
-			uint8 Rest = 0;
-
-			print("Inventory valid");
-			const bool bAddedItem = InventoryRef->AddItem(ItemData, AmountToAdd, Rest);
-
-			if (bAddedItem)
-			{
-				if (Rest > 0)
-				{
-					AmountToAdd = Rest;
-				}
-				else
-				{
-					Destroy();
-				}
-			}
-		}
-	}
+	OverlapedActor = OtherActor;
 }
 
 void ABaseItemPickup::OnConstruction(const FTransform& Transform)
@@ -110,4 +87,34 @@ void ABaseItemPickup::OnConstruction(const FTransform& Transform)
 	{
 		PickupMesh->SetStaticMesh(DefaultStaticMesh);
 	}
+}
+
+void ABaseItemPickup::AddItemToInventory()
+{
+	UActorComponent* ComponentExists = OverlapedActor->GetComponentByClass(UInventoryComponent::StaticClass());
+
+	if (ComponentExists)
+	{
+		IInventoryInterface* InventoryInterface = Cast<IInventoryInterface>(ComponentExists);
+
+		if (InventoryInterface)
+		{
+			InventoryInterface->OnAddItemToInventory(LoadedItem);
+		}
+	}
+}
+
+void ABaseItemPickup::OnStartPickupFocus_Implementation_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Start Focus"))
+}
+
+void ABaseItemPickup::OnEndPickupFocus_Implementation_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("End Focus"))
+}
+
+void ABaseItemPickup::OnInteract_Implementation_Implementation()
+{
+	AddItemToInventory();
 }

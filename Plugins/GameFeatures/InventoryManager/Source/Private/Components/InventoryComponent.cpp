@@ -331,6 +331,22 @@ bool UInventoryComponent::GetIsVisible() const
 	return bIsVisible;
 }
 
+bool UInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
+{
+	// UObject Item = ItemToAdd;
+	//
+	// UBaseItemPrimaryDA ItemL = ;
+	//
+	// if (Item)
+	// {
+	// 	uint8 Rest = 0;
+	// 	
+	// 	return AddItem(Item, 1, Rest);	
+	// }
+	//
+	return false;
+}
+
 UBaseInventoryWidget* UInventoryComponent::GetInventoryWidget() const
 {
 	return InventoryWidget;

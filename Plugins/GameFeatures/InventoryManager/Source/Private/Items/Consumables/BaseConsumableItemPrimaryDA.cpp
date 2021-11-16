@@ -3,6 +3,8 @@
 
 #include "Items/Consumables/BaseConsumableItemPrimaryDA.h"
 
+#include "Macros/PrintString.h"
+
 FPrimaryAssetId UBaseConsumableItemPrimaryDA::GetPrimaryAssetId() const
 {
 	return FPrimaryAssetId("ConsumableItem", GetFName());

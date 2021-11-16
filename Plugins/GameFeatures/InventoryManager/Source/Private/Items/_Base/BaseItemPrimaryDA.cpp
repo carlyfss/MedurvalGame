@@ -3,6 +3,8 @@
 
 #include "Items/_Base/BaseItemPrimaryDA.h"
 
+#include "Interfaces/UsableItemInterface.h"
+
 FPrimaryAssetId UBaseItemPrimaryDA::GetPrimaryAssetId() const
 {
 	return FPrimaryAssetId("DefaultItem", GetFName());

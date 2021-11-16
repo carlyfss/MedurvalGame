@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interfaces/InventoryInterface.h"
 #include "Structs/InventorySlot.h"
 #include "InventoryComponent.generated.h"
 
@@ -11,7 +12,7 @@ class ACharacter;
 class UBaseItemPrimaryDA;
 
 UCLASS(BlueprintType, Blueprintable, meta=(DisplayName="InventoryComponent"))
-class UInventoryComponent : public UActorComponent
+class UInventoryComponent : public UActorComponent, public IInventoryInterface
 {
 	GENERATED_BODY()
 
@@ -65,7 +66,6 @@ protected:
 
 	bool AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, uint8 Amount, uint8& Rest);
 
-
 public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool AddItem(const TSoftObjectPtr<UBaseItemPrimaryDA> ItemClass, uint8 Amount, uint8& Rest);
@@ -87,7 +87,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Visibility")
 	void HideInventory() const;
-
+	
 #pragma region Setters
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Setters")
 	void SetSlotAmount(const uint8 AmountOfSlots);
@@ -118,4 +118,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Getters")
 	bool GetIsVisible() const;
 #pragma endregion Setters
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	virtual bool OnAddItemToInventory_Implementation(UObject* ItemToAdd) override;
 };

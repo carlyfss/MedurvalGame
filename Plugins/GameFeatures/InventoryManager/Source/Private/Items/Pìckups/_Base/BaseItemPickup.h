@@ -4,20 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interfaces/PickupInterface.h"
 #include "BaseItemPickup.generated.h"
 
+class UInventoryComponent;
 class UBaseItemPrimaryDA;
 class UStaticMeshComponent;
 class USphereComponent;
 class UPrimitiveComponent;
 
 UCLASS(meta = (DisplayName = "BaseItemPickup"))
-class ABaseItemPickup : public AActor
+class ABaseItemPickup : public AActor, public IPickupInterface
 {
 	GENERATED_BODY()
 
 	UPROPERTY(Transient)
 	bool bIsPickupReady = false;
+
+	UPROPERTY(Transient)
+	TObjectPtr<AActor> OverlapedActor = nullptr;
+
+	TObjectPtr<UBaseItemPrimaryDA> LoadedItem = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Base")
 	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
@@ -37,7 +44,6 @@ class ABaseItemPickup : public AActor
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
 	uint8 AmountToAdd = 1;
 	
-
 public:
 	// Sets default values for this actor's properties
 	ABaseItemPickup();
@@ -57,5 +63,18 @@ protected:
 	                             bool bFromSweep, const FHitResult& SweepResult);
 
 	virtual void OnConstruction(const FTransform& Transform) override;
+
+	UFUNCTION(BlueprintCallable, Category="_Pickup|Configuration")
+	virtual void AddItemToInventory();
+
 public:
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	void OnStartPickupFocus_Implementation() override;
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	void OnEndPickupFocus_Implementation() override;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	void OnInteract_Implementation() override;
 };
