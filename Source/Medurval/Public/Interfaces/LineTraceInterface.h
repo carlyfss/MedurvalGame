@@ -31,5 +31,8 @@ public:
 	void EndLineTrace();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	AActor* GetLineTraceHitActor();
+	bool IsLineTraceEnabled() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	AActor* GetLineTraceHitActor() const;
 };

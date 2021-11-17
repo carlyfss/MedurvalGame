@@ -31,5 +31,5 @@ public:
 	void OnEndPickupFocus();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnInteract();
+	void OnInteract(AActor* Character);
 };

@@ -2,6 +2,7 @@
 
 
 #include "Items/Pìckups/_Base/BaseItemPickup.h"
+
 #include "Components/InventoryComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -13,6 +14,9 @@ ABaseItemPickup::ABaseItemPickup()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
+	PrimaryActorTick.TickInterval = 0.075f;
+
+	
 
 	PickupRange = CreateDefaultSubobject<USphereComponent>("PickupRange");
 	PickupRange->PrimaryComponentTick.bStartWithTickEnabled = false;
@@ -22,7 +26,8 @@ ABaseItemPickup::ABaseItemPickup()
 	PickupRange->OnComponentBeginOverlap.AddDynamic(this, &ABaseItemPickup::OnComponentBeginOverlap);
 
 	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>("PickupMesh");
-	PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	PickupMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	PickupMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	PickupMesh->SetupAttachment(PickupRange);
 	PickupMesh->PrimaryComponentTick.bStartWithTickEnabled = false;
 	PickupMesh->PrimaryComponentTick.bCanEverTick = false;
@@ -104,17 +109,17 @@ void ABaseItemPickup::AddItemToInventory()
 	}
 }
 
-void ABaseItemPickup::OnStartPickupFocus_Implementation_Implementation()
+void ABaseItemPickup::OnStartPickupFocus_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Start Focus"))
+	IPickupInterface::OnStartPickupFocus_Implementation();
 }
 
-void ABaseItemPickup::OnEndPickupFocus_Implementation_Implementation()
+void ABaseItemPickup::OnEndPickupFocus_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("End Focus"))
+	IPickupInterface::OnEndPickupFocus_Implementation();
 }
 
-void ABaseItemPickup::OnInteract_Implementation_Implementation()
+void ABaseItemPickup::OnInteract_Implementation(AActor* Character)
 {
-	AddItemToInventory();
+	IPickupInterface::OnInteract_Implementation(Character);
 }

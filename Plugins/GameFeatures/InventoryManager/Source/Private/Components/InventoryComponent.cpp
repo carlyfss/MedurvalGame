@@ -12,6 +12,7 @@ UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
+	PrimaryComponentTick.TickInterval = 0.075f;
 }
 
 #pragma region InventoryInteractions
@@ -331,22 +332,6 @@ bool UInventoryComponent::GetIsVisible() const
 	return bIsVisible;
 }
 
-bool UInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
-{
-	// UObject Item = ItemToAdd;
-	//
-	// UBaseItemPrimaryDA ItemL = ;
-	//
-	// if (Item)
-	// {
-	// 	uint8 Rest = 0;
-	// 	
-	// 	return AddItem(Item, 1, Rest);	
-	// }
-	//
-	return false;
-}
-
 UBaseInventoryWidget* UInventoryComponent::GetInventoryWidget() const
 {
 	return InventoryWidget;
@@ -367,3 +352,19 @@ bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, c
 	return false;
 }
 #pragma endregion InventoryInteractions
+
+
+
+bool UInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
+{
+	UBaseItemPrimaryDA* Item = Cast<UBaseItemPrimaryDA>(ItemToAdd);
+	
+	if (Item)
+	{
+		uint8 Rest = 0;
+		
+		return AddItem(Item, 1, Rest);	
+	}
+	
+	return false;
+}

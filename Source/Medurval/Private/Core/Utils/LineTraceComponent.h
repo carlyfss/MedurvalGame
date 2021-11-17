@@ -17,10 +17,13 @@ class MEDURVAL_API ULineTraceComponent : public UActorComponent, public ILineTra
 	TObjectPtr<APlayerController> PlayerController = nullptr;
 
 	/** TODO Remender to add a new visibility channel for the line trace with the inventory items */
-	UPROPERTY(EditDefaultsOnly, Category="_BaseCharacter|Interaction")
-	float LineTraceDistance = 1000.0f;
+	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+	float LineTraceDistance = 500.0f;
 
-	UPROPERTY(BlueprintReadWrite, Category="_BaseCharacter|Interaction", meta=(AllowPrivateAccess=true))
+	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+	float LineTraceInterval = 0.1f;
+
+	UPROPERTY(BlueprintReadWrite, Category="_LineTrace|Configuration", meta=(AllowPrivateAccess=true))
 	bool bIsLineTraceEnabled = false;
 
 	TObjectPtr<AActor> LineTraceHitActor = nullptr;
@@ -33,7 +36,7 @@ public:
 
 protected:
 	
-	void CastLineTrace();
+	virtual void CastLineTrace() final;
 
 public:
 
@@ -41,7 +44,9 @@ public:
 
 	virtual void EndLineTrace_Implementation() override;
 
-	virtual AActor* GetLineTraceHitActor_Implementation() override;
+	virtual AActor* GetLineTraceHitActor_Implementation() const override;
+
+	virtual bool IsLineTraceEnabled_Implementation() const override;
 
 	UFUNCTION(BlueprintCallable, Category="_LineTrace|Configuration")
 	void SetPlayerController(APlayerController* PlayerControl);

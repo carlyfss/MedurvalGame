@@ -19,7 +19,7 @@ void ULineTraceComponent::CastLineTrace()
 			FVector Location;
 			FRotator Rotation;
 			FHitResult Hit;
-			
+
 			PlayerController->GetPlayerViewPoint(Location, Rotation);
 
 			FVector Start = Location;
@@ -29,18 +29,20 @@ void ULineTraceComponent::CastLineTrace()
 
 			bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
 
-			UE_LOG(LogTemp, Warning, TEXT("Casting"));
-			
-			DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 2.f);
+			// Enable debug line
+			//DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 2.f);
 
 			if (bHit)
 			{
-				DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 2.0f);
+				DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
 
 				if (IsValid(Hit.GetActor()))
 				{
 					LineTraceHitActor = Hit.GetActor();
 				}
+			} else
+			{
+				LineTraceHitActor = nullptr;
 			}
 		}
 	}
@@ -50,9 +52,8 @@ void ULineTraceComponent::StartLineTrace_Implementation()
 {
 	bIsLineTraceEnabled = true;
 
-	UE_LOG(LogTemp, Warning, TEXT("Start cast"));
-	
-	GetWorld()->GetTimerManager().SetTimer(LineTraceTimerHandle, this, &ULineTraceComponent::CastLineTrace, 0.1f, true);
+	GetWorld()->GetTimerManager().SetTimer(LineTraceTimerHandle, this, &ULineTraceComponent::CastLineTrace,
+	                                       LineTraceInterval, true);
 }
 
 void ULineTraceComponent::EndLineTrace_Implementation()
@@ -64,14 +65,17 @@ void ULineTraceComponent::EndLineTrace_Implementation()
 	LineTraceHitActor = nullptr;
 }
 
-AActor* ULineTraceComponent::GetLineTraceHitActor_Implementation()
+AActor* ULineTraceComponent::GetLineTraceHitActor_Implementation() const
 {
 	return LineTraceHitActor;
+}
+
+bool ULineTraceComponent::IsLineTraceEnabled_Implementation() const
+{
+	return bIsLineTraceEnabled;
 }
 
 void ULineTraceComponent::SetPlayerController(APlayerController* PlayerControl)
 {
 	PlayerController = PlayerControl;
 }
-
-

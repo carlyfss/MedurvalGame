@@ -29,7 +29,7 @@ class ABaseItemPickup : public AActor, public IPickupInterface
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Base")
 	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly, Category="_Pickup|Collision", meta=(AllowPrivateAccess=true))
 	TObjectPtr<USphereComponent> PickupRange = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
@@ -69,12 +69,12 @@ protected:
 
 public:
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnStartPickupFocus_Implementation() override;
+	UFUNCTION(BlueprintCallable, Category="_ItemInteraction")
+	virtual void OnStartPickupFocus_Implementation() override;
 	
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnEndPickupFocus_Implementation() override;
+	UFUNCTION(BlueprintCallable, Category="_ItemInteraction")
+	virtual void OnEndPickupFocus_Implementation() override;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnInteract_Implementation() override;
+	UFUNCTION(BlueprintCallable, Category="_ItemInteraction")
+	virtual void OnInteract_Implementation(AActor* Character) override;
 };

@@ -28,6 +28,7 @@ AMDBaseCharacter::AMDBaseCharacter()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
+	PrimaryActorTick.TickInterval = 0.075f;
 
 	GetMesh()->PrimaryComponentTick.bStartWithTickEnabled = false;
 	GetMesh()->bPerBoneMotionBlur = false;
