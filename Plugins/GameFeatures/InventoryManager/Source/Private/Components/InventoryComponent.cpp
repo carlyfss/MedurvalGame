@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/Character.h"
+#include "Items/Pìckups/_Base/BaseItemPickup.h"
 #include "Items/_Base/BaseItemPrimaryDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Macros/PrintString.h"
@@ -81,36 +82,23 @@ void UInventoryComponent::OnRegister()
 {
 	Super::OnRegister();
 
-	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	PlayerCharacter = Cast<ACharacter>(GetOwner());
 
-	print("Register");
-	if (IsValid(Character))
+	if (IsValid(PlayerCharacter))
 	{
-		print("Player Valid");
-
-		PlayerCharacter = Character;
-
-		if (IsValid(Character->InputComponent))
+		print("Valid player");
+		if (IsValid(PlayerCharacter->InputComponent))
 		{
-			UEnhancedInputComponent* EnhancedInputComp = CastChecked<UEnhancedInputComponent>(Character->InputComponent);
-		
-			if (IsValid(EnhancedInputComp))
+			print("Valid input");
+			EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerCharacter->InputComponent);
+
+			if (IsValid(EnhancedInputComponent))
 			{
 				print("Valid enhanced");
-
-				EnhancedInputComponent = EnhancedInputComp;
-			
-				if (InteractAction != nullptr)
-				{
-					print("Binded interact");
-					InteractBindingHandle = EnhancedInputComponent->BindAction(
-						InteractAction, ETriggerEvent::Triggered, this, &UInventoryComponent::OnInteract).GetHandle();
-				}
-
 				if (ToggleInventoryAction != nullptr)
 				{
 					print("Binded toggle");
-					InteractBindingHandle = EnhancedInputComponent->BindAction(
+					ToggleInventoryBindingHandle = EnhancedInputComponent->BindAction(
 						ToggleInventoryAction, ETriggerEvent::Triggered, this,
 						&UInventoryComponent::OnToggleInventory).GetHandle();
 				}
@@ -125,7 +113,6 @@ void UInventoryComponent::OnUnregister()
 
 	if (EnhancedInputComponent != nullptr)
 	{
-		EnhancedInputComponent->RemoveBindingByHandle(InteractBindingHandle);
 		EnhancedInputComponent->RemoveBindingByHandle(ToggleInventoryBindingHandle);
 	}
 
@@ -430,24 +417,14 @@ bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, c
 
 bool UInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
 {
-	UBaseItemPrimaryDA* Item = Cast<UBaseItemPrimaryDA>(ItemToAdd);
+	ABaseItemPickup* Item = Cast<ABaseItemPickup>(ItemToAdd);
 
 	if (Item)
 	{
 		uint8 Rest = 0;
 
-		return AddItem(Item, 1, Rest);
+		return AddItem(Item->GetItemData(), 1, Rest);
 	}
 
 	return false;
-}
-
-void UInventoryComponent::SetEnhancedInputComponent(UEnhancedInputComponent* EnhancedInputComp)
-{
-	EnhancedInputComponent = EnhancedInputComp;
-}
-
-void UInventoryComponent::SetPlayerCharacter(ACharacter* PlayerChar)
-{
-	PlayerCharacter = PlayerChar;
 }

@@ -19,8 +19,8 @@ class UInventoryComponent : public UActorComponent, public IInventoryInterface
 
 	FCriticalSection SocketsCriticalSection;
 
-	UPROPERTY(BlueprintSetter=SetPlayerCharacter, Category="_Inventory|Configuration", meta=(AllowPrivateAccess=true))
-	TObjectPtr<ACharacter> PlayerCharacter = nullptr;
+	UPROPERTY(Transient)
+	ACharacter* PlayerCharacter = nullptr;
 
 #pragma region Configurations
 	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetSlotAmount, Category="_Inventory|Configuration")
@@ -45,7 +45,7 @@ class UInventoryComponent : public UActorComponent, public IInventoryInterface
 #pragma endregion Configurations
 
 #pragma region Inputs
-	UPROPERTY(BlueprintSetter=SetEnhancedInputComponent, Category="_Inventory|Configuration", meta=(AllowPrivateAccess=true))
+	UPROPERTY(Transient)
 	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="_Inventory|Inputs", meta=(AllowPrivateAccess=true))
@@ -54,11 +54,7 @@ class UInventoryComponent : public UActorComponent, public IInventoryInterface
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="_Inventory|Inputs", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UInputAction> ToggleInventoryAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="_Inventory|Inputs", meta=(AllowPrivateAccess=true))
-	TObjectPtr<UInputAction> InteractAction;
-
 	uint32 ToggleInventoryBindingHandle;
-	uint32 InteractBindingHandle;
 #pragma endregion Inputs
 
 	UPROPERTY(BlueprintReadWrite, Category="_Inventory", meta=(AllowPrivateAccess=true))
@@ -155,17 +151,7 @@ public:
 
 #pragma region Inputs
 	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Inputs")
-	void OnInteract(const FInputActionInstance& InputInstance);
-
-	UFUNCTION(BlueprintImplementableEvent, Category="_Inventory|Inputs")
 	void OnToggleInventory(const FInputActionInstance& InputInstance);
-
-	UFUNCTION(BlueprintCallable, Category="_Inventory|Inputs")
-	void SetEnhancedInputComponent(UEnhancedInputComponent* EnhancedInputComp);
-
-	UFUNCTION(BlueprintCallable, Category="_Inventory|Inputs")
-	void SetPlayerCharacter(ACharacter* PlayerChar);
-	
 #pragma endregion Inputs
 
 	virtual bool OnAddItemToInventory_Implementation(UObject* ItemToAdd) override;

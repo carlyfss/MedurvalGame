@@ -109,17 +109,28 @@ void ABaseItemPickup::AddItemToInventory()
 	}
 }
 
-void ABaseItemPickup::OnStartPickupFocus_Implementation()
+TSoftObjectPtr<UBaseItemPrimaryDA> ABaseItemPickup::GetItemData() const
 {
-	IPickupInterface::OnStartPickupFocus_Implementation();
+	return ItemData;
 }
 
-void ABaseItemPickup::OnEndPickupFocus_Implementation()
+void ABaseItemPickup::OnPickupStartFocus_Implementation()
 {
-	IPickupInterface::OnEndPickupFocus_Implementation();
 }
 
-void ABaseItemPickup::OnInteract_Implementation(AActor* Character)
+void ABaseItemPickup::OnPickupEndFocus_Implementation()
 {
-	IPickupInterface::OnInteract_Implementation(Character);
+}
+
+void ABaseItemPickup::OnPickupInteract_Implementation()
+{
+	ItemData.Reset();
+	PickupMesh.Reset();
+
+	OverlapedActor = nullptr;
+	LoadedItem = nullptr;
+	DefaultStaticMesh = nullptr;
+	PickupRange = nullptr;
+
+	Destroy();
 }

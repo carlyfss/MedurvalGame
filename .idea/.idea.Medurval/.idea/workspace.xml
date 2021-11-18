@@ -8,23 +8,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1eb9307-682e-43e1-81ba-e3dba428a742" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/IA_ToggleInventory.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/InventoryManagerInputMapping.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/5K/NW/TNKWIPENV2R86U5O3BSZ7.uasset" afterDir="false" />
+    <list default="true" id="23413856-583e-4b35-8acd-6dc390d2438c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/_Inputs/Actions/IA_Interact.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Medurval.sln.DotSettings.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_Inputs/Mappings/MedurvalInputMapping.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_Inputs/Mappings/MedurvalInputMapping.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/InventoryManagerInputMapping.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/InventoryManagerInputMapping.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/InventoryManager.uplugin" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/InventoryManager.uplugin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/InventoryManager.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/InventoryManager.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2H/HD/BHLQTQH7D20NS3N9UKU9N.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2H/HD/BHLQTQH7D20NS3N9UKU9N.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Core/GameFeatureActions/GFA_AddInventoryWidget.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Core/GameFeatureActions/GFA_AddInventoryWidget.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/InventoryInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/InventoryInterface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/PickupInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Public/Interfaces/InteractableInterface.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.h" afterDir="false" />
     </list>
@@ -36,39 +38,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://C:/Program Files/Epic Games/UE_5.0EA/Engine/Source/Runtime/CoreUObject/Private/Serialization/AsyncLoading.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/BaseInventoryWidget.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/stdio.h" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="ProjectId" id="20bhtbuWRrgQHEnOpW1KRSpzGfg" />
+  <component name="ProjectId" id="215uvRuvt7IbVAy7ng8yx0dQced" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
-    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35060638" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -195,149 +174,13 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e1eb9307-682e-43e1-81ba-e3dba428a742" name="Changes" comment="" />
-      <created>1636319423011</created>
+      <changelist id="23413856-583e-4b35-8acd-6dc390d2438c" name="Changes" comment="" />
+      <created>1637243509779</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1636319423011</updated>
-      <workItem from="1636319463811" duration="846000" />
-      <workItem from="1636320516713" duration="151000" />
-      <workItem from="1636320748508" duration="4046000" />
-      <workItem from="1636331380829" duration="10207000" />
-      <workItem from="1636343698806" duration="691000" />
-      <workItem from="1636373661105" duration="2779000" />
-      <workItem from="1636388595225" duration="18217000" />
-      <workItem from="1636409588544" duration="95000" />
-      <workItem from="1636410358334" duration="253000" />
-      <workItem from="1636410787307" duration="1094000" />
-      <workItem from="1636411935495" duration="386000" />
-      <workItem from="1636420966875" duration="152000" />
-      <workItem from="1636421225387" duration="3380000" />
-      <workItem from="1636458456860" duration="677000" />
-      <workItem from="1636459328136" duration="3586000" />
-      <workItem from="1636488589188" duration="4286000" />
-      <workItem from="1636493013939" duration="8000" />
-      <workItem from="1636493095197" duration="2786000" />
-      <workItem from="1636505641734" duration="239000" />
-      <workItem from="1636506093287" duration="399000" />
-      <workItem from="1636506939058" duration="239000" />
-      <workItem from="1636507872758" duration="1000" />
-      <workItem from="1636508050388" duration="37000" />
-      <workItem from="1636508193807" duration="982000" />
-      <workItem from="1636546703516" duration="11238000" />
-      <workItem from="1636573580773" duration="7760000" />
-      <workItem from="1636630584603" duration="1100000" />
-      <workItem from="1636637108917" duration="4824000" />
-      <workItem from="1636648094926" duration="19000" />
-      <workItem from="1636648217573" duration="11994000" />
-      <workItem from="1636718376299" duration="2016000" />
-      <workItem from="1636727539181" duration="2110000" />
-      <workItem from="1636911380127" duration="398000" />
-      <workItem from="1636919770156" duration="846000" />
-      <workItem from="1636923123960" duration="2557000" />
-      <workItem from="1636937394922" duration="6418000" />
-      <workItem from="1637017993372" duration="1490000" />
-      <workItem from="1637019562894" duration="4289000" />
-      <workItem from="1637032359821" duration="429000" />
-      <workItem from="1637032856338" duration="1227000" />
-      <workItem from="1637062615679" duration="8926000" />
-      <workItem from="1637085181679" duration="1036000" />
-      <workItem from="1637090942341" duration="8017000" />
-      <workItem from="1637108611199" duration="1054000" />
-      <workItem from="1637147474266" duration="4623000" />
-      <workItem from="1637156111718" duration="10298000" />
-      <workItem from="1637172221359" duration="3334000" />
-      <workItem from="1637176686789" duration="2420000" />
-      <workItem from="1637187538449" duration="6347000" />
-      <workItem from="1637203389783" duration="1168000" />
-      <workItem from="1637205835069" duration="266000" />
-      <workItem from="1637206174372" duration="270000" />
+      <updated>1637243509779</updated>
+      <workItem from="1637243519609" duration="3645000" />
     </task>
-    <task id="LOCAL-00001" summary="Added Modular Game Features&#10;&#10;Implemented new Asset Manager (MedurvalAssetManager)&#10;Removed old InventoryManager module&#10;Added InventoryManager Game Feature&#10;Added Inventory and Attributes textures">
-      <created>1636324767607</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1636324767607</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Added missing configuration in the Base Data Asset for referencing&#10;&#10;Fixed missing Pickup static mesh by making a sync loading ( Must later pass to async loading)">
-      <created>1636342090823</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1636342090823</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Added default static mesh in BaseItemPickup to visualize the mesh (It loads the Data Asset mesh in Begin Play)&#10;&#10;* Inventory has a bug where it does not add the item">
-      <created>1636412310754</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1636412310754</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Fixed inventory bug when adding items. Now it properly adds items and distributes in the slots separating by the MaxStackSize per slot.">
-      <created>1636426777859</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1636426777859</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Added some static meshes&#10;Added BaseInventorySlot Widget class">
-      <created>1636488384518</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1636488384518</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Testing inventory widget">
-      <created>1636581362960</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1636581362960</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Commit bug">
-      <created>1636911696027</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1636911696027</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Added Primary Data Assets to substitute Data Assets&#10;&#10;Items are not adding to available stacks.">
-      <created>1636940328535</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1636940328535</updated>
-    </task>
-    <task id="LOCAL-00009" summary="InventoryManger:&#10;- Fixed items not stacking bug&#10;- Added Split Stack and Swap Slots functionalities&#10;- Added RemoveItemAtIndex function (Used when the item is used or removed from inventory)">
-      <created>1636942999177</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1636942999177</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Added LineTrace functions to MDBaseCharacter">
-      <created>1637033480972</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1637033480972</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Moved MDCharacter Line Trace functionality to the LineTraceComponent.&#10;&#10;Added InventoryInterface and PickupInterface for better communication between items and the inventory.&#10;&#10;Now Pickup actors will activate the Line Trace in the character for better performance.">
-      <created>1637101921256</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1637101921256</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Added crosshair to the Main Widget.&#10;&#10;Finished implementing line trace interaction with inventory pickup.">
-      <created>1637164000210</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1637164000210</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -353,23 +196,9 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Added Modular Game Features&#10;&#10;Implemented new Asset Manager (MedurvalAssetManager)&#10;Removed old InventoryManager module&#10;Added InventoryManager Game Feature&#10;Added Inventory and Attributes textures" />
-    <MESSAGE value="Added missing configuration in the Base Data Asset for referencing&#10;&#10;Fixed missing Pickup static mesh by making a sync loading ( Must later pass to async loading)" />
-    <MESSAGE value="Added default static mesh in BaseItemPickup to visualize the mesh (It loads the Data Asset mesh in Begin Play)&#10;&#10;* Inventory has a bug where it does not add the item" />
-    <MESSAGE value="Fixed inventory bug when adding items. Now it properly adds items and distributes in the slots separating by the MaxStackSize per slot." />
-    <MESSAGE value="Added some static meshes&#10;Added BaseInventorySlot Widget class" />
-    <MESSAGE value="Testing inventory widget" />
-    <MESSAGE value="Commit bug" />
-    <MESSAGE value="Added Primary Data Assets to substitute Data Assets&#10;&#10;Items are not adding to available stacks." />
-    <MESSAGE value="InventoryManger:&#10;- Fixed items not stacking bug&#10;- Added Split Stack and Swap Slots functionalities&#10;- Added RemoveItemAtIndex function (Used when the item is used or removed from inventory)" />
-    <MESSAGE value="Added LineTrace functions to MDBaseCharacter" />
-    <MESSAGE value="Moved MDCharacter Line Trace functionality to the LineTraceComponent.&#10;&#10;Added InventoryInterface and PickupInterface for better communication between items and the inventory.&#10;&#10;Now Pickup actors will activate the Line Trace in the character for better performance." />
-    <MESSAGE value="Added crosshair to the Main Widget.&#10;&#10;Finished implementing line trace interaction with inventory pickup." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added crosshair to the Main Widget.&#10;&#10;Finished implementing line trace interaction with inventory pickup." />
   </component>
 </project>

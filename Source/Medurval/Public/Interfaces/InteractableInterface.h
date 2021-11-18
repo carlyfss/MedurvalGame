@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "PickupInterface.generated.h"
+#include "InteractableInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UPickupInterface : public UInterface
+class UInteractableInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,7 +16,7 @@ class UPickupInterface : public UInterface
 /**
  * 
  */
-class INVENTORYMANAGER_API IPickupInterface
+class MEDURVAL_API IInteractableInterface
 {
 	GENERATED_BODY()
 
@@ -25,11 +25,11 @@ class INVENTORYMANAGER_API IPickupInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnStartPickupFocus();
+	void OnInteract();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnEndPickupFocus();
+	void OnStartFocus();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnInteract(AActor* Character);
+	bool OnEndFocus() const;
 };

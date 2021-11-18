@@ -14,12 +14,14 @@
 #include "Components/GameFrameworkComponentManager.h"
 #include <GameplayEffectTypes.h>
 
+#include "../../../../Plugins/GameFeatures/InventoryManager/Source/Public/Macros/PrintString.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Core/Utils/LineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Interfaces/InteractableInterface.h"
 
 
 // Sets default values
@@ -245,13 +247,6 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Make sure that we are using a UEnhancedInputComponent; if not, the project is not configured correctly.
 	if (PlayerEnhancedInputComponent)
 	{
-		// This calls the handler function on the tick when MyInputAction starts, such as when pressing an action button.
-		if (JumpInputAction)
-		{
-			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-		}
-		
 		if (MoveForwardInput)
 		{
 			PlayerEnhancedInputComponent->BindAction(MoveForwardInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedMoveForward);
@@ -266,7 +261,17 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		{
 			PlayerEnhancedInputComponent->BindAction(LookInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedLook);
 		}
+
+		if (InteractAction)
+		{
+			PlayerEnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AMDBaseCharacter::InteractWithObject);
+		}
 		
+		if (JumpInputAction)
+		{
+			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		}
 	}
 	
 	// Setup Binds for the Ability System

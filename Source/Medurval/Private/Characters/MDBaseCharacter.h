@@ -65,27 +65,33 @@ protected:
 
 #pragma region Inputs
 	// Input actions
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
 	UInputAction* MoveForwardInput;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
 	UInputAction* MoveRightInput;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
 	UInputAction* LookInput;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
 	UInputAction* JumpInputAction;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
+	UInputAction* InteractAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
 	UInputMappingContext* BaseMappingContext;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
 	int32 BaseMappingPriority = 0;
 	
 	void EnhancedMoveForward(const FInputActionValue& Value);
 	void EnhancedMoveRight(const FInputActionValue& Value);
 	void EnhancedLook(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintImplementableEvent, Category="_BaseCharacter|Inputs")
+	void InteractWithObject() const;
 #pragma endregion Inputs
 
 public:

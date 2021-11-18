@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Interfaces/PickupInterface.h"
 #include "BaseItemPickup.generated.h"
 
 class UInventoryComponent;
@@ -14,7 +13,7 @@ class USphereComponent;
 class UPrimitiveComponent;
 
 UCLASS(meta = (DisplayName = "BaseItemPickup"))
-class ABaseItemPickup : public AActor, public IPickupInterface
+class ABaseItemPickup : public AActor
 {
 	GENERATED_BODY()
 
@@ -38,7 +37,7 @@ class ABaseItemPickup : public AActor, public IPickupInterface
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Configuration")
 	float PickupRangeRadius = 200;
 
-	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetItemData, Category="_Pickup")
 	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
@@ -69,12 +68,15 @@ protected:
 
 public:
 
-	UFUNCTION(BlueprintCallable, Category="_ItemInteraction")
-	virtual void OnStartPickupFocus_Implementation() override;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	void OnPickupStartFocus();
 	
-	UFUNCTION(BlueprintCallable, Category="_ItemInteraction")
-	virtual void OnEndPickupFocus_Implementation() override;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	void OnPickupEndFocus();
 
-	UFUNCTION(BlueprintCallable, Category="_ItemInteraction")
-	virtual void OnInteract_Implementation(AActor* Character) override;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	void OnPickupInteract();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_ItemInteraction")
+	TSoftObjectPtr<UBaseItemPrimaryDA> GetItemData() const;
 };
