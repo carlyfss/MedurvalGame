@@ -8,27 +8,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="23413856-583e-4b35-8acd-6dc390d2438c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/_Inputs/Actions/IA_Interact.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="23413856-583e-4b35-8acd-6dc390d2438c" name="Changes" comment="Fixed pickup inventory item by line trace (Interact key: E)">
+      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/PostProcess/MF_ConvolveTextureObject.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_Inputs/Mappings/MedurvalInputMapping.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_Inputs/Mappings/MedurvalInputMapping.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/InventoryManagerInputMapping.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/InventoryManagerInputMapping.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2H/HD/BHLQTQH7D20NS3N9UKU9N.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2H/HD/BHLQTQH7D20NS3N9UKU9N.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2H/HD/BHLQTQH7D20NS3N9UKU9N.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/5K/NW/TNKWIPENV2R86U5O3BSZ7.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/PickupInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Public/Interfaces/InteractableInterface.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Core/Utils/LineTraceComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Core/Utils/LineTraceComponent.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,8 +169,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1637243509779</updated>
-      <workItem from="1637243519609" duration="3645000" />
+      <workItem from="1637243519609" duration="7169000" />
     </task>
+    <task id="LOCAL-00001" summary="Fixed pickup inventory item by line trace (Interact key: E)">
+      <created>1637247622567</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1637247622567</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,5 +198,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Fixed pickup inventory item by line trace (Interact key: E)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed pickup inventory item by line trace (Interact key: E)" />
   </component>
 </project>

@@ -23,22 +23,23 @@ class ABaseItemPickup : public AActor
 	UPROPERTY(Transient)
 	TObjectPtr<AActor> OverlapedActor = nullptr;
 
+	UPROPERTY(Transient)
 	TObjectPtr<UBaseItemPrimaryDA> LoadedItem = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Base")
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetItemData, Category="_Pickup")
+	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_Pickup|Base", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category="_Pickup|Collision", meta=(AllowPrivateAccess=true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_Pickup", meta=(AllowPrivateAccess=true))
 	TObjectPtr<USphereComponent> PickupRange = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
-	TSoftObjectPtr<UStaticMeshComponent> PickupMesh = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Pickup", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UStaticMeshComponent> PickupMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Configuration")
 	float PickupRangeRadius = 200;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetItemData, Category="_Pickup")
-	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
 	uint8 AmountToAdd = 1;

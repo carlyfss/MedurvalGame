@@ -60,8 +60,8 @@ void ABaseItemPickup::LoadPickupItem()
 		if (Mesh != nullptr && PickupMesh != nullptr)
 		{
 			PickupMesh->SetStaticMesh(Mesh);
-			PickupMesh->AttachToComponent(PickupRange, FAttachmentTransformRules::SnapToTargetNotIncludingScale,
-			                              NAME_None);
+			// PickupMesh->AttachToComponent(PickupRange, FAttachmentTransformRules::SnapToTargetNotIncludingScale,
+			//                               NAME_None);
 
 			bIsPickupReady = true;
 		}
@@ -116,16 +116,17 @@ TSoftObjectPtr<UBaseItemPrimaryDA> ABaseItemPickup::GetItemData() const
 
 void ABaseItemPickup::OnPickupStartFocus_Implementation()
 {
+	PickupMesh->SetRenderCustomDepth(true);
 }
 
 void ABaseItemPickup::OnPickupEndFocus_Implementation()
 {
+	PickupMesh->SetRenderCustomDepth(false);
 }
 
 void ABaseItemPickup::OnPickupInteract_Implementation()
 {
 	ItemData.Reset();
-	PickupMesh.Reset();
 
 	OverlapedActor = nullptr;
 	LoadedItem = nullptr;

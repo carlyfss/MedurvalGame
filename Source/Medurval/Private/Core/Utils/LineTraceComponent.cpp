@@ -34,7 +34,7 @@ void ULineTraceComponent::CastLineTrace()
 
 			if (bHit)
 			{
-				DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
+				//DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
 
 				if (IsValid(Hit.GetActor()))
 				{
