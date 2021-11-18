@@ -24,6 +24,6 @@ class INVENTORYMANAGER_API IInventoryInterface
 	
 public:
 
-	UFUNCTION(BlueprintNativeEvent, Category="_Inventory|Interaction")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
 	bool OnAddItemToInventory(UObject* ItemToAdd);
 };

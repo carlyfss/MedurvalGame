@@ -2,6 +2,10 @@
 
 
 #include "Components/InventoryComponent.h"
+
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "GameFramework/Character.h"
 #include "Items/_Base/BaseItemPrimaryDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Macros/PrintString.h"
@@ -23,7 +27,8 @@ bool UInventoryComponent::IsSlotEmpty(const int32 Index) const
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
-TSoftObjectPtr<UBaseItemPrimaryDA> UInventoryComponent::GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
+TSoftObjectPtr<UBaseItemPrimaryDA> UInventoryComponent::GetItemInfoAtIndex(
+	const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
 {
 	check(Slots.Num() > Index)
 
@@ -52,6 +57,16 @@ int UInventoryComponent::GetAmountAtIndex(const int32 Index) const
 	return Slots[Index].Amount;
 }
 
+void UInventoryComponent::ToggleInventory()
+{
+	if (bIsVisible)
+	{
+		HideInventory();
+	}
+
+	ShowInventory();
+}
+
 void UInventoryComponent::SetSlotAmount(const uint8 AmountOfSlots)
 {
 	SlotAmount = FMath::Clamp(static_cast<int32>(AmountOfSlots), 1, 1000);
@@ -60,6 +75,64 @@ void UInventoryComponent::SetSlotAmount(const uint8 AmountOfSlots)
 void UInventoryComponent::SetMaxStackSize(const uint8 StackSize)
 {
 	MaxStackSize = FMath::Clamp(static_cast<int32>(StackSize), 1, 1000);
+}
+
+void UInventoryComponent::OnRegister()
+{
+	Super::OnRegister();
+
+	ACharacter* Character = Cast<ACharacter>(GetOwner());
+
+	print("Register");
+	if (IsValid(Character))
+	{
+		print("Player Valid");
+
+		PlayerCharacter = Character;
+
+		if (IsValid(Character->InputComponent))
+		{
+			UEnhancedInputComponent* EnhancedInputComp = CastChecked<UEnhancedInputComponent>(Character->InputComponent);
+		
+			if (IsValid(EnhancedInputComp))
+			{
+				print("Valid enhanced");
+
+				EnhancedInputComponent = EnhancedInputComp;
+			
+				if (InteractAction != nullptr)
+				{
+					print("Binded interact");
+					InteractBindingHandle = EnhancedInputComponent->BindAction(
+						InteractAction, ETriggerEvent::Triggered, this, &UInventoryComponent::OnInteract).GetHandle();
+				}
+
+				if (ToggleInventoryAction != nullptr)
+				{
+					print("Binded toggle");
+					InteractBindingHandle = EnhancedInputComponent->BindAction(
+						ToggleInventoryAction, ETriggerEvent::Triggered, this,
+						&UInventoryComponent::OnToggleInventory).GetHandle();
+				}
+			}
+		}
+	}
+}
+
+void UInventoryComponent::OnUnregister()
+{
+	Super::OnUnregister();
+
+	if (EnhancedInputComponent != nullptr)
+	{
+		EnhancedInputComponent->RemoveBindingByHandle(InteractBindingHandle);
+		EnhancedInputComponent->RemoveBindingByHandle(ToggleInventoryBindingHandle);
+	}
+
+	PlayerCharacter = nullptr;
+	EnhancedInputComponent = nullptr;
+	InventoryWidgetClass = nullptr;
+	InventoryWidget = nullptr;
 }
 
 /** Searches for a empty slot, and if it finds, store the index in the parameter &Index */
@@ -115,7 +188,7 @@ bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemPrimaryD
 						bSlotAvaiable = true;
 						FoundIndex = i;
 
-						break;	
+						break;
 					}
 				}
 			}
@@ -123,11 +196,12 @@ bool UInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UBaseItemPrimaryD
 	}
 
 	Index = FoundIndex;
-	
+
 	return bSlotAvaiable;
 }
 
-bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, const uint8 Amount, uint8& Rest)
+bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, const uint8 Amount,
+                                             uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -139,7 +213,7 @@ bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> 
 		Slots[FoundIndex].Amount = 1;
 
 		UpdateSlotAtIndex(FoundIndex);
-		
+
 		if (Amount > 1)
 		{
 			const int NewAmount = Amount - 1;
@@ -158,7 +232,7 @@ bool UInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> 
 bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, const uint8 Amount, uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
-	
+
 	int FoundIndex = 0;
 
 	if (!SearchFreeStack(ItemData, FoundIndex))
@@ -176,7 +250,7 @@ bool UInventoryComponent::AddStackableItem(TSoftObjectPtr<UBaseItemPrimaryDA> It
 
 				return AddItem(ItemData, NewAmount, Rest);
 			}
-			
+
 			Slots[FoundIndex].ItemData = ItemData;
 			Slots[FoundIndex].Amount = Amount;
 
@@ -219,7 +293,7 @@ bool UInventoryComponent::RemoveItemAtIndex(const int32 Index, const uint8 Amoun
 	if (!IsSlotEmpty(Index) && Amount > 0)
 	{
 		FScopeLock Lock(&SocketsCriticalSection);
-		
+
 		if (Amount >= GetAmountAtIndex(Index))
 		{
 			Slots[Index].ItemData.Reset();
@@ -245,8 +319,8 @@ bool UInventoryComponent::SwapSlots(const int32 OriginIndex, const int32 TargetI
 	FScopeLock Lock(&SocketsCriticalSection);
 
 	const int32 SlotsLastIndex = Slots.Num() - 1;
-	
-	if ( OriginIndex > SlotsLastIndex || TargetIndex > SlotsLastIndex)
+
+	if (OriginIndex > SlotsLastIndex || TargetIndex > SlotsLastIndex)
 	{
 		return false;
 	}
@@ -295,12 +369,12 @@ bool UInventoryComponent::SplitStack(const int32 Index, int32 Amount)
 				UpdateSlotAtIndex(FoundSlotIndex);
 
 				return true;
- 			}
+			}
 		}
 	}
 
 	return false;
- }
+}
 
 TArray<FInventorySlot> UInventoryComponent::GetInventorySlots() const
 {
@@ -354,17 +428,26 @@ bool UInventoryComponent::AddItem(TSoftObjectPtr<UBaseItemPrimaryDA> ItemData, c
 #pragma endregion InventoryInteractions
 
 
-
 bool UInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
 {
 	UBaseItemPrimaryDA* Item = Cast<UBaseItemPrimaryDA>(ItemToAdd);
-	
+
 	if (Item)
 	{
 		uint8 Rest = 0;
-		
-		return AddItem(Item, 1, Rest);	
+
+		return AddItem(Item, 1, Rest);
 	}
-	
+
 	return false;
+}
+
+void UInventoryComponent::SetEnhancedInputComponent(UEnhancedInputComponent* EnhancedInputComp)
+{
+	EnhancedInputComponent = EnhancedInputComp;
+}
+
+void UInventoryComponent::SetPlayerCharacter(ACharacter* PlayerChar)
+{
+	PlayerCharacter = PlayerChar;
 }

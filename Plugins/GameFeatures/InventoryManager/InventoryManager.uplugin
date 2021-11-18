@@ -23,7 +23,8 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"GameFeatures",
-				"ModularGameplay"
+				"ModularGameplay",
+				"EnhancedInput"
 			]
 		}
 	],
@@ -34,6 +35,10 @@
 		},
 		{
 			"Name": "ModularGameplay",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
 			"Enabled": true
 		}
 	]

@@ -118,4 +118,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="BaseCharacter|Getters")
 	virtual void GetMana(float& Mana, float& MaxMana) const;
 #pragma endregion AbilitySystem
+
+	UFUNCTION(BlueprintCallable, Category="_BaseCharacter|Inputs")
+	UEnhancedInputComponent* GetEnhancedInputComponent() const;
 };

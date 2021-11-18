@@ -9,29 +9,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1eb9307-682e-43e1-81ba-e3dba428a742" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Textures/UI/Crosshair_01.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Medurval.sln.DotSettings.user" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2H/HD/BHLQTQH7D20NS3N9UKU9N.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/IA_ToggleInventory.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Inputs/InventoryManagerInputMapping.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/5K/NW/TNKWIPENV2R86U5O3BSZ7.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/UI/Main/W_MainScreen.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/UI/Main/W_MainScreen.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Medurval.sln.DotSettings.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/Consumables/BP_SmallHealthPotionPickup.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/Consumables/BP_SmallHealthPotionPickup.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/69/EN/7OQMWG4EERZ399ENEHIL5.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/81/OB/0S2T4F4WY89HH8JJJOLLV.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/DL/VR/24TOPWXV3GTPWBWX8APYO.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/InventoryManager.uplugin" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/InventoryManager.uplugin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/InventoryManager.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/InventoryManager.Build.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Consumables/ConsumableItemDA.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/Consumables/ConsumableItemPickup.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/BaseItemPickup.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/BaseItemDA.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/PickupInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/PickupInterface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/InventoryComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Core/GameFeatureActions/GFA_AddInventoryWidget.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Core/GameFeatureActions/GFA_AddInventoryWidget.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/InventoryInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/InventoryInterface.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Core/Utils/LineTraceComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Core/Utils/LineTraceComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Core/Utils/LineTraceComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Core/Utils/LineTraceComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Public/Interfaces/LineTraceInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Public/Interfaces/LineTraceInterface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -250,7 +245,13 @@
       <workItem from="1637090942341" duration="8017000" />
       <workItem from="1637108611199" duration="1054000" />
       <workItem from="1637147474266" duration="4623000" />
-      <workItem from="1637156111718" duration="4986000" />
+      <workItem from="1637156111718" duration="10298000" />
+      <workItem from="1637172221359" duration="3334000" />
+      <workItem from="1637176686789" duration="2420000" />
+      <workItem from="1637187538449" duration="6347000" />
+      <workItem from="1637203389783" duration="1168000" />
+      <workItem from="1637205835069" duration="266000" />
+      <workItem from="1637206174372" duration="270000" />
     </task>
     <task id="LOCAL-00001" summary="Added Modular Game Features&#10;&#10;Implemented new Asset Manager (MedurvalAssetManager)&#10;Removed old InventoryManager module&#10;Added InventoryManager Game Feature&#10;Added Inventory and Attributes textures">
       <created>1636324767607</created>
@@ -329,7 +330,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637101921256</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added crosshair to the Main Widget.&#10;&#10;Finished implementing line trace interaction with inventory pickup.">
+      <created>1637164000210</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1637164000210</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,6 +369,7 @@
     <MESSAGE value="InventoryManger:&#10;- Fixed items not stacking bug&#10;- Added Split Stack and Swap Slots functionalities&#10;- Added RemoveItemAtIndex function (Used when the item is used or removed from inventory)" />
     <MESSAGE value="Added LineTrace functions to MDBaseCharacter" />
     <MESSAGE value="Moved MDCharacter Line Trace functionality to the LineTraceComponent.&#10;&#10;Added InventoryInterface and PickupInterface for better communication between items and the inventory.&#10;&#10;Now Pickup actors will activate the Line Trace in the character for better performance." />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved MDCharacter Line Trace functionality to the LineTraceComponent.&#10;&#10;Added InventoryInterface and PickupInterface for better communication between items and the inventory.&#10;&#10;Now Pickup actors will activate the Line Trace in the character for better performance." />
+    <MESSAGE value="Added crosshair to the Main Widget.&#10;&#10;Finished implementing line trace interaction with inventory pickup." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added crosshair to the Main Widget.&#10;&#10;Finished implementing line trace interaction with inventory pickup." />
   </component>
 </project>

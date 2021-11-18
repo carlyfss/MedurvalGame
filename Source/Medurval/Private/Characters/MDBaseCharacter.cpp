@@ -105,7 +105,8 @@ void AMDBaseCharacter::PawnClientRestart()
 	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
 		// Get the Enhanced Input Local Player Subsystem from the Local Player related to our Player Controller.
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
 			// PawnClientRestart can run more than once in an Actor's lifetime, so start by clearing out any leftover mappings.
 			Subsystem->ClearAllMappings();
@@ -216,9 +217,23 @@ void AMDBaseCharacter::GetMana(float& Mana, float& MaxMana) const
 		MaxMana = AttributeSetComponent->GetMaxMana();
 	}
 }
+
 #pragma endregion GameplayAbilityFunc
 
 #pragma region Inputs
+
+UEnhancedInputComponent* AMDBaseCharacter::GetEnhancedInputComponent() const
+{
+	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+
+	if (PlayerEnhancedInputComponent != nullptr)
+	{
+		return PlayerEnhancedInputComponent;	
+	}
+
+	return nullptr;
+}
+
 void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
