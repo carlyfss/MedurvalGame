@@ -3,7 +3,7 @@
 
 #include "Items/_Base/BaseItemPrimaryDA.h"
 
-#include "Interfaces/UsableItemInterface.h"
+#include "Interfaces/IMUsableItemInterface.h"
 
 FPrimaryAssetId UBaseItemPrimaryDA::GetPrimaryAssetId() const
 {
@@ -12,5 +12,5 @@ FPrimaryAssetId UBaseItemPrimaryDA::GetPrimaryAssetId() const
 
 void UBaseItemPrimaryDA::UseItem_Implementation(AActor* ItemOwner)
 {
-	IUsableItemInterface::UseItem_Implementation(ItemOwner);
+	IIMUsableItemInterface::UseItem_Implementation(ItemOwner);
 }

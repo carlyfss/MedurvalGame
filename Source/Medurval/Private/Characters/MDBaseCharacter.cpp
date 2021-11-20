@@ -14,14 +14,12 @@
 #include "Components/GameFrameworkComponentManager.h"
 #include <GameplayEffectTypes.h>
 
-#include "../../../../Plugins/GameFeatures/InventoryManager/Source/Public/Macros/PrintString.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Core/Utils/LineTraceComponent.h"
+#include "Components/MDLineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Interfaces/InteractableInterface.h"
 
 
 // Sets default values
@@ -70,7 +68,7 @@ AMDBaseCharacter::AMDBaseCharacter()
 	*	Like Health, Stamina, etc... or any attributes in the AttributeSet */
 	AttributeSetComponent = CreateDefaultSubobject<UMDBaseAttributeSet>(TEXT("AttributeSetComponent"));
 
-	LineTraceComponent = CreateDefaultSubobject<ULineTraceComponent>(TEXT("LineTraceComponent"));
+	LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
 }
 
 #pragma region Overrides

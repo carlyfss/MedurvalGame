@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Enums/EConsumableEffectType.h"
+#include "Enums/EIMConsumableEffectType.h"
 #include "Items/_Base/BaseItemPrimaryDA.h"
 #include "BaseConsumableItemPrimaryDA.generated.h"
 
@@ -30,7 +30,7 @@ public:
 	bool bIsInstantUsage = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
-	EConsumableEffectType EffectType = EConsumableEffectType::Buff;
+	EIMConsumableEffectType EffectType = EIMConsumableEffectType::Buff;
 
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
 

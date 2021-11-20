@@ -9,7 +9,7 @@
 #include "InputActionValue.h"
 #include "MDBaseCharacter.generated.h"
 
-class ULineTraceComponent;
+class UMDLineTraceComponent;
 class USpringArmComponent;
 class UCameraComponent;
 
@@ -33,7 +33,7 @@ class MEDURVAL_API AMDBaseCharacter : public ACharacter, public IAbilitySystemIn
 	TObjectPtr<UCameraComponent> CameraComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_BaseCharacter|Components", meta=(AllowPrivateAccess=true))
-	TObjectPtr<ULineTraceComponent> LineTraceComponent = nullptr;
+	TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
 
 #pragma region AbilitiesProps
 	UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes|Defaults")

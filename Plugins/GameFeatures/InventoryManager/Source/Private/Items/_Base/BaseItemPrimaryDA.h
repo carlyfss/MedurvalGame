@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Enums/EItemCategories.h"
-#include "Interfaces/UsableItemInterface.h"
+#include "Enums/EIMItemCategories.h"
+#include "Interfaces/IMUsableItemInterface.h"
 #include "BaseItemPrimaryDA.generated.h"
 
 /**
  * 
  */
 UCLASS(meta=(DisplayName="InventoryItemPrimaryDA"))
-class UBaseItemPrimaryDA : public UPrimaryDataAsset, public IUsableItemInterface
+class UBaseItemPrimaryDA : public UPrimaryDataAsset, public IIMUsableItemInterface
 {
 	GENERATED_BODY()
 
@@ -44,7 +44,7 @@ public:
 	bool bCanBeStacked = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Item")
-	EItemCategories Category = EItemCategories::Resource;
+	EIMItemCategories Category = EIMItemCategories::Resource;
 
 	// Functions
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
