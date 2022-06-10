@@ -4,40 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Interfaces/MDDataAssetInterface.h"
 
 #include "MDBaseDataAsset.generated.h"
 
+class UMDGameInstance;
 UCLASS()
-class MEDURVAL_API UMDBaseDataAsset : public UPrimaryDataAsset
+class MEDURVAL_API UMDBaseDataAsset : public UPrimaryDataAsset, public IMDDataAssetInterface
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Transient)
-	UObject* Object;
+	TObjectPtr<AActor> DataAssetOwner = nullptr;
 
-	UPROPERTY(Transient)
-	FSoftObjectPath ObjectSoftPath;
-	
 protected:
+	TObjectPtr<UMDGameInstance> GameInstance = nullptr;
 
-	UFUNCTION(BlueprintCallable, Category="Base Asset|Getters")
-	UObject* GetAssetObject() const;
-	
-#pragma region ASYNC_LOAD_FUNCTIONS
-	
-	UFUNCTION(BlueprintCallable, Category="Base Asset|Async Load")
-	void OnAssetLoaded();
-
-	UFUNCTION(BlueprintCallable, Category="Base Asset|Async Load")
-	void RequestAsyncLoadObject(const UObject* ObjectOwner);
-
-	UFUNCTION(BlueprintCallable, Category="Base Asset|Async Load")
-	void UnloadObject(const UObject* ObjectOwner);
-	
-#pragma endregion ASYNC_LOAD_FUNCTIONS
-	
 public:
-	
-	UPROPERTY(EditAnywhere, Category="Parts")
-	TSoftClassPtr<UObject> AssetSoftClassRef;
+	void SetDataAssetOwner(AActor* AssetOwner);
+
+	TObjectPtr<UMDGameInstance> GetGameInstance();
 };

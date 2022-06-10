@@ -7,7 +7,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/PrimitiveComponent.h"
-#include "Items/_Base/BaseItemPrimaryDA.h"
+#include "Items/_Base/IMBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AIMItemPickup::AIMItemPickup()
@@ -16,7 +16,6 @@ AIMItemPickup::AIMItemPickup()
 	PrimaryActorTick.bStartWithTickEnabled = false;
 	PrimaryActorTick.TickInterval = 0.075f;
 
-	
 
 	PickupRange = CreateDefaultSubobject<USphereComponent>("PickupRange");
 	PickupRange->PrimaryComponentTick.bStartWithTickEnabled = false;
@@ -48,33 +47,32 @@ void AIMItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AIMItemPickup::LoadPickupItem()
 {
-	UBaseItemPrimaryDA* Item = Cast<UBaseItemPrimaryDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
+	UIMBaseItemDA* Item = Cast<UIMBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
 
 	if (Item != nullptr)
 	{
 		LoadedItem = Item;
-		
+
 		UStaticMesh* Mesh = Cast<UStaticMesh>(
 			UKismetSystemLibrary::LoadAsset_Blocking(Item->ItemMesh));
 
 		if (Mesh != nullptr && PickupMesh != nullptr)
 		{
 			PickupMesh->SetStaticMesh(Mesh);
-			// PickupMesh->AttachToComponent(PickupRange, FAttachmentTransformRules::SnapToTargetNotIncludingScale,
-			//                               NAME_None);
 
 			bIsPickupReady = true;
 		}
-	} else
+	}
+	else
 	{
 		bIsPickupReady = false;
 	}
 }
 
 void AIMItemPickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent,
-                                              AActor* OtherActor, UPrimitiveComponent* OtherComp,
-                                              int32 OtherBodyIndex,
-                                              bool bFromSweep, const FHitResult& SweepResult)
+                                            AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                                            int32 OtherBodyIndex,
+                                            bool bFromSweep, const FHitResult& SweepResult)
 {
 	OverlapedActor = OtherActor;
 }
@@ -85,7 +83,7 @@ void AIMItemPickup::OnConstruction(const FTransform& Transform)
 
 	if (PickupRange != nullptr)
 	{
-		PickupRange->SetSphereRadius(PickupRangeRadius);	
+		PickupRange->SetSphereRadius(PickupRangeRadius);
 	}
 
 	if (DefaultStaticMesh != nullptr && PickupMesh != nullptr)
@@ -109,7 +107,22 @@ void AIMItemPickup::AddItemToInventory()
 	}
 }
 
-TSoftObjectPtr<UBaseItemPrimaryDA> AIMItemPickup::GetItemData() const
+void AIMItemPickup::OnInteract_Implementation()
+{
+	IMDInteractableInterface::OnInteract_Implementation();
+}
+
+void AIMItemPickup::OnStartFocus_Implementation()
+{
+	IMDInteractableInterface::OnStartFocus_Implementation();
+}
+
+void AIMItemPickup::OnEndFocus_Implementation()
+{
+	IMDInteractableInterface::OnEndFocus_Implementation();
+}
+
+TSoftObjectPtr<UIMBaseItemDA> AIMItemPickup::GetItemData() const
 {
 	return ItemData;
 }

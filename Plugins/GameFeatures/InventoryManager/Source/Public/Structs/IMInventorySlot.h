@@ -1,7 +1,7 @@
 ﻿// MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #pragma once
-#include "Items/_Base/BaseItemPrimaryDA.h"
+#include "Items/_Base/IMBaseItemDA.h"
 #include "IMInventorySlot.generated.h"
 
 USTRUCT(BlueprintType, meta = (DisplayName = "InventorySlot"))
@@ -12,7 +12,7 @@ struct INVENTORYMANAGER_API FIMInventorySlot
 	FORCEINLINE FIMInventorySlot();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Slot")
-	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
+	TSoftObjectPtr<UIMBaseItemDA> ItemData = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Slot")
 	uint8 Amount = 0;

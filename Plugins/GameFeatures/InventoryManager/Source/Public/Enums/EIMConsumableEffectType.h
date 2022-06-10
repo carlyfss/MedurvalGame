@@ -5,6 +5,7 @@
 UENUM(BlueprintType, meta = (DisplayName = "Item Categories"))
 enum class EIMConsumableEffectType : uint8
 {
+	None,
 	Buff,
 	Debuff
 };

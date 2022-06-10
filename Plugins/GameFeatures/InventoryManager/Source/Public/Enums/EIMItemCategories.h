@@ -5,6 +5,7 @@
 UENUM(BlueprintType, meta = (DisplayName = "Item Categories"))
 enum class EIMItemCategories : uint8
 {
+	None,
 	Consumable,
 	Weapon,
 	Equipment,

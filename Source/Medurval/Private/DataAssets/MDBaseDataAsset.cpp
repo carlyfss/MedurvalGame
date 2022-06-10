@@ -4,43 +4,18 @@
 
 #include "Core/Singleton/MDGameInstance.h"
 
-UObject* UMDBaseDataAsset::GetAssetObject() const
+void UMDBaseDataAsset::SetDataAssetOwner(AActor* AssetOwner)
 {
-	return Object;
+	DataAssetOwner = AssetOwner;
 }
 
-// Async load functions
-void UMDBaseDataAsset::OnAssetLoaded()
+TObjectPtr<UMDGameInstance> UMDBaseDataAsset::GetGameInstance()
 {
-	Object = Cast<UStaticMesh>(AssetSoftClassRef->GetDefaultObject());
+	if (!GameInstance)
+	{
+		GameInstance = Cast<UMDGameInstance>(DataAssetOwner->GetWorld()->GetGameInstance());
+		return GameInstance;
+	}
+
+	return GameInstance;
 }
-
-void UMDBaseDataAsset::RequestAsyncLoadObject(const UObject* ObjectOwner)
-{
-	UMDGameInstance* MDGameInstance = Cast<UMDGameInstance>(ObjectOwner->GetWorld()->GetGameInstance());
-
-	if (!MDGameInstance) { return; }
-
-	ObjectSoftPath = AssetSoftClassRef.ToSoftObjectPath();
-
-	MDGameInstance->AssetLoader.RequestAsyncLoad(ObjectSoftPath,
-												 FStreamableDelegate::CreateUObject(
-													 this, &UMDBaseDataAsset::OnAssetLoaded));
-}
-
-void UMDBaseDataAsset::UnloadObject(const UObject* ObjectOwner)
-{
-	UMDGameInstance* MDGameInstance = Cast<UMDGameInstance>(ObjectOwner->GetWorld()->GetGameInstance());
-
-	if (!MDGameInstance) { return; }
-
-	if (ObjectSoftPath.IsNull()) { return; }
-
-	Object = nullptr;
-
-	MDGameInstance->AssetLoader.Unload(ObjectSoftPath);
-}
-
-
-
-

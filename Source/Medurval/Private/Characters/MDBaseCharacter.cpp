@@ -17,7 +17,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/MDLineTraceComponent.h"
+#include "Components/Utils/MDLineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -53,11 +53,14 @@ AMDBaseCharacter::AMDBaseCharacter()
 	SpringArmComponent->bUsePawnControlRotation = true;
 	SpringArmComponent->TargetArmLength = 300.0f;
 	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->AddWorldOffset(FVector(0.0f, 0.0f, 50.0f));
+	SpringArmComponent->SocketOffset = FVector(0.0f, 75.0f, 20.0f);
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->PrimaryComponentTick.bStartWithTickEnabled = false;
 	CameraComponent->bUsePawnControlRotation = false;
 	CameraComponent->SetupAttachment(SpringArmComponent);
+	CameraComponent->AddWorldRotation(FRotator(-5.0f, 0.0f, 0.0f));
 
 	// Setup Ability system component and replication mode
 	AbilitySystemComponent = CreateDefaultSubobject<UMDAbilitySystemComponent>(TEXT("AbilitySystemComponent"));

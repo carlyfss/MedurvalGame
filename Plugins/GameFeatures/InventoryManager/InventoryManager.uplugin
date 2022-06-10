@@ -15,7 +15,7 @@
 	"IsExperimentalVersion": false,
 	"Installed": true,
 	"ExplicitlyLoaded": true,
-	"BuiltInInitialFeatureState": "Registered",
+	"BuiltInInitialFeatureState": "Active",
 	"Modules": [
 		{
 			"Name": "InventoryManager",

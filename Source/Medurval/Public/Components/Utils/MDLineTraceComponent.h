@@ -26,9 +26,13 @@ class MEDURVAL_API UMDLineTraceComponent : public UActorComponent, public IMDLin
 	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
 	float LineTraceInterval = 0.1f;
 
+	/** Whether to use the mouse position on screen if not it will use the player's camera view */
+	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+	bool bUseMouseLocation = false;
+
 	UPROPERTY(BlueprintReadWrite, Category="_LineTrace|Configuration", meta=(AllowPrivateAccess=true))
 	bool bIsLineTraceEnabled = false;
-
+	
 	TObjectPtr<AActor> LineTraceHitActor = nullptr;
 
 	FTimerHandle LineTraceTimerHandle;
@@ -36,6 +40,12 @@ class MEDURVAL_API UMDLineTraceComponent : public UActorComponent, public IMDLin
 public:
 	// Sets default values for this actor's properties
 	UMDLineTraceComponent();
+	
+	UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
+	bool bActivateLineTraceDebug = false;
+
+	UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
+	bool bActivateLineTraceHitBox = false;
 
 protected:
 	

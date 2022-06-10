@@ -2,6 +2,7 @@
 
 using UnrealBuildTool;
 
+// ReSharper disable once InconsistentNaming
 public class Medurval : ModuleRules
 {
 	public Medurval(ReadOnlyTargetRules Target) : base(Target)
@@ -14,6 +15,9 @@ public class Medurval : ModuleRules
 			"GameFeatures", "ModularGameplay", "EnhancedInput"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {"UMG",});
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"UMG",
+		});
 	}
 }

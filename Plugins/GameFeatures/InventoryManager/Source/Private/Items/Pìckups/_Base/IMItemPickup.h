@@ -4,16 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interfaces/MDInteractableInterface.h"
 #include "IMItemPickup.generated.h"
 
 class UIMInventoryComponent;
-class UBaseItemPrimaryDA;
+class UIMBaseItemDA;
 class UStaticMeshComponent;
 class USphereComponent;
 class UPrimitiveComponent;
 
 UCLASS(meta=(DisplayName="InventoryItemPickup"))
-class AIMItemPickup : public AActor
+class AIMItemPickup : public AActor, public IMDInteractableInterface
 {
 	GENERATED_BODY()
 
@@ -24,11 +25,11 @@ class AIMItemPickup : public AActor
 	TObjectPtr<AActor> OverlapedActor = nullptr;
 
 	UPROPERTY(Transient)
-	TObjectPtr<UBaseItemPrimaryDA> LoadedItem = nullptr;
-	
+	TObjectPtr<UIMBaseItemDA> LoadedItem = nullptr;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetItemData, Category="_Pickup")
-	TSoftObjectPtr<UBaseItemPrimaryDA> ItemData = nullptr;
-	
+	TSoftObjectPtr<UIMBaseItemDA> ItemData = nullptr;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_Pickup|Base", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
 
@@ -43,7 +44,7 @@ class AIMItemPickup : public AActor
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
 	uint8 AmountToAdd = 1;
-	
+
 public:
 	// Sets default values for this actor's properties
 	AIMItemPickup();
@@ -68,16 +69,21 @@ protected:
 	virtual void AddItemToInventory();
 
 public:
-
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
 	void OnPickupStartFocus();
-	
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
 	void OnPickupEndFocus();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
 	void OnPickupInteract();
 
+	virtual void OnInteract_Implementation() override;
+
+	virtual void OnStartFocus_Implementation() override;
+
+	virtual void OnEndFocus_Implementation() override;
+
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_ItemInteraction")
-	TSoftObjectPtr<UBaseItemPrimaryDA> GetItemData() const;
+	TSoftObjectPtr<UIMBaseItemDA> GetItemData() const;
 };

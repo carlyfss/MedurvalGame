@@ -16,7 +16,7 @@ void UIMSlotActionMenuWidget::Update(const int32 Index)
 	ItemData = InventoryReference->GetItemInfoAtIndex(Index, bIsSlotEmpty, AmountAtIndex);
 	Amount = AmountAtIndex;
 
-	UBaseItemPrimaryDA* Item = ItemData.LoadSynchronous();
+	UIMBaseItemDA* Item = ItemData.LoadSynchronous();
 
 	if (Item != nullptr)
 	{

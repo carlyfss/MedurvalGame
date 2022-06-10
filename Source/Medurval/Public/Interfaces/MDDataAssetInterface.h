@@ -22,4 +22,13 @@ class MEDURVAL_API IMDDataAssetInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	
+	UFUNCTION(BlueprintNativeEvent, Category="Data Asset Interface")
+	void OnAssetsLoaded();
+
+	UFUNCTION(BlueprintNativeEvent, Category="Data Asset Interface")
+	void RequestAsyncLoadAssets(AActor* ObjectOwner);
+
+	UFUNCTION(BlueprintNativeEvent, Category="Data Asset Interface")
+	void UnloadAssets(AActor* ObjectOwner);
 };

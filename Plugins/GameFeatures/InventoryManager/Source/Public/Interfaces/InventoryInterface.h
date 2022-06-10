@@ -26,4 +26,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
 	bool OnAddItemToInventory(UObject* ItemToAdd);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
+	void UpdateSlotAfterLoad(uint8 SlotIndex);
 };

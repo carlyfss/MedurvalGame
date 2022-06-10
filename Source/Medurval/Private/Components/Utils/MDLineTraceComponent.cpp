@@ -2,6 +2,10 @@
 
 #include "Components/Utils/MDLineTraceComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Interfaces/MDInteractableInterface.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Macros/PrintString.h"
 
 UMDLineTraceComponent::UMDLineTraceComponent()
 {
@@ -19,23 +23,40 @@ void UMDLineTraceComponent::CastLineTrace()
 			FVector Location;
 			FRotator Rotation;
 			FHitResult Hit;
+			bool bHit;
 
-			PlayerController->GetPlayerViewPoint(Location, Rotation);
+			if (bUseMouseLocation)
+			{
+				TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
 
-			FVector Start = Location;
-			FVector End = Start + (Rotation.Vector() * LineTraceDistance);
+				ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery8);
+				
+				bHit = PlayerController->GetHitResultUnderCursorForObjects(ObjectTypes, false, Hit);	
+			} else
+			{
+				PlayerController->GetPlayerViewPoint(Location, Rotation);
 
-			FCollisionQueryParams TraceParams;
+				FVector Start = Location;
+				FVector End = Start + (Rotation.Vector() * LineTraceDistance);
 
-			bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+				FCollisionQueryParams TraceParams;
 
-			// Enable debug line
-			DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 0.5f);
+				bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+
+				// Enable debug line
+				if (bActivateLineTraceDebug)
+				{
+					DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 0.5f);	
+				}
+			}
 
 			if (bHit)
 			{
 				// Enable debug hit location
-				//DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
+				if (bActivateLineTraceHitBox)
+				{
+					DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);	
+				}
 
 				if (IsValid(Hit.GetActor()))
 				{

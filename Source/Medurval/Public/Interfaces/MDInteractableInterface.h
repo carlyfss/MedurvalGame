@@ -31,5 +31,5 @@ public:
 	void OnStartFocus();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	bool OnEndFocus() const;
+	void OnEndFocus();
 };
