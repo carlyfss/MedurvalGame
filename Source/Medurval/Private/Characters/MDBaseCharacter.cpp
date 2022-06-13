@@ -231,7 +231,7 @@ UEnhancedInputComponent* AMDBaseCharacter::GetEnhancedInputComponent() const
 
 	if (PlayerEnhancedInputComponent != nullptr)
 	{
-		return PlayerEnhancedInputComponent;	
+		return PlayerEnhancedInputComponent;
 	}
 
 	return nullptr;
@@ -250,31 +250,36 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	{
 		if (MoveForwardInput)
 		{
-			PlayerEnhancedInputComponent->BindAction(MoveForwardInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedMoveForward);
+			PlayerEnhancedInputComponent->BindAction(MoveForwardInput, ETriggerEvent::Triggered, this,
+			                                         &AMDBaseCharacter::EnhancedMoveForward);
 		}
 
 		if (MoveRightInput)
 		{
-			PlayerEnhancedInputComponent->BindAction(MoveRightInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedMoveRight);
+			PlayerEnhancedInputComponent->BindAction(MoveRightInput, ETriggerEvent::Triggered, this,
+			                                         &AMDBaseCharacter::EnhancedMoveRight);
 		}
-		
+
 		if (LookInput)
 		{
-			PlayerEnhancedInputComponent->BindAction(LookInput, ETriggerEvent::Triggered, this, &AMDBaseCharacter::EnhancedLook);
+			PlayerEnhancedInputComponent->BindAction(LookInput, ETriggerEvent::Triggered, this,
+			                                         &AMDBaseCharacter::EnhancedLook);
 		}
 
 		if (InteractAction)
 		{
-			PlayerEnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &AMDBaseCharacter::InteractWithObject);
+			PlayerEnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this,
+			                                         &AMDBaseCharacter::InteractWithObject);
 		}
-		
+
 		if (JumpInputAction)
 		{
 			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this,
+			                                         &ACharacter::StopJumping);
 		}
 	}
-	
+
 	// Setup Binds for the Ability System
 	if (AbilitySystemComponent && InputComponent)
 	{
@@ -320,7 +325,7 @@ void AMDBaseCharacter::EnhancedLook(const FInputActionValue& Value)
 	if (Value.GetMagnitude() != 0.0f)
 	{
 		AddControllerPitchInput(Value[1] * -1);
-		AddControllerYawInput(Value[0]);	
+		AddControllerYawInput(Value[0]);
 	}
 }
 #pragma endregion Inputs

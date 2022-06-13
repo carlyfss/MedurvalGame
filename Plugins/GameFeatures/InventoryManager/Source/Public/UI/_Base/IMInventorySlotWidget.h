@@ -68,19 +68,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Setter")
 	void SetInventoryReference(UIMInventoryComponent* TargetInventory);
 
-	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_InventorySlot|Getter")
 	UButton* GetSlotButton() const;
 
-	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_InventorySlot|Getter")
 	UIMInventoryComponent* GetInventoryReference() const;
 
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Setter")
 	void SetPlayerGameInstance(UMDGameInstance* TargetGameInstance);
 
-	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_InventorySlot|Getter")
 	UMDGameInstance* GetPlayerGameInstance() const;
 
-	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_InventorySlot|Getter")
 	uint8 GetAmount() const;
 
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Setter")
@@ -92,12 +92,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Setter")
 	void SetItemData(const TSoftObjectPtr<UIMBaseItemDA> NewItemData);
 
-	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_InventorySlot|Getter")
 	int32 GetSlotIndex() const;
 
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Setter")
 	void SetSlotIndex(const int32 Index);
 
-	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Getter")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_InventorySlot|Getter")
 	UIMBaseItemDA* GetItemAtSlot() const;
 };

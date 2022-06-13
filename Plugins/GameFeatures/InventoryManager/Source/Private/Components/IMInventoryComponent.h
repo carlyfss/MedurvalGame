@@ -95,6 +95,9 @@ public:
 	bool AddItem(const TSoftObjectPtr<UIMBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	bool AddToIndex(uint8 SourceIndex, uint8 TargetIndex);
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool RemoveItemAtIndex(const int32 Index, const uint8 Amount);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
@@ -102,6 +105,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool SplitStack(const int32 Index, uint8 Amount);
+
+	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
+	bool SplitStackToIndex(const int32 SourceIndex, const int32 TargetIndex, uint8 Amount);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="_Inventory|Interaction")
 	void UseItemAtIndex(int32 Index);

@@ -69,6 +69,11 @@ void UIMInventoryComponent::UpdateSlotAtIndex(int32 Index)
 	SlotWidget->SetAmount(Slots[Index].Amount);
 	SlotWidget->SetItemData(Slots[Index].ItemData);
 
+	if (SlotWidget->GetAmount() == 0)
+	{
+		SlotWidget->CleanSlot();
+	}
+
 	SlotWidget->LoadSlotData();
 }
 
@@ -302,7 +307,7 @@ bool UIMInventoryComponent::RemoveItemAtIndex(const int32 Index, const uint8 Amo
 			Slots[Index].ItemData = nullptr;
 			Slots[Index].Amount = 0;
 
-			SlotWidget->UnloadSlotData();
+			SlotWidget->CleanSlot();
 
 			return true;
 		}
@@ -380,6 +385,32 @@ bool UIMInventoryComponent::SplitStack(const int32 Index, uint8 Amount)
 	return false;
 }
 
+bool UIMInventoryComponent::SplitStackToIndex(const int32 SourceIndex, const int32 TargetIndex, uint8 Amount)
+{
+	bool bIsSlotEmpty;
+	uint8 AmountAtSlot;
+
+	const TSoftObjectPtr<UIMBaseItemDA> ItemAtSourceSlot = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+
+	const bool bTargetSlotHasAmount = AmountAtSlot > 1;
+	const bool bIsAmountLessThanTargetAmount = AmountAtSlot > Amount;
+
+	if (IsSlotEmpty(TargetIndex) && !IsSlotEmpty(SourceIndex) && ItemAtSourceSlot->bCanBeStacked &&
+		bTargetSlotHasAmount && bIsAmountLessThanTargetAmount)
+	{
+		Slots[SourceIndex].Amount -= Amount;
+		Slots[TargetIndex].ItemData = ItemAtSourceSlot;
+		Slots[TargetIndex].Amount = Amount;
+
+		UpdateSlotAtIndex(SourceIndex);
+		UpdateSlotAtIndex(TargetIndex);
+
+		return true;
+	}
+
+	return false;
+}
+
 TArray<FIMInventorySlot> UIMInventoryComponent::GetInventorySlots() const
 {
 	return Slots;
@@ -429,6 +460,57 @@ bool UIMInventoryComponent::AddItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, cons
 	}
 
 	return false;
+}
+
+bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
+{
+	const UClass* SourceSlotClass = Slots[SourceIndex].ItemData->GetClass();
+
+	if (Slots[TargetIndex].ItemData != nullptr)
+	{
+		const UClass* TargetSlotClass = Slots[TargetIndex].ItemData->GetClass();
+
+		const bool bIsClassEqual = SourceSlotClass == TargetSlotClass;
+
+		const bool bIsTargetLessThanMaxSize = Slots[TargetIndex].Amount < MaxStackSize;
+
+		bool bIsSlotEmpty;
+		uint8 AmountAtSlot;
+		const TSoftObjectPtr<UIMBaseItemDA> SourceItem = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+
+		if (!bIsClassEqual && !bIsTargetLessThanMaxSize && !SourceItem->bCanBeStacked)
+		{
+			return false;
+		}
+	}
+
+	const uint8 TargetTotalRestAmount = MaxStackSize - GetAmountAtIndex(TargetIndex);
+	const uint8 SourceAmount = GetAmountAtIndex(SourceIndex);
+
+	if (TargetTotalRestAmount <= SourceAmount)
+	{
+		const uint8 SourceRestAmount = GetAmountAtIndex(SourceIndex) - (MaxStackSize - GetAmountAtIndex(TargetIndex));
+
+		Slots[SourceIndex].Amount = SourceRestAmount;
+
+		Slots[TargetIndex].ItemData = Slots[SourceIndex].ItemData;
+		Slots[TargetIndex].Amount = MaxStackSize;
+	}
+	else
+	{
+		const uint8 NewTotalAmount = GetAmountAtIndex(SourceIndex) + GetAmountAtIndex(TargetIndex);
+
+		Slots[TargetIndex].ItemData = Slots[SourceIndex].ItemData;
+		Slots[TargetIndex].Amount = NewTotalAmount;
+
+		Slots[SourceIndex].ItemData = nullptr;
+		Slots[SourceIndex].Amount = 0;
+	}
+
+	UpdateSlotAtIndex(SourceIndex);
+	UpdateSlotAtIndex(TargetIndex);
+
+	return true;
 }
 #pragma endregion InventoryInteractions
 
