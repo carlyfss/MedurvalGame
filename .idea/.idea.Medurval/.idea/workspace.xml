@@ -9,73 +9,88 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae063aef-6264-4b21-9f86-d7ef5f5eb09c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Misc/Barrel_01/M_Barrel_01.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Misc/M_BaseMisc.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Functions/MF_SelectSlot.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_Base.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_MasterMaterial.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/Mesh/Skeletal/character.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/Mesh/Skeletal/default.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/18/EL/OH2HAZCXZWX790MFPSQXO.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/2J/8F/ROVFGEV76DOC5W2B3M1AP.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/6U/WH/O22182M3E6DAVB0S7HSOW.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/71/CB/VJFTTV6882GCAKHZ35WYZ.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/A2/ZU/3CUBVKFJXG2T5NLVZUP5F.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/BU/95/ERNXTPCA6VO1206HM5OKR.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/CT/SE/B4DG476UG2BT5R3MVRT60.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/E1/YO/0P2DR49DIYHFMT3BZQOPR.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/21/HA/3Z9PA44MSOD6CA6AEW5WP.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/4G/YP/CULTEKOOS7NES1218JLY7.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/5N/2D/CVDQSISPX7L0WNOXY62SI.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/8B/7H/OOUNAVRMMW9CK0WD0WNIM.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9W/J3/XBR0YS7GAP1A6SIKDOP0U.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/A8/CD/N8VHPBG67OR9OK7Z75I26.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/B5/N0/CU7B2S1P4JRBF7YWQM7IS.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/CU/EG/GXXRCCJNVS4HBIVB9R33N.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Assets/Textures/M_TestUI.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Assets/Textures/M_TestUI_Inst.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/DragDrop/InventoryDragDropOperation.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/DragDrop/ItemDragDropOperation.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DraggedItem.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/5C/WE/NXT0NSA4KLXMLQXN1QU4D.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/7I/6B/ZSDGHQDFZN7U0PQ5SSFSL.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/D7/JM/SG1HI7O6M2OXKPBUD00FI.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/F4/14/81WKTZG1RV0PU65DBFCK6.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/DraggedItemWidget.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/UI/_Base/DraggedItemWidget.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Medurval/Private/Core/Controller/MDPlayerController.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/Medurval/Public/Core/Controller/MDPlayerController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Functions/MF_BuildupCover.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/_Tests/Materials/T_GrassBuildupTest.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/_Tests/Materials/T_GrassBuildupTest_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/_Tests/Materials/T_SnowTest.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/_Tests/Materials/T_SnowTest_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/1C/DH/PDU60FUA6NI4V3G8HR7Q6.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/3P/JT/C5BEFZC3DS2HYAC92RWFM.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/5L/6L/HHAIO5Q367I3GXAFEKXLI.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/6B/3B/3V7Z5GRR9Q4VKNYTKT2CU.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/94/ME/8G33QH7MGIQ1GVCL7VPUR.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/98/FS/X5C32BPENX8Z5SQF8FIOX.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/9H/1P/J48J9S2PDCD5DSCBYUAQQ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/07/2D/H78D0YGBSJHC1EBUJG6ZZ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/0J/OT/4FQQHDIB4DVH6Z859T519.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/0N/2C/W5IKAMY9DI4PQQGVNMY2P.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/1R/BS/I0MXK6AMKQOH7IIH9S5JN.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/20/E1/CH89NNV447T1REOWWVJD4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/21/AH/XO3XFQ159905QLV6EPBCO.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/34/0R/B3Z7MZL1L9UYSUZJ44G4I.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/3N/R0/RDIPE8T82IH1PLHVWY4E7.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/3Z/D6/8UGUCK60DH5TKAQPKMDE6.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/4H/R2/9ZJDQUVCM8QTN2YXEOJKD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/4H/TK/X69BZZQSB70UG1YJID6B3.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/66/B4/WHOGB22B2HXH0CA4R4X2N.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/6F/XJ/X7TUNR30XIKAF67ULSXCF.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/89/AP/TVLAI199QYIEP4PLD9H27.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/8X/1P/21FA29AMEO5YTMAS3HHKY.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9W/RM/FW4EFDSNSR1V2XTWILUVU.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/A3/JK/80JI8RQ03YUUWMZQNB05K.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/AP/YJ/LDIO7YCA2H2ZW837VLHX7.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/B9/K5/ZYNWZLTJCO9ME5279EEUM.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/BW/CV/EBWBDR7ZF4EV2JXLTBB2H.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/C2/BS/EA70JLFPX5FG0YQET5USK.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/CN/LK/T13HWX2R0T3W68NSLU8QI.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/DA/IG/89CYNMYLFPCC9I3IYSSTV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/EJ/H0/GXFWUEF4VNCNTBFPA9W4X.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Assets/Materials/M_BaseUIMaterial.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Assets/Materials/M_TestUI_Inst.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Core/GM_MDGameModeBase.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Core/GM_MDGameModeBase.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_BaseGrass_01a.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_BaseGrass_01a.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Grass.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Grass.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Grass_Inst.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Grass_Inst.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_BaseObjectPaint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_BaseObjectPaint.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Landscape.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Landscape.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Landscape_01a.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/M_Landscape_01a.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/RVT_MedurvalLandscape.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/RVT_MedurvalLandscape.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Environment/RVT_MedurvalLandscape_SVT.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Misc/Barrel_01/M_Barrel_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/Assets/Misc/Barrel_01/M_Barrel_01.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_Base.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_Base.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_MasterMaterial.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Materials/_Masters/M_MasterMaterial.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Environment/SM_Grass_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Environment/SM_Grass_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Environment/SM_Grass_01_FoliageType.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Environment/SM_Grass_01_FoliageType.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Misc/SM_ClosedBarrel_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Misc/SM_ClosedBarrel_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Weapons/IronSword_01/SM_IronSword_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Assets/Meshes/Static/Weapons/IronSword_01/SM_IronSword_01.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Blueprints/SettlementSystem/Blueprints/Pawns/BP_SettlementOverviewPawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Blueprints/SettlementSystem/Blueprints/Pawns/BP_SettlementOverviewPawn.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Blueprints/SettlementSystem/UI/W_CitizensInfo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Blueprints/SettlementSystem/UI/W_CitizensInfo.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/UI/Main/W_MainScreen.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/UI/Main/W_MainScreen.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_Inputs/Mappings/MedurvalInputMapping.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_Inputs/Mappings/MedurvalInputMapping.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/51/NJ/W5WWDO1OAM1NM33PCQ9R2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/51/NJ/W5WWDO1OAM1NM33PCQ9R2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/D1/8W/3CAAFS9MWSH8DT4GYE8P7.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/D1/8W/3CAAFS9MWSH8DT4GYE8P7.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/0J/RY/UJ8TS3OC52MSM811O035P.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/0J/RY/UJ8TS3OC52MSM811O035P.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/33/YE/0BA0IL5Q26166L662QAB1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/33/YE/0BA0IL5Q26166L662QAB1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/71/CB/VJFTTV6882GCAKHZ35WYZ.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/71/CB/VJFTTV6882GCAKHZ35WYZ.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/1P/WQ/71111MA0MO1SCLI3ZA1XH.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/3D/D6/FO3M6BIKRRIR9FGF24TE3.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/4K/92/2138EMRGBRMW81U1KPH1S.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/50/WY/7ODSZFTNJB0YNCKB6B8K9.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/5R/MH/YUJPG8MDIE90SJUJTOOTY.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/6G/FZ/7GI5G20M8M1FX2BITSUKZ.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/6G/FZ/7GI5G20M8M1FX2BITSUKZ.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/6G/Y1/1NFPT26MCWR9OJ8Z7NUYY.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/75/70/G6GIB1USYJIXDNGKM1X58.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/76/T4/BEJTQF70BJWHDJFQPSNV4.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/81/Y2/9FOTSA1FUE25SGLCK66XB.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/89/UF/2AT48GSYFCZG99HGFW4U9.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/8S/MH/0FZON02B3JX2RYRP7RPGB.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/98/08/Z41NQ1ZUCH5F7M8HVGCLU.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9J/HN/QLNGFC34MQVP1FCUUAEXF.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9K/5S/YAZX7093ZPP7L3RNCJDEO.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9K/5S/YAZX7093ZPP7L3RNCJDEO.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9M/GP/C4S45W9HWSOQKGI73KXU5.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9O/7X/YAEY4XL5CQJ3SQ7H4NBHM.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/9X/DY/T00RLOK0LS48T6F953ZVX.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/B2/M6/DFE21D8QGOWBCSSPGEEB4.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/BD/5H/T2YU12KA740PYNQB1JG3Q.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/BU/XG/IJLE0XDX68B33T3F9KRYX.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/DI/04/AZTR30ONCY8L9GGDX940K.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/DI/04/AZTR30ONCY8L9GGDX940K.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/DI/K2/9JEBKQIK0DY1ZYC915DZE.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/DI/K2/9JEBKQIK0DY1ZYC915DZE.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/E3/CE/4UX87PPLEWS2U7P2JJSGC.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/M_LandscapeGrassTest/E3/CE/4UX87PPLEWS2U7P2JJSGC.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Medurval.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/Medurval.uproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/DragDrop/InventoryDragAndDropOperation.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_Inventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_Inventory.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Assets/Textures/M_TestUI.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Assets/Textures/M_TestUI_Inst.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DraggedItem.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DraggedItem.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_InventorySlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_InventorySlot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/UI/_Base/IMInventorySlotWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/UI/_Base/IMInventorySlotWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Characters/MDBaseCharacter.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -301,6 +316,8 @@
       <workItem from="1655042132513" duration="5105000" />
       <workItem from="1655068578351" duration="2617000" />
       <workItem from="1655075184134" duration="1857000" />
+      <workItem from="1655085066084" duration="255000" />
+      <workItem from="1655119985923" duration="2556000" />
     </task>
     <task id="LOCAL-00001" summary="Add Async Loading to InventoryManager">
       <created>1654890461735</created>
@@ -309,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654890461736</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add Drag &amp; Drop capability to the InventoryComponent">
+      <created>1655085194203</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1655085194203</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -327,7 +351,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Add Async Loading to InventoryManager" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Async Loading to InventoryManager" />
+    <MESSAGE value="Add Drag &amp; Drop capability to the InventoryComponent" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Drag &amp; Drop capability to the InventoryComponent" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
