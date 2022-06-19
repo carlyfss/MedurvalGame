@@ -22,6 +22,7 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
+				"CommonBase",
 				"GameFeatures",
 				"ModularGameplay",
 				"EnhancedInput"
@@ -29,6 +30,10 @@
 		}
 	],
 	"Plugins": [
+		{
+			"Name": "CommonBase",
+			"Enabled": true
+		},
 		{
 			"Name": "GameFeatures",
 			"Enabled": true

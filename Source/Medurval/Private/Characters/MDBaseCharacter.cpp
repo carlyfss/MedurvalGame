@@ -6,7 +6,6 @@
 #include "Abilities/GameplayAbilityTypes.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "InputMappingContext.h"
 #include "Abilities/Components/MDAbilitySystemComponent.h"
 #include "Abilities/Components/MDBaseAttributeSet.h"
 #include "Abilities/Components/MDBaseGameplayAbility.h"
@@ -15,50 +14,22 @@
 #include <GameplayEffectTypes.h>
 
 #include "Blueprint/UserWidget.h"
-#include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
+#include "Components/CBCameraComponent.h"
+#include "Components/CBSpringArmComponent.h"
 #include "Components/Utils/MDLineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 
 
 // Sets default values
 AMDBaseCharacter::AMDBaseCharacter()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
-	PrimaryActorTick.bStartWithTickEnabled = false;
-	PrimaryActorTick.TickInterval = 0.075f;
-
-	GetMesh()->PrimaryComponentTick.bStartWithTickEnabled = false;
-	GetMesh()->bPerBoneMotionBlur = false;
-	GetMesh()->SetGenerateOverlapEvents(false);
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-
-	GetCapsuleComponent()->PrimaryComponentTick.bCanEverTick = false;
-	GetCapsuleComponent()->PrimaryComponentTick.bStartWithTickEnabled = false;
-
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationRoll = false;
-	bUseControllerRotationYaw = false;
-
-	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
-	GetCharacterMovement()->JumpZVelocity = 600.f;
-	GetCharacterMovement()->AirControl = 0.2f;
-
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
-	SpringArmComponent->PrimaryComponentTick.bStartWithTickEnabled = false;
-	SpringArmComponent->bUsePawnControlRotation = true;
+	SpringArmComponent = CreateDefaultSubobject<UCBSpringArmComponent>(TEXT("SpringArmComponent"));
 	SpringArmComponent->TargetArmLength = 300.0f;
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->AddWorldOffset(FVector(0.0f, 0.0f, 50.0f));
 	SpringArmComponent->SocketOffset = FVector(0.0f, 75.0f, 20.0f);
 
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
-	CameraComponent->PrimaryComponentTick.bStartWithTickEnabled = false;
-	CameraComponent->bUsePawnControlRotation = false;
+	CameraComponent = CreateDefaultSubobject<UCBCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->AddWorldRotation(FRotator(-5.0f, 0.0f, 0.0f));
 
@@ -105,11 +76,11 @@ void AMDBaseCharacter::PawnClientRestart()
 	Super::PawnClientRestart();
 
 	// Make sure that we have a valid PlayerController.
-	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		// Get the Enhanced Input Local Player Subsystem from the Local Player related to our Player Controller.
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
-			UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			// PawnClientRestart can run more than once in an Actor's lifetime, so start by clearing out any leftover mappings.
 			Subsystem->ClearAllMappings();

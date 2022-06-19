@@ -2,17 +2,8 @@
 
 #include "Components/Utils/MDLineTraceComponent.h"
 #include "DrawDebugHelpers.h"
-#include "Interfaces/MDInteractableInterface.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Macros/PrintString.h"
-
-UMDLineTraceComponent::UMDLineTraceComponent()
-{
-	PrimaryComponentTick.bCanEverTick = false;
-	PrimaryComponentTick.bStartWithTickEnabled = false;
-	PrimaryComponentTick.TickInterval = 0.075f;
-}
 
 void UMDLineTraceComponent::CastLineTrace()
 {

@@ -14,14 +14,6 @@
 #include "UI/_Base/IMInventorySlotWidget.h"
 #include "UI/_Base/IMInventoryWidget.h"
 
-// Sets default values
-UIMInventoryComponent::UIMInventoryComponent()
-{
-	PrimaryComponentTick.bCanEverTick = false;
-	PrimaryComponentTick.bStartWithTickEnabled = false;
-	PrimaryComponentTick.TickInterval = 0.075f;
-}
-
 #pragma region InventoryInteractions
 /** Checks if a given index is empty or not */
 bool UIMInventoryComponent::IsSlotEmpty(const int32 Index) const
@@ -347,7 +339,7 @@ bool UIMInventoryComponent::SwapSlots(const int32 OriginIndex, const int32 Targe
 	return true;
 }
 
-bool UIMInventoryComponent::SplitStack(const int32 Index, uint8 Amount)
+bool UIMInventoryComponent::SplitStack(const int32 Index)
 {
 	if (IsSlotEmpty(Index))
 	{
@@ -355,24 +347,25 @@ bool UIMInventoryComponent::SplitStack(const int32 Index, uint8 Amount)
 	}
 
 	bool bIsSlotEmpty = false;
-	uint8 FoundSlotAmount = 0;
-	const TSoftObjectPtr<UIMBaseItemDA> ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, FoundSlotAmount);
+	uint8 CurrentAmount = 0;
+	const TSoftObjectPtr<UIMBaseItemDA> ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
 
 	if (!ItemInfo.IsNull())
 	{
-		if (FoundSlotAmount > Amount && ItemInfo->bCanBeStacked)
+		if (ItemInfo->bCanBeStacked && CurrentAmount > 1)
 		{
 			int32 FoundSlotIndex = 0;
+			const uint8 HalfAmount = (CurrentAmount / 2);
 
 			if (SearchEmptySlot(FoundSlotIndex))
 			{
 				FScopeLock Lock(&SocketsCriticalSection);
 
 				Slots[Index].ItemData = ItemInfo;
-				Slots[Index].Amount = FoundSlotAmount - Amount;
+				Slots[Index].Amount = CurrentAmount - HalfAmount;
 
 				Slots[FoundSlotIndex].ItemData = ItemInfo;
-				Slots[FoundSlotIndex].Amount = Amount;
+				Slots[FoundSlotIndex].Amount = HalfAmount;
 
 				UpdateSlotAtIndex(Index);
 				UpdateSlotAtIndex(FoundSlotIndex);
@@ -513,7 +506,6 @@ bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 	return true;
 }
 #pragma endregion InventoryInteractions
-
 
 bool UIMInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
 {

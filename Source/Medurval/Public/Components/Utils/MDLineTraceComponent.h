@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/CBActorComponent.h"
 #include "Interfaces/MDLineTraceInterface.h"
 #include "MDLineTraceComponent.generated.h"
 
 
 UCLASS(ClassGroup=(Custom), Blueprintable, meta=(BlueprintSpawnableComponent))
-class MEDURVAL_API UMDLineTraceComponent : public UActorComponent, public IMDLineTraceInterface
+class MEDURVAL_API UMDLineTraceComponent : public UCBActorComponent, public IMDLineTraceInterface
 {
 	GENERATED_BODY()
 
@@ -38,9 +38,6 @@ class MEDURVAL_API UMDLineTraceComponent : public UActorComponent, public IMDLin
 	FTimerHandle LineTraceTimerHandle;
 
 public:
-	// Sets default values for this actor's properties
-	UMDLineTraceComponent();
-	
 	UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
 	bool bActivateLineTraceDebug = false;
 

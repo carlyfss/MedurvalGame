@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "Abilities/Components/MDBaseGameplayAbility.h"
-#include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "Actors/CBCharacter.h"
 #include "MDBaseCharacter.generated.h"
 
+class UCBCameraComponent;
+class UCBSpringArmComponent;
 class UMDLineTraceComponent;
-class USpringArmComponent;
-class UCameraComponent;
 
 class UMDBaseGameplayAbility;
 class UGameplayEffect;
@@ -22,15 +22,15 @@ class UInputAction;
 class UInputMappingContext;
 
 UCLASS()
-class MEDURVAL_API AMDBaseCharacter : public ACharacter, public IAbilitySystemInterface
+class MEDURVAL_API AMDBaseCharacter : public ACBCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_BaseCharacter|Components", meta=(AllowPrivateAccess=true))
-	TObjectPtr<USpringArmComponent> SpringArmComponent = nullptr;
+	TObjectPtr<UCBSpringArmComponent> SpringArmComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_BaseCharacter|Components", meta=(AllowPrivateAccess=true))
-	TObjectPtr<UCameraComponent> CameraComponent = nullptr;
+	TObjectPtr<UCBCameraComponent> CameraComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_BaseCharacter|Components", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
@@ -99,9 +99,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
+	FORCEINLINE class UCBSpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
 	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
+	FORCEINLINE class UCBCameraComponent* GetCameraComponent() const { return CameraComponent; }
 	
 	virtual void PossessedBy(AController* NewController) override;
 

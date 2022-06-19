@@ -7,6 +7,7 @@
 #include "Interfaces/InventoryInterface.h"
 #include "IMInventorySlotWidget.generated.h"
 
+class UIMDetailWidget;
 class UMDGameInstance;
 class UIMBaseItemDA;
 class UIMInventoryComponent;
@@ -38,14 +39,17 @@ class UIMInventorySlotWidget final : public UUserWidget, public IInventoryInterf
 	TObjectPtr<UMDGameInstance> PlayerGameInstance;
 
 	// Widget Components
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_InventorySlot", meta=(BindWidget, AllowPrivateAccess=true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_InventorySlot", meta=(BindWidget, AllowPrivateAccess=true))
 	TObjectPtr<UButton> SlotButton = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_InventorySlot", meta=(BindWidget, AllowPrivateAccess=true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_InventorySlot", meta=(BindWidget, AllowPrivateAccess=true))
 	TObjectPtr<UImage> ItemIcon = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_InventorySlot", meta=(BindWidget, AllowPrivateAccess=true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_InventorySlot", meta=(BindWidget, AllowPrivateAccess=true))
 	TObjectPtr<UTextBlock> AmountText = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_InventorySlot", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UIMDetailWidget> DetailWidget = nullptr;
 
 	TArray<FSoftObjectPath> AssetsSoftPaths;
 
@@ -64,6 +68,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot")
 	void CleanSlot();
+
+	UFUNCTION(BlueprintImplementableEvent, Category="_InventorySlot")
+	void CreateDetailWidget();
 
 	UFUNCTION(BlueprintCallable, Category="_InventorySlot|Setter")
 	void SetInventoryReference(UIMInventoryComponent* TargetInventory);

@@ -45,10 +45,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
 	void SetSlotsPerRow(uint8 Slots);
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="_InventoryWidget")
-	void OnSlotClicked(UIMInventorySlotWidget* SlotInfo);
-
-	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
-	FVector2D CalculateActionMenuLocation(int32 Row, int32 Column, float ScrollOffset) const;
 };

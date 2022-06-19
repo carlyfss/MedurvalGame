@@ -27,10 +27,6 @@ class UIMBaseItemDA : public UMDBaseDataAsset, public IIMUsableItemInterface
 	UPROPERTY(BlueprintGetter=GetItemThumbnail, Category="Inventory Item|Getters")
 	TObjectPtr<UTexture2D> ItemThumbnail = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintSetter=SetIsItemLoaded, BlueprintGetter=GetIsItemLoaded,
-		Category="Inventory Item")
-	bool bIsItemLoaded = false;
-
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Inventory Item")
 	FText Name = FText::FromString(TEXT("Item"));
@@ -69,12 +65,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Inventory Item|Getters")
 	TSoftObjectPtr<UTexture2D> GetThumbnail() const;
-
-	UFUNCTION(BlueprintCallable, Category="Inventory Item|Getters")
-	bool GetIsItemLoaded() const;
-
-	UFUNCTION(BlueprintCallable, Category="Inventory Item|Setters")
-	void SetIsItemLoaded(bool bIsLoaded);
 
 	UFUNCTION(BlueprintCallable, Category="Inventory Item|Setters")
 	void SetOwnerInventoryComponent(UIMInventoryComponent* OwnerInventory);

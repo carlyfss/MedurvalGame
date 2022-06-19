@@ -17,7 +17,7 @@ public class Medurval : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
-			"UMG",
+			"UMG", "CommonBase",
 		});
 	}
 }

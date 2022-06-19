@@ -3,33 +3,24 @@
 
 #include "Items/Pìckups/_Base/IMItemPickup.h"
 
+#include "Components/CBSphereComponent.h"
+#include "Components/CBStaticMeshComponent.h"
 #include "Components/IMInventoryComponent.h"
-#include "Components/SphereComponent.h"
-#include "Components/StaticMeshComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Items/_Base/IMBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AIMItemPickup::AIMItemPickup()
 {
-	PrimaryActorTick.bCanEverTick = false;
-	PrimaryActorTick.bStartWithTickEnabled = false;
-	PrimaryActorTick.TickInterval = 0.075f;
-
-
-	PickupRange = CreateDefaultSubobject<USphereComponent>("PickupRange");
-	PickupRange->PrimaryComponentTick.bStartWithTickEnabled = false;
-	PickupRange->PrimaryComponentTick.bCanEverTick = false;
+	PickupRange = CreateDefaultSubobject<UCBSphereComponent>("PickupRange");
 	PickupRange->SetupAttachment(RootComponent);
 
 	PickupRange->OnComponentBeginOverlap.AddDynamic(this, &AIMItemPickup::OnComponentBeginOverlap);
 
-	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>("PickupMesh");
+	PickupMesh = CreateDefaultSubobject<UCBStaticMeshComponent>("PickupMesh");
 	PickupMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	PickupMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	PickupMesh->SetupAttachment(PickupRange);
-	PickupMesh->PrimaryComponentTick.bStartWithTickEnabled = false;
-	PickupMesh->PrimaryComponentTick.bCanEverTick = false;
 	PickupMesh->SetGenerateOverlapEvents(false);
 }
 

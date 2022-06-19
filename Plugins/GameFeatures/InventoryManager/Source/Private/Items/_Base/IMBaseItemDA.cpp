@@ -3,11 +3,9 @@
 #include "Items/_Base/IMBaseItemDA.h"
 
 #include "Components/IMInventoryComponent.h"
-#include "Core/Singleton/MDGameInstance.h"
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
 #include "Interfaces/IMUsableItemInterface.h"
-#include "UI/_Base/IMInventorySlotWidget.h"
 #include "UI/_Base/IMInventoryWidget.h"
 
 UStaticMesh* UIMBaseItemDA::GetItemMesh() const
@@ -23,16 +21,6 @@ UTexture2D* UIMBaseItemDA::GetItemThumbnail() const
 TSoftObjectPtr<UTexture2D> UIMBaseItemDA::GetThumbnail() const
 {
 	return Thumbnail;
-}
-
-bool UIMBaseItemDA::GetIsItemLoaded() const
-{
-	return bIsItemLoaded;
-}
-
-void UIMBaseItemDA::SetIsItemLoaded(bool bIsLoaded)
-{
-	bIsItemLoaded = bIsLoaded;
 }
 
 void UIMBaseItemDA::SetOwnerInventoryComponent(UIMInventoryComponent* OwnerInventory)
@@ -55,13 +43,10 @@ void UIMBaseItemDA::SetLoadedItemAssets(AActor* ObjectOwner)
 	SetDataAssetOwner(ObjectOwner);
 
 	ItemThumbnail = this->Thumbnail.Get();
-
-	SetIsItemLoaded(true);
 }
 
 void UIMBaseItemDA::UnloadItemAssets()
 {
-	SetIsItemLoaded(false);
 	ItemStaticMesh = nullptr;
 	ItemThumbnail = nullptr;
 }

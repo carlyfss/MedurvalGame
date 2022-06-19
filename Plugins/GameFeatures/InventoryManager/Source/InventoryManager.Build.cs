@@ -6,12 +6,12 @@ public class InventoryManager : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { });
+		PublicDependencyModuleNames.AddRange(new string[] {  });
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
 			"UMG", "Core", "CoreUObject", "Engine", "GameFeatures", "ModularGameplay", "EnhancedInput", "Medurval",
-			"SlateCore"
+			"SlateCore", "CommonBase"
 		});
 	}
 }

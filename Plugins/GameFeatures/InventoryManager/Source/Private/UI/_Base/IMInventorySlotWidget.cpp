@@ -52,6 +52,7 @@ void UIMInventorySlotWidget::CleanSlot()
 	{
 		ItemIcon->SetVisibility(ESlateVisibility::Hidden);
 
+		SlotButton->SetToolTip(nullptr);
 		SlotButton->SetIsEnabled(false);
 
 		if (!ItemAtSlot.IsNull())
@@ -131,6 +132,8 @@ void UIMInventorySlotWidget::UpdateSlot()
 				Amount = InventoryReference->GetAmountAtIndex(SlotIndex);
 
 				SlotButton->SetIsEnabled(true);
+
+				CreateDetailWidget();
 			}
 		}
 	}

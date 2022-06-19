@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InputAction.h"
+#include "Components/CBActorComponent.h"
 #include "Interfaces/InventoryInterface.h"
 #include "Structs/IMInventorySlot.h"
 #include "IMInventoryComponent.generated.h"
@@ -13,7 +14,7 @@ class ACharacter;
 class UIMBaseItemDA;
 
 UCLASS(BlueprintType, Blueprintable, meta=(DisplayName="InventoryComponent"))
-class UIMInventoryComponent : public UActorComponent, public IInventoryInterface
+class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterface
 {
 	GENERATED_BODY()
 
@@ -61,9 +62,6 @@ class UIMInventoryComponent : public UActorComponent, public IInventoryInterface
 	TArray<FIMInventorySlot> Slots;
 
 public:
-	// Sets default values for this actor's properties
-	UIMInventoryComponent();
-
 	UFUNCTION(BlueprintCallable, Category="_Inventory")
 	bool IsSlotEmpty(const int32 Index) const;
 
@@ -104,7 +102,7 @@ public:
 	bool SwapSlots(const int32 OriginIndex, const int32 TargetIndex);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
-	bool SplitStack(const int32 Index, uint8 Amount);
+	bool SplitStack(const int32 Index);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool SplitStackToIndex(const int32 SourceIndex, const int32 TargetIndex, uint8 Amount);

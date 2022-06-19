@@ -3,18 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/CBActor.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/MDInteractableInterface.h"
 #include "IMItemPickup.generated.h"
 
+class UCBSphereComponent;
+class UCBStaticMeshComponent;
 class UIMInventoryComponent;
 class UIMBaseItemDA;
-class UStaticMeshComponent;
-class USphereComponent;
-class UPrimitiveComponent;
 
 UCLASS(meta=(DisplayName="InventoryItemPickup"))
-class AIMItemPickup : public AActor, public IMDInteractableInterface
+class AIMItemPickup : public ACBActor, public IMDInteractableInterface
 {
 	GENERATED_BODY()
 
@@ -34,10 +34,10 @@ class AIMItemPickup : public AActor, public IMDInteractableInterface
 	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_Pickup", meta=(AllowPrivateAccess=true))
-	TObjectPtr<USphereComponent> PickupRange = nullptr;
+	TObjectPtr<UCBSphereComponent> PickupRange = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Pickup", meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStaticMeshComponent> PickupMesh = nullptr;
+	TObjectPtr<UCBStaticMeshComponent> PickupMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Configuration")
 	float PickupRangeRadius = 200;
