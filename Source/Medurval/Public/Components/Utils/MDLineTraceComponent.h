@@ -13,9 +13,6 @@ class MEDURVAL_API UMDLineTraceComponent : public UCBActorComponent, public IMDL
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Transient)
-	uint8 OverlapedActorsCount = 0;
-
 	UPROPERTY(BlueprintSetter=SetPlayerController, Category="_LineTrace|Configuration")
 	TObjectPtr<APlayerController> PlayerController = nullptr;
 
@@ -31,11 +28,14 @@ class MEDURVAL_API UMDLineTraceComponent : public UCBActorComponent, public IMDL
 	bool bUseMouseLocation = false;
 
 	UPROPERTY(BlueprintReadWrite, Category="_LineTrace|Configuration", meta=(AllowPrivateAccess=true))
-	bool bIsLineTraceEnabled = false;
+	bool bIsLineTraceEnabled = true;
 	
 	TObjectPtr<AActor> LineTraceHitActor = nullptr;
 
 	FTimerHandle LineTraceTimerHandle;
+
+	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+	TArray<TEnumAsByte<ECollisionChannel>> CollisionChannels;
 
 public:
 	UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
@@ -47,6 +47,15 @@ public:
 protected:
 	
 	virtual void CastLineTrace() final;
+
+	FTraceHandle RequestLineTrace();
+
+	FTraceHandle LastTraceHandle;
+
+	FTraceDelegate TraceDelegate;
+
+	void OnLineTraceCompleted(const FTraceHandle& TraceHandle, FTraceDatum& TraceResult);
+	void HandleLineTraceResults(const FTraceDatum& TraceResult);
 
 public:
 
@@ -60,4 +69,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="_LineTrace|Configuration")
 	void SetPlayerController(APlayerController* PlayerControl);
+
+	virtual void BeginPlay() override;
 };

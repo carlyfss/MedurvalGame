@@ -22,60 +22,48 @@ class AIMItemPickup : public ACBActor, public IMDInteractableInterface
 	bool bIsPickupReady = false;
 
 	UPROPERTY(Transient)
-	TObjectPtr<AActor> OverlapedActor = nullptr;
-
-	UPROPERTY(Transient)
 	TObjectPtr<UIMBaseItemDA> LoadedItem = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintGetter=GetItemData, Category="_Pickup")
-	TSoftObjectPtr<UIMBaseItemDA> ItemData = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_Pickup|Base", meta=(AllowPrivateAccess=true))
-	TObjectPtr<UStaticMesh> DefaultStaticMesh = nullptr;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="_Pickup", meta=(AllowPrivateAccess=true))
-	TObjectPtr<UCBSphereComponent> PickupRange = nullptr;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Pickup", meta=(AllowPrivateAccess=true))
+	UPROPERTY(EditDefaultsOnly, Category="Pickup", meta=(AllowPrivateAccess=true))
+	FPrimaryAssetId ItemId;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Pickup", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UCBStaticMeshComponent> PickupMesh = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category="_Pickup|Configuration")
-	float PickupRangeRadius = 200;
-
-	UPROPERTY(EditDefaultsOnly, Category="_Pickup")
+	UPROPERTY(EditDefaultsOnly, Category="Pickup")
 	uint8 AmountToAdd = 1;
 
 public:
 	// Sets default values for this actor's properties
 	AIMItemPickup();
 
+	TSoftObjectPtr<UIMBaseItemDA> ItemData;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	void OnPickupItemLoaded();
+	
 	void LoadPickupItem();
-
-	// declare overlap begin function
-	UFUNCTION()
-	void OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent,
-	                             AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
-	                             bool bFromSweep, const FHitResult& SweepResult);
-
+	
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-	UFUNCTION(BlueprintCallable, Category="_Pickup|Configuration")
+	UFUNCTION(BlueprintCallable, Category="Pickup|Configuration")
 	virtual void AddItemToInventory();
 
+	virtual void TimerDelegate() override;
+
 public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="ItemInteraction")
 	void OnPickupStartFocus();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="ItemInteraction")
 	void OnPickupEndFocus();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="ItemInteraction")
 	void OnPickupInteract();
 
 	virtual void OnInteract_Implementation() override;
@@ -83,7 +71,4 @@ public:
 	virtual void OnStartFocus_Implementation() override;
 
 	virtual void OnEndFocus_Implementation() override;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_ItemInteraction")
-	TSoftObjectPtr<UIMBaseItemDA> GetItemData() const;
 };

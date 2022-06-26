@@ -2,95 +2,120 @@
 
 #include "Components/Utils/MDLineTraceComponent.h"
 #include "DrawDebugHelpers.h"
-#include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetSystemLibrary.h"
+
+void UMDLineTraceComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	TraceDelegate.BindUObject(this, &UMDLineTraceComponent::OnLineTraceCompleted);
+}
 
 void UMDLineTraceComponent::CastLineTrace()
 {
+	if (!GetWorld()->IsTraceHandleValid(LastTraceHandle, false) && !bIsLineTraceEnabled)
+	{
+		bIsLineTraceEnabled = true;
+		return;
+	}
+	
 	if (bIsLineTraceEnabled)
 	{
 		if (IsValid(PlayerController))
 		{
-			FVector Location;
-			FRotator Rotation;
-			FHitResult Hit;
-			bool bHit;
-
-			if (bUseMouseLocation)
+			if (LastTraceHandle._Data.FrameNumber != 0)
 			{
-				TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
-
-				ObjectTypes.Add(EObjectTypeQuery::ObjectTypeQuery8);
-				
-				bHit = PlayerController->GetHitResultUnderCursorForObjects(ObjectTypes, false, Hit);	
-			} else
-			{
-				PlayerController->GetPlayerViewPoint(Location, Rotation);
-
-				FVector Start = Location;
-				FVector End = Start + (Rotation.Vector() * LineTraceDistance);
-
-				FCollisionQueryParams TraceParams;
-
-				bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
-
-				// Enable debug line
-				if (bActivateLineTraceDebug)
+				FTraceDatum OutData;
+				if (GetWorld()->QueryTraceData(LastTraceHandle, OutData))
 				{
-					DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 0.5f);	
+					// Clear out handle so next tick we don't enter
+					LastTraceHandle._Data.FrameNumber = 0;
+					// trace is finished, do stuff with results
+					HandleLineTraceResults(OutData);
 				}
+
+				return;
 			}
 
-			if (bHit)
-			{
-				// Enable debug hit location
-				if (bActivateLineTraceHitBox)
-				{
-					DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);	
-				}
-
-				if (IsValid(Hit.GetActor()))
-				{
-					LineTraceHitActor = Hit.GetActor();
-				}
-			} else
-			{
-				LineTraceHitActor = nullptr;
-			}
+			LastTraceHandle = RequestLineTrace();
+			bIsLineTraceEnabled = false;
 		}
+	}
+}
+
+FTraceHandle UMDLineTraceComponent::RequestLineTrace()
+{
+	FVector Location;
+	FRotator Rotation;
+
+	PlayerController->GetPlayerViewPoint(Location, Rotation);
+
+	FVector Start = Location;
+	FVector End = Start + (Rotation.Vector() * LineTraceDistance);
+
+	FCollisionQueryParams TraceParams;
+
+	FCollisionResponseParams Params = FCollisionResponseParams::DefaultResponseParam;
+	Params.CollisionResponse.SetAllChannels(ECR_Ignore);
+
+	if (CollisionChannels.Num() > 0)
+	{
+		for (ECollisionChannel CollisionChannel : CollisionChannels)
+		{
+			Params.CollisionResponse.SetResponse(CollisionChannel, ECR_Block);
+		}
+	}
+
+	return GetWorld()->AsyncLineTraceByChannel(EAsyncTraceType::Single, Start, End, ECC_Visibility, TraceParams,
+	                                           Params, &TraceDelegate);
+}
+
+void UMDLineTraceComponent::OnLineTraceCompleted(const FTraceHandle& TraceHandle, FTraceDatum& TraceResult)
+{
+	ensure(TraceHandle == LastTraceHandle);
+	HandleLineTraceResults(TraceResult);
+	LastTraceHandle._Data.FrameNumber = 0;
+}
+
+void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum& TraceResult)
+{
+	if (bActivateLineTraceDebug)
+	{
+		DrawDebugLine(GetWorld(), TraceResult.Start, TraceResult.End, FColor::Orange, false, 0.5f);
+	}
+
+	if (TraceResult.OutHits.Num() > 0)
+	{
+		if (bActivateLineTraceHitBox)
+		{
+			DrawDebugBox(GetWorld(), TraceResult.OutHits[0].ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
+		}
+
+		LineTraceHitActor = TraceResult.OutHits[0].GetActor();
 	}
 }
 
 void UMDLineTraceComponent::StartLineTrace_Implementation()
 {
 	bIsLineTraceEnabled = true;
-
-	OverlapedActorsCount++;
-
 	if (!LineTraceTimerHandle.IsValid())
 	{
 		GetWorld()->GetTimerManager().SetTimer(LineTraceTimerHandle, this, &UMDLineTraceComponent::CastLineTrace,
-										   LineTraceInterval, true);
+		                                       LineTraceInterval, true);
 	}
 }
 
 void UMDLineTraceComponent::EndLineTrace_Implementation()
 {
-	OverlapedActorsCount--;
-
-	if (OverlapedActorsCount == 0)
+	if (LineTraceTimerHandle.IsValid())
 	{
-		if (LineTraceTimerHandle.IsValid())
-		{
-			GetWorld()->GetTimerManager().ClearTimer(LineTraceTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(LineTraceTimerHandle);
 
-			LineTraceTimerHandle.Invalidate();
-		}
-		
-		bIsLineTraceEnabled = false;
-
-		LineTraceHitActor = nullptr;
+		LineTraceTimerHandle.Invalidate();
 	}
+
+	bIsLineTraceEnabled = false;
+
+	LineTraceHitActor = nullptr;
 }
 
 AActor* UMDLineTraceComponent::GetLineTraceHitActor_Implementation() const

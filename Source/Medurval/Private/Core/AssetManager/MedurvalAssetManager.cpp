@@ -3,7 +3,7 @@
 
 #include "Core/AssetManager/MedurvalAssetManager.h"
 
-const FPrimaryAssetType UMedurvalAssetManager::InventoryItemType = TEXT("InventoryItem");
+const FPrimaryAssetType UMedurvalAssetManager::DefaultItemType = TEXT("InventoryItem");
 const FPrimaryAssetType UMedurvalAssetManager::ConsumableItemType = TEXT("ConsumableItem");
 
 void UMedurvalAssetManager::StartInitialLoading()

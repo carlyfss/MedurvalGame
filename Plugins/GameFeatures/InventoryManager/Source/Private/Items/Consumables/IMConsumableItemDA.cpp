@@ -7,12 +7,10 @@
 
 FPrimaryAssetId UIMConsumableItemDA::GetPrimaryAssetId() const
 {
-	return FPrimaryAssetId("InventoryConsumableItem", GetFName());
+	return FPrimaryAssetId("ConsumableItem", GetFName());
 }
 
 void UIMConsumableItemDA::UseItem_Implementation(AActor* ItemOwner)
 {
 	Super::UseItem_Implementation(ItemOwner);
-	
-	print("You used a consumable item");
 }

@@ -4,7 +4,6 @@
 #include "Components/IMInventoryComponent.h"
 
 #include "EnhancedInputComponent.h"
-#include "Components/Button.h"
 #include "Core/Singleton/MDGameInstance.h"
 #include "GameFramework/Character.h"
 #include "Items/Pìckups/_Base/IMItemPickup.h"
@@ -205,7 +204,6 @@ bool UIMInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UIMBaseItemDA> Ite
 	if (SearchEmptySlot(FoundIndex))
 	{
 		Slots[FoundIndex].ItemData = ItemData;
-		Slots[FoundIndex].ItemData->SetIndexAtInventory(FoundIndex);
 		Slots[FoundIndex].Amount = 1;
 
 		UpdateSlotAtIndex(FoundIndex);
@@ -238,7 +236,6 @@ bool UIMInventoryComponent::AddStackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemD
 			if (Amount > MaxStackSize)
 			{
 				Slots[FoundIndex].ItemData = ItemData;
-				Slots[FoundIndex].ItemData->SetIndexAtInventory(FoundIndex);
 				Slots[FoundIndex].Amount = MaxStackSize;
 
 				UpdateSlotAtIndex(FoundIndex);
@@ -249,7 +246,6 @@ bool UIMInventoryComponent::AddStackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemD
 			}
 
 			Slots[FoundIndex].ItemData = ItemData;
-			Slots[FoundIndex].ItemData->SetIndexAtInventory(FoundIndex);
 			Slots[FoundIndex].Amount = Amount;
 
 			UpdateSlotAtIndex(FoundIndex);
@@ -443,7 +439,6 @@ bool UIMInventoryComponent::AddItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, cons
 {
 	if (ItemData.IsValid())
 	{
-		ItemData->SetOwnerInventoryComponent(this);
 		if (!ItemData->bCanBeStacked)
 		{
 			return AddUnstackableItem(ItemData, Amount, Rest);
@@ -515,7 +510,7 @@ bool UIMInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToA
 	{
 		uint8 Rest = 0;
 
-		return AddItem(Item->GetItemData(), 1, Rest);
+		return AddItem(Item->ItemData, 1, Rest);
 	}
 
 	return false;

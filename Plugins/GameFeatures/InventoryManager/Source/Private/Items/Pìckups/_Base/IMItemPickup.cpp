@@ -3,30 +3,28 @@
 
 #include "Items/Pìckups/_Base/IMItemPickup.h"
 
-#include "Components/CBSphereComponent.h"
 #include "Components/CBStaticMeshComponent.h"
-#include "Components/IMInventoryComponent.h"
 #include "Components/PrimitiveComponent.h"
+#include "Core/AssetManager/MedurvalAssetManager.h"
+#include "Core/Controller/MDPlayerController.h"
+#include "GameFramework/Character.h"
 #include "Items/_Base/IMBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AIMItemPickup::AIMItemPickup()
 {
-	PickupRange = CreateDefaultSubobject<UCBSphereComponent>("PickupRange");
-	PickupRange->SetupAttachment(RootComponent);
-
-	PickupRange->OnComponentBeginOverlap.AddDynamic(this, &AIMItemPickup::OnComponentBeginOverlap);
-
 	PickupMesh = CreateDefaultSubobject<UCBStaticMeshComponent>("PickupMesh");
-	PickupMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	PickupMesh->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
-	PickupMesh->SetupAttachment(PickupRange);
+	PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	PickupMesh->SetGenerateOverlapEvents(false);
 }
 
 void AIMItemPickup::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bIsToLoopTimer = true;
+	TimerInterval = 2.f;
+	StartTimerWithDelegate();
 
 	LoadPickupItem();
 }
@@ -36,66 +34,72 @@ void AIMItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void AIMItemPickup::LoadPickupItem()
+void AIMItemPickup::OnPickupItemLoaded()
 {
-	UIMBaseItemDA* Item = Cast<UIMBaseItemDA>(UKismetSystemLibrary::LoadAsset_Blocking(ItemData));
+	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
-	if (Item != nullptr)
+	if (!AssetManager) return;
+
+	LoadedItem = Cast<UIMBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemId));
+
+	if (!LoadedItem) return;
+
+	bIsPickupReady = true;
+
+	UStaticMesh* Mesh = LoadedItem->Mesh.Get();
+
+	if (Mesh)
 	{
-		LoadedItem = Item;
-
-		UStaticMesh* Mesh = Cast<UStaticMesh>(
-			UKismetSystemLibrary::LoadAsset_Blocking(Item->ItemMesh));
-
-		if (Mesh != nullptr && PickupMesh != nullptr)
-		{
-			PickupMesh->SetStaticMesh(Mesh);
-
-			bIsPickupReady = true;
-		}
-	}
-	else
-	{
-		bIsPickupReady = false;
+		PickupMesh->SetStaticMesh(Mesh);
 	}
 }
 
-void AIMItemPickup::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent,
-                                            AActor* OtherActor, UPrimitiveComponent* OtherComp,
-                                            int32 OtherBodyIndex,
-                                            bool bFromSweep, const FHitResult& SweepResult)
+void AIMItemPickup::LoadPickupItem()
 {
-	OverlapedActor = OtherActor;
+	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+	if (!AssetManager) return;
+
+	TArray<FName> BundlesToLoad;
+	BundlesToLoad.Add(UMedurvalAssetManager::WorldBundle);
+
+	FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AIMItemPickup::OnPickupItemLoaded);
+
+	AssetManager->LoadPrimaryAsset(ItemId, BundlesToLoad, Delegate);
+}
+
+void AIMItemPickup::TimerDelegate()
+{
+	Super::TimerDelegate();
+
+	FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetCharacter()->GetActorLocation();
+	double DistanceToPlayer = FVector::Distance(this->GetActorLocation(), PlayerLocation);
+
+	UE_LOG(LogTemp, Log, TEXT("Distance: %f"), DistanceToPlayer);
 }
 
 void AIMItemPickup::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-
-	if (PickupRange != nullptr)
-	{
-		PickupRange->SetSphereRadius(PickupRangeRadius);
-	}
-
-	if (DefaultStaticMesh != nullptr && PickupMesh != nullptr)
-	{
-		PickupMesh->SetStaticMesh(DefaultStaticMesh);
-	}
 }
 
 void AIMItemPickup::AddItemToInventory()
 {
-	UActorComponent* ComponentExists = OverlapedActor->GetComponentByClass(UIMInventoryComponent::StaticClass());
-
-	if (ComponentExists)
-	{
-		IInventoryInterface* InventoryInterface = Cast<IInventoryInterface>(ComponentExists);
-
-		if (InventoryInterface)
-		{
-			InventoryInterface->OnAddItemToInventory(LoadedItem);
-		}
-	}
+	// UActorComponent* ComponentExists = OverlapedActor->GetComponentByClass(UIMInventoryComponent::StaticClass());
+	//
+	// // Unload the Item World Bundle
+	//
+	// // Load the Item UI Bundle
+	//
+	// if (ComponentExists)
+	// {
+	// 	IInventoryInterface* InventoryInterface = Cast<IInventoryInterface>(ComponentExists);
+	//
+	// 	if (InventoryInterface)
+	// 	{
+	// 		InventoryInterface->OnAddItemToInventory(LoadedItem);
+	// 	}
+	// }
 }
 
 void AIMItemPickup::OnInteract_Implementation()
@@ -113,11 +117,6 @@ void AIMItemPickup::OnEndFocus_Implementation()
 	IMDInteractableInterface::OnEndFocus_Implementation();
 }
 
-TSoftObjectPtr<UIMBaseItemDA> AIMItemPickup::GetItemData() const
-{
-	return ItemData;
-}
-
 void AIMItemPickup::OnPickupStartFocus_Implementation()
 {
 	PickupMesh->SetRenderCustomDepth(true);
@@ -130,12 +129,7 @@ void AIMItemPickup::OnPickupEndFocus_Implementation()
 
 void AIMItemPickup::OnPickupInteract_Implementation()
 {
-	ItemData.Reset();
-
-	OverlapedActor = nullptr;
 	LoadedItem = nullptr;
-	DefaultStaticMesh = nullptr;
-	PickupRange = nullptr;
 
 	Destroy();
 }

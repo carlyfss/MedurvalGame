@@ -13,3 +13,18 @@ ACBActor::ACBActor()
 	PrimaryActorTick.TickInterval = FCommonBaseConstants::TickInterval;
 }
 
+void ACBActor::StartTimerWithDelegate()
+{
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ACBActor::TimerDelegate, TimerInterval, bIsToLoopTimer, TimerStartDelay);
+}
+
+void ACBActor::StopTimer()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle);
+}
+
+void ACBActor::TimerDelegate()
+{
+	return;
+}
+

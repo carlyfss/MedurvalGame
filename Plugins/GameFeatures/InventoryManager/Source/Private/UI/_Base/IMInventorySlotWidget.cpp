@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/IMInventoryComponent.h"
+#include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Singleton/MDGameInstance.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/AssetManager.h"
@@ -98,8 +99,6 @@ void UIMInventorySlotWidget::LoadSlotData()
 
 void UIMInventorySlotWidget::UnloadSlotData()
 {
-	ItemAtSlot->UnloadItemAssets();
-
 	CleanSlot();
 
 	for (FSoftObjectPath AssetsSoftPath : AssetsSoftPaths)
@@ -111,7 +110,6 @@ void UIMInventorySlotWidget::UnloadSlotData()
 void UIMInventorySlotWidget::SetObjectsAfterLoad()
 {
 	ItemAtSlot = ItemData.Get();
-	ItemAtSlot->SetLoadedItemAssets(InventoryReference->GetOwner());
 
 	UpdateSlot();
 }
@@ -122,7 +120,12 @@ void UIMInventorySlotWidget::UpdateSlot()
 	{
 		if (ItemAtSlot)
 		{
-			UTexture2D* Thumbnail = ItemAtSlot->GetItemThumbnail();
+			UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+			if (!AssetManager) return;
+
+			FPrimaryAssetId ThumbnailId = ItemAtSlot->Thumbnail->GetPrimaryAssetId();
+			UTexture2D* Thumbnail = Cast<UTexture2D>(AssetManager->GetPrimaryAssetObject(ThumbnailId));
 
 			if (Thumbnail)
 			{
