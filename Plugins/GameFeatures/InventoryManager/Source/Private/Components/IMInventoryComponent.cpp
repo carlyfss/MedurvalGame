@@ -4,9 +4,9 @@
 #include "Components/IMInventoryComponent.h"
 
 #include "EnhancedInputComponent.h"
+#include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Singleton/MDGameInstance.h"
 #include "GameFramework/Character.h"
-#include "Items/Pìckups/_Base/IMItemPickup.h"
 #include "Items/_Base/IMBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Macros/PrintString.h"
@@ -17,20 +17,20 @@
 /** Checks if a given index is empty or not */
 bool UIMInventoryComponent::IsSlotEmpty(const int32 Index) const
 {
-	return Slots[Index].ItemData.IsNull();
+	return Slots[Index].Item.IsNull();
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
-TSoftObjectPtr<UIMBaseItemDA> UIMInventoryComponent::GetItemInfoAtIndex(
+UIMBaseItemDA* UIMInventoryComponent::GetItemInfoAtIndex(
 	const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
 {
 	check(Slots.Num() > Index)
 
 	const FIMInventorySlot Slot = Slots[Index];
 
-	if (Slot.ItemData.IsValid())
+	if (IsValid(Slot.Item))
 	{
-		TSoftObjectPtr<UIMBaseItemDA> ItemInfo = Slot.ItemData;
+		UIMBaseItemDA* ItemInfo = Slot.Item;
 
 		Amount = Slot.Amount;
 
@@ -58,14 +58,14 @@ void UIMInventoryComponent::UpdateSlotAtIndex(int32 Index)
 
 	SlotWidget->SetSlotIndex(Index);
 	SlotWidget->SetAmount(Slots[Index].Amount);
-	SlotWidget->SetItemData(Slots[Index].ItemData);
+	SlotWidget->SetItem(Slots[Index].Item);
 
 	if (SlotWidget->GetAmount() == 0)
 	{
 		SlotWidget->CleanSlot();
 	}
 
-	SlotWidget->LoadSlotData();
+	SlotWidget->UpdateSlot();
 }
 
 void UIMInventoryComponent::ToggleInventory()
@@ -141,7 +141,7 @@ bool UIMInventoryComponent::SearchEmptySlot(int32& Index)
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (!Slots[i].ItemData.IsValid())
+			if (!Slots[i].Item)
 			{
 				bEmptySlot = true;
 				FoundIndex = i;
@@ -162,7 +162,7 @@ bool UIMInventoryComponent::SearchEmptySlot(int32& Index)
 /** Searches for a empty slot, and if it finds, check the MaxStackSize of the slot and stores the index in the parameter &Index
  * and if the stack is full it return false
  */
-bool UIMInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UIMBaseItemDA> ItemData, int32& Index)
+bool UIMInventoryComponent::SearchFreeStack(UIMBaseItemDA* Item, int32& Index)
 {
 	bool bSlotAvaiable = false;
 	int FoundIndex = 0;
@@ -173,9 +173,9 @@ bool UIMInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UIMBaseItemDA> 
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (!Slots[i].ItemData.IsNull())
+			if (!Slots[i].Item.IsNull())
 			{
-				if (Slots[i].ItemData == ItemData)
+				if (Slots[i].Item == Item)
 				{
 					if (Slots[i].Amount < MaxStackSize)
 					{
@@ -194,7 +194,7 @@ bool UIMInventoryComponent::SearchFreeStack(const TSoftObjectPtr<UIMBaseItemDA> 
 	return bSlotAvaiable;
 }
 
-bool UIMInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, const uint8 Amount,
+bool UIMInventoryComponent::AddUnstackableItem(UIMBaseItemDA* Item, const uint8 Amount,
                                                uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
@@ -203,7 +203,7 @@ bool UIMInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UIMBaseItemDA> Ite
 
 	if (SearchEmptySlot(FoundIndex))
 	{
-		Slots[FoundIndex].ItemData = ItemData;
+		Slots[FoundIndex].Item = Item;
 		Slots[FoundIndex].Amount = 1;
 
 		UpdateSlotAtIndex(FoundIndex);
@@ -212,7 +212,7 @@ bool UIMInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UIMBaseItemDA> Ite
 		{
 			const int NewAmount = Amount - 1;
 
-			return AddItem(ItemData, NewAmount, Rest);
+			return AddItem(Item, NewAmount, Rest);
 		}
 
 		Rest = 0;
@@ -223,29 +223,29 @@ bool UIMInventoryComponent::AddUnstackableItem(TSoftObjectPtr<UIMBaseItemDA> Ite
 	return false;
 }
 
-bool UIMInventoryComponent::AddStackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
+bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA* Item, const uint8 Amount, uint8& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
 	int FoundIndex = 0;
 
-	if (!SearchFreeStack(ItemData, FoundIndex))
+	if (!SearchFreeStack(Item, FoundIndex))
 	{
 		if (SearchEmptySlot(FoundIndex))
 		{
 			if (Amount > MaxStackSize)
 			{
-				Slots[FoundIndex].ItemData = ItemData;
+				Slots[FoundIndex].Item = Item;
 				Slots[FoundIndex].Amount = MaxStackSize;
 
 				UpdateSlotAtIndex(FoundIndex);
 
 				const int NewAmount = Amount - MaxStackSize;
 
-				return AddItem(ItemData, NewAmount, Rest);
+				return AddItem(Item, NewAmount, Rest);
 			}
 
-			Slots[FoundIndex].ItemData = ItemData;
+			Slots[FoundIndex].Item = Item;
 			Slots[FoundIndex].Amount = Amount;
 
 			UpdateSlotAtIndex(FoundIndex);
@@ -263,17 +263,17 @@ bool UIMInventoryComponent::AddStackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemD
 
 	if (CurrentStackAmount > MaxStackSize)
 	{
-		Slots[FoundIndex].ItemData = ItemData;
+		Slots[FoundIndex].Item = Item;
 		Slots[FoundIndex].Amount = MaxStackSize;
 
 		UpdateSlotAtIndex(FoundIndex);
 
 		const int RestAmount = CurrentStackAmount - MaxStackSize;
 
-		return AddItem(ItemData, RestAmount, Rest);
+		return AddItem(Item, RestAmount, Rest);
 	}
 
-	Slots[FoundIndex].ItemData = ItemData;
+	Slots[FoundIndex].Item = Item;
 	Slots[FoundIndex].Amount = CurrentStackAmount;
 
 	UpdateSlotAtIndex(FoundIndex);
@@ -292,7 +292,7 @@ bool UIMInventoryComponent::RemoveItemAtIndex(const int32 Index, const uint8 Amo
 			TArray<UIMInventorySlotWidget*> SlotWidgets = InventoryWidget->GetSlotWidgets();
 			UIMInventorySlotWidget* SlotWidget = SlotWidgets[Index];
 
-			Slots[Index].ItemData = nullptr;
+			Slots[Index].Item = nullptr;
 			Slots[Index].Amount = 0;
 
 			SlotWidget->CleanSlot();
@@ -323,10 +323,10 @@ bool UIMInventoryComponent::SwapSlots(const int32 OriginIndex, const int32 Targe
 
 	const FIMInventorySlot TempSlot = Slots[TargetIndex];
 
-	Slots[TargetIndex].ItemData = Slots[OriginIndex].ItemData;
+	Slots[TargetIndex].Item = Slots[OriginIndex].Item;
 	Slots[TargetIndex].Amount = Slots[OriginIndex].Amount;
 
-	Slots[OriginIndex].ItemData = TempSlot.ItemData;
+	Slots[OriginIndex].Item = TempSlot.Item;
 	Slots[OriginIndex].Amount = TempSlot.Amount;
 
 	UpdateSlotAtIndex(OriginIndex);
@@ -344,34 +344,29 @@ bool UIMInventoryComponent::SplitStack(const int32 Index)
 
 	bool bIsSlotEmpty = false;
 	uint8 CurrentAmount = 0;
-	const TSoftObjectPtr<UIMBaseItemDA> ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
+	UIMBaseItemDA* ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
 
-	if (!ItemInfo.IsNull())
-	{
-		if (ItemInfo->bCanBeStacked && CurrentAmount > 1)
-		{
-			int32 FoundSlotIndex = 0;
-			const uint8 HalfAmount = (CurrentAmount / 2);
+	if (!ItemInfo) return false;
 
-			if (SearchEmptySlot(FoundSlotIndex))
-			{
-				FScopeLock Lock(&SocketsCriticalSection);
+	if (!ItemInfo->bCanBeStacked && CurrentAmount <= 1) return false;
 
-				Slots[Index].ItemData = ItemInfo;
-				Slots[Index].Amount = CurrentAmount - HalfAmount;
+	int32 FoundSlotIndex = 0;
+	const uint8 HalfAmount = (CurrentAmount / 2);
 
-				Slots[FoundSlotIndex].ItemData = ItemInfo;
-				Slots[FoundSlotIndex].Amount = HalfAmount;
+	if (!SearchEmptySlot(FoundSlotIndex)) return false;
 
-				UpdateSlotAtIndex(Index);
-				UpdateSlotAtIndex(FoundSlotIndex);
+	FScopeLock Lock(&SocketsCriticalSection);
 
-				return true;
-			}
-		}
-	}
+	Slots[Index].Item = ItemInfo;
+	Slots[Index].Amount = CurrentAmount - HalfAmount;
 
-	return false;
+	Slots[FoundSlotIndex].Item = ItemInfo;
+	Slots[FoundSlotIndex].Amount = HalfAmount;
+
+	UpdateSlotAtIndex(Index);
+	UpdateSlotAtIndex(FoundSlotIndex);
+
+	return true;
 }
 
 bool UIMInventoryComponent::SplitStackToIndex(const int32 SourceIndex, const int32 TargetIndex, uint8 Amount)
@@ -379,7 +374,7 @@ bool UIMInventoryComponent::SplitStackToIndex(const int32 SourceIndex, const int
 	bool bIsSlotEmpty;
 	uint8 AmountAtSlot;
 
-	const TSoftObjectPtr<UIMBaseItemDA> ItemAtSourceSlot = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+	UIMBaseItemDA* ItemAtSourceSlot = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
 
 	const bool bTargetSlotHasAmount = AmountAtSlot > 1;
 	const bool bIsAmountLessThanTargetAmount = AmountAtSlot > Amount;
@@ -388,7 +383,7 @@ bool UIMInventoryComponent::SplitStackToIndex(const int32 SourceIndex, const int
 		bTargetSlotHasAmount && bIsAmountLessThanTargetAmount)
 	{
 		Slots[SourceIndex].Amount -= Amount;
-		Slots[TargetIndex].ItemData = ItemAtSourceSlot;
+		Slots[TargetIndex].Item = ItemAtSourceSlot;
 		Slots[TargetIndex].Amount = Amount;
 
 		UpdateSlotAtIndex(SourceIndex);
@@ -435,16 +430,16 @@ UIMInventoryWidget* UIMInventoryComponent::GetInventoryWidget() const
 	return InventoryWidget;
 }
 
-bool UIMInventoryComponent::AddItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, const uint8 Amount, uint8& Rest)
+bool UIMInventoryComponent::AddItem(UIMBaseItemDA* Item, uint8 Amount, uint8& Rest)
 {
-	if (ItemData.IsValid())
+	if (Item)
 	{
-		if (!ItemData->bCanBeStacked)
+		if (!Item->bCanBeStacked)
 		{
-			return AddUnstackableItem(ItemData, Amount, Rest);
+			return AddUnstackableItem(Item, Amount, Rest);
 		}
 
-		return AddStackableItem(ItemData, Amount, Rest);
+		return AddStackableItem(Item, Amount, Rest);
 	}
 
 	return false;
@@ -452,11 +447,11 @@ bool UIMInventoryComponent::AddItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, cons
 
 bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 {
-	const UClass* SourceSlotClass = Slots[SourceIndex].ItemData->GetClass();
+	const UClass* SourceSlotClass = Slots[SourceIndex].Item->GetClass();
 
-	if (Slots[TargetIndex].ItemData != nullptr)
+	if (Slots[TargetIndex].Item != nullptr)
 	{
-		const UClass* TargetSlotClass = Slots[TargetIndex].ItemData->GetClass();
+		const UClass* TargetSlotClass = Slots[TargetIndex].Item->GetClass();
 
 		const bool bIsClassEqual = SourceSlotClass == TargetSlotClass;
 
@@ -481,17 +476,17 @@ bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 
 		Slots[SourceIndex].Amount = SourceRestAmount;
 
-		Slots[TargetIndex].ItemData = Slots[SourceIndex].ItemData;
+		Slots[TargetIndex].Item = Slots[SourceIndex].Item;
 		Slots[TargetIndex].Amount = MaxStackSize;
 	}
 	else
 	{
 		const uint8 NewTotalAmount = GetAmountAtIndex(SourceIndex) + GetAmountAtIndex(TargetIndex);
 
-		Slots[TargetIndex].ItemData = Slots[SourceIndex].ItemData;
+		Slots[TargetIndex].Item = Slots[SourceIndex].Item;
 		Slots[TargetIndex].Amount = NewTotalAmount;
 
-		Slots[SourceIndex].ItemData = nullptr;
+		Slots[SourceIndex].Item = nullptr;
 		Slots[SourceIndex].Amount = 0;
 	}
 
@@ -502,18 +497,38 @@ bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 }
 #pragma endregion InventoryInteractions
 
-bool UIMInventoryComponent::OnAddItemToInventory_Implementation(UObject* ItemToAdd)
+bool UIMInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd)
 {
-	AIMItemPickup* Item = Cast<AIMItemPickup>(ItemToAdd);
+	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+	if (!AssetManager) return false;
+
+	ItemIdToAddInv = ItemIdToAdd;
+
+	TArray<FName> BundlesToLoad;
+	BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
+
+	FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UIMInventoryComponent::AfterLoad);
+
+	AssetManager->LoadPrimaryAsset(ItemIdToAdd, BundlesToLoad, Delegate);
+
+	return true;
+}
+
+void UIMInventoryComponent::AfterLoad()
+{
+	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+	if (!AssetManager) return;
+
+	UIMBaseItemDA* Item = Cast<UIMBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemIdToAddInv));
 
 	if (Item)
 	{
 		uint8 Rest = 0;
 
-		return AddItem(Item->ItemData, 1, Rest);
+		AddItem(Item, 1, Rest);
 	}
-
-	return false;
 }
 
 void UIMInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)

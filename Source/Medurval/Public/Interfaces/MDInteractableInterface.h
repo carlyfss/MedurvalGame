@@ -25,7 +25,7 @@ class MEDURVAL_API IMDInteractableInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
-	void OnInteract();
+	void OnInteract(AActor* InstigatorActor);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_ItemInteraction")
 	void OnStartFocus();

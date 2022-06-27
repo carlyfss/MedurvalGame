@@ -8,68 +8,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e670ea12-a3e0-49ca-8718-4f87731d14b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Config/DefaultInventoryManager.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/0R/B7/7F43QN649OZRAQ675ZCVN.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/35/M8/TIXMN94Z2RSCLUS6ZM2WF.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/6T/OH/XP8K3ONOFBFQGY183EPP5.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/6V/2I/G15VJ9DLFJZEQJRM642ZK.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/AH/LB/P4ES9GECTNJ6ABHNW4YSY.uasset" afterDir="false" />
+    <list default="true" id="4a19e1a0-ddf6-4db2-a72e-d5b359e04b06" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Medurval/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Blueprints/SettlementSystem/Blueprints/Pawns/BP_SettlementOverviewPawn.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Blueprints/SettlementSystem/Blueprints/Pawns/BP_SettlementOverviewPawn.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/BP_MDBaseCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/Mesh/Skeletal/character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/Mesh/Skeletal/character.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/_GameAssets/Characters/Base/Mesh/Skeletal/default.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/0O/Z7/ZVDDVTZZQT3RVXW10R8R5.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/0O/Z7/ZVDDVTZZQT3RVXW10R8R5.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/1Y/CX/RZ563KGT5XIALMKG10QF2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/1Y/CX/RZ563KGT5XIALMKG10QF2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/21/TZ/F0H7DHKUWSWQECQ7DOQDB.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/21/TZ/F0H7DHKUWSWQECQ7DOQDB.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/22/E5/M2U79P8VV23CB3XY403PJ.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/22/E5/M2U79P8VV23CB3XY403PJ.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/2F/R5/AV9S9DBHD2OE730UOQOUL.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/2F/R5/AV9S9DBHD2OE730UOQOUL.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/2J/8F/ROVFGEV76DOC5W2B3M1AP.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/2J/8F/ROVFGEV76DOC5W2B3M1AP.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/30/OL/8GNVTJEQG6FB1OGPP718N.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/30/OL/8GNVTJEQG6FB1OGPP718N.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/45/GH/9L789DLBAEND50NCF0ZKX.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/45/GH/9L789DLBAEND50NCF0ZKX.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/45/IB/7I23HWIFCDSNGYT0GLBM1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/45/IB/7I23HWIFCDSNGYT0GLBM1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/4D/AH/586LPYYTI970SICB9PBWF.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/4D/AH/586LPYYTI970SICB9PBWF.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/5A/08/2MKD2HXI9VFS2W9LM9WE8.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/5A/08/2MKD2HXI9VFS2W9LM9WE8.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/5S/OJ/YOXN3LWSYUUK991G7W76T.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/5S/OJ/YOXN3LWSYUUK991G7W76T.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/6D/GC/2AC1TIZ76D87CFE2WTUVE.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/6D/GC/2AC1TIZ76D87CFE2WTUVE.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/6O/CN/GQ4KRNLDL1THNQMHDKKM0.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/6O/CN/GQ4KRNLDL1THNQMHDKKM0.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/7S/T0/Y6I66Q1F4H5Y4SP8AHVBJ.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/7S/T0/Y6I66Q1F4H5Y4SP8AHVBJ.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/AJ/27/MGR5YXKGLJRO8E51A7I72.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/AJ/27/MGR5YXKGLJRO8E51A7I72.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/BD/K6/7DBQKWYBVKS824YXFZ6NF.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/BD/K6/7DBQKWYBVKS824YXFZ6NF.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/BL/6H/WIKK2XM6UFPFJXLUQMTL2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/BL/6H/WIKK2XM6UFPFJXLUQMTL2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/CU/HI/69NI4Z8GPXM8VP1BUHO9V.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/CU/HI/69NI4Z8GPXM8VP1BUHO9V.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/EW/B1/NFVA8W9Q53GDIA7DSO86S.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/_GameAssets/Maps/_Prototypes/MAP_Prototype_01/EW/B1/NFVA8W9Q53GDIA7DSO86S.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/CommonBase.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/CommonBase.Build.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Actors/CBActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Actors/CBActor.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Actors/CBActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Actors/CBActor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Config/DefaultInventoryManager.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Config/DefaultInventoryManager.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/BP_InventoryComponent.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/BP_BasePickup.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/Consumables/BP_SmallHealthPotion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Blueprints/Items/Consumables/BP_SmallHealthPotion.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Items/Consumables/DA_SmallHealthPotion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Items/Consumables/DA_SmallHealthPotion.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Items/DA_BaseItem.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/Items/DA_BaseItem.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DetailWidget.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DetailWidget.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DraggedItem.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_DraggedItem.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/2R/BQ/G7HB8Y2OZY0EEZTNJ6ODI.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/5C/WE/NXT0NSA4KLXMLQXN1QU4D.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/5W/7R/GCQLZTK9N3S3SUGCKDNEW.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/InventoryManager.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_Inventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_Inventory.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_InventorySlot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/UI/W_InventorySlot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/0R/B7/7F43QN649OZRAQ675ZCVN.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/0R/B7/7F43QN649OZRAQ675ZCVN.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/35/M8/TIXMN94Z2RSCLUS6ZM2WF.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/64/ZP/248Q8P5874MXR7KR3OBOW.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/64/ZP/248Q8P5874MXR7KR3OBOW.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/7I/6B/ZSDGHQDFZN7U0PQ5SSFSL.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/D7/JM/SG1HI7O6M2OXKPBUD00FI.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/E1/3L/8XS2KT3X5HXI1NQ7AX998.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/F4/14/81WKTZG1RV0PU65DBFCK6.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/6T/OH/XP8K3ONOFBFQGY183EPP5.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/6V/2I/G15VJ9DLFJZEQJRM642ZK.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Content/__ExternalActors__/Maps/MAP_InventoryTest/AH/LB/P4ES9GECTNJ6ABHNW4YSY.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Consumables/IMConsumableItemDA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Consumables/IMConsumableItemDA.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Components/IMInventoryComponent.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/IMItemPickup.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/IMItemPickup.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/IMItemPickup.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/Pìckups/_Base/IMItemPickup.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/IMBaseItemDA.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/Items/_Base/IMBaseItemDA.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/IMInventorySlotWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Private/UI/_Base/IMInventorySlotWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Items/_Base/IMBaseItemDA.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Items/_Base/IMBaseItemDA.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/InventoryInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Interfaces/InventoryInterface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Structs/IMInventorySlot.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/Structs/IMInventorySlot.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/UI/_Base/IMInventorySlotWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Source/Public/UI/_Base/IMInventorySlotWidget.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Components/Utils/MDLineTraceComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Components/Utils/MDLineTraceComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Private/Core/AssetManager/MedurvalAssetManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Private/Core/AssetManager/MedurvalAssetManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Public/Components/Utils/MDLineTraceComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Public/Components/Utils/MDLineTraceComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/Medurval/Public/Core/AssetManager/MedurvalAssetManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Public/Core/AssetManager/MedurvalAssetManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Medurval/Public/Interfaces/MDInteractableInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Medurval/Public/Interfaces/MDInteractableInterface.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,22 +45,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Actors/CBActor.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Actors/CBCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Components/CBActorComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Components/CBCameraComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Components/CBSkeletalMeshComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Components/CBSphereComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Private/Components/CBSpringArmComponent.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Actors/CBActor.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Actors/CBCharacter.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Components/CBActorComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Components/CBCameraComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Components/CBSkeletalMeshComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Components/CBSphereComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Components/CBSpringArmComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Components/CBStaticMeshComponent.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/InventoryManager/Intermediate/Build/Win64/UnrealEditor/Inc/InventoryManager/IMItemPickup.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/Medurval/MDInteractableInterface.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/GameFeatures/CommonBase/Source/Public/Actors/CBThreadActor.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -103,10 +54,7 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectId" id="2AjXyuQxUCNHjfRYvcl8bs3pdcS" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2B7fy74OK509fmI8wVDNuFVUITk" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -117,8 +65,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "do_not_show_solution_notification": "true",
     "rider.code.cleanup.on.save": "true",
-    "rider.code.cleanup.on.save.only.changed.lines": "true",
     "rider.code.cleanup.on.save.profile": "Built-in: Reformat Code",
     "settings.editor.selected.configurable": "actions.on.save"
   }
@@ -240,50 +188,17 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e670ea12-a3e0-49ca-8718-4f87731d14b6" name="Changes" comment="" />
-      <created>1655524287913</created>
+      <changelist id="4a19e1a0-ddf6-4db2-a72e-d5b359e04b06" name="Changes" comment="" />
+      <created>1656262298451</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1655524287913</updated>
-      <workItem from="1655524306608" duration="825000" />
-      <workItem from="1655525220556" duration="1432000" />
-      <workItem from="1655561548364" duration="406000" />
-      <workItem from="1655562072238" duration="8570000" />
-      <workItem from="1655584660785" duration="1377000" />
-      <workItem from="1655586110322" duration="18142000" />
-      <workItem from="1655650381517" duration="5105000" />
-      <workItem from="1656134243406" duration="686000" />
-      <workItem from="1656135491126" duration="621000" />
-      <workItem from="1656175786321" duration="1851000" />
-      <workItem from="1656177809512" duration="17194000" />
-      <workItem from="1656218779029" duration="295000" />
-      <workItem from="1656219247302" duration="7175000" />
+      <updated>1656262298451</updated>
+      <workItem from="1656262325659" duration="173000" />
+      <workItem from="1656262551947" duration="30361000" />
     </task>
-    <task id="LOCAL-00001" summary="Remove ActionWidget. Add split with right mouse button.">
-      <created>1655668208598</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1655668208598</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Remove ActionWidget. Add split with right mouse button." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove ActionWidget. Add split with right mouse button." />
   </component>
 </project>

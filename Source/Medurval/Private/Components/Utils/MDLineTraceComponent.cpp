@@ -2,6 +2,7 @@
 
 #include "Components/Utils/MDLineTraceComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Interfaces/MDInteractableInterface.h"
 
 void UMDLineTraceComponent::BeginPlay()
 {
@@ -91,7 +92,28 @@ void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum& TraceResul
 		}
 
 		LineTraceHitActor = TraceResult.OutHits[0].GetActor();
+
+		if (!LineTraceHitActor) return;
+
+		IMDInteractableInterface* Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+
+		if (!Interactable) return;
+
+		Interactable->OnStartFocus_Implementation();
+
+		return;
 	}
+
+	if (!LineTraceHitActor) return;
+
+	IMDInteractableInterface* Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+
+	if (Interactable)
+	{
+		Interactable->OnEndFocus_Implementation();
+	}
+	
+	LineTraceHitActor = nullptr;
 }
 
 void UMDLineTraceComponent::StartLineTrace_Implementation()
@@ -112,9 +134,8 @@ void UMDLineTraceComponent::EndLineTrace_Implementation()
 
 		LineTraceTimerHandle.Invalidate();
 	}
-
+	
 	bIsLineTraceEnabled = false;
-
 	LineTraceHitActor = nullptr;
 }
 

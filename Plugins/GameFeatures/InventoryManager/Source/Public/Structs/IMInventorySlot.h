@@ -12,7 +12,7 @@ struct INVENTORYMANAGER_API FIMInventorySlot
 	FORCEINLINE FIMInventorySlot();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Slot")
-	TSoftObjectPtr<UIMBaseItemDA> ItemData = nullptr;
+	TObjectPtr<UIMBaseItemDA> Item = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Slot")
 	uint8 Amount = 0;
@@ -20,6 +20,6 @@ struct INVENTORYMANAGER_API FIMInventorySlot
 
 inline FIMInventorySlot::FIMInventorySlot()
 {
-	ItemData = nullptr;
+	Item = nullptr;
 	Amount = 0;
 }

@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Actors/CBActor.h"
-#include "GameFramework/Actor.h"
 #include "Interfaces/MDInteractableInterface.h"
 #include "IMItemPickup.generated.h"
 
@@ -19,26 +18,26 @@ class AIMItemPickup : public ACBActor, public IMDInteractableInterface
 	GENERATED_BODY()
 
 	UPROPERTY(Transient)
-	bool bIsPickupReady = false;
-
-	UPROPERTY(Transient)
 	TObjectPtr<UIMBaseItemDA> LoadedItem = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pickup", meta=(AllowPrivateAccess=true))
 	FPrimaryAssetId ItemId;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Pickup", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UCBStaticMeshComponent> PickupMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Pickup", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UCBSphereComponent> PickupLoadRange = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category="Pickup")
 	uint8 AmountToAdd = 1;
 
+	UPROPERTY(EditDefaultsOnly, Category="Pickup")
+	float PickupLoadRangeRadius = 200.f;
 public:
 	// Sets default values for this actor's properties
 	AIMItemPickup();
 
-	TSoftObjectPtr<UIMBaseItemDA> ItemData;
-	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -46,27 +45,34 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void OnPickupItemLoaded();
-	
+
 	void LoadPickupItem();
-	
+
+	void UnloadPickupItem();
+
+	UFUNCTION(BlueprintImplementableEvent, Category="ItemPickup")
+	void MarkPickupForGarbage();
+
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-	UFUNCTION(BlueprintCallable, Category="Pickup|Configuration")
-	virtual void AddItemToInventory();
+	void AddItemToInventory(AActor* ActorToAddItem);
 
-	virtual void TimerDelegate() override;
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
+	                  class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="ItemInteraction")
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="ItemInteraction")
 	void OnPickupStartFocus();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="ItemInteraction")
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="ItemInteraction")
 	void OnPickupEndFocus();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="ItemInteraction")
-	void OnPickupInteract();
-
-	virtual void OnInteract_Implementation() override;
+	virtual void OnInteract_Implementation(AActor* InstigatorActor) override;
 
 	virtual void OnStartFocus_Implementation() override;
 

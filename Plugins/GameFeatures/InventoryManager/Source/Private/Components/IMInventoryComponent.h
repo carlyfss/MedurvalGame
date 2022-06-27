@@ -66,7 +66,7 @@ public:
 	bool IsSlotEmpty(const int32 Index) const;
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory")
-	TSoftObjectPtr<UIMBaseItemDA> GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const;
+	UIMBaseItemDA* GetItemInfoAtIndex(const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const;
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory")
 	int GetAmountAtIndex(const int32 Index) const;
@@ -81,16 +81,16 @@ protected:
 
 	bool SearchEmptySlot(int32& Index);
 
-	bool SearchFreeStack(const TSoftObjectPtr<UIMBaseItemDA> ItemData, int32& Index);
+	bool SearchFreeStack(UIMBaseItemDA* Item, int32& Index);
 
-	bool AddUnstackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, uint8 Amount, uint8& Rest);
+	bool AddUnstackableItem(UIMBaseItemDA* Item, uint8 Amount, uint8& Rest);
 
-	bool AddStackableItem(TSoftObjectPtr<UIMBaseItemDA> ItemData, uint8 Amount, uint8& Rest);
+	bool AddStackableItem(UIMBaseItemDA* Item, uint8 Amount, uint8& Rest);
 
 public:
 #pragma region Interaction
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
-	bool AddItem(const TSoftObjectPtr<UIMBaseItemDA> ItemClass, uint8 Amount, uint8& Rest);
+	bool AddItem(UIMBaseItemDA* Item, uint8 Amount, uint8& Rest);
 
 	UFUNCTION(BlueprintCallable, Category="_Inventory|Interaction")
 	bool AddToIndex(uint8 SourceIndex, uint8 TargetIndex);
@@ -158,7 +158,11 @@ public:
 	void OnToggleInventory(const FInputActionInstance& InputInstance);
 #pragma endregion Inputs
 
-	virtual bool OnAddItemToInventory_Implementation(UObject* ItemToAdd) override;
+	virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd) override;
+
+	void AfterLoad();
+
+	FPrimaryAssetId ItemIdToAddInv;
 
 	virtual void UpdateSlotAfterLoad_Implementation(uint8 SlotIndex) override;
 };
