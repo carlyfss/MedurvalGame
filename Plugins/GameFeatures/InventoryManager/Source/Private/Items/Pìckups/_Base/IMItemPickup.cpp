@@ -1,6 +1,5 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
-
 #include "Items/Pìckups/_Base/IMItemPickup.h"
 
 #include "Components/CBSphereComponent.h"
@@ -20,7 +19,7 @@ AIMItemPickup::AIMItemPickup()
 	PickupMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 
 	PickupLoadRange = CreateDefaultSubobject<UCBSphereComponent>("PickupLoadRange");
-	PickupLoadRange->SetSphereRadius(200.f);
+	PickupLoadRange->SetSphereRadius(500.f);
 	PickupLoadRange->ShapeColor = FColor::Blue;
 	PickupLoadRange->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	PickupLoadRange->AttachToComponent(PickupMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
@@ -44,15 +43,17 @@ void AIMItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AIMItemPickup::OnPickupItemLoaded()
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+	UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
-	if (!AssetManager) return;
+	if (!AssetManager)
+		return;
 
 	LoadedItem = Cast<UIMBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemId));
 
-	if (!LoadedItem) return;
+	if (!LoadedItem)
+		return;
 
-	UStaticMesh* Mesh = LoadedItem->Mesh.Get();
+	UStaticMesh *Mesh = LoadedItem->Mesh.Get();
 
 	if (Mesh)
 	{
@@ -62,9 +63,10 @@ void AIMItemPickup::OnPickupItemLoaded()
 
 void AIMItemPickup::LoadPickupItem()
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+	UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
-	if (!AssetManager) return;
+	if (!AssetManager)
+		return;
 
 	TArray<FName> BundlesToLoad;
 	BundlesToLoad.Add(UMedurvalAssetManager::WorldBundle);
@@ -76,9 +78,10 @@ void AIMItemPickup::LoadPickupItem()
 
 void AIMItemPickup::UnloadPickupItem()
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+	UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
-	if (!AssetManager) return;
+	if (!AssetManager)
+		return;
 
 	AssetManager->UnloadPrimaryAsset(ItemId);
 
@@ -86,26 +89,27 @@ void AIMItemPickup::UnloadPickupItem()
 	PickupMesh->SetStaticMesh(nullptr);
 }
 
-void AIMItemPickup::OnConstruction(const FTransform& Transform)
+void AIMItemPickup::OnConstruction(const FTransform &Transform)
 {
 	Super::OnConstruction(Transform);
 
 	PickupLoadRange->SetSphereRadius(PickupLoadRangeRadius);
 }
 
-void AIMItemPickup::AddItemToInventory(AActor* ActorToAddItem)
+void AIMItemPickup::AddItemToInventory(AActor *ActorToAddItem)
 {
-	UActorComponent* ComponentExists = ActorToAddItem->GetComponentByClass(UIMInventoryComponent::StaticClass());
+	UActorComponent *ComponentExists = ActorToAddItem->GetComponentByClass(UIMInventoryComponent::StaticClass());
 
 	if (ComponentExists)
 	{
-		IInventoryInterface* InventoryInterface = Cast<IInventoryInterface>(ComponentExists);
+		IInventoryInterface *InventoryInterface = Cast<IInventoryInterface>(ComponentExists);
 
 		if (InventoryInterface)
 		{
 			bool bAddedSuccessfully = InventoryInterface->OnAddItemToInventory_Implementation(ItemId);
 
-			if (!bAddedSuccessfully) return;
+			if (!bAddedSuccessfully)
+				return;
 
 			MarkPickupForGarbage();
 			MarkAsGarbage();
@@ -113,27 +117,28 @@ void AIMItemPickup::AddItemToInventory(AActor* ActorToAddItem)
 	}
 }
 
-void AIMItemPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-                                   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-                                   const FHitResult& SweepResult)
+void AIMItemPickup::OnBeginOverlap(UPrimitiveComponent *OverlappedComp, AActor *OtherActor,
+																	 UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+																	 const FHitResult &SweepResult)
 {
 	if (IsValid(OtherActor))
 	{
-		const UActorComponent* ComponentExists = OtherActor->GetComponentByClass(UIMInventoryComponent::StaticClass());
+		const UActorComponent *ComponentExists = OtherActor->GetComponentByClass(UIMInventoryComponent::StaticClass());
 
-		if (!ComponentExists) return;
+		if (!ComponentExists)
+			return;
 
 		LoadPickupItem();
 	}
 }
 
-void AIMItemPickup::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void AIMItemPickup::OnEndOverlap(UPrimitiveComponent *OverlappedComp, AActor *OtherActor,
+																 UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
 {
 	UnloadPickupItem();
 }
 
-void AIMItemPickup::OnInteract_Implementation(AActor* InstigatorActor)
+void AIMItemPickup::OnInteract_Implementation(AActor *InstigatorActor)
 {
 	IMDInteractableInterface::OnInteract_Implementation(InstigatorActor);
 	AddItemToInventory(InstigatorActor);

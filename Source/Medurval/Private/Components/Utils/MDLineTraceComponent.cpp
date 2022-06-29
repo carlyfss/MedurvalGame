@@ -8,6 +8,7 @@ void UMDLineTraceComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	StartLineTrace_Implementation();
 	TraceDelegate.BindUObject(this, &UMDLineTraceComponent::OnLineTraceCompleted);
 }
 
@@ -18,7 +19,7 @@ void UMDLineTraceComponent::CastLineTrace()
 		bIsLineTraceEnabled = true;
 		return;
 	}
-	
+
 	if (bIsLineTraceEnabled)
 	{
 		if (IsValid(PlayerController))
@@ -67,53 +68,53 @@ FTraceHandle UMDLineTraceComponent::RequestLineTrace()
 	}
 
 	return GetWorld()->AsyncLineTraceByChannel(EAsyncTraceType::Single, Start, End, ECC_Visibility, TraceParams,
-	                                           Params, &TraceDelegate);
+																						 Params, &TraceDelegate);
 }
 
-void UMDLineTraceComponent::OnLineTraceCompleted(const FTraceHandle& TraceHandle, FTraceDatum& TraceResult)
+void UMDLineTraceComponent::OnLineTraceCompleted(const FTraceHandle &TraceHandle, FTraceDatum &TraceResult)
 {
 	ensure(TraceHandle == LastTraceHandle);
 	HandleLineTraceResults(TraceResult);
 	LastTraceHandle._Data.FrameNumber = 0;
 }
 
-void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum& TraceResult)
+void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum &TraceResult)
 {
 	if (bActivateLineTraceDebug)
 	{
 		DrawDebugLine(GetWorld(), TraceResult.Start, TraceResult.End, FColor::Orange, false, 0.5f);
 	}
 
-	if (TraceResult.OutHits.Num() > 0)
+	if (LineTraceHitActor)
 	{
-		if (bActivateLineTraceHitBox)
+		IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+
+		if (Interactable)
 		{
-			DrawDebugBox(GetWorld(), TraceResult.OutHits[0].ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
+			Interactable->OnEndFocus_Implementation();
+			LineTraceHitActor = nullptr;
 		}
+	}
 
-		LineTraceHitActor = TraceResult.OutHits[0].GetActor();
-
-		if (!LineTraceHitActor) return;
-
-		IMDInteractableInterface* Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
-
-		if (!Interactable) return;
-
-		Interactable->OnStartFocus_Implementation();
-
+	if (TraceResult.OutHits.Num() <= 0)
 		return;
-	}
 
-	if (!LineTraceHitActor) return;
-
-	IMDInteractableInterface* Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
-
-	if (Interactable)
+	if (bActivateLineTraceHitBox)
 	{
-		Interactable->OnEndFocus_Implementation();
+		DrawDebugBox(GetWorld(), TraceResult.OutHits[0].ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
 	}
-	
-	LineTraceHitActor = nullptr;
+
+	LineTraceHitActor = TraceResult.OutHits[0].GetActor();
+
+	if (!LineTraceHitActor)
+		return;
+
+	IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+
+	if (!Interactable)
+		return;
+
+	Interactable->OnStartFocus_Implementation();
 }
 
 void UMDLineTraceComponent::StartLineTrace_Implementation()
@@ -122,7 +123,7 @@ void UMDLineTraceComponent::StartLineTrace_Implementation()
 	if (!LineTraceTimerHandle.IsValid())
 	{
 		GetWorld()->GetTimerManager().SetTimer(LineTraceTimerHandle, this, &UMDLineTraceComponent::CastLineTrace,
-		                                       LineTraceInterval, true);
+																					 LineTraceInterval, true);
 	}
 }
 
@@ -134,12 +135,12 @@ void UMDLineTraceComponent::EndLineTrace_Implementation()
 
 		LineTraceTimerHandle.Invalidate();
 	}
-	
+
 	bIsLineTraceEnabled = false;
 	LineTraceHitActor = nullptr;
 }
 
-AActor* UMDLineTraceComponent::GetLineTraceHitActor_Implementation() const
+AActor *UMDLineTraceComponent::GetLineTraceHitActor_Implementation() const
 {
 	return LineTraceHitActor;
 }
@@ -149,7 +150,7 @@ bool UMDLineTraceComponent::IsLineTraceEnabled_Implementation() const
 	return bIsLineTraceEnabled;
 }
 
-void UMDLineTraceComponent::SetPlayerController(APlayerController* PlayerControl)
+void UMDLineTraceComponent::SetPlayerController(APlayerController *PlayerControl)
 {
 	PlayerController = PlayerControl;
 }

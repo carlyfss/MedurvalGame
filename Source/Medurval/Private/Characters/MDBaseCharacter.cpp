@@ -1,6 +1,5 @@
 ﻿// MEDURVAL PROJECT copyrighted code by Fireheet Games
 
-
 #include "MDBaseCharacter.h"
 
 #include "Abilities/GameplayAbilityTypes.h"
@@ -18,7 +17,6 @@
 #include "Components/CBSpringArmComponent.h"
 #include "Components/Utils/MDLineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
 
 // Sets default values
 AMDBaseCharacter::AMDBaseCharacter()
@@ -39,7 +37,7 @@ AMDBaseCharacter::AMDBaseCharacter()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	/** Create an attribute component so the player can have those attributes
-	*	Like Health, Stamina, etc... or any attributes in the AttributeSet */
+	 *	Like Health, Stamina, etc... or any attributes in the AttributeSet */
 	AttributeSetComponent = CreateDefaultSubobject<UMDBaseAttributeSet>(TEXT("AttributeSetComponent"));
 
 	LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
@@ -51,15 +49,13 @@ void AMDBaseCharacter::PreInitializeComponents()
 	Super::PreInitializeComponents();
 
 	UGameFrameworkComponentManager::AddGameFrameworkComponentReceiver(this);
-
-	UE_LOG(LogTemp, Warning, TEXT("Added receiver"))
 }
 
 // Called when the game starts or when spawned
 void AMDBaseCharacter::BeginPlay()
 {
 	UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(
-		this, UGameFrameworkComponentManager::NAME_GameActorReady);
+			this, UGameFrameworkComponentManager::NAME_GameActorReady);
 
 	Super::BeginPlay();
 }
@@ -76,11 +72,11 @@ void AMDBaseCharacter::PawnClientRestart()
 	Super::PawnClientRestart();
 
 	// Make sure that we have a valid PlayerController.
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	if (APlayerController *PlayerController = Cast<APlayerController>(GetController()))
 	{
 		// Get the Enhanced Input Local Player Subsystem from the Local Player related to our Player Controller.
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
-			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<
+						UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			// PawnClientRestart can run more than once in an Actor's lifetime, so start by clearing out any leftover mappings.
 			Subsystem->ClearAllMappings();
@@ -91,7 +87,7 @@ void AMDBaseCharacter::PawnClientRestart()
 	}
 }
 
-void AMDBaseCharacter::PossessedBy(AController* NewController)
+void AMDBaseCharacter::PossessedBy(AController *NewController)
 {
 	Super::PossessedBy(NewController);
 
@@ -127,7 +123,7 @@ void AMDBaseCharacter::OnRep_PlayerState()
 #pragma endregion Overrides
 
 #pragma region GameplayAbilityFunc
-UAbilitySystemComponent* AMDBaseCharacter::GetAbilitySystemComponent() const
+UAbilitySystemComponent *AMDBaseCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
@@ -140,12 +136,12 @@ void AMDBaseCharacter::InitializeAttributes()
 		EffectContextHandle.AddSourceObject(this);
 
 		const FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(
-			DefaultAttributeEffect, 1, EffectContextHandle);
+				DefaultAttributeEffect, 1, EffectContextHandle);
 
 		if (SpecHandle.IsValid())
 		{
 			FActiveGameplayEffectHandle GameplayEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(
-				*SpecHandle.Data.Get());
+					*SpecHandle.Data.Get());
 		}
 	}
 }
@@ -154,7 +150,7 @@ void AMDBaseCharacter::GiveAbilities()
 {
 	if (HasAuthority() && AbilitySystemComponent)
 	{
-		for (TSubclassOf<UMDBaseGameplayAbility>& StartupAbility : DefaultAbilities)
+		for (TSubclassOf<UMDBaseGameplayAbility> &StartupAbility : DefaultAbilities)
 		{
 			const int32 InputID = static_cast<int32>(StartupAbility.GetDefaultObject()->AbilityInputID);
 
@@ -165,7 +161,7 @@ void AMDBaseCharacter::GiveAbilities()
 	}
 }
 
-void AMDBaseCharacter::GetHealth(float& Health, float& MaxHealth) const
+void AMDBaseCharacter::GetHealth(float &Health, float &MaxHealth) const
 {
 	if (AttributeSetComponent)
 	{
@@ -174,7 +170,7 @@ void AMDBaseCharacter::GetHealth(float& Health, float& MaxHealth) const
 	}
 }
 
-void AMDBaseCharacter::GetStamina(float& Stamina, float& MaxStamina) const
+void AMDBaseCharacter::GetStamina(float &Stamina, float &MaxStamina) const
 {
 	if (AttributeSetComponent)
 	{
@@ -183,7 +179,7 @@ void AMDBaseCharacter::GetStamina(float& Stamina, float& MaxStamina) const
 	}
 }
 
-void AMDBaseCharacter::GetMana(float& Mana, float& MaxMana) const
+void AMDBaseCharacter::GetMana(float &Mana, float &MaxMana) const
 {
 	if (AttributeSetComponent)
 	{
@@ -196,9 +192,9 @@ void AMDBaseCharacter::GetMana(float& Mana, float& MaxMana) const
 
 #pragma region Inputs
 
-UEnhancedInputComponent* AMDBaseCharacter::GetEnhancedInputComponent() const
+UEnhancedInputComponent *AMDBaseCharacter::GetEnhancedInputComponent() const
 {
-	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	UEnhancedInputComponent *PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
 
 	if (PlayerEnhancedInputComponent != nullptr)
 	{
@@ -208,13 +204,13 @@ UEnhancedInputComponent* AMDBaseCharacter::GetEnhancedInputComponent() const
 	return nullptr;
 }
 
-void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	check(PlayerInputComponent);
 
-	UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	UEnhancedInputComponent *PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	// Make sure that we are using a UEnhancedInputComponent; if not, the project is not configured correctly.
 	if (PlayerEnhancedInputComponent)
@@ -222,32 +218,32 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		if (MoveForwardInput)
 		{
 			PlayerEnhancedInputComponent->BindAction(MoveForwardInput, ETriggerEvent::Triggered, this,
-			                                         &AMDBaseCharacter::EnhancedMoveForward);
+																							 &AMDBaseCharacter::EnhancedMoveForward);
 		}
 
 		if (MoveRightInput)
 		{
 			PlayerEnhancedInputComponent->BindAction(MoveRightInput, ETriggerEvent::Triggered, this,
-			                                         &AMDBaseCharacter::EnhancedMoveRight);
+																							 &AMDBaseCharacter::EnhancedMoveRight);
 		}
 
 		if (LookInput)
 		{
 			PlayerEnhancedInputComponent->BindAction(LookInput, ETriggerEvent::Triggered, this,
-			                                         &AMDBaseCharacter::EnhancedLook);
+																							 &AMDBaseCharacter::EnhancedLook);
 		}
 
 		if (InteractAction)
 		{
 			PlayerEnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this,
-			                                         &AMDBaseCharacter::InteractWithObject);
+																							 &AMDBaseCharacter::InteractWithObject);
 		}
 
 		if (JumpInputAction)
 		{
 			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 			PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this,
-			                                         &ACharacter::StopJumping);
+																							 &ACharacter::StopJumping);
 		}
 	}
 
@@ -265,7 +261,7 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	}
 }
 
-void AMDBaseCharacter::EnhancedMoveForward(const FInputActionValue& Value)
+void AMDBaseCharacter::EnhancedMoveForward(const FInputActionValue &Value)
 {
 	if ((Controller != nullptr) && (Value.GetMagnitude() != 0.0f))
 	{
@@ -278,7 +274,7 @@ void AMDBaseCharacter::EnhancedMoveForward(const FInputActionValue& Value)
 	}
 }
 
-void AMDBaseCharacter::EnhancedMoveRight(const FInputActionValue& Value)
+void AMDBaseCharacter::EnhancedMoveRight(const FInputActionValue &Value)
 {
 	if ((Controller != nullptr) && (Value.GetMagnitude() != 0.0f))
 	{
@@ -291,7 +287,7 @@ void AMDBaseCharacter::EnhancedMoveRight(const FInputActionValue& Value)
 	}
 }
 
-void AMDBaseCharacter::EnhancedLook(const FInputActionValue& Value)
+void AMDBaseCharacter::EnhancedLook(const FInputActionValue &Value)
 {
 	if (Value.GetMagnitude() != 0.0f)
 	{

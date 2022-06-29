@@ -1,6 +1,5 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
-
 #include "Components/IMInventoryComponent.h"
 
 #include "EnhancedInputComponent.h"
@@ -21,16 +20,16 @@ bool UIMInventoryComponent::IsSlotEmpty(const int32 Index) const
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a nullptr, and the bIsSlotEmpty = true */
-UIMBaseItemDA* UIMInventoryComponent::GetItemInfoAtIndex(
-	const int32 Index, bool& bIsSlotEmpty, uint8& Amount) const
+UIMBaseItemDA *UIMInventoryComponent::GetItemInfoAtIndex(
+		const int32 Index, bool &bIsSlotEmpty, uint8 &Amount) const
 {
-	check(Slots.Num() > Index)
+	check(Slots.Num() > Index);
 
 	const FIMInventorySlot Slot = Slots[Index];
 
 	if (IsValid(Slot.Item))
 	{
-		UIMBaseItemDA* ItemInfo = Slot.Item;
+		UIMBaseItemDA *ItemInfo = Slot.Item;
 
 		Amount = Slot.Amount;
 
@@ -48,24 +47,8 @@ int UIMInventoryComponent::GetAmountAtIndex(const int32 Index) const
 {
 	check(Slots.Num() > Index)
 
-	return Slots[Index].Amount;
-}
-
-void UIMInventoryComponent::UpdateSlotAtIndex(int32 Index)
-{
-	TArray<UIMInventorySlotWidget*> SlotWidgets = InventoryWidget->GetSlotWidgets();
-	UIMInventorySlotWidget* SlotWidget = SlotWidgets[Index];
-
-	SlotWidget->SetSlotIndex(Index);
-	SlotWidget->SetAmount(Slots[Index].Amount);
-	SlotWidget->SetItem(Slots[Index].Item);
-
-	if (SlotWidget->GetAmount() == 0)
-	{
-		SlotWidget->CleanSlot();
-	}
-
-	SlotWidget->UpdateSlot();
+			return Slots[Index]
+					.Amount;
 }
 
 void UIMInventoryComponent::ToggleInventory()
@@ -78,16 +61,6 @@ void UIMInventoryComponent::ToggleInventory()
 	ShowInventory();
 }
 
-void UIMInventoryComponent::SetSlotAmount(const uint8 AmountOfSlots)
-{
-	SlotAmount = FMath::Clamp(static_cast<int32>(AmountOfSlots), 1, 1000);
-}
-
-void UIMInventoryComponent::SetMaxStackSize(const uint8 StackSize)
-{
-	MaxStackSize = FMath::Clamp(static_cast<int32>(StackSize), 1, 1000);
-}
-
 void UIMInventoryComponent::OnRegister()
 {
 	Super::OnRegister();
@@ -98,7 +71,6 @@ void UIMInventoryComponent::OnRegister()
 	{
 		if (IsValid(PlayerCharacter->InputComponent))
 		{
-			print("Valid input");
 			EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerCharacter->InputComponent);
 
 			if (IsValid(EnhancedInputComponent))
@@ -106,8 +78,9 @@ void UIMInventoryComponent::OnRegister()
 				if (ToggleInventoryAction != nullptr)
 				{
 					ToggleInventoryBindingHandle = EnhancedInputComponent->BindAction(
-						ToggleInventoryAction, ETriggerEvent::Triggered, this,
-						&UIMInventoryComponent::OnToggleInventory).GetHandle();
+																																	 ToggleInventoryAction, ETriggerEvent::Triggered, this,
+																																	 &UIMInventoryComponent::OnToggleInventory)
+																						 .GetHandle();
 				}
 			}
 		}
@@ -130,7 +103,7 @@ void UIMInventoryComponent::OnUnregister()
 }
 
 /** Searches for a empty slot, and if it finds, store the index in the parameter &Index */
-bool UIMInventoryComponent::SearchEmptySlot(int32& Index)
+bool UIMInventoryComponent::SearchEmptySlot(int32 &Index)
 {
 	bool bEmptySlot = false;
 	int FoundIndex = 0;
@@ -162,7 +135,7 @@ bool UIMInventoryComponent::SearchEmptySlot(int32& Index)
 /** Searches for a empty slot, and if it finds, check the MaxStackSize of the slot and stores the index in the parameter &Index
  * and if the stack is full it return false
  */
-bool UIMInventoryComponent::SearchFreeStack(UIMBaseItemDA* Item, int32& Index)
+bool UIMInventoryComponent::SearchFreeStack(UIMBaseItemDA *Item, int32 &Index)
 {
 	bool bSlotAvaiable = false;
 	int FoundIndex = 0;
@@ -194,8 +167,8 @@ bool UIMInventoryComponent::SearchFreeStack(UIMBaseItemDA* Item, int32& Index)
 	return bSlotAvaiable;
 }
 
-bool UIMInventoryComponent::AddUnstackableItem(UIMBaseItemDA* Item, const uint8 Amount,
-                                               uint8& Rest)
+bool UIMInventoryComponent::AddUnstackableItem(UIMBaseItemDA *Item, const uint8 Amount,
+																							 uint8 &Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -206,7 +179,7 @@ bool UIMInventoryComponent::AddUnstackableItem(UIMBaseItemDA* Item, const uint8 
 		Slots[FoundIndex].Item = Item;
 		Slots[FoundIndex].Amount = 1;
 
-		UpdateSlotAtIndex(FoundIndex);
+		OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 
 		if (Amount > 1)
 		{
@@ -223,7 +196,7 @@ bool UIMInventoryComponent::AddUnstackableItem(UIMBaseItemDA* Item, const uint8 
 	return false;
 }
 
-bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA* Item, const uint8 Amount, uint8& Rest)
+bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA *Item, const uint8 Amount, uint8 &Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -238,7 +211,7 @@ bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA* Item, const uint8 Am
 				Slots[FoundIndex].Item = Item;
 				Slots[FoundIndex].Amount = MaxStackSize;
 
-				UpdateSlotAtIndex(FoundIndex);
+				OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 
 				const int NewAmount = Amount - MaxStackSize;
 
@@ -248,7 +221,7 @@ bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA* Item, const uint8 Am
 			Slots[FoundIndex].Item = Item;
 			Slots[FoundIndex].Amount = Amount;
 
-			UpdateSlotAtIndex(FoundIndex);
+			OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 
 			Rest = 0;
 
@@ -266,7 +239,7 @@ bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA* Item, const uint8 Am
 		Slots[FoundIndex].Item = Item;
 		Slots[FoundIndex].Amount = MaxStackSize;
 
-		UpdateSlotAtIndex(FoundIndex);
+		OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 
 		const int RestAmount = CurrentStackAmount - MaxStackSize;
 
@@ -276,7 +249,7 @@ bool UIMInventoryComponent::AddStackableItem(UIMBaseItemDA* Item, const uint8 Am
 	Slots[FoundIndex].Item = Item;
 	Slots[FoundIndex].Amount = CurrentStackAmount;
 
-	UpdateSlotAtIndex(FoundIndex);
+	OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 
 	return true;
 }
@@ -289,20 +262,22 @@ bool UIMInventoryComponent::RemoveItemAtIndex(const int32 Index, const uint8 Amo
 
 		if (Amount >= GetAmountAtIndex(Index))
 		{
-			TArray<UIMInventorySlotWidget*> SlotWidgets = InventoryWidget->GetSlotWidgets();
-			UIMInventorySlotWidget* SlotWidget = SlotWidgets[Index];
+			TArray<UIMInventorySlotWidget *> SlotWidgets = InventoryWidget->GetSlotWidgets();
+			UIMInventorySlotWidget *SlotWidget = SlotWidgets[Index];
 
 			Slots[Index].Item = nullptr;
 			Slots[Index].Amount = 0;
 
 			SlotWidget->CleanSlot();
 
+			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
 			return true;
 		}
 
 		Slots[Index].Amount -= Amount;
 
-		UpdateSlotAtIndex(Index);
+		OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
+		OnUpdateSlotAtIndex.Broadcast(Index);
 
 		return true;
 	}
@@ -329,8 +304,8 @@ bool UIMInventoryComponent::SwapSlots(const int32 OriginIndex, const int32 Targe
 	Slots[OriginIndex].Item = TempSlot.Item;
 	Slots[OriginIndex].Amount = TempSlot.Amount;
 
-	UpdateSlotAtIndex(OriginIndex);
-	UpdateSlotAtIndex(TargetIndex);
+	OnUpdateSlotAtIndex.Broadcast(OriginIndex);
+	OnUpdateSlotAtIndex.Broadcast(TargetIndex);
 
 	return true;
 }
@@ -344,16 +319,19 @@ bool UIMInventoryComponent::SplitStack(const int32 Index)
 
 	bool bIsSlotEmpty = false;
 	uint8 CurrentAmount = 0;
-	UIMBaseItemDA* ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
+	UIMBaseItemDA *ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
 
-	if (!ItemInfo) return false;
+	if (!ItemInfo)
+		return false;
 
-	if (!ItemInfo->bCanBeStacked && CurrentAmount <= 1) return false;
+	if (!ItemInfo->bCanBeStacked && CurrentAmount <= 1)
+		return false;
 
 	int32 FoundSlotIndex = 0;
 	const uint8 HalfAmount = (CurrentAmount / 2);
 
-	if (!SearchEmptySlot(FoundSlotIndex)) return false;
+	if (!SearchEmptySlot(FoundSlotIndex))
+		return false;
 
 	FScopeLock Lock(&SocketsCriticalSection);
 
@@ -363,8 +341,8 @@ bool UIMInventoryComponent::SplitStack(const int32 Index)
 	Slots[FoundSlotIndex].Item = ItemInfo;
 	Slots[FoundSlotIndex].Amount = HalfAmount;
 
-	UpdateSlotAtIndex(Index);
-	UpdateSlotAtIndex(FoundSlotIndex);
+	OnUpdateSlotAtIndex.Broadcast(Index);
+	OnUpdateSlotAtIndex.Broadcast(FoundSlotIndex);
 
 	return true;
 }
@@ -374,20 +352,20 @@ bool UIMInventoryComponent::SplitStackToIndex(const int32 SourceIndex, const int
 	bool bIsSlotEmpty;
 	uint8 AmountAtSlot;
 
-	UIMBaseItemDA* ItemAtSourceSlot = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+	UIMBaseItemDA *ItemAtSourceSlot = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
 
 	const bool bTargetSlotHasAmount = AmountAtSlot > 1;
 	const bool bIsAmountLessThanTargetAmount = AmountAtSlot > Amount;
 
 	if (IsSlotEmpty(TargetIndex) && !IsSlotEmpty(SourceIndex) && ItemAtSourceSlot->bCanBeStacked &&
-		bTargetSlotHasAmount && bIsAmountLessThanTargetAmount)
+			bTargetSlotHasAmount && bIsAmountLessThanTargetAmount)
 	{
 		Slots[SourceIndex].Amount -= Amount;
 		Slots[TargetIndex].Item = ItemAtSourceSlot;
 		Slots[TargetIndex].Amount = Amount;
 
-		UpdateSlotAtIndex(SourceIndex);
-		UpdateSlotAtIndex(TargetIndex);
+		OnUpdateSlotAtIndex.Broadcast(SourceIndex);
+		OnUpdateSlotAtIndex.Broadcast(TargetIndex);
 
 		return true;
 	}
@@ -410,7 +388,7 @@ uint8 UIMInventoryComponent::GetSlotAmount() const
 	return SlotAmount;
 }
 
-void UIMInventoryComponent::SetInventoryWidget(UIMInventoryWidget* InventoryWidgetRef)
+void UIMInventoryComponent::SetInventoryWidget(UIMInventoryWidget *InventoryWidgetRef)
 {
 	InventoryWidget = InventoryWidgetRef;
 }
@@ -425,20 +403,22 @@ bool UIMInventoryComponent::GetIsVisible() const
 	return bIsVisible;
 }
 
-UIMInventoryWidget* UIMInventoryComponent::GetInventoryWidget() const
+UIMInventoryWidget *UIMInventoryComponent::GetInventoryWidget() const
 {
 	return InventoryWidget;
 }
 
-bool UIMInventoryComponent::AddItem(UIMBaseItemDA* Item, uint8 Amount, uint8& Rest)
+bool UIMInventoryComponent::AddItem(UIMBaseItemDA *Item, uint8 Amount, uint8 &Rest)
 {
 	if (Item)
 	{
 		if (!Item->bCanBeStacked)
 		{
+			OnItemAdded.Broadcast(Item, Amount);
 			return AddUnstackableItem(Item, Amount, Rest);
 		}
 
+		OnItemAdded.Broadcast(Item, Amount);
 		return AddStackableItem(Item, Amount, Rest);
 	}
 
@@ -447,11 +427,11 @@ bool UIMInventoryComponent::AddItem(UIMBaseItemDA* Item, uint8 Amount, uint8& Re
 
 bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 {
-	const UClass* SourceSlotClass = Slots[SourceIndex].Item->GetClass();
+	const UClass *SourceSlotClass = Slots[SourceIndex].Item->GetClass();
 
 	if (Slots[TargetIndex].Item != nullptr)
 	{
-		const UClass* TargetSlotClass = Slots[TargetIndex].Item->GetClass();
+		const UClass *TargetSlotClass = Slots[TargetIndex].Item->GetClass();
 
 		const bool bIsClassEqual = SourceSlotClass == TargetSlotClass;
 
@@ -490,8 +470,8 @@ bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 		Slots[SourceIndex].Amount = 0;
 	}
 
-	UpdateSlotAtIndex(SourceIndex);
-	UpdateSlotAtIndex(TargetIndex);
+	OnUpdateSlotAtIndex.Broadcast(SourceIndex);
+	OnUpdateSlotAtIndex.Broadcast(TargetIndex);
 
 	return true;
 }
@@ -499,9 +479,10 @@ bool UIMInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 
 bool UIMInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd)
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+	UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
-	if (!AssetManager) return false;
+	if (!AssetManager)
+		return false;
 
 	ItemIdToAddInv = ItemIdToAdd;
 
@@ -517,11 +498,12 @@ bool UIMInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId 
 
 void UIMInventoryComponent::AfterLoad()
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+	UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
-	if (!AssetManager) return;
+	if (!AssetManager)
+		return;
 
-	UIMBaseItemDA* Item = Cast<UIMBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemIdToAddInv));
+	UIMBaseItemDA *Item = Cast<UIMBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemIdToAddInv));
 
 	if (Item)
 	{
@@ -533,8 +515,8 @@ void UIMInventoryComponent::AfterLoad()
 
 void UIMInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)
 {
-	TArray<UIMInventorySlotWidget*> SlotWidgets = InventoryWidget->GetSlotWidgets();
-	UIMInventorySlotWidget* SlotWidget = SlotWidgets[SlotIndex];
+	TArray<UIMInventorySlotWidget *> SlotWidgets = InventoryWidget->GetSlotWidgets();
+	UIMInventorySlotWidget *SlotWidget = SlotWidgets[SlotIndex];
 
 	SlotWidget->UpdateSlot();
 }

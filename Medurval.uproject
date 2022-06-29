@@ -33,37 +33,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "MobilePatchingUtils",
-			"Enabled": false
-		},
-		{
-			"Name": "LocationServicesBPLibrary",
-			"Enabled": false
-		},
-		{
-			"Name": "OnlineSubsystemGooglePlay",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"Android"
-			]
-		},
-		{
-			"Name": "AndroidPermission",
-			"Enabled": false
-		},
-		{
-			"Name": "GooglePAD",
-			"Enabled": false
-		},
-		{
-			"Name": "AlembicImporter",
-			"Enabled": false
-		},
-		{
-			"Name": "AndroidMedia",
-			"Enabled": false
-		},
-		{
 			"Name": "AndroidMoviePlayer",
 			"Enabled": false
 		},
@@ -218,6 +187,26 @@
 		},
 		{
 			"Name": "CommonBase",
+			"Enabled": true
+		},
+		{
+			"Name": "UdpMessaging",
+			"Enabled": false
+		},
+		{
+			"Name": "MassAI",
+			"Enabled": true
+		},
+		{
+			"Name": "MassCrowd",
+			"Enabled": true
+		},
+		{
+			"Name": "MassEntity",
+			"Enabled": true
+		},
+		{
+			"Name": "MassGameplay",
 			"Enabled": true
 		}
 	]

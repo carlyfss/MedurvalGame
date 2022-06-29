@@ -1,16 +1,15 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
-
 #include "UI/_Base/IMInventoryWidget.h"
 #include "UI/_Base/IMInventorySlotWidget.h"
 #include "Components/IMInventoryComponent.h"
 
-TArray<UIMInventorySlotWidget*> UIMInventoryWidget::GetSlotWidgets()
+TArray<UIMInventorySlotWidget *> UIMInventoryWidget::GetSlotWidgets()
 {
 	return SlotWidgets;
 }
 
-void UIMInventoryWidget::SetInventoryReference(UIMInventoryComponent* InventoryRef)
+void UIMInventoryWidget::SetInventoryReference(UIMInventoryComponent *InventoryRef)
 {
 	InventoryReference = InventoryRef;
 }
@@ -18,4 +17,20 @@ void UIMInventoryWidget::SetInventoryReference(UIMInventoryComponent* InventoryR
 void UIMInventoryWidget::SetSlotsPerRow(uint8 Slots)
 {
 	SlotsPerRow = Slots;
+}
+
+void UIMInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
+{
+	UIMInventorySlotWidget *SlotWidget = GetSlotWidgets()[SlotIndex];
+	FIMInventorySlot TargetSlot = InventoryReference->GetInventorySlots()[SlotIndex];
+
+	SlotWidget->SetItem(TargetSlot.Item);
+	SlotWidget->SetAmount(TargetSlot.Amount);
+
+	if (SlotWidget->GetAmount() > 0)
+	{
+		SlotWidget->UpdateSlot();
+	}
+
+	SlotWidget->CleanSlot();
 }

@@ -4,12 +4,10 @@
 #include "Engine/AssetManager.h"
 #include "Interfaces/IMUsableItemInterface.h"
 
-FPrimaryAssetId UIMBaseItemDA::GetPrimaryAssetId() const
-{
-	return FPrimaryAssetId("DefaultItem", GetFName());
+FPrimaryAssetId UIMBaseItemDA::GetPrimaryAssetId() const {
+  return FPrimaryAssetId("DefaultItem", GetFName());
 }
 
-void UIMBaseItemDA::UseItem_Implementation(AActor* ItemOwner)
-{
-	IIMUsableItemInterface::UseItem_Implementation(ItemOwner);
+void UIMBaseItemDA::UseItem_Implementation(AActor *ItemOwner) {
+  IIMUsableItemInterface::UseItem_Implementation(ItemOwner);
 }

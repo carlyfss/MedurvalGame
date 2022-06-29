@@ -11,38 +11,41 @@ class UIMInventorySlotWidget;
 class UIMInventoryComponent;
 class UUniformGridPanel;
 /**
- * 
+ *
  */
-UCLASS(meta=(DisplayName="InventoryWidget"))
+UCLASS(meta = (DisplayName = "InventoryWidget"))
 class UIMInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	IMDDataAssetInterface* DAInt;
+	IMDDataAssetInterface *DAInt;
 
 	FCriticalSection SocketsCriticalSection;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = true, BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true, BindWidget))
 	TObjectPtr<UUniformGridPanel> SlotPanel = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	TObjectPtr<UIMInventoryComponent> InventoryReference = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	uint8 SlotsPerRow = 4;
 
-	UPROPERTY(BlueprintReadWrite, Category="_InventoryWidget", meta=(AllowPrivateAccess=true))
-	TArray<UIMInventorySlotWidget*> SlotWidgets;
+	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
+	TArray<UIMInventorySlotWidget *> SlotWidgets;
 
 public:
-	TArray<UIMInventorySlotWidget*> GetSlotWidgets();
+	TArray<UIMInventorySlotWidget *> GetSlotWidgets();
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="_InventoryWidget")
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "InventoryWidget")
 	void GenerateSlotWidgets();
 
-	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
-	void SetInventoryReference(UIMInventoryComponent* InventoryRef);
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateSlotAtIndex(uint8 SlotIndex);
 
-	UFUNCTION(BlueprintCallable, Category="_InventoryWidget")
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetInventoryReference(UIMInventoryComponent *InventoryRef);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void SetSlotsPerRow(uint8 Slots);
 };
