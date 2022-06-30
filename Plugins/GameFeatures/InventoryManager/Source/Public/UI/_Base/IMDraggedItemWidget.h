@@ -21,7 +21,6 @@ class INVENTORYMANAGER_API UIMDraggedItemWidget : public UUserWidget
 	UPROPERTY(Transient, BlueprintGetter=GetItemInfo, BlueprintSetter=SetItemInfo)
 	TObjectPtr<UIMBaseItemDA> ItemInfo = nullptr;
 
-private:
 	UPROPERTY(Transient)
 	int SlotIndex = 0;
 
@@ -37,23 +36,22 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="DraggedItem", meta=(BindWidget, AllowPrivateAccess=true))
 	TObjectPtr<UTextBlock> AmountText = nullptr;
 
-
-public:
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-	UIMBaseItemDA* GetItemInfo() const;
-
 	UFUNCTION(BlueprintCallable, Category="DraggedItem")
 	void SetItemInfo(UIMBaseItemDA* Item);
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-	uint8 GetAmount() const;
 
 	UFUNCTION(BlueprintCallable, Category="DraggedItem")
 	void SetAmount(uint8 DraggedAmount);
 
+	UFUNCTION(BlueprintCallable, Category="DraggedItem")
+	void SetInventoryReference(UIMInventoryComponent* InventoryRef);
+
+public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
 	UIMInventoryComponent* GetInventoryReference() const;
 
-	UFUNCTION(BlueprintCallable, Category="DraggedItem")
-	void SetInventoryReference(UIMInventoryComponent* InventoryRef);
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
+	UIMBaseItemDA* GetItemInfo() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
+	uint8 GetAmount() const;
 };

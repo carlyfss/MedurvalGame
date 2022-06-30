@@ -1,9 +1,9 @@
 .git
 .vscode
 Content
+DerivedDataCache
 Intermediate
 Saved
-Plugins/Developer/RiderLink/Intermediate
 Plugins/GameFeatures/CommonBase/Content
 Plugins/GameFeatures/CommonBase/Intermediate
 Plugins/GameFeatures/InventoryManager/Content

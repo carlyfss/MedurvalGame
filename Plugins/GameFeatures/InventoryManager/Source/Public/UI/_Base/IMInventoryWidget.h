@@ -18,8 +18,6 @@ class UIMInventoryWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	IMDDataAssetInterface *DAInt;
-
 	FCriticalSection SocketsCriticalSection;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true, BindWidget))
@@ -34,6 +32,13 @@ class UIMInventoryWidget : public UUserWidget
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
 	TArray<UIMInventorySlotWidget *> SlotWidgets;
 
+protected:
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetInventoryReference(UIMInventoryComponent *InventoryRef);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetSlotsPerRow(uint8 Slots);
+
 public:
 	TArray<UIMInventorySlotWidget *> GetSlotWidgets();
 
@@ -42,10 +47,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void UpdateSlotAtIndex(uint8 SlotIndex);
-
-	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void SetInventoryReference(UIMInventoryComponent *InventoryRef);
-
-	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void SetSlotsPerRow(uint8 Slots);
 };

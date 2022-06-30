@@ -32,12 +32,13 @@ class INVENTORYMANAGER_API UIMDetailWidget : public UUserWidget
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
 	TObjectPtr<UTextBlock> ItemDescription = nullptr;
 
+protected:
+	UFUNCTION(BlueprintCallable, Category="DraggedItem")
+	void SetItemInfo(UIMBaseItemDA* Item);
+
 public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_Item")
 	UIMBaseItemDA* GetItemInfo() const;
-
-	UFUNCTION(BlueprintCallable, Category="DraggedItem")
-	void SetItemInfo(UIMBaseItemDA* Item);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="DraggedItem")
 	void UpdateWidget();

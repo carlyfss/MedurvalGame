@@ -17,6 +17,7 @@ void UMDLineTraceComponent::CastLineTrace()
 	if (!GetWorld()->IsTraceHandleValid(LastTraceHandle, false) && !bIsLineTraceEnabled)
 	{
 		bIsLineTraceEnabled = true;
+
 		return;
 	}
 

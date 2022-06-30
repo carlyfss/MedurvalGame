@@ -1,6 +1,5 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
-
 #include "UI/_Base/IMInventorySlotWidget.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
@@ -17,27 +16,17 @@ uint8 UIMInventorySlotWidget::GetAmount() const
 
 void UIMInventorySlotWidget::SetAmount(const uint8 NewAmount)
 {
-	this->Amount = NewAmount;
+	Amount = NewAmount;
 }
 
-UIMBaseItemDA* UIMInventorySlotWidget::GetItem() const
+UIMBaseItemDA *UIMInventorySlotWidget::GetItem() const
 {
-	return this->Item;
+	return Item;
 }
 
-void UIMInventorySlotWidget::SetItem(UIMBaseItemDA* NewItem)
+void UIMInventorySlotWidget::SetItem(UIMBaseItemDA *NewItem)
 {
-	this->Item = NewItem;
-}
-
-int32 UIMInventorySlotWidget::GetSlotIndex() const
-{
-	return SlotIndex;
-}
-
-void UIMInventorySlotWidget::SetSlotIndex(const int32 Index)
-{
-	SlotIndex = Index;
+	Item = NewItem;
 }
 
 void UIMInventorySlotWidget::CleanSlot()
@@ -59,17 +48,12 @@ void UIMInventorySlotWidget::CleanSlot()
 
 void UIMInventorySlotWidget::UpdateSlot()
 {
-	if (!IsValid(InventoryReference)) return;
-	if (!Item) return;
+	if (!IsValid(InventoryReference))
+		return;
+	if (!Item)
+		return;
 
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-	if (!AssetManager) return;
-
-	UTexture2D* Thumbnail = Cast<UTexture2D>(Item->Thumbnail.Get());
-
-	if (!Thumbnail) return;
-
-	ItemIcon->SetBrushFromTexture(Thumbnail);
+	ItemIcon->SetBrushFromTexture(Item->Thumbnail.Get());
 	ItemIcon->SetVisibility(ESlateVisibility::HitTestInvisible);
 
 	Amount = InventoryReference->GetAmountAtIndex(SlotIndex);
@@ -79,17 +63,29 @@ void UIMInventorySlotWidget::UpdateSlot()
 	CreateDetailWidget();
 }
 
-void UIMInventorySlotWidget::SetInventoryReference(UIMInventoryComponent* TargetInventory)
+void UIMInventorySlotWidget::SetInventoryReference(UIMInventoryComponent *TargetInventory)
 {
 	InventoryReference = TargetInventory;
 }
 
-UButton* UIMInventorySlotWidget::GetSlotButton() const
+void UIMInventorySlotWidget::SetWidgetProperties(UIMBaseItemDA *NewItem, const uint8 NewAmount, const uint8 NewSlotIndex)
+{
+	Item = NewItem;
+	Amount = NewAmount;
+	SlotIndex = NewSlotIndex;
+}
+
+UButton *UIMInventorySlotWidget::GetSlotButton() const
 {
 	return SlotButton;
 }
 
-UIMInventoryComponent* UIMInventorySlotWidget::GetInventoryReference() const
+UIMInventoryComponent *UIMInventorySlotWidget::GetInventoryReference() const
 {
 	return InventoryReference;
+}
+
+uint8 UIMInventorySlotWidget::GetSlotIndex() const
+{
+	return SlotIndex;
 }

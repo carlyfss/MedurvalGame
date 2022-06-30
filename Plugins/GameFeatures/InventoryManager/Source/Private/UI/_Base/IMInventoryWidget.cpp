@@ -24,8 +24,7 @@ void UIMInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
 	UIMInventorySlotWidget *SlotWidget = GetSlotWidgets()[SlotIndex];
 	FIMInventorySlot TargetSlot = InventoryReference->GetInventorySlots()[SlotIndex];
 
-	SlotWidget->SetItem(TargetSlot.Item);
-	SlotWidget->SetAmount(TargetSlot.Amount);
+	SlotWidget->SetWidgetProperties(TargetSlot.Item, TargetSlot.Amount, SlotIndex);
 
 	if (SlotWidget->GetAmount() > 0)
 	{
