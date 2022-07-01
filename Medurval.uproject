@@ -113,12 +113,12 @@
 			"Enabled": true
 		},
 		{
-			"Name": "RiderSourceCodeAccess",
-			"Enabled": false
+			"Name": "RadarCompass",
+			"Enabled": true
 		},
 		{
-			"Name": "RiderLink",
-			"Enabled": false
+			"Name": "SettlementSystem",
+			"Enabled": true
 		}
 	]
 }

@@ -1,10 +1,4 @@
 .git
 .vscode
 Content
-DerivedDataCache
 Intermediate
-Saved
-Plugins/GameFeatures/CommonBase/Content
-Plugins/GameFeatures/CommonBase/Intermediate
-Plugins/GameFeatures/InventoryManager/Content
-Plugins/GameFeatures/InventoryManager/Intermediate
