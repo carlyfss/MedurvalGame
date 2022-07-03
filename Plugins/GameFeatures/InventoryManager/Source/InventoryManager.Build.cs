@@ -10,8 +10,14 @@ public class InventoryManager : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
-			"UMG", "Core", "CoreUObject", "Engine", "GameFeatures", "ModularGameplay", "EnhancedInput", "Medurval",
-			"SlateCore", "CommonBase"
+			"UMG", 
+			"Core", 
+			"CoreUObject", 
+			"Engine",
+			"EnhancedInput", 
+			"Medurval",
+			"SlateCore", 
+			"CommonBase"
 		});
 	}
 }

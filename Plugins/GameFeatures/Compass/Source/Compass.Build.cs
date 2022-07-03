@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class SettlementSystem : ModuleRules
+public class Compass : ModuleRules
 {
-	public SettlementSystem(ReadOnlyTargetRules Target) : base(Target)
+	public Compass(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -24,8 +24,8 @@ public class SettlementSystem : ModuleRules
 			{
 				"CoreUObject",
 				"Engine",
-				"Slate",
-				"SlateCore",
+				"UMG",
+				"CommonBase"
 			});
 	}
 }

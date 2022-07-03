@@ -2,7 +2,7 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "0.0.1",
-	"FriendlyName": "RadarCompass",
+	"FriendlyName": "Compass",
 	"Description": "",
 	"Category": "Game Features",
 	"CreatedBy": "",
@@ -17,11 +17,20 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "RadarCompass",
+			"Name": "Compass",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"CommonBase"
+			]
 		}
 	],
 	"ExplicitlyLoaded": true,
-	"BuiltInInitialFeatureState": "Active"
+	"BuiltInInitialFeatureState": "Active",
+	"Plugins": [
+		{
+			"Name": "CommonBase",
+			"Enabled": true
+		},
+	]
 }

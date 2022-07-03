@@ -1,14 +1,13 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #pragma once
-// clang-format off
+
 #include "Components/CBActorComponent.h"
 #include "CoreMinimal.h"
 #include "InputAction.h"
 #include "Interfaces/InventoryInterface.h"
 #include "Structs/IMInventorySlot.h"
 #include "IMInventoryComponent.generated.h"
-// clang-format on
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, UIMBaseItemDA *, ItemAdded, uint8, Amount);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemRemoved, UIMBaseItemDA *, ItemRemoved, uint8, Amount);
@@ -27,7 +26,7 @@ class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterfa
     FCriticalSection SocketsCriticalSection;
 
     UPROPERTY(Transient)
-    ACharacter *PlayerCharacter = nullptr;
+    TObjectPtr<ACharacter> PlayerCharacter = nullptr;
 
 #pragma region Configurations
     UPROPERTY(EditDefaultsOnly, BlueprintGetter = GetSlotAmount, Category = "_Inventory|Configuration")

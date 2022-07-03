@@ -1,11 +1,11 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FRadarCompassModule : public IModuleInterface
+class FInventoryManagerModule : public IModuleInterface
 {
 public:
     //~IModuleInterface

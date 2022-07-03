@@ -11,4 +11,5 @@
   NamespaceIndentation: All,
   FixNamespaceComments: false,
   IncludeBlocks: Merge,
+  SortIncludes: false,
 }

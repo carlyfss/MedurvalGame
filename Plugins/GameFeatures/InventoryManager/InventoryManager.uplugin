@@ -15,7 +15,7 @@
 	"IsExperimentalVersion": false,
 	"Installed": true,
 	"ExplicitlyLoaded": true,
-	"BuiltInInitialFeatureState": "Active",
+	"BuiltInInitialFeatureState": "Registered",
 	"Modules": [
 		{
 			"Name": "InventoryManager",
@@ -23,8 +23,6 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"CommonBase",
-				"GameFeatures",
-				"ModularGameplay",
 				"EnhancedInput"
 			]
 		}
@@ -32,14 +30,6 @@
 	"Plugins": [
 		{
 			"Name": "CommonBase",
-			"Enabled": true
-		},
-		{
-			"Name": "GameFeatures",
-			"Enabled": true
-		},
-		{
-			"Name": "ModularGameplay",
 			"Enabled": true
 		},
 		{

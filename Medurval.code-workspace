@@ -10,7 +10,14 @@
 		}
 	],
 	"settings": {
-		"typescript.tsc.autoDetect": "off"
+		"typescript.tsc.autoDetect": "off",
+		"files.associations": {
+			"typeindex": "cpp",
+			"typeinfo": "cpp",
+			"chrono": "cpp",
+			"system_error": "cpp",
+			"xlocale": "cpp"
+		}
 	},
 	"extensions": {
 		"recommendations": [

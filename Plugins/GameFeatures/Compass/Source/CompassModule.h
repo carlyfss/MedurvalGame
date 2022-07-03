@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FSettlementSystemModule : public IModuleInterface
+class FCompassModule : public IModuleInterface
 {
 public:
     //~IModuleInterface
