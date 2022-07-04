@@ -3,6 +3,8 @@
 #include "Components/CCompassComponent.h"
 
 #include "Structs/FCDirectionInfo.h"
+#include "Subsystems/CCompassSubsystem.h"
+#include "UI/CCompassWidget.h"
 
 UCCompassComponent::UCCompassComponent()
 {
