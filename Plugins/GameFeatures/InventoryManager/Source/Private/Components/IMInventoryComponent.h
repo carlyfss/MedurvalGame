@@ -10,7 +10,9 @@
 #include "IMInventoryComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, UIMBaseItemDA *, ItemAdded, uint8, Amount);
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemRemoved, UIMBaseItemDA *, ItemRemoved, uint8, Amount);
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateSlotAtIndex, uint8, SlotIndex);
 
 class UIMInventoryWidget;
@@ -39,14 +41,14 @@ class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterfa
     uint8 MaxStackSize = 30;
 
     UPROPERTY(EditDefaultsOnly, BlueprintGetter = GetIsVisible, BlueprintSetter = SetIsVisible,
-              Category = "_Inventory|Configuration", meta = (AllowPrivateAccess = true))
+        Category = "_Inventory|Configuration", meta = (AllowPrivateAccess = true))
     bool bIsVisible = false;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "_Inventory|Configuration", meta = (AllowPrivateAccess = true))
     TSubclassOf<UUserWidget> InventoryWidgetClass = nullptr;
 
     UPROPERTY(BlueprintSetter = SetInventoryWidget, BlueprintGetter = GetInventoryWidget,
-              Category = "_Inventory|Configuration")
+        Category = "_Inventory|Configuration")
     TObjectPtr<UIMInventoryWidget> InventoryWidget = nullptr;
 #pragma endregion Configurations
 
@@ -55,7 +57,7 @@ class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterfa
     UEnhancedInputComponent *EnhancedInputComponent = nullptr;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "_Inventory|Inputs", meta = (AllowPrivateAccess = true))
-    TObjectPtr<UInputMappingContext> InventoryMappingContext = nullptr;
+    UInputMappingContext *InventoryMappingContext = nullptr;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "_Inventory|Inputs", meta = (AllowPrivateAccess = true))
     TObjectPtr<UInputAction> ToggleInventoryAction;

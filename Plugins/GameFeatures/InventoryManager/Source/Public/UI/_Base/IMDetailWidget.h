@@ -12,34 +12,34 @@ class UTextBlock;
 /**
  * 
  */
-UCLASS()
+UCLASS(meta = (DisplayName = "DetailWidget"))
 class INVENTORYMANAGER_API UIMDetailWidget : public UUserWidget
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	UPROPERTY(Transient, BlueprintGetter=GetItemInfo, BlueprintSetter=SetItemInfo)
-	TObjectPtr<UIMBaseItemDA> ItemInfo = nullptr;
+    UPROPERTY(Transient, BlueprintGetter=GetItemInfo, BlueprintSetter=SetItemInfo)
+    TObjectPtr<UIMBaseItemDA> ItemInfo = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
-	TObjectPtr<UImage> ItemIcon = nullptr;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
-	TObjectPtr<UTextBlock> ItemName = nullptr;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
-	TObjectPtr<UTextBlock> ItemCategory = nullptr;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
+    TObjectPtr<UImage> ItemIcon = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
-	TObjectPtr<UTextBlock> ItemDescription = nullptr;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
+    TObjectPtr<UTextBlock> ItemName = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
+    TObjectPtr<UTextBlock> ItemCategory = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="_Item", meta=(BindWidget, AllowPrivateAccess=true))
+    TObjectPtr<UTextBlock> ItemDescription = nullptr;
 
 protected:
-	UFUNCTION(BlueprintCallable, Category="DraggedItem")
-	void SetItemInfo(UIMBaseItemDA* Item);
+    UFUNCTION(BlueprintCallable, Category="DraggedItem")
+    void SetItemInfo(UIMBaseItemDA *Item);
 
 public:
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="_Item")
-	UIMBaseItemDA* GetItemInfo() const;
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category="_Item")
+    UIMBaseItemDA *GetItemInfo() const;
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="DraggedItem")
-	void UpdateWidget();
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="DraggedItem")
+    void UpdateWidget();
 };

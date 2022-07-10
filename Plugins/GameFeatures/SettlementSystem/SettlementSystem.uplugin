@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.0",
+	"VersionName": "0.0.1",
 	"FriendlyName": "SettlementSystem",
 	"Description": "",
 	"Category": "Game Features",
@@ -19,9 +19,18 @@
 		{
 			"Name": "SettlementSystem",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"CommonBase"
+			]
 		}
 	],
 	"ExplicitlyLoaded": true,
-	"BuiltInInitialFeatureState": "Registered"
+	"BuiltInInitialFeatureState": "Active",
+	"Plugins": [
+		{
+			"Name": "CommonBase",
+			"Enabled": true
+		}
+	]
 }

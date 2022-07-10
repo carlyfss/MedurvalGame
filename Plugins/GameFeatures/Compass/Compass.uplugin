@@ -31,6 +31,6 @@
 		{
 			"Name": "CommonBase",
 			"Enabled": true
-		},
+		}
 	]
 }

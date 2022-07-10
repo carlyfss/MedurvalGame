@@ -1,5 +1,4 @@
 @echo off
-
 call .\BuildVars.bat
 
 @RD /S /Q "./Binaries"
@@ -8,17 +7,21 @@ call .\BuildVars.bat
 @RD /S /Q "./Saved"
 @RD /S /Q "./Script"
 @RD /S /Q "./.vs"
-@RD /S /Q "./Plugins/GameFeatures/CommonBase/Binaries"
-@RD /S /Q "./Plugins/GameFeatures/CommonBase/Intermediate"
-@RD /S /Q "./Plugins/GameFeatures/InventoryManager/Binaries"
-@RD /S /Q "./Plugins/GameFeatures/InventoryManager/Intermediate"
-@RD /S /Q "./Plugins/GameFeatures/SettlementSystem/Binaries"
-@RD /S /Q "./Plugins/GameFeatures/SettlementSystem/Intermediate"
-@RD /S /Q "./Plugins/GameFeatures/RadarCompass/Binaries"
-@RD /S /Q "./Plugins/GameFeatures/RadarCompass/Intermediate"
+@RD /S /Q "%COMMON_BASE_PLUGIN_DIR%\Binaries"
+@RD /S /Q "%COMMON_BASE_PLUGIN_DIR%\Intermediate"
+@RD /S /Q "%INVENTORY_PLUGIN_DIR%\Binaries"
+@RD /S /Q "%INVENTORY_PLUGIN_DIR%\Intermediate"
+@RD /S /Q "%SETTLEMENT_PLUGIN_DIR%\Binaries"
+@RD /S /Q "%SETTLEMENT_PLUGIN_DIR%\Intermediate"
+@RD /S /Q "%COMPASS_PLUGIN_DIR%\Binaries"
+@RD /S /Q "%COMPASS_PLUGIN_DIR%\Intermediate"
+@RD /S /Q "%COMMON_CURRENCY_PLUGIN_DIR%\Binaries"
+@RD /S /Q "%COMMON_CURRENCY_PLUGIN_DIR%\Intermediate"
 
 call "%UBT_PATH%" -ProjectFiles -UsePrecompiled -Game "%UPROJECT_PATH%"
 
 @echo on
 
 call .\BuildProject.bat
+
+@pause

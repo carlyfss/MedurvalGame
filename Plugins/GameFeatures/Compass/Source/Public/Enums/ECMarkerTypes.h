@@ -5,6 +5,7 @@
 UENUM(BlueprintType, meta = (DisplayName = "MarkerTypes"))
 enum class ECMarkerTypes : uint8
 {
+    Default,
     MainQuest,
     SecondaryQuest,
 };

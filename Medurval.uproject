@@ -119,6 +119,10 @@
 		{
 			"Name": "SettlementSystem",
 			"Enabled": true
+		},
+		{
+			"Name": "CommonCurrency",
+			"Enabled": true
 		}
 	]
 }

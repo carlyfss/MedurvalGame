@@ -10,6 +10,10 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateDirectionWidgets);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateMarkerWidgets);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddMarkerToCompass, FCMarkerInfo, TargetMarker);
+
 class UCCompassWidget;
 /**
  *
@@ -25,8 +29,7 @@ class COMPASS_API UCCompassSubsystem : public UGameInstanceSubsystem
 
     FTimerHandle TimerHandle;
 
-    UPROPERTY(EditDefaultsOnly, Category="Compass|Configurations")
-    float TimerInterval = 0.025f;
+    float TimerInterval = 0.01f;
 
     UPROPERTY(EditDefaultsOnly, Category="Compass|Configurations")
     float MaxWidgetTranslation = 350;
@@ -37,16 +40,21 @@ class COMPASS_API UCCompassSubsystem : public UGameInstanceSubsystem
     UPROPERTY(EditDefaultsOnly, Category="Compass|Configurations", meta = (AllowPrivateAccess = true))
     TArray<FCMarkerInfo> Markers;
 
-    UPROPERTY(EditDefaultsOnly, Category="Compass|Configurations", meta = (AllowPrivateAccess = true))
-    TArray<FCMarkerInfo> DefaultMarkers;
-
     const int CircleDegrees = 360;
+
+    const float UnitsPerMeter = 100.0f;
 
     void UpdateAllWidgets() const;
 
 protected:
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnUpdateDirectionWidgets UpdateDirectionWidgets;
+
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnUpdateMarkerWidgets OnUpdateMarkerWidgets;
+
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnAddMarkerToCompass OnAddMarkerToCompass;
 
 public:
     UFUNCTION(BlueprintCallable, Category="Compass")
@@ -59,13 +67,24 @@ public:
     FVector2D RotationsToTranslations(FRotator RotationA, FRotator RotationB, bool &bIsClockwise, bool &bIsInRadarSigth) const;
 
     UFUNCTION(BlueprintCallable, Category="Compass")
-    void SetDirections(TArray<FCDirectionInfo> DirectionInfos);
+    TArray<FCDirectionInfo> GetDirections() const;
 
     UFUNCTION(BlueprintCallable, Category="Compass")
-    TArray<FCDirectionInfo> GetDirections();
+    TArray<FCMarkerInfo> GetMarkers() const;
+
+    UFUNCTION(BlueprintCallable, Category="Compass")
+    int UpdateMarkerDistance(FCMarkerInfo MarkerToCalculate) const;
+
+    UFUNCTION(BlueprintCallable, Category="Compass")
+    void AddMarkerToCompass(FCMarkerInfo Marker);
 };
 
 inline void UCCompassSubsystem::UpdateAllWidgets() const
 {
     UpdateDirectionWidgets.Broadcast();
+
+    if (Markers.Num() > 0)
+    {
+        OnUpdateMarkerWidgets.Broadcast();
+    }
 }

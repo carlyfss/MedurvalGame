@@ -1,10 +1,22 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #include "Subsystems/CCompassSubsystem.h"
+
+#include "GameFramework/Character.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 
 void UCCompassSubsystem::Initialize(FSubsystemCollectionBase &Collection)
 {
+    const FCDirectionInfo *NorthDirection = new FCDirectionInfo(FText::FromName("N"), 0);
+    const FCDirectionInfo *EastDirection = new FCDirectionInfo(FText::FromName("E"), 90);
+    const FCDirectionInfo *SouthDirection = new FCDirectionInfo(FText::FromName("S"), 180);
+    const FCDirectionInfo *WestDirection = new FCDirectionInfo(FText::FromName("W"), -90);
+
+    Directions.Add(*NorthDirection);
+    Directions.Add(*EastDirection);
+    Directions.Add(*SouthDirection);
+    Directions.Add(*WestDirection);
+
     FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &UCCompassSubsystem::UpdateAllWidgets);
     GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, TimerInterval, true);
 }
@@ -29,8 +41,8 @@ float UCCompassSubsystem::RotationToCircleDegrees(float In) const
 
 float UCCompassSubsystem::GetDeltaClockwise(float A, float B, bool bIsClockwise) const
 {
-    float AInput = FMath::FloorToInt(A) % CircleDegrees;
-    float BInput = FMath::FloorToInt(B) % CircleDegrees;
+    float AInput = fmod(A, CircleDegrees);
+    float BInput = fmod(B, CircleDegrees);
 
     if (bIsClockwise)
     {
@@ -104,12 +116,31 @@ FVector2D UCCompassSubsystem::RotationsToTranslations(FRotator RotationA, FRotat
     return FVector2d(0, 0);
 }
 
-void UCCompassSubsystem::SetDirections(TArray<FCDirectionInfo> DirectionInfos)
-{
-    Directions = DirectionInfos;
-}
-
-TArray<FCDirectionInfo> UCCompassSubsystem::GetDirections()
+TArray<FCDirectionInfo> UCCompassSubsystem::GetDirections() const
 {
     return Directions;
+}
+
+TArray<FCMarkerInfo> UCCompassSubsystem::GetMarkers() const
+{
+    return Markers;
+}
+
+int UCCompassSubsystem::UpdateMarkerDistance(FCMarkerInfo MarkerToCalculate) const
+{
+    const FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetCharacter()->GetActorLocation();
+
+    const FVector MarkerLocation = FVector(MarkerToCalculate.Location.X, MarkerToCalculate.Location.Y, 0);
+    const FVector DistanceVector = MarkerLocation - FVector(PlayerLocation.X, PlayerLocation.Y, 0);
+
+    const float DistanceInMeters = DistanceVector.Length() / UnitsPerMeter;
+
+    return FMath::Floor(DistanceInMeters);
+}
+
+void UCCompassSubsystem::AddMarkerToCompass(FCMarkerInfo TargetMarker)
+{
+    Markers.Add(TargetMarker);
+
+    OnAddMarkerToCompass.Broadcast(TargetMarker);
 }

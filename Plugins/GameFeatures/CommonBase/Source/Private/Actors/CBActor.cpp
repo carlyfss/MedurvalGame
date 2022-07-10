@@ -1,6 +1,5 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
-
 #include "Actors/CBActor.h"
 
 #include "Constants/CommonBaseConstants.h"

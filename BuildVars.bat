@@ -11,5 +11,6 @@ set UBT_PATH=%UE5_DIR%\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.ex
 
 set COMPASS_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\Compass
 set COMMON_BASE_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\CommonBase
+set COMMON_CURRENCY_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\CommonCurrency
 set INVENTORY_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\InventoryManager
 set SETTLEMENT_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\SettlementSystem
