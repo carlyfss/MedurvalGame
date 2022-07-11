@@ -7,7 +7,7 @@
 
 UCBSphereComponent::UCBSphereComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
-	PrimaryComponentTick.bStartWithTickEnabled = false;
-	PrimaryComponentTick.TickInterval = FCommonBaseConstants::TickInterval;
+    PrimaryComponentTick.bCanEverTick = false;
+    PrimaryComponentTick.bStartWithTickEnabled = false;
+    PrimaryComponentTick.TickInterval = FCommonBaseConstants::TickInterval;
 }

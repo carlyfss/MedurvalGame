@@ -7,11 +7,11 @@
 #include "CBActorComponent.generated.h"
 
 
-UCLASS( ClassGroup=(CommonBase), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(CommonBase), meta=(BlueprintSpawnableComponent))
 class COMMONBASE_API UCBActorComponent : public UActorComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-public:	
-	UCBActorComponent();
+public:
+    UCBActorComponent();
 };

@@ -8,8 +8,8 @@
 class FCommonBaseModule : public IModuleInterface
 {
 public:
-	//~IModuleInterface
-	virtual void StartupModule() override;
-	virtual void ShutdownModule() override;
-	//~End of IModuleInterface
+    //~IModuleInterface
+    virtual void StartupModule() override;
+    virtual void ShutdownModule() override;
+    //~End of IModuleInterface
 };

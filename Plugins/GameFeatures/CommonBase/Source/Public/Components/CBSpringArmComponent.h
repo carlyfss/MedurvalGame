@@ -12,7 +12,7 @@
 UCLASS()
 class COMMONBASE_API UCBSpringArmComponent : public USpringArmComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	UCBSpringArmComponent();
+    UCBSpringArmComponent();
 };

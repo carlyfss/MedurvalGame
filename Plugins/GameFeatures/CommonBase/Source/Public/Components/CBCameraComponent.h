@@ -12,8 +12,8 @@
 UCLASS()
 class COMMONBASE_API UCBCameraComponent : public UCameraComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UCBCameraComponent();
+    UCBCameraComponent();
 };

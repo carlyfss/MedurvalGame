@@ -10,5 +10,5 @@
 class COMMONBASE_API FCommonBaseConstants
 {
 public:
-	inline static float TickInterval = 0.075f;
+    inline static float TickInterval = 0.075f;
 };

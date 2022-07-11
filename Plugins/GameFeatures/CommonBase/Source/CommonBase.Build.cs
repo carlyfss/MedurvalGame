@@ -7,21 +7,21 @@ public class CommonBase : ModuleRules
 	public CommonBase(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
-		PublicIncludePaths.AddRange(new string[] {});
-		
-		PrivateIncludePaths.AddRange(new string[] {});
-			
-		
+
+		PublicIncludePaths.AddRange(new string[] { });
+
+		PrivateIncludePaths.AddRange(new string[] { });
+
+
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "Engine",
+				"Core", "Engine", "EnhancedInput",
 				// ... add other public dependencies that you statically link with here ...
 			}
-			);
-			
-		
+		);
+
+
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -31,6 +31,6 @@ public class CommonBase : ModuleRules
 				"SlateCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
-			);
+		);
 	}
 }

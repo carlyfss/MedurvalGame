@@ -5,5 +5,5 @@
 
 UCBSpringArmComponent::UCBSpringArmComponent()
 {
-	bUsePawnControlRotation = true;
+    bUsePawnControlRotation = true;
 }

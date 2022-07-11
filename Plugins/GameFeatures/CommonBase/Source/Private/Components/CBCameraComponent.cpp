@@ -6,9 +6,9 @@
 
 UCBCameraComponent::UCBCameraComponent()
 {
-	PrimaryComponentTick.bCanEverTick = false;
-	PrimaryComponentTick.bStartWithTickEnabled = false;
-	PrimaryComponentTick.TickInterval = FCommonBaseConstants::TickInterval;
+    PrimaryComponentTick.bCanEverTick = false;
+    PrimaryComponentTick.bStartWithTickEnabled = false;
+    PrimaryComponentTick.TickInterval = FCommonBaseConstants::TickInterval;
 
-	bUsePawnControlRotation = false;
+    bUsePawnControlRotation = false;
 }

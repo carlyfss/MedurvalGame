@@ -12,8 +12,8 @@
 UCLASS()
 class COMMONBASE_API UCBStaticMeshComponent : public UStaticMeshComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UCBStaticMeshComponent();
+    UCBStaticMeshComponent();
 };

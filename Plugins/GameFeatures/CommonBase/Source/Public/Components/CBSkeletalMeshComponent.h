@@ -12,8 +12,8 @@
 UCLASS()
 class COMMONBASE_API UCBSkeletalMeshComponent : public USkeletalMeshComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UCBSkeletalMeshComponent();
+    UCBSkeletalMeshComponent();
 };

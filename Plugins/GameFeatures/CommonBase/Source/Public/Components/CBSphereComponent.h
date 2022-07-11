@@ -12,8 +12,8 @@
 UCLASS()
 class COMMONBASE_API UCBSphereComponent : public USphereComponent
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UCBSphereComponent();
+    UCBSphereComponent();
 };
