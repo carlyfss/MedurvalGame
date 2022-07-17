@@ -13,4 +13,16 @@ UCLASS()
 class USSMaintenanceComponent : public UCBActorComponent
 {
     GENERATED_BODY()
+
+    // DailyIncome
+
+    // DailyUpkeep
+
+    // AddToTreasuryIncome
+
+    // AddToTreasuryUpkeep
+
+    // RemoveDailyIncome
+
+    // RemoveDailyUpkeep
 };

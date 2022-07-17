@@ -15,7 +15,7 @@ class USSMaintenanceComponent;
 /**
  * 
  */
-UCLASS(meta=(DisplayName="BuildingActor"))
+UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="BuildingActor"))
 class ASSBuildingActor : public ACBActor
 {
     GENERATED_BODY()

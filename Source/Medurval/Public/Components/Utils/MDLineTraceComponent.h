@@ -11,64 +11,64 @@
 UCLASS(ClassGroup=(Custom), Blueprintable, meta=(BlueprintSpawnableComponent))
 class MEDURVAL_API UMDLineTraceComponent : public UCBActorComponent, public IMDLineTraceInterface
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	UPROPERTY(BlueprintSetter=SetPlayerController, Category="_LineTrace|Configuration")
-	TObjectPtr<APlayerController> PlayerController = nullptr;
+    UPROPERTY(BlueprintSetter=SetPlayerController, Category="_LineTrace|Configuration")
+    TObjectPtr<APlayerController> PlayerController = nullptr;
 
-	/** TODO Remender to add a new visibility channel for the line trace with the inventory items */
-	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
-	float LineTraceDistance = 500.0f;
+    UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+    float LineTraceDistance = 500.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
-	float LineTraceInterval = 0.1f;
+    UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+    float LineTraceInterval = 0.1f;
 
-	/** Whether to use the mouse position on screen if not it will use the player's camera view */
-	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
-	bool bUseMouseLocation = false;
+    /** Whether to use the mouse position on screen if not it will use the player's camera view */
+    UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+    bool bUseMouseLocation = false;
 
-	UPROPERTY(BlueprintReadWrite, Category="_LineTrace|Configuration", meta=(AllowPrivateAccess=true))
-	bool bIsLineTraceEnabled = true;
-	
-	TObjectPtr<AActor> LineTraceHitActor = nullptr;
+    UPROPERTY(BlueprintReadWrite, Category="_LineTrace|Configuration", meta=(AllowPrivateAccess=true))
+    bool bIsLineTraceEnabled = true;
 
-	FTimerHandle LineTraceTimerHandle;
+    TObjectPtr<AActor> LineTraceHitActor = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
-	TArray<TEnumAsByte<ECollisionChannel>> CollisionChannels;
+    FTimerHandle LineTraceTimerHandle;
+
+    UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+    TArray<TEnumAsByte<ECollisionChannel>> CollisionChannels;
 
 public:
-	UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
-	bool bActivateLineTraceDebug = false;
+    UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
+    bool bActivateLineTraceDebug = false;
 
-	UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
-	bool bActivateLineTraceHitBox = false;
+    UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
+    bool bActivateLineTraceHitBox = false;
 
 protected:
-	
-	virtual void CastLineTrace() final;
+    void CastLineTrace();
 
-	FTraceHandle RequestLineTrace();
+    FTraceHandle RequestLineTrace();
 
-	FTraceHandle LastTraceHandle;
+    FTraceHandle LastTraceHandle;
 
-	FTraceDelegate TraceDelegate;
+    FTraceDelegate TraceDelegate;
 
-	void OnLineTraceCompleted(const FTraceHandle& TraceHandle, FTraceDatum& TraceResult);
-	void HandleLineTraceResults(const FTraceDatum& TraceResult);
+    void OnLineTraceCompleted(const FTraceHandle &TraceHandle, FTraceDatum &TraceResult);
+
+    void HandleLineTraceResults(const FTraceDatum &TraceResult);
+
+    void HandleLineTraceResults(const FHitResult &TraceResult);
 
 public:
+    virtual void StartLineTrace_Implementation() override;
 
-	virtual void StartLineTrace_Implementation() override;
+    virtual void EndLineTrace_Implementation() override;
 
-	virtual void EndLineTrace_Implementation() override;
+    virtual AActor *GetLineTraceHitActor_Implementation() const override;
 
-	virtual AActor* GetLineTraceHitActor_Implementation() const override;
+    virtual bool IsLineTraceEnabled_Implementation() const override;
 
-	virtual bool IsLineTraceEnabled_Implementation() const override;
+    UFUNCTION(BlueprintCallable, Category="_LineTrace|Configuration")
+    void SetPlayerController(APlayerController *PlayerControl);
 
-	UFUNCTION(BlueprintCallable, Category="_LineTrace|Configuration")
-	void SetPlayerController(APlayerController* PlayerControl);
-
-	virtual void BeginPlay() override;
+    virtual void BeginPlay() override;
 };

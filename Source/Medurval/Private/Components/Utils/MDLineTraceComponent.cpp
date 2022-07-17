@@ -6,152 +6,180 @@
 
 void UMDLineTraceComponent::BeginPlay()
 {
-	Super::BeginPlay();
+    Super::BeginPlay();
 
-	StartLineTrace_Implementation();
-	TraceDelegate.BindUObject(this, &UMDLineTraceComponent::OnLineTraceCompleted);
+    StartLineTrace_Implementation();
+    TraceDelegate.BindUObject(this, &UMDLineTraceComponent::OnLineTraceCompleted);
 }
 
 void UMDLineTraceComponent::CastLineTrace()
 {
-	if (!GetWorld()->IsTraceHandleValid(LastTraceHandle, false) && !bIsLineTraceEnabled)
-	{
-		bIsLineTraceEnabled = true;
+    if (!GetWorld()->IsTraceHandleValid(LastTraceHandle, false) && !bIsLineTraceEnabled)
+    {
+        bIsLineTraceEnabled = true;
 
-		return;
-	}
+        return;
+    }
 
-	if (bIsLineTraceEnabled)
-	{
-		if (IsValid(PlayerController))
-		{
-			if (LastTraceHandle._Data.FrameNumber != 0)
-			{
-				FTraceDatum OutData;
-				if (GetWorld()->QueryTraceData(LastTraceHandle, OutData))
-				{
-					// Clear out handle so next tick we don't enter
-					LastTraceHandle._Data.FrameNumber = 0;
-					// trace is finished, do stuff with results
-					HandleLineTraceResults(OutData);
-				}
+    if (!bIsLineTraceEnabled)
+        return;
 
-				return;
-			}
+    if (!IsValid(PlayerController))
+        return;
 
-			LastTraceHandle = RequestLineTrace();
-			bIsLineTraceEnabled = false;
-		}
-	}
+    if (bUseMouseLocation)
+    {
+        FHitResult HitResult;
+        PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_GameTraceChannel3, false, HitResult);
+
+        HandleLineTraceResults(HitResult);
+
+        return;
+    }
+
+    if (LastTraceHandle._Data.FrameNumber != 0)
+    {
+        FTraceDatum OutData;
+        if (GetWorld()->QueryTraceData(LastTraceHandle, OutData))
+        {
+            // Clear out handle so next tick we don't enter
+            LastTraceHandle._Data.FrameNumber = 0;
+            // trace is finished, do stuff with results
+            HandleLineTraceResults(OutData);
+        }
+
+        return;
+    }
+
+    LastTraceHandle = RequestLineTrace();
+    bIsLineTraceEnabled = false;
 }
 
 FTraceHandle UMDLineTraceComponent::RequestLineTrace()
 {
-	FVector Location;
-	FRotator Rotation;
+    FVector Location;
+    FRotator Rotation;
 
-	PlayerController->GetPlayerViewPoint(Location, Rotation);
+    PlayerController->GetPlayerViewPoint(Location, Rotation);
 
-	FVector Start = Location;
-	FVector End = Start + (Rotation.Vector() * LineTraceDistance);
+    FVector Start = Location;
+    FVector End = Start + (Rotation.Vector() * LineTraceDistance);
 
-	FCollisionQueryParams TraceParams;
+    FCollisionQueryParams TraceParams;
 
-	FCollisionResponseParams Params = FCollisionResponseParams::DefaultResponseParam;
-	Params.CollisionResponse.SetAllChannels(ECR_Ignore);
+    FCollisionResponseParams Params = FCollisionResponseParams::DefaultResponseParam;
+    Params.CollisionResponse.SetAllChannels(ECR_Ignore);
 
-	if (CollisionChannels.Num() > 0)
-	{
-		for (ECollisionChannel CollisionChannel : CollisionChannels)
-		{
-			Params.CollisionResponse.SetResponse(CollisionChannel, ECR_Block);
-		}
-	}
+    if (CollisionChannels.Num() > 0)
+    {
+        for (ECollisionChannel CollisionChannel : CollisionChannels)
+        {
+            Params.CollisionResponse.SetResponse(CollisionChannel, ECR_Block);
+        }
+    }
 
-	return GetWorld()->AsyncLineTraceByChannel(EAsyncTraceType::Single, Start, End, ECC_Visibility, TraceParams,
-																						 Params, &TraceDelegate);
+    return GetWorld()->AsyncLineTraceByChannel(EAsyncTraceType::Single, Start, End, ECC_Visibility, TraceParams,
+                                               Params, &TraceDelegate);
 }
 
 void UMDLineTraceComponent::OnLineTraceCompleted(const FTraceHandle &TraceHandle, FTraceDatum &TraceResult)
 {
-	ensure(TraceHandle == LastTraceHandle);
-	HandleLineTraceResults(TraceResult);
-	LastTraceHandle._Data.FrameNumber = 0;
+    ensure(TraceHandle == LastTraceHandle);
+    HandleLineTraceResults(TraceResult);
+    LastTraceHandle._Data.FrameNumber = 0;
 }
 
 void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum &TraceResult)
 {
-	if (bActivateLineTraceDebug)
-	{
-		DrawDebugLine(GetWorld(), TraceResult.Start, TraceResult.End, FColor::Orange, false, 0.5f);
-	}
+    if (bActivateLineTraceDebug)
+    {
+        DrawDebugLine(GetWorld(), TraceResult.Start, TraceResult.End, FColor::Orange, false, 0.5f);
+    }
 
-	if (LineTraceHitActor)
-	{
-		IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+    if (LineTraceHitActor)
+    {
+        IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
 
-		if (Interactable)
-		{
-			Interactable->OnEndFocus_Implementation();
-			LineTraceHitActor = nullptr;
-		}
-	}
+        if (Interactable)
+        {
+            Interactable->OnEndFocus_Implementation();
+            LineTraceHitActor = nullptr;
+        }
+    }
 
-	if (TraceResult.OutHits.Num() <= 0)
-		return;
+    if (TraceResult.OutHits.Num() == 0)
+    {
+        return;
+    }
 
-	if (bActivateLineTraceHitBox)
-	{
-		DrawDebugBox(GetWorld(), TraceResult.OutHits[0].ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
-	}
+    if (bActivateLineTraceHitBox)
+    {
+        DrawDebugBox(GetWorld(), TraceResult.OutHits[0].ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
+    }
 
-	LineTraceHitActor = TraceResult.OutHits[0].GetActor();
+    LineTraceHitActor = TraceResult.OutHits[0].GetActor();
 
-	if (!LineTraceHitActor)
-		return;
+    if (!LineTraceHitActor)
+    {
+        LineTraceHitActor = nullptr;
+        return;
+    }
 
-	IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+    IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
 
-	if (!Interactable)
-		return;
+    if (!Interactable)
+    {
+        return;
+    }
 
-	Interactable->OnStartFocus_Implementation();
+    Interactable->OnStartFocus_Implementation();
+}
+
+void UMDLineTraceComponent::HandleLineTraceResults(const FHitResult &TraceResult)
+{
+    if (IsValid(TraceResult.GetActor()))
+    {
+        if (bActivateLineTraceHitBox)
+        {
+            DrawDebugBox(GetWorld(), TraceResult.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);
+        }
+    }
 }
 
 void UMDLineTraceComponent::StartLineTrace_Implementation()
 {
-	bIsLineTraceEnabled = true;
-	if (!LineTraceTimerHandle.IsValid())
-	{
-		GetWorld()->GetTimerManager().SetTimer(LineTraceTimerHandle, this, &UMDLineTraceComponent::CastLineTrace,
-																					 LineTraceInterval, true);
-	}
+    bIsLineTraceEnabled = true;
+    if (!LineTraceTimerHandle.IsValid())
+    {
+        GetWorld()->GetTimerManager().SetTimer(LineTraceTimerHandle, this, &UMDLineTraceComponent::CastLineTrace,
+                                               LineTraceInterval, true);
+    }
 }
 
 void UMDLineTraceComponent::EndLineTrace_Implementation()
 {
-	if (LineTraceTimerHandle.IsValid())
-	{
-		GetWorld()->GetTimerManager().ClearTimer(LineTraceTimerHandle);
+    if (LineTraceTimerHandle.IsValid())
+    {
+        GetWorld()->GetTimerManager().ClearTimer(LineTraceTimerHandle);
 
-		LineTraceTimerHandle.Invalidate();
-	}
+        LineTraceTimerHandle.Invalidate();
+    }
 
-	bIsLineTraceEnabled = false;
-	LineTraceHitActor = nullptr;
+    bIsLineTraceEnabled = false;
+    LineTraceHitActor = nullptr;
 }
 
 AActor *UMDLineTraceComponent::GetLineTraceHitActor_Implementation() const
 {
-	return LineTraceHitActor;
+    return LineTraceHitActor;
 }
 
 bool UMDLineTraceComponent::IsLineTraceEnabled_Implementation() const
 {
-	return bIsLineTraceEnabled;
+    return bIsLineTraceEnabled;
 }
 
 void UMDLineTraceComponent::SetPlayerController(APlayerController *PlayerControl)
 {
-	PlayerController = PlayerControl;
+    PlayerController = PlayerControl;
 }

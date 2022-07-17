@@ -10,7 +10,7 @@
 #include "Enums/SSTerrainStatus.h"
 #include "SSTerrainActor.generated.h"
 
-UCLASS(meta=(DisplayName="TerrainActor"))
+UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="TerrainActor"))
 class ASSTerrainActor : public ACBActor
 {
     GENERATED_BODY()
@@ -32,4 +32,10 @@ class ASSTerrainActor : public ACBActor
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     TSoftClassPtr<ASSBuildingActor> ConstructedBuilding;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
+    float Width = 400.f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
+    float Length = 400.f;
 };

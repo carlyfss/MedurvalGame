@@ -2,6 +2,7 @@
 
 #pragma once
 #include "SSBuildingRequirements.h"
+#include "Enums/SSSettlementStages.h"
 #include "SSBuildingTier.generated.h"
 
 class ASSBuildingActor;
@@ -21,6 +22,9 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
     TObjectPtr<UStaticMesh> Mesh;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
+    TMap<ESSSettlementStages, UStaticMesh *> Meshes;
+
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
     uint8 ConstructionSteps;
 
@@ -37,10 +41,10 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     FText UnlockablesDescription = FText::FromName("Decription of what the tier unlocks.");
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
-    TArray<UPrimaryDataAsset *> Unlockableitems;
+    TArray<FPrimaryAssetId> Unlockableitems;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
-    TArray<ASSBuildingActor *> UnlockableBuildings;
+    TArray<TSoftClassPtr<ASSBuildingActor>> UnlockableBuildings;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
     FSSBuildingRequirements Requirements;

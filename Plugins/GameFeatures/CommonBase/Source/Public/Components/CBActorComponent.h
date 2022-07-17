@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "CBActorComponent.generated.h"
 
+class UCBCurrencySubsystem;
 
 UCLASS(ClassGroup=(CommonBase), meta=(BlueprintSpawnableComponent))
 class COMMONBASE_API UCBActorComponent : public UActorComponent
@@ -14,4 +15,6 @@ class COMMONBASE_API UCBActorComponent : public UActorComponent
 
 public:
     UCBActorComponent();
+
+    UCBCurrencySubsystem *GetCurrencySubsystem() const;
 };
