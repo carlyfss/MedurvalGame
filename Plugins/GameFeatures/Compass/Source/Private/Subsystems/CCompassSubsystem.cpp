@@ -26,6 +26,19 @@ void UCCompassSubsystem::Deinitialize()
     GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 }
 
+void UCCompassSubsystem::PauseUnpauseTimer(bool bIsToPause, bool bIsToUnpause)
+{
+    if (GetWorld()->GetTimerManager().IsTimerPaused(TimerHandle) && bIsToUnpause)
+    {
+        GetWorld()->GetTimerManager().UnPauseTimer(TimerHandle);
+    }
+
+    if (bIsToPause)
+    {
+        GetWorld()->GetTimerManager().PauseTimer(TimerHandle);
+    }
+}
+
 float UCCompassSubsystem::RotationToCircleDegrees(float In) const
 {
     float SelectedFloat = In;

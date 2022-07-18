@@ -14,6 +14,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateMarkerWidgets);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddMarkerToCompass, FCMarkerInfo, TargetMarker);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSwitchVisibility);
+
 class UCCompassWidget;
 /**
  *
@@ -55,6 +57,12 @@ protected:
 
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnAddMarkerToCompass OnAddMarkerToCompass;
+
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnSwitchVisibility OnSwitchVisibility;
+
+    UFUNCTION(BlueprintCallable, Category="Compass")
+    void PauseUnpauseTimer(bool bIsToPause, bool bIsToUnpause);
 
 public:
     UFUNCTION(BlueprintCallable, Category="Compass")
