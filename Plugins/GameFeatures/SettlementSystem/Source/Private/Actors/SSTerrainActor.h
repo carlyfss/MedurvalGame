@@ -31,11 +31,15 @@ class ASSTerrainActor : public ACBActor
     TSoftClassPtr<ASSBuildingActor> AssignedBuilding;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TSoftClassPtr<ASSBuildingActor> ConstructedBuilding;
+    TObjectPtr<ASSBuildingActor> ConstructedBuilding;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     float Width = 400.f;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     float Length = 400.f;
+
+public:
+    UFUNCTION(BlueprintCallable, Category="TerrainActor")
+    void SetConstructedBuilding(ASSBuildingActor *Building);
 };

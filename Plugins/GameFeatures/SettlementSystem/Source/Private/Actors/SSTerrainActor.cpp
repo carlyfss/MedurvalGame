@@ -2,3 +2,8 @@
 
 
 #include "Actors/SSTerrainActor.h"
+
+void ASSTerrainActor::SetConstructedBuilding(ASSBuildingActor *Building)
+{
+    ConstructedBuilding = Building;
+}

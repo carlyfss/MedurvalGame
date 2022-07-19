@@ -2,7 +2,7 @@
 
 #pragma once
 
-UENUM(BlueprintType, meta = (DisplayName = "TerrainSize"))
+UENUM(BlueprintType, meta = (DisplayName = "BuildingType"))
 enum class ESSBuildingType : uint8
 {
     Civilian,

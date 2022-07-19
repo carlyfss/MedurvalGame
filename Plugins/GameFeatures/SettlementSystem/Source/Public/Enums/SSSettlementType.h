@@ -2,7 +2,7 @@
 
 #pragma once
 
-UENUM(BlueprintType, meta = (DisplayName = "SettlementStages"))
+UENUM(BlueprintType, meta = (DisplayName = "SettlementType"))
 enum class ESSSettlementType : uint8
 {
     Humans,
