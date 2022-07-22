@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SSSettlementComponent.h"
 #include "Components/CBActorComponent.h"
 #include "SSMaintenanceComponent.generated.h"
+
+class USSSettlementComponent;
 
 /**
  * 
@@ -14,15 +17,31 @@ class USSMaintenanceComponent : public UCBActorComponent
 {
     GENERATED_BODY()
 
-    // DailyIncome
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
+    int DailyIncome;
 
-    // DailyUpkeep
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
+    int DailyUpkeep;
 
-    // AddToTreasuryIncome
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
+    int CostToBuild;
 
-    // AddToTreasuryUpkeep
+public:
+    void SetDailyIncome(int Amount);
 
-    // RemoveDailyIncome
+    void SetDailyUpkeep(int Amount);
 
-    // RemoveDailyUpkeep
+    void SetCostToBuild(int Amount);
+
+    int GetDailyIncome() const;
+
+    int GetDailyUpkeep() const;
+
+    int GetCostToBuild() const;
+
+    UFUNCTION(BlueprintCallable, Category="MaintenanceComponent")
+    void EnableMaintenance(USSSettlementComponent *Settlement) const;
+
+    UFUNCTION(BlueprintCallable, Category="MaintenanceComponent")
+    void DisableMaintenance(USSSettlementComponent *Settlement) const;
 };

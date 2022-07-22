@@ -24,9 +24,6 @@ class ASSTerrainActor : public ACBActor
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     ESSTerrainStatus Status = ESSTerrainStatus::Unclaimed;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TArray<TSoftClassPtr<ASSBuildingActor>> AvailableBuildings;
-
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     TSoftClassPtr<ASSBuildingActor> AssignedBuilding;
 
@@ -40,6 +37,9 @@ class ASSTerrainActor : public ACBActor
     float Length = 400.f;
 
 public:
+    UFUNCTION(BlueprintCallable, Category="TerrainActor")
+    void SetAssignedBuilding(TSoftClassPtr<ASSBuildingActor> Building);
+
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     void SetConstructedBuilding(ASSBuildingActor *Building);
 };

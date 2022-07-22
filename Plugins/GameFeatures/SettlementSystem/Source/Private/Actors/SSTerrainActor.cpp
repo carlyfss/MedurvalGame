@@ -7,3 +7,8 @@ void ASSTerrainActor::SetConstructedBuilding(ASSBuildingActor *Building)
 {
     ConstructedBuilding = Building;
 }
+
+void ASSTerrainActor::SetAssignedBuilding(TSoftClassPtr<ASSBuildingActor> Building)
+{
+    AssignedBuilding = Building;
+}

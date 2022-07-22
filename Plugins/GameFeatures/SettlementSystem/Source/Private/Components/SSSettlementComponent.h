@@ -45,4 +45,17 @@ class USSSettlementComponent : public UCBActorComponent
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="SettlementComponent", meta=(AllowPrivateAccess=true))
     TObjectPtr<USSSettlementEconomyComponent> Economy;
+
+    TObjectPtr<ACharacter> Owner;
+
+public:
+    UFUNCTION(BlueprintCallable, Category="SettlementComponent")
+    void SetSettlementOwner(ACharacter *SettlementOwner);
+
+    UFUNCTION(BlueprintCallable, Category="SettlementComponent")
+    ACharacter *GetSettlementOwner() const;
+
+    USSSettlementEconomyComponent *GetEconomy();
+
+    virtual void BeginPlay() override;
 };

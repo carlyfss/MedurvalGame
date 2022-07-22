@@ -12,6 +12,7 @@
 class UCBStaticMeshComponent;
 class USSBuildingTierComponent;
 class USSMaintenanceComponent;
+class USSSettlementComponent;
 /**
  * 
  */
@@ -31,9 +32,6 @@ class ASSBuildingActor : public ACBActor
     FName Name = FName("BuildingName");
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    FText Description = FText::FromName("Building description.");
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     ESSBuildingType Type = ESSBuildingType::Civilian;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
@@ -42,10 +40,10 @@ class ASSBuildingActor : public ACBActor
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TArray<FSSBuildingTier> AvailableTiers;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     FSSBuildingTier CurrentTier;
 
-    UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     USSMaintenanceComponent *Maintenance;
 
     UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
@@ -55,9 +53,20 @@ class ASSBuildingActor : public ACBActor
     bool bIsUnderConstruction = false;
 #pragma endregion Configurations
 
+    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    USSSettlementComponent *AssignedSettlement;
+
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TObjectPtr<UCBStaticMeshComponent> Mesh;
 
 public:
     ASSBuildingActor();
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
+    void OnBeginConstruction();
+
+    UFUNCTION(BlueprintCallable, Category="BuildingActor")
+    void OnConstructionCompleted();
+
+    virtual void BeginPlay() override;
 };

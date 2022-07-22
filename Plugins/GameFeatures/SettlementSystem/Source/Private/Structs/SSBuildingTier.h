@@ -14,9 +14,6 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
-    FName Name = FName("Tier Name");
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
     FText Description = FText::FromName("Tier description.");
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
@@ -36,6 +33,15 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
     uint8 ConstructionDuration;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
+    int DailyIncome;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
+    int DailyUpkeep;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
+    int CostToBuild;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier", meta=(AllowPrivateAccess=true))
     FText UnlockablesDescription = FText::FromName("Decription of what the tier unlocks.");

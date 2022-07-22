@@ -34,10 +34,10 @@ class USSSettlementEconomyComponent : public UCBActorComponent
     int TreasuryLimit = 10000;
 
     bool IsToUpdateDailyChange = false;
+
     // SettlementTaxesComponent - Taxes
 
 public:
-    // AddToTreasury
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void AddToTreasury(int Amount);
 
@@ -47,11 +47,9 @@ public:
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void AddToUpkeep(int Amount);
 
-    // RemoveFromTreasury
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void RemoveFromTreasury(int Amount);
 
-    // UpdateTreasury
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void UpdateTreasury();
 
@@ -61,7 +59,6 @@ public:
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void CalculateDailyChange();
 
-    // UpdateDailyTreasury
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void ChargeDailyChange();
 };
