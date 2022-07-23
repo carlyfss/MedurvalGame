@@ -5,6 +5,7 @@
 
 #include "Components/CBStaticMeshComponent.h"
 #include "Components/SSMaintenanceComponent.h"
+#include "Core/AssetManager/MedurvalAssetManager.h"
 
 ASSBuildingActor::ASSBuildingActor()
 {
@@ -12,20 +13,54 @@ ASSBuildingActor::ASSBuildingActor()
     Maintenance = CreateDefaultSubobject<USSMaintenanceComponent>("MaintenanceComponent");
 }
 
+void ASSBuildingActor::LoadConfiguration()
+{
+    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
+        return;
+
+    TArray<FName> BundlesToLoad;
+    BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
+    BundlesToLoad.Add(UMedurvalAssetManager::WorldBundle);
+
+    FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &ASSBuildingActor::OnConfigurationLoaded);
+
+    AssetManager->LoadPrimaryAsset(ConfigurationId, BundlesToLoad, Delegate);
+}
+
+void ASSBuildingActor::OnConfigurationLoaded()
+{
+    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
+        return;
+
+    ConfigurationReference = Cast<USSBuildingDA>(AssetManager->GetPrimaryAssetObject(ConfigurationId));
+
+    if (!ConfigurationReference)
+        return;
+
+    if (ConfigurationReference->AvailableTiers.Num() > 0)
+    {
+        Tier = ConfigurationReference->AvailableTiers[0];
+        Maintenance->SetDailyIncome(Tier.DailyIncome);
+        Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
+        Maintenance->SetCostToBuild(Tier.CostToBuild);
+    }
+}
+
 void ASSBuildingActor::OnConstructionCompleted()
 {
-    Maintenance->EnableMaintenance(AssignedSettlement);
 }
 
 void ASSBuildingActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (AvailableTiers.Num() > 0)
+    if (ConfigurationId.IsValid())
     {
-        CurrentTier = AvailableTiers[0];
-        Maintenance->SetDailyIncome(CurrentTier.DailyIncome);
-        Maintenance->SetDailyUpkeep(CurrentTier.DailyUpkeep);
-        Maintenance->SetCostToBuild(CurrentTier.CostToBuild);
+        LoadConfiguration();
+        UE_LOG(LogTemp, Warning, TEXT("Loading Building..."))
     }
 }

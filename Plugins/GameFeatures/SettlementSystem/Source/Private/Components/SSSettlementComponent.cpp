@@ -27,6 +27,15 @@ USSSettlementEconomyComponent *USSSettlementComponent::GetEconomy()
     return Economy;
 }
 
+bool USSSettlementComponent::AddNewTerrain(ASSTerrainActor *Terrain)
+{
+    if (!Terrain)
+        return false;
+
+    OwnedTerrains.Add(Terrain);
+    return true;
+}
+
 void USSSettlementComponent::BeginPlay()
 {
     Super::BeginPlay();

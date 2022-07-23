@@ -2,11 +2,11 @@
 
 
 #include "Components/CBSkeletalMeshComponent.h"
-#include "Constants/CommonBaseConstants.h"
+#include "Constants/CBConstants.h"
 
 UCBSkeletalMeshComponent::UCBSkeletalMeshComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
     PrimaryComponentTick.bStartWithTickEnabled = false;
-    PrimaryComponentTick.TickInterval = FCommonBaseConstants::TickInterval;
+    PrimaryComponentTick.TickInterval = FCBConstants::TickInterval;
 }

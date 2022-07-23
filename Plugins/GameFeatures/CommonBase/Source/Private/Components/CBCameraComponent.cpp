@@ -2,13 +2,13 @@
 
 
 #include "Components/CBCameraComponent.h"
-#include "Constants/CommonBaseConstants.h"
+#include "Constants/CBConstants.h"
 
 UCBCameraComponent::UCBCameraComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
     PrimaryComponentTick.bStartWithTickEnabled = false;
-    PrimaryComponentTick.TickInterval = FCommonBaseConstants::TickInterval;
+    PrimaryComponentTick.TickInterval = FCBConstants::TickInterval;
 
     bUsePawnControlRotation = false;
 }

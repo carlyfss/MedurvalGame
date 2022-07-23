@@ -5,22 +5,23 @@
 
 const FPrimaryAssetType UMedurvalAssetManager::DefaultItemType = TEXT("InventoryItem");
 const FPrimaryAssetType UMedurvalAssetManager::ConsumableItemType = TEXT("ConsumableItem");
+const FPrimaryAssetType UMedurvalAssetManager::SettlementBuildingType = TEXT("SettlementBuilding");
 
 void UMedurvalAssetManager::StartInitialLoading()
 {
-	Super::StartInitialLoading();
+    Super::StartInitialLoading();
 }
 
-UMedurvalAssetManager& UMedurvalAssetManager::Get()
+UMedurvalAssetManager &UMedurvalAssetManager::Get()
 {
-	UMedurvalAssetManager* This = Cast<UMedurvalAssetManager>(GEngine->AssetManager);
+    UMedurvalAssetManager *This = Cast<UMedurvalAssetManager>(GEngine->AssetManager);
 
-	if (This)
-	{
-		return *This;
-	}
+    if (This)
+    {
+        return *This;
+    }
 
-	UE_LOG(LogTemp, Fatal, TEXT("Invalid asset manager in DefaultEngine.ini, must set to MedurvalAssetManager"))
+    UE_LOG(LogTemp, Fatal, TEXT("Invalid asset manager in DefaultEngine.ini, must set to MedurvalAssetManager"))
 
-	return *NewObject<UMedurvalAssetManager>();
+    return *NewObject<UMedurvalAssetManager>();
 }

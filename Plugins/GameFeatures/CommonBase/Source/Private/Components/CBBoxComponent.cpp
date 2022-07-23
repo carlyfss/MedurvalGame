@@ -1,11 +1,10 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 
-#include "Components/CBSphereComponent.h"
-
+#include "Components/CBBoxComponent.h"
 #include "Constants/CBConstants.h"
 
-UCBSphereComponent::UCBSphereComponent()
+UCBBoxComponent::UCBBoxComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
     PrimaryComponentTick.bStartWithTickEnabled = false;

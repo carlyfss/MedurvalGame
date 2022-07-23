@@ -12,21 +12,23 @@
 UCLASS()
 class MEDURVAL_API UMedurvalAssetManager final : public UAssetManager
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	UMedurvalAssetManager() {};
+    UMedurvalAssetManager()
+    {
+    };
 
-	virtual void StartInitialLoading() override;
+    virtual void StartInitialLoading() override;
 
-	static const FPrimaryAssetType DefaultItemType;
-	static const FPrimaryAssetType ConsumableItemType;
+    static const FPrimaryAssetType DefaultItemType;
+    static const FPrimaryAssetType ConsumableItemType;
+    static const FPrimaryAssetType SettlementBuildingType;
 
-	
 
 public:
-	// Return the asset manager singleton class
-	static UMedurvalAssetManager& Get();
+    // Return the asset manager singleton class
+    static UMedurvalAssetManager &Get();
 
-	inline static const FName WorldBundle = "World";
-	inline static const FName UIBundle = "UI";
+    inline static const FName WorldBundle = "World";
+    inline static const FName UIBundle = "UI";
 };

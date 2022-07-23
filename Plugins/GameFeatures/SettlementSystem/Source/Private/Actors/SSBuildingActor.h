@@ -5,9 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Actors/CBActor.h"
+#include "DataAssets/SSBuildingDA.h"
 #include "Enums/SSBuildingType.h"
 #include "Structs/SSBuildingTier.h"
 #include "SSBuildingActor.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionStep, float, Percentage);
 
 class UCBStaticMeshComponent;
 class USSBuildingTierComponent;
@@ -21,46 +24,30 @@ class ASSBuildingActor : public ACBActor
 {
     GENERATED_BODY()
 
-#pragma region Configurations
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    FGameplayTag Tag;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    FGameplayTag SizeTag;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    FName Name = FName("BuildingName");
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    ESSBuildingType Type = ESSBuildingType::Civilian;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    bool bHasTiers = false;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    TArray<FSSBuildingTier> AvailableTiers;
-
-    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    FSSBuildingTier CurrentTier;
-
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    USSMaintenanceComponent *Maintenance;
-
-    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    bool bIsAvailableToBuild = false;
-
-    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    bool bIsUnderConstruction = false;
-#pragma endregion Configurations
-
-    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    USSSettlementComponent *AssignedSettlement;
+    FPrimaryAssetId ConfigurationId;
 
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBStaticMeshComponent> Mesh;
+    TObjectPtr<USSBuildingDA> ConfigurationReference = nullptr;
+
+    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    FSSBuildingTier Tier = FSSBuildingTier();
+
+    UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    USSMaintenanceComponent *Maintenance = nullptr;
+
+    UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
 
 public:
     ASSBuildingActor();
+
+    void LoadConfiguration();
+
+    void OnConfigurationLoaded();
+
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnUpdateConstructionStep OnUpdateConstructionStep;
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
     void OnBeginConstruction();

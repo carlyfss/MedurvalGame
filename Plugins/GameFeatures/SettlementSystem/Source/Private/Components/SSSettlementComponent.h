@@ -57,5 +57,7 @@ public:
 
     USSSettlementEconomyComponent *GetEconomy();
 
+    bool AddNewTerrain(ASSTerrainActor *Terrain);
+
     virtual void BeginPlay() override;
 };

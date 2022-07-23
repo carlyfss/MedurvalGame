@@ -2,14 +2,14 @@
 
 #include "Actors/CBActor.h"
 
-#include "Constants/CommonBaseConstants.h"
+#include "Constants/CBConstants.h"
 
 // Sets default values
 ACBActor::ACBActor()
 {
     PrimaryActorTick.bCanEverTick = false;
     PrimaryActorTick.bStartWithTickEnabled = false;
-    PrimaryActorTick.TickInterval = FCommonBaseConstants::TickInterval;
+    PrimaryActorTick.TickInterval = FCBConstants::TickInterval;
 }
 
 void ACBActor::StartTimerWithDelegate()

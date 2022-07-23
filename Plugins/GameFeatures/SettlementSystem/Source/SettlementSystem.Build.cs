@@ -26,7 +26,8 @@ public class SettlementSystem : ModuleRules
 				"CoreUObject",
 				"CommonBase",
 				"EnhancedInput",
-				"GameplayTags"
+				"GameplayTags",
+				"Medurval"
 			});
 	}
 }

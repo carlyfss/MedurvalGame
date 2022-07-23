@@ -8,7 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/CBCameraComponent.h"
 #include "Components/CBSpringArmComponent.h"
-#include "Constants/CommonBaseConstants.h"
+#include "Constants/CBConstants.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 void ACBCharacter::PawnClientRestart()
@@ -62,7 +62,7 @@ ACBCharacter::ACBCharacter()
 {
     PrimaryActorTick.bCanEverTick = false;
     PrimaryActorTick.bStartWithTickEnabled = false;
-    PrimaryActorTick.TickInterval = FCommonBaseConstants::TickInterval;
+    PrimaryActorTick.TickInterval = FCBConstants::TickInterval;
 
     GetCapsuleComponent()->PrimaryComponentTick.bCanEverTick = false;
     GetCapsuleComponent()->PrimaryComponentTick.bStartWithTickEnabled = false;
