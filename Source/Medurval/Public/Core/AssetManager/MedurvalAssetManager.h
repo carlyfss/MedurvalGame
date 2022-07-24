@@ -14,14 +14,13 @@ class MEDURVAL_API UMedurvalAssetManager final : public UAssetManager
 {
     GENERATED_BODY()
 
+public:
     UMedurvalAssetManager()
     {
-    };
+    }
 
     virtual void StartInitialLoading() override;
 
-
-public:
     // Return the asset manager singleton class
     static UMedurvalAssetManager &Get();
 

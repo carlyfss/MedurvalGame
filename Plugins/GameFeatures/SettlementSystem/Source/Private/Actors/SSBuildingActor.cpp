@@ -73,8 +73,6 @@ void ASSBuildingActor::OnBeginConstruction_Implementation()
         return;
 
     Mesh->SetStaticMesh(StaticMesh);
-
-    OnBeginConstruction();
 }
 
 void ASSBuildingActor::OnConstructionCompleted()

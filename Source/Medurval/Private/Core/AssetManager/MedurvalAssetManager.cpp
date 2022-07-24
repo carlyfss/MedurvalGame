@@ -20,8 +20,10 @@ UMedurvalAssetManager &UMedurvalAssetManager::Get()
     {
         return *This;
     }
+    else
+    {
+        UE_LOG(LogTemp, Fatal, TEXT("Invalid asset manager in DefaultEngine.ini, must set to MedurvalAssetManager"))
 
-    UE_LOG(LogTemp, Fatal, TEXT("Invalid asset manager in DefaultEngine.ini, must set to MedurvalAssetManager"))
-
-    return *NewObject<UMedurvalAssetManager>();
+        return *NewObject<UMedurvalAssetManager>();
+    }
 }
