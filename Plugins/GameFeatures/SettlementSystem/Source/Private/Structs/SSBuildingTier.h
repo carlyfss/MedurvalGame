@@ -13,6 +13,8 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
 {
     GENERATED_BODY()
 
+    inline TArray<FSoftObjectPath> GetSoftObjectPaths();
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|UI", meta=(AllowPrivateAccess=true))
     FText Description = FText::FromName("Tier description.");
 
@@ -23,7 +25,7 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     TMap<ESSSettlementStages, TSoftObjectPtr<UStaticMesh>> StageMeshes;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true))
-    uint8 ConstructionSteps;
+    uint8 ConstructionSteps = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
     TArray<TSoftObjectPtr<UStaticMesh>> UnderConstructionMeshes;
@@ -32,19 +34,19 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
      * Construction duration in seconds
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true))
-    uint8 ConstructionDuration;
+    uint8 ConstructionDuration = 5;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|UI", meta=(AllowPrivateAccess=true, AssetBundles = "UI"))
     TSoftObjectPtr<UTexture2D> Icon;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Economy", meta=(AllowPrivateAccess=true))
-    int DailyIncome;
+    int DailyIncome = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Economy", meta=(AllowPrivateAccess=true))
-    int DailyUpkeep;
+    int DailyUpkeep = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Economy", meta=(AllowPrivateAccess=true))
-    int CostToBuild;
+    int CostToBuild = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Unlockables", meta=(AllowPrivateAccess=true))
     FText UnlockablesDescription = FText::FromName("Decription of what the tier unlocks.");
@@ -58,3 +60,17 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Requirements", meta=(AllowPrivateAccess=true))
     FSSBuildingRequirements Requirements;
 };
+
+inline TArray<FSoftObjectPath> FSSBuildingTier::GetSoftObjectPaths()
+{
+    TArray<FSoftObjectPath> ObjectPaths;
+
+    ObjectPaths.Add(Mesh.ToSoftObjectPath());
+
+    for (TSoftObjectPtr<UStaticMesh> ConstructionMesh : UnderConstructionMeshes)
+    {
+        ObjectPaths.Add(ConstructionMesh.ToSoftObjectPath());
+    }
+
+    return ObjectPaths;
+}

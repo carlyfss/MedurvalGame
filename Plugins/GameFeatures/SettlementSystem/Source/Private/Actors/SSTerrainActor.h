@@ -12,6 +12,8 @@
 #include "Interfaces/MDInteractableInterface.h"
 #include "SSTerrainActor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSelected);
+
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="TerrainActor"))
 class ASSTerrainActor : public ACBActor, public IMDInteractableInterface
 {
@@ -98,6 +100,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     void SelectTarget();
+
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnSelected OnSelected;
 
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     void DeselectTarget();

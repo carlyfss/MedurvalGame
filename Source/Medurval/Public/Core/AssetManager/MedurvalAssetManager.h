@@ -20,14 +20,14 @@ class MEDURVAL_API UMedurvalAssetManager final : public UAssetManager
 
     virtual void StartInitialLoading() override;
 
-    static const FPrimaryAssetType DefaultItemType;
-    static const FPrimaryAssetType ConsumableItemType;
-    static const FPrimaryAssetType SettlementBuildingType;
-
 
 public:
     // Return the asset manager singleton class
     static UMedurvalAssetManager &Get();
+
+    static const FPrimaryAssetType DefaultItemType;
+    static const FPrimaryAssetType ConsumableItemType;
+    static const FPrimaryAssetType SettlementBuildingType;
 
     inline static const FName WorldBundle = "World";
     inline static const FName UIBundle = "UI";

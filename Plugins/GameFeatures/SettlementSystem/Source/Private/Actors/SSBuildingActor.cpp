@@ -47,7 +47,34 @@ void ASSBuildingActor::OnConfigurationLoaded()
         Maintenance->SetDailyIncome(Tier.DailyIncome);
         Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
         Maintenance->SetCostToBuild(Tier.CostToBuild);
+
+        UE_LOG(LogTemp, Warning, TEXT("Loaded..."))
     }
+}
+
+void ASSBuildingActor::TimerDelegate()
+{
+    Super::TimerDelegate();
+
+    OnBeginConstruction_Implementation();
+}
+
+void ASSBuildingActor::OnBeginConstruction_Implementation()
+{
+    if (!ConfigurationReference)
+    {
+        TimerInterval = 0.5f;
+        StartTimerWithDelegate();
+    }
+
+    UStaticMesh *StaticMesh = Tier.Mesh.Get();
+
+    if (!StaticMesh)
+        return;
+
+    Mesh->SetStaticMesh(StaticMesh);
+
+    OnBeginConstruction();
 }
 
 void ASSBuildingActor::OnConstructionCompleted()

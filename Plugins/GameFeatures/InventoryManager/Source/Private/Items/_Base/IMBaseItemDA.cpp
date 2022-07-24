@@ -1,13 +1,17 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #include "Items/_Base/IMBaseItemDA.h"
+
+#include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Engine/AssetManager.h"
 #include "Interfaces/IMUsableItemInterface.h"
 
-FPrimaryAssetId UIMBaseItemDA::GetPrimaryAssetId() const {
-  return FPrimaryAssetId("DefaultItem", GetFName());
+FPrimaryAssetId UIMBaseItemDA::GetPrimaryAssetId() const
+{
+    return FPrimaryAssetId(UMedurvalAssetManager::DefaultItemType, GetFName());
 }
 
-void UIMBaseItemDA::UseItem_Implementation(AActor *ItemOwner) {
-  IIMUsableItemInterface::UseItem_Implementation(ItemOwner);
+void UIMBaseItemDA::UseItem_Implementation(AActor *ItemOwner)
+{
+    IIMUsableItemInterface::UseItem_Implementation(ItemOwner);
 }

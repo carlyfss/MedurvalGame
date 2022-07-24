@@ -18,10 +18,9 @@ class USSBuildingDA : public UCBPrimaryDataAsset
 {
     GENERATED_BODY()
 
-protected:
+public:
     virtual FPrimaryAssetId GetPrimaryAssetId() const override;
 
-public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Configuration", meta=(AllowPrivateAccess=true))
     FGameplayTag Tag;
 

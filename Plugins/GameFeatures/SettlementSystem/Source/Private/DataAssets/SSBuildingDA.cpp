@@ -7,5 +7,5 @@
 
 FPrimaryAssetId USSBuildingDA::GetPrimaryAssetId() const
 {
-    return FPrimaryAssetId("SettlementBuilding", GetFName());
+    return FPrimaryAssetId(UMedurvalAssetManager::SettlementBuildingType, GetFName());
 }

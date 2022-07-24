@@ -49,6 +49,5 @@ public:
     virtual void UseItem_Implementation(AActor *ItemOwner) override;
 #pragma endregion FUNCTIONS
 
-protected:
     virtual FPrimaryAssetId GetPrimaryAssetId() const override;
 };

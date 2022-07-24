@@ -37,8 +37,6 @@ void ASSTerrainActor::BeginPlay()
     if (AssignedBuilding.IsValid())
     {
         LoadAssignedBuilding();
-
-        UE_LOG(LogTemp, Warning, TEXT("Loading Terrain->AssignedBuilding..."))
     }
 
     SnapSize(Width, Length);
@@ -91,6 +89,8 @@ void ASSTerrainActor::OnAssignedBuildingLoaded()
     SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
     ConstructedBuilding = GetWorld()->SpawnActor<ASSBuildingActor>(AssignedBuilding.Get(), TerrainLocation, TerrainRotation, SpawnParameters);
+
+    StartConstruction_Implementation();
 }
 
 void ASSTerrainActor::UpdateWidthLengthValues()
@@ -119,6 +119,7 @@ void ASSTerrainActor::SetTargetColor(FLinearColor NewColor)
     if (Status == ESSTerrainStatus::Unclaimed && NewColor == FSSTerrainConstants::DefaultTargetColor)
     {
         TargetMaterialInstance->SetVectorParameterValue(FSSTerrainConstants::TargetColorParameterName, FSSTerrainConstants::DefaultUnclaimedTargetColor);
+        return;
     }
 
     TargetMaterialInstance->SetVectorParameterValue(FSSTerrainConstants::TargetColorParameterName, NewColor);
@@ -187,6 +188,7 @@ void ASSTerrainActor::HideTarget()
 void ASSTerrainActor::SelectTarget()
 {
     SetTargetColor(FSSTerrainConstants::DefaultSelectedTargetColor);
+    OnSelected.Broadcast();
     bIsSelected = true;
 }
 
@@ -203,5 +205,9 @@ void ASSTerrainActor::SetAssignedBuilding(TSoftClassPtr<ASSBuildingActor> Buildi
 
 void ASSTerrainActor::StartConstruction_Implementation()
 {
+    if (!ConstructedBuilding)
+        return;
+
+    ConstructedBuilding->OnBeginConstruction_Implementation();
     StartConstruction();
 }

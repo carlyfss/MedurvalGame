@@ -46,10 +46,12 @@ public:
 
     void OnConfigurationLoaded();
 
+    virtual void TimerDelegate() override;
+
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnUpdateConstructionStep OnUpdateConstructionStep;
 
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BuildingActor")
     void OnBeginConstruction();
 
     UFUNCTION(BlueprintCallable, Category="BuildingActor")
