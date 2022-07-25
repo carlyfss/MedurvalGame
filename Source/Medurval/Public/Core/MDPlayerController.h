@@ -12,8 +12,12 @@
 UCLASS()
 class MEDURVAL_API AMDPlayerController : public APlayerController
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable, Category="_MDController")
-	void SetInputModeGameOnly(bool InConsumeCaptureMouseDown);
+public:
+    AMDPlayerController();
+    virtual ~AMDPlayerController() = default;
+
+    UFUNCTION(BlueprintCallable, Category="_MDController")
+    void SetInputModeGameOnly(bool InConsumeCaptureMouseDown);
 };

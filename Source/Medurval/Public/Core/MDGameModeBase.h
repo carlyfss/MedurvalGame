@@ -12,6 +12,12 @@
 UCLASS()
 class MEDURVAL_API AMDGameModeBase final : public AGameModeBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+public:
+    AMDGameModeBase();
+    virtual ~AMDGameModeBase() = default;
+
+    /** Called before begin play */
+    virtual void StartPlay() override;
 };

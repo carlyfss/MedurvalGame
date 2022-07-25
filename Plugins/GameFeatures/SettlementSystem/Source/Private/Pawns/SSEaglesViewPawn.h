@@ -16,6 +16,9 @@ class ASSEaglesViewPawn : public ACBCharacter
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
+    float MovementSpeedDecelerationOffset = 1500.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
     float CameraSpeedOffset = 100.0f;
 
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")

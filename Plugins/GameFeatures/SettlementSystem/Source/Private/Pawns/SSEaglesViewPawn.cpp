@@ -35,7 +35,8 @@ void ASSEaglesViewPawn::CameraZoom(const FInputActionValue &Value)
         const float FinalLength = CurrentSpringArmLength + ZoomSpeedCalculation;
         this->GetSpringArmComponent()->TargetArmLength = FMath::Clamp(FinalLength, MinZoomDistance, MaxZoomDistance);
 
-        this->GetCharacterMovement()->MaxWalkSpeed = FinalLength + CameraSpeedOffset;
+        this->GetCharacterMovement()->MaxFlySpeed = FinalLength + CameraSpeedOffset;
+        this->GetCharacterMovement()->BrakingDecelerationFlying = FinalLength + MovementSpeedDecelerationOffset;
         this->GetCharacterMovement()->MaxAcceleration = FinalLength * CameraAccelerationMultiplier;
     }
 }

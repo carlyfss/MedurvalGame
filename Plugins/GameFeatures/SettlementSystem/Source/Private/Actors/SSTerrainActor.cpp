@@ -167,6 +167,7 @@ bool ASSTerrainActor::Claim(ACharacter *OwnerReference)
         return false;
 
     Settlement->GetEconomy()->RemoveFromTreasury(ClaimFee);
+    Status = ESSTerrainStatus::Claimed;
     return true;
 }
 
@@ -209,5 +210,6 @@ void ASSTerrainActor::StartConstruction_Implementation()
         return;
 
     ConstructedBuilding->OnBeginConstruction_Implementation();
-    StartConstruction();
+    Status = ESSTerrainStatus::Constructed;
+    SetTargetColor(FSSTerrainConstants::DefaultTargetColor);
 }
