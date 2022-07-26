@@ -22,7 +22,8 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"CommonBase",
-				"EnhancedInput"
+				"EnhancedInput",
+				"CommonUI"
 			]
 		}
 	],
@@ -31,6 +32,10 @@
 	"Plugins": [
 		{
 			"Name": "CommonBase",
+			"Enabled": true
+		},
+		{
+			"Name": "CommonUI",
 			"Enabled": true
 		},
 		{

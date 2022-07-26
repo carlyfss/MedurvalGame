@@ -25,6 +25,8 @@ public class SettlementSystem : ModuleRules
 			{
 				"CoreUObject",
 				"CommonBase",
+				"CommonUI",
+				"UMG",
 				"EnhancedInput",
 				"GameplayTags",
 				"Medurval"

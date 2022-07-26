@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actors/CBCharacter.h"
+#include "Widgets/SSSettlementManagementWidget.h"
 #include "SSEaglesViewPawn.generated.h"
 
 class UCBLineTraceComponent;
@@ -41,6 +42,9 @@ class ASSEaglesViewPawn : public ACBCharacter
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
     TObjectPtr<UCBLineTraceComponent> LineTraceComponent;
+
+    UPROPERTY(BlueprintReadWrite, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<USSSettlementManagementWidget> SettlementWidget;
 
 #pragma region Inputs
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
