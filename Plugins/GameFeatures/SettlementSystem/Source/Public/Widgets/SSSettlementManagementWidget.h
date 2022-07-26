@@ -16,17 +16,20 @@ class SETTLEMENTSYSTEM_API USSSettlementManagementWidget : public UCommonUserWid
 	GENERATED_BODY()
 
     UPROPERTY(BlueprintReadWrite, Category="SettlementWidget", meta=(AllowPrivateAccess=true))
-    TObjectPtr<ACharacter> PlayerReference;
+    TObjectPtr<ACharacter> PlayerReference = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="SettlementWidget", meta=(AllowPrivateAccess=true))
-    TObjectPtr<ASSTerrainActor> SelectedTerrain;
+    TObjectPtr<ASSTerrainActor> SelectedTerrain = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="SettlementWidget", meta=(AllowPrivateAccess=true))
-    TObjectPtr<USSSettlementComponent> SettlementReference;
+    TObjectPtr<USSSettlementComponent> SettlementReference = nullptr;
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void OpenTerrainInfo(ASSTerrainActor* TerrainActor);
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
+    void CloseTerrainInfo();
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void UpdateWidget();

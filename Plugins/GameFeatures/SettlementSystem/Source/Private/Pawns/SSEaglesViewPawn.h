@@ -41,10 +41,10 @@ class ASSEaglesViewPawn : public ACBCharacter
     float MaxZoomDistance = 4000.0f;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBLineTraceComponent> LineTraceComponent;
+    TObjectPtr<UCBLineTraceComponent> LineTraceComponent = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<USSSettlementManagementWidget> SettlementWidget;
+    TObjectPtr<USSSettlementManagementWidget> SettlementWidget = nullptr;
 
 #pragma region Inputs
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")

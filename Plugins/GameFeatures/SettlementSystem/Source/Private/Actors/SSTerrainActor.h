@@ -24,16 +24,16 @@ public:
 
 private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBBoxComponent> Collision;
+    TObjectPtr<UCBBoxComponent> Collision = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UDecalComponent> Target;
+    TObjectPtr<UDecalComponent> Target = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMaterialInterface> DefaultTargetMaterial;
+    TObjectPtr<UMaterialInterface> DefaultTargetMaterial = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMaterialInstanceDynamic> TargetMaterialInstance;
+    TObjectPtr<UMaterialInstanceDynamic> TargetMaterialInstance = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     FGameplayTag Tag;
@@ -48,10 +48,10 @@ private:
     int ClaimFee = 20;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TSoftClassPtr<ASSBuildingActor> AssignedBuilding;
+    TSoftClassPtr<ASSBuildingActor> AssignedBuilding = nullptr;
 
     UPROPERTY(BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<ASSBuildingActor> ConstructedBuilding;
+    TObjectPtr<ASSBuildingActor> ConstructedBuilding = nullptr;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     float Width = 400.f;

@@ -7,6 +7,7 @@
 #include "Abilities/Components/MDBaseGameplayAbility.h"
 #include "InputActionValue.h"
 #include "Actors/CBCharacter.h"
+#include "Widgets/MDMainWidget.h"
 #include "MDBaseCharacter.generated.h"
 
 class UCBCameraComponent;
@@ -28,6 +29,9 @@ class MEDURVAL_API AMDBaseCharacter : public ACBCharacter, public IAbilitySystem
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="CBCharacter|Components", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="CBCharacter|Components", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDMainWidget> MainWidgetReference = nullptr;
 
 #pragma region AbilitiesProps
     UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes|Defaults")
