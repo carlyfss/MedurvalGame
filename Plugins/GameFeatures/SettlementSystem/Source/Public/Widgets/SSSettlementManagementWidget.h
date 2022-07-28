@@ -21,6 +21,10 @@ class SETTLEMENTSYSTEM_API USSSettlementManagementWidget : public USSBaseWidget
     UPROPERTY(BlueprintReadWrite, Category="SettlementWidget", meta=(AllowPrivateAccess=true))
     TObjectPtr<USSSettlementComponent> SettlementReference = nullptr;
 
+protected:
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
+    void OnTerrainSelected();
+    
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void OpenTerrainInfo(ASSTerrainActor* TerrainActor);
@@ -33,4 +37,7 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void SetBindOnUpdateTreasury();
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
+    void OnTerrainClaimed();
 };

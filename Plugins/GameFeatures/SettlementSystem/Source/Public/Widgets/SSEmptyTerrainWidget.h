@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SSBaseWidget.h"
-#include "SSClaimTerrainWidget.generated.h"
+#include "Widgets/SSBaseWidget.h"
+#include "SSEmptyTerrainWidget.generated.h"
 
 class ASSTerrainActor;
 
@@ -12,7 +12,7 @@ class ASSTerrainActor;
  * 
  */
 UCLASS()
-class SETTLEMENTSYSTEM_API USSClaimTerrainWidget : public USSBaseWidget
+class SETTLEMENTSYSTEM_API USSEmptyTerrainWidget : public USSBaseWidget
 {
 	GENERATED_BODY()
 
@@ -31,5 +31,4 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="ClaimTerrainWidget")
     void SetWidgetVisibility(bool bIsVisible);
-
 };
