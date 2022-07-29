@@ -10,6 +10,7 @@
 ASSBuildingActor::ASSBuildingActor()
 {
     Mesh = CreateDefaultSubobject<UCBStaticMeshComponent>("BuildingMesh");
+    Mesh->SetupAttachment(RootComponent);
     Maintenance = CreateDefaultSubobject<USSMaintenanceComponent>("MaintenanceComponent");
 }
 
@@ -47,8 +48,6 @@ void ASSBuildingActor::OnConfigurationLoaded()
         Maintenance->SetDailyIncome(Tier.DailyIncome);
         Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
         Maintenance->SetCostToBuild(Tier.CostToBuild);
-
-        UE_LOG(LogTemp, Warning, TEXT("Loaded..."))
     }
 }
 
@@ -86,6 +85,5 @@ void ASSBuildingActor::BeginPlay()
     if (ConfigurationId.IsValid())
     {
         LoadConfiguration();
-        UE_LOG(LogTemp, Warning, TEXT("Loading Building..."))
     }
 }

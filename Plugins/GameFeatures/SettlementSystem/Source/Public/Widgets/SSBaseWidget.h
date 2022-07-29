@@ -12,8 +12,12 @@
 UCLASS()
 class SETTLEMENTSYSTEM_API USSBaseWidget : public UCommonUserWidget
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-    UPROPERTY(BlueprintReadWrite, Category="SettlementWidget", meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, Category="BaseWidget", meta=(AllowPrivateAccess=true))
     TObjectPtr<ACharacter> PlayerReference = nullptr;
+
+public:
+    UFUNCTION(BlueprintCallable, Category="BaseWidget")
+    void SetWidgetVisibility(bool bIsVisible);
 };

@@ -14,6 +14,8 @@ class MEDURVAL_API UMedurvalAssetManager final : public UAssetManager
 {
     GENERATED_BODY()
 
+    void OnSettlementBuildingsLoaded();
+
 public:
     UMedurvalAssetManager()
     {

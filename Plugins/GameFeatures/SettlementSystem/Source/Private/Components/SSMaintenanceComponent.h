@@ -17,13 +17,13 @@ class USSMaintenanceComponent : public UCBActorComponent
 {
     GENERATED_BODY()
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
     int DailyIncome;
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
     int DailyUpkeep;
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
     int CostToBuild;
 
 public:

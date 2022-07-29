@@ -34,10 +34,7 @@ void ASSTerrainActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (AssignedBuilding.IsValid())
-    {
-        LoadAssignedBuilding();
-    }
+    LoadAssignedBuilding();
 
     SnapSize(Width, Length);
     const FVector TerrainSize = CalculateTerrainSize(Width, Length);
@@ -45,6 +42,7 @@ void ASSTerrainActor::BeginPlay()
     const FVector Location = this->GetActorLocation();
     const FRotator Rotation = FRotator(0, this->GetActorRotation().Yaw, 90);
     Target = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), DefaultTargetMaterial, TargetSize, Location, Rotation);
+    Target->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
     TargetMaterialInstance = UKismetMaterialLibrary::CreateDynamicMaterialInstance(GetWorld(), DefaultTargetMaterial, FSSTerrainConstants::TargetColorParameterName);
 
@@ -63,6 +61,8 @@ ASSTerrainActor::ASSTerrainActor()
     Collision->SetCollisionObjectType(ECC_GameTraceChannel4);
     Collision->SetCollisionResponseToAllChannels(ECR_Ignore);
     Collision->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Block);
+
+    Collision->SetupAttachment(RootComponent);
 }
 
 void ASSTerrainActor::LoadAssignedBuilding()
@@ -73,7 +73,6 @@ void ASSTerrainActor::LoadAssignedBuilding()
     BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
 
     FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &ASSTerrainActor::OnAssignedBuildingLoaded);
-
     StreamableManager.RequestAsyncLoad(AssignedBuilding.ToSoftObjectPath(), Delegate);
 }
 
@@ -89,6 +88,7 @@ void ASSTerrainActor::OnAssignedBuildingLoaded()
     SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
     ConstructedBuilding = GetWorld()->SpawnActor<ASSBuildingActor>(AssignedBuilding.Get(), TerrainLocation, TerrainRotation, SpawnParameters);
+    ConstructedBuilding->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
     StartConstruction_Implementation();
 }

@@ -13,7 +13,7 @@
 UCLASS()
 class SETTLEMENTSYSTEM_API USSSettlementManagementWidget : public USSBaseWidget
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
     UPROPERTY(BlueprintReadWrite, Category="SettlementWidget", meta=(AllowPrivateAccess=true))
     TObjectPtr<ASSTerrainActor> SelectedTerrain = nullptr;
@@ -24,10 +24,13 @@ class SETTLEMENTSYSTEM_API USSSettlementManagementWidget : public USSBaseWidget
 protected:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void OnTerrainSelected();
-    
+
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
-    void OpenTerrainInfo(ASSTerrainActor* TerrainActor);
+    void OpenTerrainInfo(ASSTerrainActor *TerrainActor);
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
+    void OpenBuildingsList(ASSTerrainActor *TerrainActor);
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void CloseTerrainInfo();
@@ -37,7 +40,7 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void SetBindOnUpdateTreasury();
-    
+
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void OnTerrainClaimed();
 };

@@ -7,6 +7,7 @@
 #include "SSBuildingActor.h"
 #include "Actors/CBActor.h"
 #include "Components/CBBoxComponent.h"
+#include "Engine/StreamableManager.h"
 #include "Enums/SSTerrainSize.h"
 #include "Enums/SSTerrainStatus.h"
 #include "Interfaces/MDInteractableInterface.h"

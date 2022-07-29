@@ -14,11 +14,11 @@ class ASSTerrainActor;
 UCLASS()
 class SETTLEMENTSYSTEM_API USSClaimTerrainWidget : public USSBaseWidget
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
-    void UpdateWidgetInfo(ACharacter* CharacterReference, ASSTerrainActor* TerrainActor);
+    void UpdateWidgetInfo(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor);
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
     void UpdateWidget();
@@ -28,8 +28,4 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
     void StopUpdatingPosition();
-
-    UFUNCTION(BlueprintCallable, Category="ClaimTerrainWidget")
-    void SetWidgetVisibility(bool bIsVisible);
-
 };

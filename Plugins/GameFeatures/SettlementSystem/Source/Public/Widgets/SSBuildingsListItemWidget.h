@@ -3,20 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SSBaseWidget.h"
-#include "SSBuildingsListWidget.generated.h"
-
-class ASSTerrainActor;
+#include "Widgets/SSBaseWidget.h"
+#include "SSBuildingsListItemWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SETTLEMENTSYSTEM_API USSBuildingsListWidget : public USSBaseWidget
+class SETTLEMENTSYSTEM_API USSBuildingsListItemWidget : public USSBaseWidget
 {
     GENERATED_BODY()
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingsListItem")
-    void LoadAvailableBuildings(ASSTerrainActor *TerrainActor);
+    void SetupWidget(FPrimaryAssetId BuildingId);
 };
