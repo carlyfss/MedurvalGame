@@ -41,8 +41,8 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     /**
      * Duration in seconds
      */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true))
-    uint8 ConstructionDuration = 5;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, ClampMin="0", ClampMax="10000"))
+    int ConstructionDuration = 5;
 
     /**
      * Defines the Building mesh by Settlement Type

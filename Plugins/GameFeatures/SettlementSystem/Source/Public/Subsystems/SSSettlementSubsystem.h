@@ -8,6 +8,7 @@
 #include "SSSettlementSubsystem.generated.h"
 
 
+class ASSTerrainActor;
 class USSSettlementComponent;
 /**
  *
@@ -27,6 +28,8 @@ class SETTLEMENTSYSTEM_API USSSettlementSubsystem : public UGameInstanceSubsyste
 
     TArray<FPrimaryAssetId> AllBuildings;
 
+    TArray<TObjectPtr<ASSTerrainActor>> AllTerrains;
+
     TMap<FPrimaryAssetId, ESSTerrainSize> BuildingsMapBySize;
 
 public:
@@ -44,4 +47,10 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
     TArray<FPrimaryAssetId> GetAllBuildings() const;
+
+    UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
+    void SetAllTerrains(TArray<ASSTerrainActor*> TerrainActors);
+
+    UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
+    TArray<ASSTerrainActor*> GetAllTerrains() const;
 };

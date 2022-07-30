@@ -9,10 +9,10 @@ struct SETTLEMENTSYSTEM_API FSSBuildingRequirements
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingRequirements", meta=(AllowPrivateAccess=true))
-    TArray<FPrimaryAssetId> Items;
+    TMap<FPrimaryAssetId, int> Items;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingRequirements", meta=(AllowPrivateAccess=true))
-    TArray<FPrimaryAssetId> Resources;
+    TMap<FPrimaryAssetId, int> Resources;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingRequirements", meta=(AllowPrivateAccess=true))
     TMap<FName, FText> CustomAttributes;

@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/SSBaseWidget.h"
+#include "DataAssets/SSBuildingDA.h"
 #include "SSBuildingsListItemWidget.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBuildingListItemSelected);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBuildingListItemSelected, USSBuildingDA*, BuildingData);
 
 class USSBuildingDA;
 

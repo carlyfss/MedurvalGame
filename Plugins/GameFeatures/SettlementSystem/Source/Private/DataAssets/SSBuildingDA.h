@@ -24,13 +24,13 @@ public:
     virtual FPrimaryAssetId GetPrimaryAssetId() const override;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BuildingDA|Configuration", AssetRegistrySearchable)
-    FName BuildingRegistryTag;
+    FName BuildingRegistryTag = FName("Building");
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Configuration", meta=(AllowPrivateAccess=true))
     FGameplayTag Tag;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Configuration", meta=(AllowPrivateAccess=true))
-    ESSTerrainSize Size;
+    ESSTerrainSize Size = ESSTerrainSize::Small;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Configuration", meta=(AllowPrivateAccess=true))
     FName Name = FName("BuildingName");

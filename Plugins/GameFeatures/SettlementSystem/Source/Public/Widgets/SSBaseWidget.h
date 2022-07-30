@@ -17,6 +17,10 @@ class SETTLEMENTSYSTEM_API USSBaseWidget : public UCommonUserWidget
     UPROPERTY(BlueprintReadWrite, Category="BaseWidget", meta=(AllowPrivateAccess=true))
     TObjectPtr<ACharacter> PlayerReference = nullptr;
 
+protected:
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BaseWidget")
+    void InitializeWidget();
+    
 public:
     UFUNCTION(BlueprintCallable, Category="BaseWidget")
     void SetWidgetVisibility(bool bIsVisible);

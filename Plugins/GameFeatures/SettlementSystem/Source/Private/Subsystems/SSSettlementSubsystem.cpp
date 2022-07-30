@@ -78,3 +78,13 @@ TArray<FPrimaryAssetId> USSSettlementSubsystem::GetAllBuildings() const
 {
     return AllBuildings;
 }
+
+void USSSettlementSubsystem::SetAllTerrains(TArray<ASSTerrainActor *> TerrainActors)
+{
+    AllTerrains = TerrainActors;
+}
+
+TArray<ASSTerrainActor *> USSSettlementSubsystem::GetAllTerrains() const
+{
+    return AllTerrains;
+}
