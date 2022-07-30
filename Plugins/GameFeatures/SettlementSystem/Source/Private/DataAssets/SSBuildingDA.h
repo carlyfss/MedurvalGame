@@ -38,8 +38,17 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Configuration", meta=(AllowPrivateAccess=true))
     ESSBuildingType Type = ESSBuildingType::Civilian;
 
+    /**
+     * Does this building has more than one tier?
+     */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Tiers", meta=(AllowPrivateAccess=true))
     bool bHasTiers = false;
+
+    /**
+     * Is this building exclusive to any Settlement Type?
+     */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Tiers", meta=(AllowPrivateAccess=true))
+    bool bIsAvailableForManyCivilizations = true;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Tiers", meta=(AllowPrivateAccess=true))
     TArray<FSSBuildingTier> AvailableTiers;
