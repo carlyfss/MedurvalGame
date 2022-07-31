@@ -23,5 +23,5 @@ protected:
     
 public:
     UFUNCTION(BlueprintCallable, Category="BaseWidget")
-    void SetWidgetVisibility(bool bIsVisible);
+    virtual void SetWidgetVisibility(bool bIsVisible);
 };

@@ -56,7 +56,7 @@ ASSTerrainActor::ASSTerrainActor()
     Collision->SetCollisionResponseToAllChannels(ECR_Ignore);
     Collision->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Block);
 
-    Collision->SetupAttachment(RootComponent);
+    RootComponent = Collision;
 }
 
 void ASSTerrainActor::LoadAssignedBuilding()
@@ -84,6 +84,7 @@ void ASSTerrainActor::OnAssignedBuildingLoaded()
     ConstructedBuilding = GetWorld()->SpawnActor<ASSBuildingActor>(AssignedBuilding.Get(), TerrainLocation, TerrainRotation, SpawnParameters);
     ConstructedBuilding->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
+    OnAssignedBuildingLoadCompleted.Broadcast();
     StartConstruction_Implementation();
 }
 
@@ -183,7 +184,7 @@ void ASSTerrainActor::HideTarget()
 void ASSTerrainActor::SelectTarget()
 {
     SetTargetColor(FSSTerrainConstants::DefaultSelectedTargetColor);
-    OnSelected.Broadcast();
+    OnSelected.Broadcast(this);
     bIsSelected = true;
 }
 
@@ -203,6 +204,7 @@ void ASSTerrainActor::StartConstruction_Implementation()
     if (!ConstructedBuilding)
         return;
 
+    OnStartConstruction.Broadcast(this);
     bIsUnderConstruction = true;
     ConstructedBuilding->OnBeginConstruction_Implementation();
     ConstructedBuilding->OnBeginConstruction();

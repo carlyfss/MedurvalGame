@@ -10,8 +10,6 @@
 #include "Structs/SSBuildingTier.h"
 #include "SSBuildingActor.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionStep, float, Percentage);
-
 class UCBStaticMeshComponent;
 class USSBuildingTierComponent;
 class USSMaintenanceComponent;
@@ -51,9 +49,14 @@ public:
 
     virtual void TimerDelegate() override;
 
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionStep, float, Percentage);
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnUpdateConstructionStep OnUpdateConstructionStep;
-
+    
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConfigurationLoadCompleted);
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnConfigurationLoadCompleted OnConfigurationLoadCompleted;
+    
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BuildingActor")
     void OnBeginConstruction();
 

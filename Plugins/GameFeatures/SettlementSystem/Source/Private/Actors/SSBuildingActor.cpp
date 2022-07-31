@@ -48,7 +48,12 @@ void ASSBuildingActor::OnConfigurationLoaded()
         Maintenance->SetDailyIncome(Tier.DailyIncome);
         Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
         Maintenance->SetCostToBuild(Tier.CostToBuild);
+    } else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Building configuration did not have any tiers configured!"))
     }
+
+    OnConfigurationLoadCompleted.Broadcast();
 }
 
 void ASSBuildingActor::TimerDelegate()

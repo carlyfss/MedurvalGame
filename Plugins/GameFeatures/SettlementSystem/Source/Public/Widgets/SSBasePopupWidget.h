@@ -19,6 +19,11 @@ protected:
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="BasePopupWidget", meta=(AllowPrivateAccess=true))
     FString UpdateWidgetFunctionName = FString(TEXT("UpdateWidget"));
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BasePopupWidget", meta=(AllowPrivateAccess=true))
+    float ShowPopupDelay = 0.05f;
+    
+    void ShowPopupWidget();
+
 public:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
     void UpdateWidgetInfo(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor);
@@ -31,6 +36,8 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
     void StopUpdatingPosition();
+
+    virtual void SetWidgetVisibility(bool bIsVisible) override;
 
     
 };
