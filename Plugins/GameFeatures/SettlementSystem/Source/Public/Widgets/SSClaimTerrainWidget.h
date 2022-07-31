@@ -3,29 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SSBaseWidget.h"
+#include "SSBasePopupWidget.h"
 #include "SSClaimTerrainWidget.generated.h"
-
-class ASSTerrainActor;
 
 /**
  * 
  */
 UCLASS()
-class SETTLEMENTSYSTEM_API USSClaimTerrainWidget : public USSBaseWidget
+class SETTLEMENTSYSTEM_API USSClaimTerrainWidget : public USSBasePopupWidget
 {
     GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
-    void UpdateWidgetInfo(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor);
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
-    void UpdateWidget();
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
-    void StartUpdatingPosition();
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ClaimTerrainWidget")
-    void StopUpdatingPosition();
+    virtual void UpdateWidget_Implementation() override;
+    virtual void UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor) override;
+    virtual void StartUpdatingPosition_Implementation() override;
+    virtual void StopUpdatingPosition_Implementation() override;
 };

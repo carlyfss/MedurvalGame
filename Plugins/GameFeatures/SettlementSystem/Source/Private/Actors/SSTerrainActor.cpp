@@ -203,6 +203,7 @@ void ASSTerrainActor::StartConstruction_Implementation()
     if (!ConstructedBuilding)
         return;
 
+    bIsUnderConstruction = true;
     ConstructedBuilding->OnBeginConstruction_Implementation();
     ConstructedBuilding->OnBeginConstruction();
     Status = ESSTerrainStatus::Constructed;

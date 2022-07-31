@@ -4,23 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "SSBasePopupWidget.h"
-#include "SSSettlementManagementWidget.h"
-#include "SSEmptyTerrainWidget.generated.h"
+#include "SSConstructionProgressWidget.generated.h"
 
-class ASSTerrainActor;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnConstructionComplete, ASSTerrainActor*, TerrainActor);
 
 /**
  * 
  */
 UCLASS()
-class SETTLEMENTSYSTEM_API USSEmptyTerrainWidget : public USSBasePopupWidget
+class SETTLEMENTSYSTEM_API USSConstructionProgressWidget : public USSBasePopupWidget
 {
-    GENERATED_BODY()
-
-    UPROPERTY(BlueprintReadWrite, Category="ClaimTerrainWidget", meta=(AllowPrivateAccess=true))
-    TObjectPtr<USSSettlementManagementWidget> SettlementManagementWidget;
+	GENERATED_BODY()
 
 public:
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnConstructionComplete OnConstructionComplete;
+    
     virtual void UpdateWidget_Implementation() override;
     virtual void UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor) override;
     virtual void StartUpdatingPosition_Implementation() override;

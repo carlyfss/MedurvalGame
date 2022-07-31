@@ -69,6 +69,9 @@ private:
     UPROPERTY(BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     bool bIsSelected = false;
 
+    UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
+    bool bIsUnderConstruction = false;
+
 protected:
     void OnAssignedBuildingLoaded();
 
