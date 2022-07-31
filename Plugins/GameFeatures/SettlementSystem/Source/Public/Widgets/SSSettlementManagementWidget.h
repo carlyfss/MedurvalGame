@@ -27,6 +27,9 @@ protected:
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
+    void CloseAndClearWidgets();
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void OpenTerrainInfo(ASSTerrainActor *TerrainActor);
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")

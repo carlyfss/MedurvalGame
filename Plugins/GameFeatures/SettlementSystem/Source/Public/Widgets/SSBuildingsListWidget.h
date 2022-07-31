@@ -18,5 +18,8 @@ class SETTLEMENTSYSTEM_API USSBuildingsListWidget : public USSBaseWidget
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingsListItem")
+    void CloseWidget();
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingsListItem")
     void LoadAvailableBuildings(ASSTerrainActor *TerrainActor);
 };

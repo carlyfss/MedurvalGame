@@ -39,6 +39,12 @@ public:
     ESSBuildingType Type = ESSBuildingType::Civilian;
 
     /**
+     * This actor is used to spawn in the world
+     */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Configuration", meta=(AllowPrivateAccess=true))
+    TSoftClassPtr<ASSBuildingActor> BuildingClass;
+
+    /**
      * Does this building has more than one tier?
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingDA|Tiers", meta=(AllowPrivateAccess=true))

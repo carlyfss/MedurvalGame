@@ -7,6 +7,10 @@
 #include "Widgets/SSSettlementManagementWidget.h"
 #include "SSEaglesViewPawn.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEaglesViewPossessed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEaglesViewUnpossessed);
+
+
 class UCBLineTraceComponent;
 /**
  * 
@@ -68,4 +72,11 @@ class ASSEaglesViewPawn : public ACBCharacter
 
 public:
     ASSEaglesViewPawn();
+
+    UPROPERTY(BlueprintAssignable, BlueprintCallable)
+    FOnEaglesViewPossessed OnEaglesViewPossessed;
+
+    UPROPERTY(BlueprintAssignable, BlueprintCallable)
+    FOnEaglesViewUnpossessed OnEaglesViewUnpossessed;
 };
+

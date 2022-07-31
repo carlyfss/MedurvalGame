@@ -70,8 +70,6 @@ private:
     bool bIsSelected = false;
 
 protected:
-    void LoadAssignedBuilding();
-
     void OnAssignedBuildingLoaded();
 
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
@@ -87,6 +85,9 @@ protected:
     void SnapSize(float &NewWidth, float &NewLength) const;
 
 public:
+    UFUNCTION(BlueprintCallable, Category="TerrainActor")
+    void LoadAssignedBuilding();
+    
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     bool Claim(ACharacter *OwnerReference);
 
@@ -113,9 +114,6 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="TerrainActor")
     void StartConstruction();
-
-    UFUNCTION(BlueprintCallable, Category="TerrainActor")
-    void SetConstructedBuilding(ASSBuildingActor *Building);
 
     virtual void OnConstruction(const FTransform &Transform) override;
 

@@ -11,12 +11,6 @@
 #include "Structs/SSTerrainConstants.h"
 #include "Subsystems/SSSettlementSubsystem.h"
 
-
-void ASSTerrainActor::SetConstructedBuilding(ASSBuildingActor *Building)
-{
-    ConstructedBuilding = Building;
-}
-
 void ASSTerrainActor::OnConstruction(const FTransform &Transform)
 {
     Super::OnConstruction(Transform);
@@ -210,6 +204,7 @@ void ASSTerrainActor::StartConstruction_Implementation()
         return;
 
     ConstructedBuilding->OnBeginConstruction_Implementation();
+    ConstructedBuilding->OnBeginConstruction();
     Status = ESSTerrainStatus::Constructed;
     SetTargetColor(FSSTerrainConstants::DefaultTargetColor);
 }

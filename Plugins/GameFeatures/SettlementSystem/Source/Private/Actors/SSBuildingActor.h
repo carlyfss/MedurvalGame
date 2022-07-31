@@ -39,6 +39,9 @@ class ASSBuildingActor : public ACBActor
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    bool bIsToStartConstructed = false;
+
 public:
     ASSBuildingActor();
 

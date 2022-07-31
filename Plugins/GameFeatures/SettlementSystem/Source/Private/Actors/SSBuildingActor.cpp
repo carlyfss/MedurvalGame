@@ -60,18 +60,21 @@ void ASSBuildingActor::TimerDelegate()
 
 void ASSBuildingActor::OnBeginConstruction_Implementation()
 {
-    if (!ConfigurationReference)
+    if (bIsToStartConstructed)
     {
-        TimerInterval = 0.5f;
-        StartTimerWithDelegate();
+        if (!ConfigurationReference)
+        {
+            TimerInterval = 0.5f;
+            StartTimerWithDelegate();
+        }
+
+        UStaticMesh *StaticMesh = Tier.Mesh.Get();
+
+        if (!StaticMesh)
+            return;
+
+        Mesh->SetStaticMesh(StaticMesh);    
     }
-
-    UStaticMesh *StaticMesh = Tier.Mesh.Get();
-
-    if (!StaticMesh)
-        return;
-
-    Mesh->SetStaticMesh(StaticMesh);
 }
 
 void ASSBuildingActor::OnConstructionCompleted()
