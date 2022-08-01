@@ -3,9 +3,9 @@
 #pragma once
 
 UENUM(BlueprintType, meta = (DisplayName = "SettlementType"))
-enum class ESSSettlementType : uint8
+enum class ESSCivilizationType : uint8
 {
-    Humans,
+    Human,
     Elf,
     Dwarf
 };

@@ -3,7 +3,7 @@
 #pragma once
 #include "SSBuildingConstructionMeshes.h"
 #include "SSBuildingRequirements.h"
-#include "Enums/SSSettlementType.h"
+#include "Enums/SSCivilizationType.h"
 #include "SSBuildingTier.generated.h"
 
 class ASSBuildingActor;
@@ -48,7 +48,7 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
      * Defines the Building mesh by Settlement Type
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Meshes", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
-    TMap<ESSSettlementType, TSoftObjectPtr<UStaticMesh>> CivilizationMeshes;
+    TMap<ESSCivilizationType, TSoftObjectPtr<UStaticMesh>> CivilizationMeshes;
 
     /**
      * Defines construction meshes for each Settlement Type

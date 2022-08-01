@@ -8,6 +8,7 @@
 #include "Actors/CBActor.h"
 #include "Components/CBBoxComponent.h"
 #include "Engine/StreamableManager.h"
+#include "Enums/SSCivilizationType.h"
 #include "Enums/SSTerrainSize.h"
 #include "Enums/SSTerrainStatus.h"
 #include "Interfaces/MDInteractableInterface.h"
@@ -42,6 +43,9 @@ private:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     ESSTerrainStatus Status = ESSTerrainStatus::Unclaimed;
+
+    UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
+    ESSCivilizationType Civilization = ESSCivilizationType::Human;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     int ClaimFee = 20;
@@ -90,7 +94,7 @@ public:
     void LoadAssignedBuilding();
     
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
-    bool Claim(ACharacter *OwnerReference);
+    bool Claim(ACharacter *OwnerReference, ESSCivilizationType CivilizationType);
 
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     bool IsUnclaimed();

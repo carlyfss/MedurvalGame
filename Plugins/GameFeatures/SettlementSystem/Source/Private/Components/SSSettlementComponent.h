@@ -8,7 +8,7 @@
 #include "Actors/SSTerrainActor.h"
 #include "Components/CBActorComponent.h"
 #include "Enums/SSSettlementStages.h"
-#include "Enums/SSSettlementType.h"
+#include "Enums/SSCivilizationType.h"
 #include "Structs/SSSettlementStage.h"
 #include "SSSettlementComponent.generated.h"
 
@@ -29,7 +29,7 @@ class USSSettlementComponent : public UCBActorComponent
     FName Name = FName("SettlementName");
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementComponent", meta=(AllowPrivateAccess=true))
-    ESSSettlementType Type = ESSSettlementType::Humans;
+    ESSCivilizationType Type = ESSCivilizationType::Human;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementComponent", meta=(AllowPrivateAccess=true))
     float InfluenceRadius = 2000;

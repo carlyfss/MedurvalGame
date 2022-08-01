@@ -141,7 +141,7 @@ void ASSTerrainActor::SnapSize(float &NewWidth, float &NewLength) const
     NewLength = FMath::TruncToInt(Length) - LengthRest;
 }
 
-bool ASSTerrainActor::Claim(ACharacter *OwnerReference)
+bool ASSTerrainActor::Claim(ACharacter *OwnerReference, ESSCivilizationType CivilizationType)
 {
     const UGameInstance *GameInstance = GetWorld()->GetGameInstance();
 
@@ -162,6 +162,7 @@ bool ASSTerrainActor::Claim(ACharacter *OwnerReference)
         return false;
 
     Settlement->GetEconomy()->RemoveFromTreasury(ClaimFee);
+    Civilization = CivilizationType;
     Status = ESSTerrainStatus::Claimed;
     return true;
 }

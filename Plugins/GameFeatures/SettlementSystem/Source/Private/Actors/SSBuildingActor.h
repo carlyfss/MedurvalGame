@@ -31,6 +31,9 @@ class ASSBuildingActor : public ACBActor
     UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     FSSBuildingTier Tier = FSSBuildingTier();
 
+    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    ESSCivilizationType Civilization = ESSCivilizationType::Human;
+
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     USSMaintenanceComponent *Maintenance = nullptr;
 

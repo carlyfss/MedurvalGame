@@ -1,7 +1,7 @@
 ﻿// MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #pragma once
-#include "Enums/SSSettlementType.h"
+#include "Enums/SSCivilizationType.h"
 #include "SSBuildingConstructionMeshes.generated.h"
 
 USTRUCT(BlueprintType, meta = (DisplayName = "BuildingConstructionMeshes"))
@@ -10,7 +10,7 @@ struct SETTLEMENTSYSTEM_API FSSBuildingConstructionMeshes
     GENERATED_BODY()
     
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingConstructionMeshes", meta=(AllowPrivateAccess=true))
-    ESSSettlementType Civilization;
+    ESSCivilizationType Civilization;
 
     /**
      * Construction meshes are going to be used in the order of the array
