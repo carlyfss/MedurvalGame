@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CommonUserWidget.h"
+#include "CommonActivatableWidget.h"
 #include "SSBaseWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SETTLEMENTSYSTEM_API USSBaseWidget : public UCommonUserWidget
+class SETTLEMENTSYSTEM_API USSBaseWidget : public UCommonActivatableWidget
 {
     GENERATED_BODY()
 

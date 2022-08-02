@@ -7,7 +7,8 @@ enum class ESSBuildingType : uint8
 {
     Civilian,
     Military,
-    Comercial,
+    Store,
     Auxiliary,
-    Storage
+    Storage,
+    Entertainment
 };
