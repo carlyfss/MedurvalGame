@@ -40,6 +40,9 @@ class ASSBuildingActor : public ACBActor
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
 
+    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    TArray<TSoftObjectPtr<UStaticMesh>> ConstructionMeshes;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     bool bIsToStartConstructed = false;
 
@@ -62,6 +65,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BuildingActor")
     void OnBeginConstruction();
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
+    void ChangeConstructionStep(int Index);
 
     UFUNCTION(BlueprintCallable, Category="BuildingActor")
     void OnConstructionCompleted();
