@@ -16,5 +16,5 @@ struct SETTLEMENTSYSTEM_API FSSBuildingConstructionMeshes
      * Construction meshes are going to be used in the order of the array
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingConstructionMeshes", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
-    TArray<TSoftObjectPtr<UStaticMesh>> ConstructionMeshes;
+    TArray<TSoftObjectPtr<UStaticMesh>> Meshes;
 };

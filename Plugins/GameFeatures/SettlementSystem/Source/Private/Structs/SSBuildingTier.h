@@ -20,6 +20,12 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Meshes", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
     TSoftObjectPtr<UStaticMesh> Mesh;
 
+    /**
+     * Defines the Building mesh by Settlement Type
+     */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Meshes", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
+    TMap<ESSCivilizationType, TSoftObjectPtr<UStaticMesh>> CivilizationMesh;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|UI", meta=(AllowPrivateAccess=true, AssetBundles = "UI"))
     TSoftObjectPtr<UTexture2D> Icon;
 
@@ -43,12 +49,6 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, ClampMin="0", ClampMax="10000"))
     int ConstructionDuration = 5;
-
-    /**
-     * Defines the Building mesh by Settlement Type
-     */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Meshes", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
-    TMap<ESSCivilizationType, TSoftObjectPtr<UStaticMesh>> CivilizationMeshes;
 
     /**
      * Defines construction meshes for each Settlement Type

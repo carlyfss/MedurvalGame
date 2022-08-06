@@ -84,14 +84,21 @@ void ASSBuildingActor::OnBeginConstruction_Implementation()
 
 void ASSBuildingActor::OnConstructionCompleted()
 {
+    UStaticMesh *StaticMesh = Tier.Mesh.Get();
+
+    // Get mesh by civilization
+
+    // Remove the mesh and leave only the CivilizationMesh
+
+    if (StaticMesh)
+    {
+        Mesh->SetStaticMesh(StaticMesh);
+    }
 }
 
 void ASSBuildingActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (ConfigurationId.IsValid())
-    {
-        LoadConfiguration();
-    }
+    LoadConfiguration();
 }
