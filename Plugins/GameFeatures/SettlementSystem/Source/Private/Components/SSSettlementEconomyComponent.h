@@ -19,13 +19,13 @@ class USSSettlementEconomyComponent : public UCBActorComponent
     USSSettlementEconomyComponent();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementEconomyComponent", meta=(AllowPrivateAccess=true))
-    int TotalTreasuryIncome;
+    int TotalTreasuryIncome = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementEconomyComponent", meta=(AllowPrivateAccess=true))
-    int TotalTreasuryUpkeep;
+    int TotalTreasuryUpkeep = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementEconomyComponent", meta=(AllowPrivateAccess=true))
-    int DailyChange;
+    int DailyChange = 0;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementEconomyComponent", meta=(AllowPrivateAccess=true))
     int Treasury = 200;

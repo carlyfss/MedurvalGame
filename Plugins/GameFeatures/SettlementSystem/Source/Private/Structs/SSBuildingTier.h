@@ -17,9 +17,6 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|UI", meta=(AllowPrivateAccess=true))
     FText Description = FText::FromName("Tier description.");
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Meshes", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
-    TSoftObjectPtr<UStaticMesh> Mesh;
-
     /**
      * Defines the Building mesh by Settlement Type
      */
@@ -49,6 +46,12 @@ struct SETTLEMENTSYSTEM_API FSSBuildingTier
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, ClampMin="0", ClampMax="10000"))
     int ConstructionDuration = 5;
+
+    /**
+     * Delay to update the Construction Step.
+     */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, ClampMin="1", ClampMax="5"))
+    int ConstructionStepUpdateDelay = 1;
 
     /**
      * Defines construction meshes for each Settlement Type

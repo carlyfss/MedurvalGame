@@ -4,9 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
-#include "Actors/CBActor.h"
+#include "Base/SSActor.h"
 #include "DataAssets/SSBuildingDA.h"
-#include "Enums/SSBuildingType.h"
 #include "Structs/SSBuildingTier.h"
 #include "SSBuildingActor.generated.h"
 
@@ -18,7 +17,7 @@ class USSSettlementComponent;
  * 
  */
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="BuildingActor"))
-class ASSBuildingActor : public ACBActor
+class ASSBuildingActor : public ASSActor
 {
     GENERATED_BODY()
 
@@ -43,17 +42,12 @@ class ASSBuildingActor : public ACBActor
     UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TArray<TSoftObjectPtr<UStaticMesh>> ConstructionMeshes;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    bool bIsToStartConstructed = false;
-
 public:
     ASSBuildingActor();
 
     void LoadConfiguration();
 
     void OnConfigurationLoaded();
-
-    virtual void TimerDelegate() override;
 
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionStep, float, Percentage);
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
@@ -63,7 +57,7 @@ public:
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnConfigurationLoadCompleted OnConfigurationLoadCompleted;
     
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BuildingActor")
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
     void OnBeginConstruction();
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
@@ -71,6 +65,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="BuildingActor")
     void OnConstructionCompleted();
+
+    UFUNCTION(BlueprintCallable, Category="BuildingActor")
+    UStaticMesh* GetMeshByCivilization(ESSCivilizationType TargetCivilization) const;
 
     virtual void BeginPlay() override;
 };

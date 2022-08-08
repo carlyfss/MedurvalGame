@@ -14,7 +14,9 @@
 
 #include "Blueprint/UserWidget.h"
 #include "Components/Utils/MDLineTraceComponent.h"
+#include "Core/Singleton/MDGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMDBaseCharacter::AMDBaseCharacter()
@@ -47,6 +49,17 @@ void AMDBaseCharacter::BeginPlay()
         this, UGameFrameworkComponentManager::NAME_GameActorReady);
 
     Super::BeginPlay();
+
+    // Initialize Player Reference in MDGameInstance
+    UMDGameInstance* GameInstance = Cast<UMDGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+    if (GameInstance)
+    {
+        ACharacter* PlayerRef = GameInstance->GetPlayerReference();
+        if (!PlayerRef)
+        {
+            GameInstance->SetPlayerReference(this);
+        }
+    }
 }
 
 void AMDBaseCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)

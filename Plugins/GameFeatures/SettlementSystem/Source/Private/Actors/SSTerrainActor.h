@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "SSBuildingActor.h"
-#include "Actors/CBActor.h"
 #include "Components/CBBoxComponent.h"
 #include "Engine/StreamableManager.h"
 #include "Enums/SSCivilizationType.h"
@@ -15,7 +14,7 @@
 #include "SSTerrainActor.generated.h"
 
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="TerrainActor"))
-class ASSTerrainActor : public ACBActor, public IMDInteractableInterface
+class ASSTerrainActor : public ASSActor, public IMDInteractableInterface
 {
     GENERATED_BODY()
 
@@ -96,6 +95,10 @@ public:
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     bool Claim(ACharacter *OwnerReference, ESSCivilizationType CivilizationType);
 
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClaimed, ASSTerrainActor*, TerrainActor);
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnClaimed OnClaimed;
+
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     bool IsUnclaimed();
 
@@ -128,6 +131,9 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="TerrainActor")
     void StartConstruction();
+
+    UFUNCTION(BlueprintCallable, Category="TerrainActor")
+    void CompleteConstruction();
 
     virtual void OnConstruction(const FTransform &Transform) override;
 

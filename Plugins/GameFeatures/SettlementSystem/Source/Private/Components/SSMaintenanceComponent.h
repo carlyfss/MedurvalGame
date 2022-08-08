@@ -18,14 +18,16 @@ class USSMaintenanceComponent : public UCBActorComponent
     GENERATED_BODY()
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
-    int DailyIncome;
+    int DailyIncome = 0;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
-    int DailyUpkeep;
+    int DailyUpkeep = 0;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="MaintenanceComponent", meta=(AllowPrivateAccess=true))
-    int CostToBuild;
+    int CostToBuild = 0;
 
+    bool bIsMaintenanceEnabled = false;
+    
 public:
     void SetDailyIncome(int Amount);
 
@@ -40,8 +42,8 @@ public:
     int GetCostToBuild() const;
 
     UFUNCTION(BlueprintCallable, Category="MaintenanceComponent")
-    void EnableMaintenance(USSSettlementComponent *Settlement) const;
+    void EnableMaintenance(USSSettlementComponent *Settlement);
 
     UFUNCTION(BlueprintCallable, Category="MaintenanceComponent")
-    void DisableMaintenance(USSSettlementComponent *Settlement) const;
+    void DisableMaintenance(USSSettlementComponent *Settlement);
 };

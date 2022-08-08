@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CommonActivatableWidget.h"
 #include "CommonUserWidget.h"
 #include "MDMainWidget.generated.h"
 
@@ -12,7 +13,7 @@ class AMDBaseCharacter;
  * 
  */
 UCLASS()
-class MEDURVAL_API UMDMainWidget : public UCommonUserWidget
+class MEDURVAL_API UMDMainWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 

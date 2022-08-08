@@ -26,7 +26,7 @@ protected:
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
-    void UpdateWidgetInfo(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor);
+    void UpdateWidgetInfo(ASSTerrainActor *TerrainActor);
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
     void UpdateWidget();

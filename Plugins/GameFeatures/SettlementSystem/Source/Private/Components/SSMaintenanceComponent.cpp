@@ -34,14 +34,22 @@ int USSMaintenanceComponent::GetCostToBuild() const
     return CostToBuild;
 }
 
-void USSMaintenanceComponent::EnableMaintenance(USSSettlementComponent *Settlement) const
+void USSMaintenanceComponent::EnableMaintenance(USSSettlementComponent *Settlement)
 {
+    if (bIsMaintenanceEnabled)
+        return;
+    
     Settlement->GetEconomy()->AddToIncome(DailyIncome);
     Settlement->GetEconomy()->AddToUpkeep(DailyUpkeep);
+    bIsMaintenanceEnabled = true;
 }
 
-void USSMaintenanceComponent::DisableMaintenance(USSSettlementComponent *Settlement) const
+void USSMaintenanceComponent::DisableMaintenance(USSSettlementComponent *Settlement)
 {
+    if (!bIsMaintenanceEnabled)
+        return;
+    
     Settlement->GetEconomy()->AddToIncome(DailyIncome * -1);
     Settlement->GetEconomy()->AddToUpkeep(DailyUpkeep * -1);
+    bIsMaintenanceEnabled = false;
 }

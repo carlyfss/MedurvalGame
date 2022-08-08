@@ -47,7 +47,6 @@ void UMDLineTraceComponent::CastLineTrace()
             // trace is finished, do stuff with results
             HandleLineTraceResults(OutData);
         }
-
         return;
     }
 
@@ -103,8 +102,9 @@ void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum &TraceResul
         if (Interactable)
         {
             Interactable->OnEndFocus_Implementation();
-            LineTraceHitActor = nullptr;
         }
+        
+        LineTraceHitActor = nullptr;
     }
 
     if (TraceResult.OutHits.Num() == 0)
@@ -119,20 +119,15 @@ void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum &TraceResul
 
     LineTraceHitActor = TraceResult.OutHits[0].GetActor();
 
-    if (!LineTraceHitActor)
+    if (LineTraceHitActor)
     {
-        LineTraceHitActor = nullptr;
-        return;
+        IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+    
+        if (Interactable)
+        {
+            Interactable->OnStartFocus_Implementation();
+        }
     }
-
-    IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
-
-    if (!Interactable)
-    {
-        return;
-    }
-
-    Interactable->OnStartFocus_Implementation();
 }
 
 void UMDLineTraceComponent::HandleLineTraceResults(const FHitResult &TraceResult)

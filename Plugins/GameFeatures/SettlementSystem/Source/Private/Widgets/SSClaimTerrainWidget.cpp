@@ -8,9 +8,9 @@ void USSClaimTerrainWidget::UpdateWidget_Implementation()
     Super::UpdateWidget_Implementation();
 }
 
-void USSClaimTerrainWidget::UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor)
+void USSClaimTerrainWidget::UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor)
 {
-    Super::UpdateWidgetInfo_Implementation(CharacterReference, TerrainActor);
+    Super::UpdateWidgetInfo_Implementation(TerrainActor);
 }
 
 void USSClaimTerrainWidget::StartUpdatingPosition_Implementation()

@@ -6,6 +6,9 @@
 #include "Components/CBStaticMeshComponent.h"
 #include "Components/SSMaintenanceComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
+#include "Core/Singleton/MDGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "Subsystems/SSSettlementSubsystem.h"
 
 ASSBuildingActor::ASSBuildingActor()
 {
@@ -56,44 +59,40 @@ void ASSBuildingActor::OnConfigurationLoaded()
     OnConfigurationLoadCompleted.Broadcast();
 }
 
-void ASSBuildingActor::TimerDelegate()
-{
-    Super::TimerDelegate();
-
-    OnBeginConstruction_Implementation();
-}
-
-void ASSBuildingActor::OnBeginConstruction_Implementation()
-{
-    if (bIsToStartConstructed)
-    {
-        if (!ConfigurationReference)
-        {
-            TimerInterval = 0.5f;
-            StartTimerWithDelegate();
-        }
-
-        UStaticMesh *StaticMesh = Tier.Mesh.Get();
-
-        if (!StaticMesh)
-            return;
-
-        Mesh->SetStaticMesh(StaticMesh);    
-    }
-}
-
 void ASSBuildingActor::OnConstructionCompleted()
 {
-    UStaticMesh *StaticMesh = Tier.Mesh.Get();
-
-    // Get mesh by civilization
-
-    // Remove the mesh and leave only the CivilizationMesh
+    UStaticMesh *StaticMesh = GetMeshByCivilization(Civilization);
 
     if (StaticMesh)
     {
         Mesh->SetStaticMesh(StaticMesh);
     }
+
+    const UMDGameInstance* GameInstance = Cast<UMDGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+    if (!GameInstance)
+        return;
+
+    USSSettlementSubsystem *Subsystem = GameInstance->GetSubsystem<USSSettlementSubsystem>();
+    USSSettlementComponent* Settlement = Subsystem->GetSettlementByOwner(GameInstance->GetPlayerReference());
+
+    if (Settlement)
+    {
+        Maintenance->EnableMaintenance(Settlement);    
+    }
+}
+
+UStaticMesh* ASSBuildingActor::GetMeshByCivilization(ESSCivilizationType TargetCivilization) const
+{
+    UStaticMesh* BuildingMesh = nullptr;
+    const bool bHasCivilizationMesh = Tier.CivilizationMesh.Contains(TargetCivilization);
+        
+    if (bHasCivilizationMesh)
+    {
+        BuildingMesh = Tier.CivilizationMesh.Find(TargetCivilization)->Get();
+    }
+
+    return BuildingMesh;
 }
 
 void ASSBuildingActor::BeginPlay()

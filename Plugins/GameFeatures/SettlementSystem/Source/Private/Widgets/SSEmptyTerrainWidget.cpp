@@ -8,9 +8,9 @@ void USSEmptyTerrainWidget::UpdateWidget_Implementation()
     Super::UpdateWidget_Implementation();
 }
 
-void USSEmptyTerrainWidget::UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor)
+void USSEmptyTerrainWidget::UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor)
 {
-    Super::UpdateWidgetInfo_Implementation(CharacterReference, TerrainActor);
+    Super::UpdateWidgetInfo_Implementation(TerrainActor);
 }
 
 void USSEmptyTerrainWidget::StartUpdatingPosition_Implementation()

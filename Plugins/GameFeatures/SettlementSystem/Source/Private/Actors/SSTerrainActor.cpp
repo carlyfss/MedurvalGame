@@ -11,6 +11,14 @@
 #include "Structs/SSTerrainConstants.h"
 #include "Subsystems/SSSettlementSubsystem.h"
 
+void ASSTerrainActor::CompleteConstruction()
+{
+    if (!ConstructedBuilding)
+        return;
+
+    ConstructedBuilding->OnConstructionCompleted();
+}
+
 void ASSTerrainActor::OnConstruction(const FTransform &Transform)
 {
     Super::OnConstruction(Transform);
@@ -28,8 +36,6 @@ void ASSTerrainActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    LoadAssignedBuilding();
-
     SnapSize(Width, Length);
     const FVector TerrainSize = CalculateTerrainSize(Width, Length);
     const FVector TargetSize = FVector(FSSTerrainConstants::DefaultTargetHeight, TerrainSize.Y, TerrainSize.X);
@@ -44,6 +50,8 @@ void ASSTerrainActor::BeginPlay()
     Target->SetDecalMaterial(TargetMaterialInstance);
 
     Target->SetWorldRotation(FRotator(90, this->GetActorRotation().Yaw, 0));
+
+    LoadAssignedBuilding();
 }
 
 
@@ -164,6 +172,7 @@ bool ASSTerrainActor::Claim(ACharacter *OwnerReference, ESSCivilizationType Civi
     Settlement->GetEconomy()->RemoveFromTreasury(ClaimFee);
     Civilization = CivilizationType;
     Status = ESSTerrainStatus::Claimed;
+    OnClaimed.Broadcast(this);
     return true;
 }
 
@@ -207,7 +216,6 @@ void ASSTerrainActor::StartConstruction_Implementation()
 
     OnStartConstruction.Broadcast(this);
     bIsUnderConstruction = true;
-    ConstructedBuilding->OnBeginConstruction_Implementation();
     ConstructedBuilding->OnBeginConstruction();
     Status = ESSTerrainStatus::Constructed;
     SetTargetColor(FSSTerrainConstants::DefaultTargetColor);

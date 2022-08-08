@@ -17,14 +17,11 @@ class SETTLEMENTSYSTEM_API USSConstructionProgressWidget : public USSBasePopupWi
 	GENERATED_BODY()
 
 public:
-    UPROPERTY(BlueprintCallable, BlueprintAssignable)
-    FOnConstructionComplete OnConstructionComplete;
-
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ConstructionProgressWidget")
     void StartConstructionTimer();
     
     virtual void UpdateWidget_Implementation() override;
-    virtual void UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor) override;
+    virtual void UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor) override;
     virtual void StartUpdatingPosition_Implementation() override;
     virtual void StopUpdatingPosition_Implementation() override;
 };

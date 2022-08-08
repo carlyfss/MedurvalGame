@@ -17,9 +17,6 @@ void USSSettlementEconomyComponent::AddToTreasury(int Amount)
         return;
 
     Subsystem->AddAmount(Treasury, Amount);
-
-    Treasury = FMath::Clamp(Treasury, Subsystem->GetConfiguration().MinAmount, TreasuryLimit);
-
     UpdateTreasury();
 }
 
@@ -32,7 +29,6 @@ void USSSettlementEconomyComponent::AddToIncome(int Amount)
 
     Subsystem->AddAmount(TotalTreasuryIncome, Amount);
     IsToUpdateDailyChange = true;
-
     UpdateTreasury();
 }
 
@@ -45,7 +41,6 @@ void USSSettlementEconomyComponent::AddToUpkeep(int Amount)
 
     Subsystem->AddAmount(TotalTreasuryUpkeep, Amount);
     IsToUpdateDailyChange = true;
-
     UpdateTreasury();
 }
 

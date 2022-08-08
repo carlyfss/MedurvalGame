@@ -3,7 +3,7 @@
 
 #include "Widgets/SSBasePopupWidget.h"
 
-void USSBasePopupWidget::UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor)
+void USSBasePopupWidget::UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor)
 {
 }
 

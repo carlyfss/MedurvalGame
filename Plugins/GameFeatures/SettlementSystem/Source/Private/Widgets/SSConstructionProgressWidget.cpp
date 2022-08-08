@@ -8,9 +8,9 @@ void USSConstructionProgressWidget::UpdateWidget_Implementation()
     Super::UpdateWidget_Implementation();
 }
 
-void USSConstructionProgressWidget::UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor)
+void USSConstructionProgressWidget::UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor)
 {
-    Super::UpdateWidgetInfo_Implementation(CharacterReference, TerrainActor);
+    Super::UpdateWidgetInfo_Implementation(TerrainActor);
 }
 
 void USSConstructionProgressWidget::StartUpdatingPosition_Implementation()

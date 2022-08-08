@@ -22,7 +22,7 @@ class SETTLEMENTSYSTEM_API USSEmptyTerrainWidget : public USSBasePopupWidget
 
 public:
     virtual void UpdateWidget_Implementation() override;
-    virtual void UpdateWidgetInfo_Implementation(ACharacter *CharacterReference, ASSTerrainActor *TerrainActor) override;
+    virtual void UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor) override;
     virtual void StartUpdatingPosition_Implementation() override;
     virtual void StopUpdatingPosition_Implementation() override;
 };
