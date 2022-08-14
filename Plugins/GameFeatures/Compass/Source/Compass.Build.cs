@@ -16,6 +16,7 @@ public class Compass : ModuleRules
 			new string[]
 			{
 				"Core",
+				"CommonBase"
 			});
 			
 		
@@ -24,8 +25,7 @@ public class Compass : ModuleRules
 			{
 				"CoreUObject",
 				"Engine",
-				"UMG",
-				"CommonBase"
+				"UMG"
 			});
 	}
 }

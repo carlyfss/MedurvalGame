@@ -19,9 +19,4 @@ class SETTLEMENTSYSTEM_API USSConstructionProgressWidget : public USSBasePopupWi
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ConstructionProgressWidget")
     void StartConstructionTimer();
-    
-    virtual void UpdateWidget_Implementation() override;
-    virtual void UpdateWidgetInfo_Implementation(ASSTerrainActor *TerrainActor) override;
-    virtual void StartUpdatingPosition_Implementation() override;
-    virtual void StopUpdatingPosition_Implementation() override;
 };

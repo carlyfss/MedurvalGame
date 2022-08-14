@@ -3,26 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CommonActivatableWidget.h"
+#include "Widgets/CBCommonActivatableWidget.h"
 #include "SSBaseWidget.generated.h"
 
+class AMDPlayerController;
 class UMDGameInstance;
 /**
  * 
  */
 UCLASS()
-class SETTLEMENTSYSTEM_API USSBaseWidget : public UCommonActivatableWidget
+class SETTLEMENTSYSTEM_API USSBaseWidget : public UCBCommonActivatableWidget
 {
     GENERATED_BODY()
 
 protected:
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BaseWidget")
-    void InitializeWidget();
-
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="SSActor")
     UMDGameInstance* GetMDGameInstance() const;
+
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category="SSActor")
+    AMDPlayerController* GetMDPlayerController() const;
     
 public:
-    UFUNCTION(BlueprintCallable, Category="BaseWidget")
-    virtual void SetWidgetVisibility(bool bIsVisible);
+    virtual void NativeOnDeactivated() override;
+
 };

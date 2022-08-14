@@ -16,7 +16,10 @@ public class SettlementSystem : ModuleRules
 			new string[]
 			{
 				"Core",
-				"Engine"
+				"Engine",
+				"CommonBase",
+				"CommonUI",
+				"Medurval"
 			});
 
 
@@ -24,12 +27,9 @@ public class SettlementSystem : ModuleRules
 			new string[]
 			{
 				"CoreUObject",
-				"CommonBase",
-				"CommonUI",
 				"UMG",
 				"EnhancedInput",
-				"GameplayTags",
-				"Medurval"
+				"GameplayTags"
 			});
 	}
 }

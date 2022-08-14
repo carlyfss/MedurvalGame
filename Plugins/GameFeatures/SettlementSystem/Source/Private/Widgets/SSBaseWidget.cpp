@@ -3,12 +3,13 @@
 
 #include "Widgets/SSBaseWidget.h"
 
+#include "Core/MDPlayerController.h"
 #include "Core/Singleton/MDGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
-void USSBaseWidget::InitializeWidget_Implementation()
+void USSBaseWidget::NativeOnDeactivated()
 {
-    InitializeWidget();
+    Super::NativeOnDeactivated();
 }
 
 UMDGameInstance * USSBaseWidget::GetMDGameInstance() const
@@ -16,13 +17,7 @@ UMDGameInstance * USSBaseWidget::GetMDGameInstance() const
     return Cast<UMDGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
 
-void USSBaseWidget::SetWidgetVisibility(bool bIsVisible)
+AMDPlayerController * USSBaseWidget::GetMDPlayerController() const
 {
-    if (bIsVisible)
-    {
-        SetVisibility(ESlateVisibility::Visible);
-        return;
-    }
-
-    SetVisibility(ESlateVisibility::Collapsed);
+    return Cast<AMDPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
 #include "Base/SSActor.h"
 #include "DataAssets/SSBuildingDA.h"
 #include "Structs/SSBuildingTier.h"

@@ -15,29 +15,32 @@ class SETTLEMENTSYSTEM_API USSBasePopupWidget : public USSBaseWidget
 {
 	GENERATED_BODY()
 
+    UPROPERTY(EditDefaultsOnly, Category="BasePopupWidget", meta=(AllowPrivateAccess=true))
+    FVector2D WidgetPositionOffset = FVector2D(50.f, 100.f);
+
 protected:
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="BasePopupWidget", meta=(AllowPrivateAccess=true))
-    FString UpdateWidgetFunctionName = FString(TEXT("UpdateWidget"));
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BasePopupWidget")
+    float UpdateWidgetInterval = 0.01f;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BasePopupWidget", meta=(AllowPrivateAccess=true))
-    float ShowPopupDelay = 0.05f;
+    UPROPERTY(BlueprintReadWrite, Category="BasePopupWidget")
+    FVector TerrainLocation = FVector();
     
-    void ShowPopupWidget();
+    FTimerHandle TimerHandle;
 
-public:
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
-    void UpdateWidgetInfo(ASSTerrainActor *TerrainActor);
-
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
+    UFUNCTION(BlueprintCallable, BlueprintCallable, Category="BasePopupWidget")
     void UpdateWidget();
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
+    UFUNCTION(BlueprintCallable, BlueprintCallable, Category="BasePopupWidget")
     void StartUpdatingPosition();
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="ClaimTerrainWidget")
+    UFUNCTION(BlueprintCallable, BlueprintCallable, Category="BasePopupWidget")
     void StopUpdatingPosition();
 
-    virtual void SetWidgetVisibility(bool bIsVisible) override;
-
+public:
+    virtual void NativeOnActivated() override;
+    virtual void NativeOnDeactivated() override;
     
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="BasePopupWidget")
+    void UpdateWidgetInfo(ASSTerrainActor *TerrainActor);
+
 };

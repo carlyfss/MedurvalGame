@@ -6,7 +6,11 @@ public class InventoryManager : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] {  });
+		PublicDependencyModuleNames.AddRange(new string[] { 
+			"CommonBase",
+			"EnhancedInput", 
+			"Medurval"  
+		});
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
@@ -14,10 +18,8 @@ public class InventoryManager : ModuleRules
 			"Core", 
 			"CoreUObject", 
 			"Engine",
-			"EnhancedInput", 
-			"Medurval",
 			"SlateCore", 
-			"CommonBase"
+			
 		});
 	}
 }

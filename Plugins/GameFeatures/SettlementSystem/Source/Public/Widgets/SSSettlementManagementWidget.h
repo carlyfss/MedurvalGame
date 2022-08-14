@@ -27,16 +27,7 @@ protected:
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
-    void CloseAndClearWidgets();
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
-    void CallUpdateConstructionProgressWidget();
-    
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void OpenTerrainInfo(ASSTerrainActor *TerrainActor);
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
-    void OpenBuildingsList(ASSTerrainActor *TerrainActor);
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void CloseTerrainInfo();
