@@ -45,7 +45,7 @@ void USSBasePopupWidget::NativeOnActivated()
 
     FTimerHandle SetVisibilityTimerHandle;
     const FTimerDelegate SetVisibilityDelegate = FTimerDelegate::CreateUObject(this, &USSBasePopupWidget::SetVisibility, ESlateVisibility::Visible);
-    GetWorld()->GetTimerManager().SetTimer(SetVisibilityTimerHandle, SetVisibilityDelegate, UpdateWidgetInterval, false, 0.f);
+    GetWorld()->GetTimerManager().SetTimer(SetVisibilityTimerHandle, SetVisibilityDelegate, UpdateWidgetInterval, false, 0.05f);
     
     StartUpdatingPosition();
 }

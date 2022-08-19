@@ -10,6 +10,45 @@
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/SSSettlementSubsystem.h"
 
+void ASSBuildingActor::StartConstructionTimer()
+{
+    ConstructionMeshesLength = ConstructionMeshes.Num();
+    CurrentTime += 1;
+
+    const FTimerDelegate CountdownDelegate = FTimerDelegate::CreateUObject(this, &ASSBuildingActor::TimerCountdown); 
+    GetWorld()->GetTimerManager().SetTimer(ConstructionTimerHandle, CountdownDelegate, 1.f, true, 0.f);
+}
+
+void ASSBuildingActor::TimerCountdown()
+{
+    CurrentTime -= 1;
+    OnUpdateConstructionTime.Broadcast(CurrentTime);
+    
+    UpdateConstructionProgress();
+    const int ConstructionPercentage = CurrentTime / Tier.ConstructionDuration;
+    OnUpdateConstructionPercentage.Broadcast(ConstructionPercentage);
+    
+    if (CurrentTime > 0)
+        return;
+
+    GetWorld()->GetTimerManager().ClearTimer(ConstructionTimerHandle);
+    ConstructionTimerHandle.Invalidate();
+    OnConstructionCompleted();
+}
+
+void ASSBuildingActor::UpdateConstructionProgress()
+{
+    const int UpdateSteps = Tier.ConstructionDuration / ConstructionMeshes.Num();
+    const int TimeForNextStep = UpdateSteps * ConstructionMeshesLength;
+
+    if (TimeForNextStep != CurrentTime)
+        return;
+
+    ChangeConstructionStep(CurrentStep);
+    CurrentStep += 1;
+    ConstructionMeshesLength -= 1;
+}
+
 ASSBuildingActor::ASSBuildingActor()
 {
     Mesh = CreateDefaultSubobject<UCBStaticMeshComponent>("BuildingMesh");
@@ -56,6 +95,8 @@ void ASSBuildingActor::OnConfigurationLoaded()
         UE_LOG(LogTemp, Warning, TEXT("Building configuration did not have any tiers configured!"))
     }
 
+    CurrentTime = Tier.ConstructionDuration;
+    
     OnConfigurationLoadCompleted.Broadcast();
 }
 

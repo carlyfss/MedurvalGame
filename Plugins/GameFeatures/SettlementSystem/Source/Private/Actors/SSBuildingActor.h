@@ -39,18 +39,42 @@ class ASSBuildingActor : public ASSActor
     TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    int CurrentTime = 0;
+
+    uint8 CurrentStep = 0;
+
+    uint8 ConstructionMeshesLength = 0;
+
+    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TArray<TSoftObjectPtr<UStaticMesh>> ConstructionMeshes;
 
-public:
-    ASSBuildingActor();
-
+protected:
     void LoadConfiguration();
 
     void OnConfigurationLoaded();
 
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionStep, float, Percentage);
+    FTimerHandle ConstructionTimerHandle;
+
+    UFUNCTION(BlueprintCallable, Category="BuildingActor")
+    void StartConstructionTimer();
+
+    void TimerCountdown();
+
+    void UpdateConstructionProgress();
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
+    void ChangeConstructionStep(int Index);
+
+public:
+    ASSBuildingActor();
+
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionPercentage, float, Percentage);
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
-    FOnUpdateConstructionStep OnUpdateConstructionStep;
+    FOnUpdateConstructionPercentage OnUpdateConstructionPercentage;
+
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionTime, int, Time);
+    UPROPERTY(BlueprintCallable, BlueprintAssignable)
+    FOnUpdateConstructionTime OnUpdateConstructionTime;
     
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConfigurationLoadCompleted);
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
@@ -58,9 +82,6 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
     void OnBeginConstruction();
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
-    void ChangeConstructionStep(int Index);
 
     UFUNCTION(BlueprintCallable, Category="BuildingActor")
     void OnConstructionCompleted();
