@@ -3,8 +3,9 @@
 
 #include "Core/AssetManager/MedurvalAssetManager.h"
 
-const FPrimaryAssetType UMedurvalAssetManager::DefaultItemType = TEXT("InventoryItem");
+const FPrimaryAssetType UMedurvalAssetManager::DefaultItemType = TEXT("DefaultItem");
 const FPrimaryAssetType UMedurvalAssetManager::ConsumableItemType = TEXT("ConsumableItem");
+const FPrimaryAssetType UMedurvalAssetManager::ResourceItemType = TEXT("ResourceItem");
 const FPrimaryAssetType UMedurvalAssetManager::SettlementBuildingType = TEXT("SettlementBuilding");
 
 void UMedurvalAssetManager::StartInitialLoading()

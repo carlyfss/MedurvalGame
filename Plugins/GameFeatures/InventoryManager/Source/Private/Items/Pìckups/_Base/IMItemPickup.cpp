@@ -8,7 +8,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "GameFramework/Character.h"
-#include "Items/_Base/IMBaseItemDA.h"
+#include "Items/IMBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AIMItemPickup::AIMItemPickup()
@@ -59,6 +59,8 @@ void AIMItemPickup::OnPickupItemLoaded()
     {
         PickupMesh->SetStaticMesh(Mesh);
     }
+
+    SetCollisionSize();
 }
 
 void AIMItemPickup::LoadPickupItem()

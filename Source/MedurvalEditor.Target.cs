@@ -10,6 +10,7 @@ public class MedurvalEditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
+		ExtraModuleNames.AddRange( new string[] { "Settlements" } );
 		ExtraModuleNames.AddRange( new string[] { "Medurval" } );
 	}
 }

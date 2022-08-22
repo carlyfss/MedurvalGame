@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Interfaces/InventoryInterface.h"
+#include "Widgets/CBCommonActivatableWidget.h"
 #include "IMInventorySlotWidget.generated.h"
 
 class UIMDetailWidget;
@@ -16,7 +17,7 @@ class UButton;
 class UImage;
 
 UCLASS(meta = (DisplayName = "InventorySlotWidget"))
-class UIMInventorySlotWidget final : public UUserWidget, public IInventoryInterface
+class UIMInventorySlotWidget final : public UCBCommonActivatableWidget, public IInventoryInterface
 {
 	GENERATED_BODY()
 

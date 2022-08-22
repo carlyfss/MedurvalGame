@@ -12,7 +12,7 @@ class UCBStaticMeshComponent;
 class UIMInventoryComponent;
 class UIMBaseItemDA;
 
-UCLASS(meta = (DisplayName = "InventoryItemPickup"))
+UCLASS(meta = (DisplayName = "ItemPickup"))
 class AIMItemPickup : public ACBActor, public IMDInteractableInterface
 {
 	GENERATED_BODY()
@@ -20,19 +20,19 @@ class AIMItemPickup : public ACBActor, public IMDInteractableInterface
 	UPROPERTY(Transient)
 	TObjectPtr<UIMBaseItemDA> LoadedItem = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditInstanceOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
 	FPrimaryAssetId ItemId;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UCBStaticMeshComponent> PickupMesh = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UCBSphereComponent> PickupLoadRange = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Pickup")
+	UPROPERTY(EditInstanceOnly, Category = "ItemPickup")
 	uint8 AmountToAdd = 1;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Pickup")
+	UPROPERTY(EditInstanceOnly, Category = "ItemPickup")
 	float PickupLoadRangeRadius = 3000.f;
 
 public:
@@ -44,6 +44,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ItemPickup")
+    void SetCollisionSize();
 
 	void OnPickupItemLoaded();
 

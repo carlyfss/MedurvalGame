@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enums/EIMConsumableEffectType.h"
-#include "Items/_Base/IMBaseItemDA.h"
+#include "Items/IMBaseItemDA.h"
 #include "IMConsumableItemDA.generated.h"
 
 /**

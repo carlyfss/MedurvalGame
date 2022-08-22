@@ -1,0 +1,12 @@
+﻿// MEDURVAL PROJECT copyrighted code by Fireheet Games
+
+#pragma once
+
+UENUM(BlueprintType, meta = (DisplayName = "SettlementStages"))
+enum class ESTSettlementStages : uint8
+{
+    Camp,
+    Hamlet,
+    Village,
+    Town
+};

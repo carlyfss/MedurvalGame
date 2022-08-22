@@ -1,7 +1,7 @@
 ﻿// MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #pragma once
-#include "Items/_Base/IMBaseItemDA.h"
+#include "Items/IMBaseItemDA.h"
 #include "IMInventorySlot.generated.h"
 
 USTRUCT(BlueprintType, meta = (DisplayName = "InventorySlot"))

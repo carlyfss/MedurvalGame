@@ -5,9 +5,8 @@
 #include "Core/Singleton/MDGameInstance.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
-#include "Items/_Base/IMBaseItemDA.h"
+#include "Items/IMBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Macros/PrintString.h"
 #include "UI/_Base/IMInventorySlotWidget.h"
 #include "UI/_Base/IMInventoryWidget.h"
 
