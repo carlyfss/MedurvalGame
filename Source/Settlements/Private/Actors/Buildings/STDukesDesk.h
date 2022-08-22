@@ -16,7 +16,7 @@ class ASTDukesDesk : public ASTBuildingActor
     GENERATED_BODY()
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
-    TObjectPtr<USTSettlementComponent> SettlementComponent;
+    TObjectPtr<USTSettlementComponent> SettlementComponent = nullptr;
 
 public:
     ASTDukesDesk();

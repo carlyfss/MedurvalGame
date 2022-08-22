@@ -51,9 +51,10 @@ void ASTBuildingActor::UpdateConstructionProgress()
 
 ASTBuildingActor::ASTBuildingActor()
 {
-    Mesh = CreateDefaultSubobject<UCBStaticMeshComponent>("BuildingMesh");
-    Mesh->SetupAttachment(RootComponent);
     Maintenance = CreateDefaultSubobject<USTMaintenanceComponent>("MaintenanceComponent");
+
+    Mesh = CreateDefaultSubobject<UCBStaticMeshComponent>("BuildingMesh");
+    Mesh->SetupAttachment(RootComponent);    
 }
 
 void ASTBuildingActor::LoadConfiguration()
@@ -88,12 +89,9 @@ void ASTBuildingActor::OnConfigurationLoaded()
     {
         Tier = ConfigurationReference->AvailableTiers[0];
 
-        if (Maintenance)
-        {
-            Maintenance->SetDailyIncome(Tier.DailyIncome);
-            Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
-            Maintenance->SetCostToBuild(Tier.CostToBuild);    
-        }
+        Maintenance->SetDailyIncome(Tier.DailyIncome);
+        Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
+        Maintenance->SetCostToBuild(Tier.CostToBuild);
     } else
     {
         UE_LOG(LogTemp, Warning, TEXT("Building configuration did not have any tiers configured!"))
@@ -123,10 +121,7 @@ void ASTBuildingActor::OnConstructionCompleted()
 
     if (Settlement)
     {
-        if (Maintenance)
-        {
-            Maintenance->EnableMaintenance(Settlement);    
-        }
+        Maintenance->EnableMaintenance(Settlement);
     }
 }
 

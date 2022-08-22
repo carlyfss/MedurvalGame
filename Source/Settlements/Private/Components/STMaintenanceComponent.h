@@ -28,6 +28,8 @@ class USTMaintenanceComponent : public UCBActorComponent
     bool bIsMaintenanceEnabled = false;
     
 public:
+    USTMaintenanceComponent() {};
+    
     void SetDailyIncome(int Amount);
 
     void SetDailyUpkeep(int Amount);
