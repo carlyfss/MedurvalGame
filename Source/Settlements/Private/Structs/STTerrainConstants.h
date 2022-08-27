@@ -19,7 +19,7 @@ public:
 
     inline static uint8 MinSizeLarge = MaxSizeMedium;
 
-    inline static uint8 DefaultTargetHeight = 40;
+    inline static uint8 DefaultTargetHeight = 75;
 
     inline static float UnitsPerMeter = 100.f;
 
