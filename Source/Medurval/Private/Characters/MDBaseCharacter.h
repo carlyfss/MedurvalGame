@@ -34,19 +34,22 @@ class MEDURVAL_API AMDBaseCharacter : public ACBCharacter, public IAbilitySystem
     TObjectPtr<UMDMainWidget> MainWidgetReference = nullptr;
 
 #pragma region AbilitiesProps
-    UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes|Defaults")
+    UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes")
     TSubclassOf<UGameplayEffect> DefaultAttributeEffect = nullptr;
 
-    UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes|Defaults")
+    UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes")
     TArray<TSubclassOf<UMDBaseGameplayAbility>> DefaultAbilities;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="BaseCharacter|Attriutes|Components", meta=(AllowPrivateAccess=true))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="BaseCharacter|Attributes", meta=(AllowPrivateAccess=true))
     UMDAbilitySystemComponent *AbilitySystemComponent = nullptr;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="BaseCharacter|Attriutes", meta=(AllowPrivateAccess=true))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="BaseCharacter|Attributes", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDBaseAttributeSet> AttributeSetComponent = nullptr;
 #pragma endregion AbilitiesProps
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="BaseCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    float RunSpeedIncreaseAmount = 300.f;
+    
 public:
     // Sets default values for this character's properties
     AMDBaseCharacter();
@@ -61,19 +64,28 @@ protected:
     virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
 #pragma region Inputs
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
-    UInputAction *LookInput;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+    UInputAction *LookInputAction;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
     UInputAction *JumpInputAction;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="_BaseCharacter|Inputs")
-    UInputAction *InteractAction;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+    UInputAction *InteractInputAction;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
+    UInputAction *RunInputAction;
 
     void EnhancedLook(const FInputActionValue &Value);
 
-    UFUNCTION(BlueprintImplementableEvent, Category="_BaseCharacter|Inputs")
+    UFUNCTION(BlueprintImplementableEvent, Category="BaseCharacter|Inputs")
     void InteractWithObject() const;
+
+    UFUNCTION(BlueprintCallable, Category="BaseCharacter|Inputs")
+    void StartRunning() const;
+
+    UFUNCTION(BlueprintCallable, Category="BaseCharacter|Inputs")
+    void StopRunning() const;
 #pragma endregion Inputs
 
 public:

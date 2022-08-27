@@ -69,6 +69,16 @@ void AMDBaseCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
     UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
 }
 
+void AMDBaseCharacter::StartRunning() const
+{
+    GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed + RunSpeedIncreaseAmount;  
+}
+
+void AMDBaseCharacter::StopRunning() const
+{
+    GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed - RunSpeedIncreaseAmount;
+}
+
 void AMDBaseCharacter::PossessedBy(AController *NewController)
 {
     Super::PossessedBy(NewController);
@@ -185,15 +195,15 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCom
     // Make sure that we are using a UEnhancedInputComponent; if not, the project is not configured correctly.
     if (PlayerEnhancedInputComponent)
     {
-        if (LookInput)
+        if (LookInputAction)
         {
-            PlayerEnhancedInputComponent->BindAction(LookInput, ETriggerEvent::Triggered, this,
+            PlayerEnhancedInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this,
                                                      &AMDBaseCharacter::EnhancedLook);
         }
 
-        if (InteractAction)
+        if (InteractInputAction)
         {
-            PlayerEnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this,
+            PlayerEnhancedInputComponent->BindAction(InteractInputAction, ETriggerEvent::Started, this,
                                                      &AMDBaseCharacter::InteractWithObject);
         }
 
@@ -202,6 +212,13 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCom
             PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Started, this, &ACharacter::Jump);
             PlayerEnhancedInputComponent->BindAction(JumpInputAction, ETriggerEvent::Completed, this,
                                                      &ACharacter::StopJumping);
+        }
+
+        if (RunInputAction)
+        {
+            PlayerEnhancedInputComponent->BindAction(RunInputAction, ETriggerEvent::Started, this, &AMDBaseCharacter::StartRunning);
+            PlayerEnhancedInputComponent->BindAction(RunInputAction, ETriggerEvent::Completed, this,
+                                                     &AMDBaseCharacter::StopRunning);
         }
     }
 
