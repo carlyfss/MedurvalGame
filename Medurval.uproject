@@ -26,6 +26,11 @@
 			"AdditionalDependencies": [
 				"Engine"
 			]
+		},
+		{
+			"name": "Inventory",
+			"type": "Runtime",
+			"loadingPhase": "Default"
 		}
 	],
 	"Plugins": [

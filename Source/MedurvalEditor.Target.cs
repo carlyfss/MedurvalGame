@@ -8,6 +8,7 @@ public class MedurvalEditorTarget : TargetRules
 	public MedurvalEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
+		ExtraModuleNames.AddRange( new string[] { "Inventory" } );
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
 		ExtraModuleNames.AddRange( new string[] { "Settlements" } );

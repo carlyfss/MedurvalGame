@@ -8,6 +8,7 @@ public class MedurvalTarget : TargetRules
 	public MedurvalTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
+		ExtraModuleNames.AddRange( new string[] { "Inventory" } );
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
 		ExtraModuleNames.AddRange( new string[] { "Settlements" } );
