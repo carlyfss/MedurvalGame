@@ -5,23 +5,23 @@
 #include "Components/CBActorComponent.h"
 #include "CoreMinimal.h"
 #include "InputAction.h"
-#include "Interfaces/IMInventoryInterface.h"
-#include "Structs/IMInventorySlot.h"
-#include "IMInventoryComponent.generated.h"
+#include "Interfaces/IVInventoryInterface.h"
+#include "Structs/IVInventorySlot.h"
+#include "IVInventoryComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, UIMBaseItemDA *, ItemAdded, uint8, Amount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, UIVBaseItemDA *, ItemAdded, uint8, Amount);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemRemoved, UIMBaseItemDA *, ItemRemoved, uint8, Amount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemRemoved, UIVBaseItemDA *, ItemRemoved, uint8, Amount);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateSlotAtIndex, uint8, SlotIndex);
 
-class UIMInventoryWidget;
+class UIVInventoryWidget;
 class ACharacter;
-class UIMBaseItemDA;
+class UIVBaseItemDA;
 class UInputMappingContext;
 
 UCLASS(BlueprintType, Blueprintable, meta = (DisplayName = "InventoryComponent"))
-class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterface
+class UIVInventoryComponent : public UCBActorComponent, public IIVInventoryInterface
 {
     GENERATED_BODY()
 
@@ -49,7 +49,7 @@ class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterfa
 
     UPROPERTY(BlueprintSetter = SetInventoryWidget, BlueprintGetter = GetInventoryWidget,
         Category = "_Inventory|Configuration")
-    TObjectPtr<UIMInventoryWidget> InventoryWidget = nullptr;
+    TObjectPtr<UIVInventoryWidget> InventoryWidget = nullptr;
 #pragma endregion Configurations
 
 #pragma region Inputs
@@ -66,7 +66,7 @@ class UIMInventoryComponent : public UCBActorComponent, public IInventoryInterfa
 #pragma endregion Inputs
 
     UPROPERTY(BlueprintReadWrite, Category = "_Inventory", meta = (AllowPrivateAccess = true))
-    TArray<FIMInventorySlot> Slots;
+    TArray<FIVInventorySlot> Slots;
 
 protected:
     virtual void OnRegister() override;
@@ -75,15 +75,15 @@ protected:
 
     bool SearchEmptySlot(uint8 &Index);
 
-    bool SearchFreeStack(UIMBaseItemDA *Item, uint8 &Index);
+    bool SearchFreeStack(UIVBaseItemDA *Item, uint8 &Index);
 
-    bool AddUnstackableItem(UIMBaseItemDA *Item, uint8 Amount, uint8 &Rest);
+    bool AddUnstackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
 
-    bool AddStackableItem(UIMBaseItemDA *Item, uint8 Amount, uint8 &Rest);
+    bool AddStackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
 
 #pragma region Interaction
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Interaction")
-    bool AddItem(UIMBaseItemDA *Item, uint8 Amount, uint8 &Rest);
+    bool AddItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Interaction")
     bool AddToIndex(uint8 SourceIndex, uint8 TargetIndex);
@@ -117,7 +117,7 @@ protected:
 
 #pragma region Setters
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Setters")
-    void SetInventoryWidget(UIMInventoryWidget *InventoryWidgetRef);
+    void SetInventoryWidget(UIVInventoryWidget *InventoryWidgetRef);
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Setters")
     void SetIsVisible(bool bIsInventoryVisible);
@@ -128,7 +128,7 @@ public:
     bool IsSlotEmpty(uint8 Index) const;
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory")
-    UIMBaseItemDA *GetItemInfoAtIndex(uint8 Index, bool &bIsSlotEmpty, uint8 &Amount) const;
+    UIVBaseItemDA *GetItemInfoAtIndex(uint8 Index, bool &bIsSlotEmpty, uint8 &Amount) const;
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory")
     uint8 GetAmountAtIndex(uint8 Index) const;
@@ -146,7 +146,7 @@ public:
 
 #pragma region Getters
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Getters")
-    TArray<FIMInventorySlot> GetInventorySlots() const;
+    TArray<FIVInventorySlot> GetInventorySlots() const;
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Getters")
     uint8 GetSlotsPerRow() const;
@@ -155,7 +155,7 @@ public:
     uint8 GetSlotAmount() const;
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Getters")
-    UIMInventoryWidget *GetInventoryWidget() const;
+    UIVInventoryWidget *GetInventoryWidget() const;
 
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Getters")
     bool GetIsVisible() const;

@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "InventoryInterface.generated.h"
+#include "IVInventoryInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, meta = (DisplayName = "InventoryInterface"))
-class UInventoryInterface : public UInterface
+class UIVInventoryInterface : public UInterface
 {
     GENERATED_BODY()
 };
@@ -16,7 +16,7 @@ class UInventoryInterface : public UInterface
 /**
  * 
  */
-class INVENTORYMANAGER_API IInventoryInterface
+class INVENTORY_API IIVInventoryInterface
 {
     GENERATED_BODY()
 

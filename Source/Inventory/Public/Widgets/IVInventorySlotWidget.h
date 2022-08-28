@@ -3,26 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "Interfaces/IMInventoryInterface.h"
+#include "Interfaces/IVInventoryInterface.h"
 #include "Widgets/CBCommonActivatableWidget.h"
-#include "IMInventorySlotWidget.generated.h"
+#include "IVInventorySlotWidget.generated.h"
 
-class UIMDetailWidget;
+class UIVDetailWidget;
 class UMDGameInstance;
-class UIMBaseItemDA;
-class UIMInventoryComponent;
+class UIVBaseItemDA;
+class UIVInventoryComponent;
 class UTextBlock;
 class UButton;
 class UImage;
 
 UCLASS(meta = (DisplayName = "InventorySlotWidget"))
-class UIMInventorySlotWidget final : public UCBCommonActivatableWidget, public IInventoryInterface
+class INVENTORY_API UIVInventorySlotWidget final : public UCBCommonActivatableWidget, public IIVInventoryInterface
 {
 	GENERATED_BODY()
 
 	UPROPERTY(Transient, BlueprintGetter = GetItem)
-	TObjectPtr<UIMBaseItemDA> Item = nullptr;
+	TObjectPtr<UIVBaseItemDA> Item = nullptr;
 
 	UPROPERTY(Transient, BlueprintGetter = GetAmount)
 	uint8 Amount;
@@ -31,7 +30,7 @@ class UIMInventorySlotWidget final : public UCBCommonActivatableWidget, public I
 	uint8 SlotIndex;
 
 	UPROPERTY(Transient, BlueprintSetter = SetInventoryReference, BlueprintGetter = GetInventoryReference)
-	TObjectPtr<UIMInventoryComponent> InventoryReference;
+	TObjectPtr<UIVInventoryComponent> InventoryReference;
 
 	// Widget Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot",
@@ -47,18 +46,18 @@ class UIMInventorySlotWidget final : public UCBCommonActivatableWidget, public I
 	TObjectPtr<UTextBlock> AmountText = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UIMDetailWidget> DetailWidget = nullptr;
+	TObjectPtr<UIVDetailWidget> DetailWidget = nullptr;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "InventorySlot")
 	void CreateDetailWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
-	void SetInventoryReference(UIMInventoryComponent *TargetInventory);
+	void SetInventoryReference(UIVInventoryComponent *TargetInventory);
 
 	void SetAmount(const uint8 NewAmount);
 
-	void SetItem(UIMBaseItemDA *NewItem);
+	void SetItem(UIVBaseItemDA *NewItem);
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot")
@@ -68,19 +67,19 @@ public:
 	void CleanSlot();
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
-	void SetWidgetProperties(UIMBaseItemDA *NewItem, const uint8 NewAmount, const uint8 NewSlotIndex);
+	void SetWidgetProperties(UIVBaseItemDA *NewItem, const uint8 NewAmount, const uint8 NewSlotIndex);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
 	UButton *GetSlotButton() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
-	UIMInventoryComponent *GetInventoryReference() const;
+	UIVInventoryComponent *GetInventoryReference() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
 	uint8 GetAmount() const;
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Getter")
-	UIMBaseItemDA *GetItem() const;
+	UIVBaseItemDA *GetItem() const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
 	uint8 GetSlotIndex() const;
