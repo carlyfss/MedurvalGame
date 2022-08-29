@@ -114,10 +114,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "InventoryManager",
-			"Enabled": true
-		},
-		{
 			"Name": "Compass",
 			"Enabled": true
 		},
