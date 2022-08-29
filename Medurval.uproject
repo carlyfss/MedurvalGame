@@ -28,9 +28,9 @@
 			]
 		},
 		{
-			"name": "Inventory",
-			"type": "Runtime",
-			"loadingPhase": "Default"
+			"Name": "Inventory",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [
@@ -125,6 +125,19 @@
 			"Name": "ModuleGenerator",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ec36ec6e94f74075819e2a04f7cb97f3"
+		},
+		{
+			"Name": "Landmass",
+			"Enabled": true
+		},
+		{
+			"Name": "Water",
+			"Enabled": true
+		},
+		{
+			"Name": "DialoguePlugin",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/847aa65dc3024a37ae83ed89307524bd"
 		}
 	]
 }
