@@ -53,7 +53,7 @@ void UIVInventoryComponent::OnUnregister()
 /** Checks if a given index is empty or not */
 bool UIVInventoryComponent::IsSlotEmpty(uint8 Index) const
 {
-    return Slots[Index].Item.IsNull();
+    return !Slots[Index].Item || Slots[Index].Amount == 0;
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a
@@ -105,8 +105,10 @@ bool UIVInventoryComponent::SearchEmptySlot(uint8 &Index)
 
         for (int i = 0; i < Slots.Num(); i++)
         {
-            if (Slots[i].Item)
+            if (Slots[i].Item || Slots[i].Amount > 0)
+            {
                 continue;
+            }
 
             bEmptySlot = true;
             FoundIndex = i;
@@ -258,6 +260,8 @@ bool UIVInventoryComponent::AddStackableItem(UIVBaseItemDA *Item, uint8 Amount, 
 
 bool UIVInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
 {
+    bool bIsItemRemoved = false;
+    
     if (!IsSlotEmpty(Index) && Amount > 0)
     {
         FScopeLock Lock(&SocketsCriticalSection);
@@ -273,18 +277,20 @@ bool UIVInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
             SlotWidget->CleanSlot();
 
             OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
-            return true;
+            bIsItemRemoved = true;
         }
+        else
+        {
+            Slots[Index].Amount -= Amount;
 
-        Slots[Index].Amount -= Amount;
+            OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
+            OnUpdateSlotAtIndex.Broadcast(Index);
 
-        OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
-        OnUpdateSlotAtIndex.Broadcast(Index);
-
-        return true;
+            bIsItemRemoved = true;
+        }
     }
 
-    return false;
+    return bIsItemRemoved;
 }
 
 bool UIVInventoryComponent::SwapSlots(uint8 OriginIndex, uint8 TargetIndex)
@@ -295,16 +301,17 @@ bool UIVInventoryComponent::SwapSlots(uint8 OriginIndex, uint8 TargetIndex)
 
     if (OriginIndex > SlotsLastIndex || TargetIndex > SlotsLastIndex)
     {
+        UE_LOG(LogTemp, Warning, TEXT("Origin or Target Index is higher than maximum slots."));
         return false;
     }
 
-    const FIVInventorySlot TempSlot = Slots[TargetIndex];
+    const FIVInventorySlot TemporarySlot = Slots[TargetIndex];
 
     Slots[TargetIndex].Item = Slots[OriginIndex].Item;
     Slots[TargetIndex].Amount = Slots[OriginIndex].Amount;
 
-    Slots[OriginIndex].Item = TempSlot.Item;
-    Slots[OriginIndex].Amount = TempSlot.Amount;
+    Slots[OriginIndex].Item = TemporarySlot.Item;
+    Slots[OriginIndex].Amount = TemporarySlot.Amount;
 
     OnUpdateSlotAtIndex.Broadcast(OriginIndex);
     OnUpdateSlotAtIndex.Broadcast(TargetIndex);
@@ -314,39 +321,37 @@ bool UIVInventoryComponent::SwapSlots(uint8 OriginIndex, uint8 TargetIndex)
 
 bool UIVInventoryComponent::SplitStack(uint8 Index)
 {
-    if (IsSlotEmpty(Index))
-    {
-        return false;
-    }
-
+    bool bHasSplitTheStack = false;
     bool bIsSlotEmpty = false;
     uint8 CurrentAmount = 0;
 
-    UIVBaseItemDA *ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
+    if (!IsSlotEmpty(Index))
+    {
+        UIVBaseItemDA *ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
 
-    if (!ItemInfo)
-        return false;
+        if (ItemInfo && ItemInfo->bCanBeStacked && CurrentAmount > 1)
+        {
+            uint8 FoundSlotIndex = 0;
+            uint8 HalfAmount = (CurrentAmount / 2);
 
-    if (!ItemInfo->bCanBeStacked && CurrentAmount <= 1)
-        return false;
+            if (SearchEmptySlot(FoundSlotIndex))
+            {
+                FScopeLock Lock(&SocketsCriticalSection);
 
-    uint8 FoundSlotIndex = 0;
-    uint8 HalfAmount = (CurrentAmount / 2);
+                Slots[Index].Item = ItemInfo;
+                Slots[Index].Amount = CurrentAmount - HalfAmount;
 
-    if (!SearchEmptySlot(FoundSlotIndex))
-        return false;
+                Slots[FoundSlotIndex].Item = ItemInfo;
+                Slots[FoundSlotIndex].Amount = HalfAmount;
 
-    FScopeLock Lock(&SocketsCriticalSection);
+                OnUpdateSlotAtIndex.Broadcast(Index);
+                OnUpdateSlotAtIndex.Broadcast(FoundSlotIndex);
+                bHasSplitTheStack = true;
+            }
+        }
+    }
 
-    Slots[Index].Item = ItemInfo;
-    Slots[Index].Amount = CurrentAmount - HalfAmount;
-
-    Slots[FoundSlotIndex].Item = ItemInfo;
-    Slots[FoundSlotIndex].Amount = HalfAmount;
-
-    OnUpdateSlotAtIndex.Broadcast(Index);
-    OnUpdateSlotAtIndex.Broadcast(FoundSlotIndex);
-    return true;
+    return bHasSplitTheStack;
 }
 
 bool UIVInventoryComponent::SplitStackToIndex(uint8 SourceIndex, uint8 TargetIndex, uint8 Amount)

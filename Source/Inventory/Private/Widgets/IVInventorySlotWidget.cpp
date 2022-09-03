@@ -36,11 +36,8 @@ void UIVInventorySlotWidget::CleanSlot()
 		SlotButton->SetToolTip(nullptr);
 		SlotButton->SetIsEnabled(false);
 
-		if (!Item)
-		{
-			ItemIcon->SetVisibility(ESlateVisibility::Hidden);
-			Amount = 0;
-		}
+        Item = nullptr;
+        Amount = 0;        
 	}
 }
 
@@ -48,6 +45,7 @@ void UIVInventorySlotWidget::UpdateSlot()
 {
 	if (!IsValid(InventoryReference))
 		return;
+    
 	if (!Item)
 		return;
 

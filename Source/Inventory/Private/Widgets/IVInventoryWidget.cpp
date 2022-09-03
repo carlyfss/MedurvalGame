@@ -24,12 +24,13 @@ void UIVInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
 	UIVInventorySlotWidget *SlotWidget = GetSlotWidgets()[SlotIndex];
 	FIVInventorySlot TargetSlot = InventoryReference->GetInventorySlots()[SlotIndex];
 
-	SlotWidget->SetWidgetProperties(TargetSlot.Item, TargetSlot.Amount, SlotIndex);
-
-	if (SlotWidget->GetAmount() > 0)
-	{
-		SlotWidget->UpdateSlot();
-	}
-
-	SlotWidget->CleanSlot();
+    if (InventoryReference->IsSlotEmpty(SlotIndex))
+    {
+        SlotWidget->CleanSlot();
+    }
+    else
+    {
+        SlotWidget->SetWidgetProperties(TargetSlot.Item, TargetSlot.Amount, SlotIndex);
+        SlotWidget->UpdateSlot();
+    }
 }

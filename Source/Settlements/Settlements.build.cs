@@ -16,7 +16,8 @@ public class Settlements : ModuleRules
 				"Engine",
 				"CommonBase",
 				"CommonUI",
-				"Medurval"
+				"Medurval",
+				"Inventory"
 			});
 
 
