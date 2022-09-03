@@ -18,6 +18,6 @@ public:
     AMDPlayerController();
     virtual ~AMDPlayerController() = default;
 
-    UFUNCTION(BlueprintCallable, Category="_MDController")
+    UFUNCTION(BlueprintCallable, Category="MDController")
     void SetInputModeGameOnly(bool InConsumeCaptureMouseDown);
 };

@@ -137,11 +137,9 @@ bool UIVInventoryComponent::SearchFreeStack(UIVBaseItemDA *Item, uint8 &Index)
 
         for (int i = 0; i < Slots.Num(); i++)
         {
-            if (!Slots[i].Item)
+            if (Slots[i].Item && Slots[i].Item != Item)
                 continue;
-            if (Slots[i].Item != Item)
-                continue;
-            if (Slots[i].Amount > MaxStackSize)
+            if (Slots[i].Amount == MaxStackSize)
                 continue;
 
             bSlotAvaiable = true;
@@ -155,38 +153,58 @@ bool UIVInventoryComponent::SearchFreeStack(UIVBaseItemDA *Item, uint8 &Index)
     return bSlotAvaiable;
 }
 
+bool UIVInventoryComponent::AddItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest)
+{
+    if (!Item)
+        return false;
+
+    if (!Item->bCanBeStacked)
+    {
+        OnItemAdded.Broadcast(Item, Amount);
+        return AddUnstackableItem(Item, Amount, Rest);
+    }
+
+    OnItemAdded.Broadcast(Item, Amount);
+    return AddStackableItem(Item, Amount, Rest);
+}
+
 bool UIVInventoryComponent::AddUnstackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest)
 {
     FScopeLock Lock(&SocketsCriticalSection);
 
+    bool bAddedSuccessfully = false;
     uint8 FoundIndex = 0;
 
     if (!SearchEmptySlot(FoundIndex))
     {
         Rest = Amount;
-        return false;
+        bAddedSuccessfully = false;
     }
+    else
+    {
+        Slots[FoundIndex].Item = Item;
+        Slots[FoundIndex].Amount = 1;
 
-    Slots[FoundIndex].Item = Item;
-    Slots[FoundIndex].Amount = 1;
+        if (Amount > 1)
+        {
+            const uint8 NewAmount = Amount - 1;
+
+            bAddedSuccessfully = AddItem(Item, NewAmount, Rest);
+        }
+
+        Rest = 0;
+    }
 
     OnUpdateSlotAtIndex.Broadcast(FoundIndex);
-
-    if (Amount > 1)
-    {
-        const uint8 NewAmount = Amount - 1;
-
-        return AddItem(Item, NewAmount, Rest);
-    }
-
-    Rest = 0;
-    return true;
+    return bAddedSuccessfully;
 }
 
 bool UIVInventoryComponent::AddStackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest)
 {
     FScopeLock Lock(&SocketsCriticalSection);
 
+    bool bAddedSuccessfully = false;
+    uint8 AmountRest = 0;
     uint8 FoundIndex = 0;
 
     if (!SearchFreeStack(Item, FoundIndex))
@@ -198,47 +216,44 @@ bool UIVInventoryComponent::AddStackableItem(UIVBaseItemDA *Item, uint8 Amount, 
                 Slots[FoundIndex].Item = Item;
                 Slots[FoundIndex].Amount = MaxStackSize;
 
-                OnUpdateSlotAtIndex.Broadcast(FoundIndex);
-
                 const uint8 NewAmount = Amount - MaxStackSize;
-
-                return AddItem(Item, NewAmount, Rest);
+                bAddedSuccessfully = AddItem(Item, NewAmount, AmountRest);
             }
+            else
+            {
+                Slots[FoundIndex].Item = Item;
+                Slots[FoundIndex].Amount = Amount;
 
-            Slots[FoundIndex].Item = Item;
-            Slots[FoundIndex].Amount = Amount;
-
-            OnUpdateSlotAtIndex.Broadcast(FoundIndex);
-
-            Rest = 0;
-
-            return true;
+                Rest = 0;
+                bAddedSuccessfully = true;    
+            }
         }
-
-        Rest = Amount;
-        return false;
+        else
+        {
+            Rest = Amount; 
+        }
     }
-
-    const uint8 CurrentStackAmount = Slots[FoundIndex].Amount + Amount;
-
-    if (CurrentStackAmount > MaxStackSize)
+    else
     {
-        Slots[FoundIndex].Item = Item;
-        Slots[FoundIndex].Amount = MaxStackSize;
+        uint8 CurrentStackAmount = Slots[FoundIndex].Amount + Amount;
 
-        OnUpdateSlotAtIndex.Broadcast(FoundIndex);
+        if (CurrentStackAmount > MaxStackSize)
+        {
+            Slots[FoundIndex].Item = Item;
+            Slots[FoundIndex].Amount = MaxStackSize;
 
-        const uint8 RestAmount = CurrentStackAmount - MaxStackSize;
-
-        return AddItem(Item, RestAmount, Rest);
+            const uint8 RestAmount = CurrentStackAmount - MaxStackSize;
+            bAddedSuccessfully = AddItem(Item, RestAmount, AmountRest);
+        } else
+        {
+            Slots[FoundIndex].Item = Item;
+            Slots[FoundIndex].Amount = CurrentStackAmount;
+            bAddedSuccessfully = true;
+        }
     }
-
-    Slots[FoundIndex].Item = Item;
-    Slots[FoundIndex].Amount = CurrentStackAmount;
-
+    
     OnUpdateSlotAtIndex.Broadcast(FoundIndex);
-
-    return true;
+    return bAddedSuccessfully;
 }
 
 bool UIVInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
@@ -360,19 +375,44 @@ bool UIVInventoryComponent::SplitStackToIndex(uint8 SourceIndex, uint8 TargetInd
     return false;
 }
 
-bool UIVInventoryComponent::AddItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest)
+bool UIVInventoryComponent::LoadAndAddItem(FPrimaryAssetId TargetItemId, uint8 Amount)
 {
-    if (!Item)
+    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
         return false;
 
-    if (!Item->bCanBeStacked)
+    TArray<FName> BundlesToLoad;
+    BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
+
+    FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UIVInventoryComponent::AddItemOnLoadCompleted, TargetItemId, Amount);
+
+    AssetManager->LoadPrimaryAsset(TargetItemId, BundlesToLoad, Delegate);
+    return true;
+}
+
+bool UIVInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd, uint8 Amount)
+{
+    return LoadAndAddItem(ItemIdToAdd, Amount);
+}
+
+void UIVInventoryComponent::AddItemOnLoadCompleted(FPrimaryAssetId TargetItemId, uint8 Amount)
+{
+    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
+        return;
+
+    UIVBaseItemDA *Item = Cast<UIVBaseItemDA>(AssetManager->GetPrimaryAssetObject(TargetItemId));
+
+    if (!Item)
     {
-        OnItemAdded.Broadcast(Item, Amount);
-        return AddUnstackableItem(Item, Amount, Rest);
+        UE_LOG(LogTemp, Warning, TEXT("ItemID %s was not loaded yet!"), *TargetItemId.ToString());
+        return;
     }
 
-    OnItemAdded.Broadcast(Item, Amount);
-    return AddStackableItem(Item, Amount, Rest);
+    uint8 Rest = 0;
+    AddItem(Item, Amount, Rest);
 }
 
 bool UIVInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
@@ -426,40 +466,6 @@ bool UIVInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
     return true;
 }
 #pragma endregion InventoryInteractions
-
-bool UIVInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd)
-{
-    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-
-    if (!AssetManager)
-        return false;
-
-    ItemIdToAddInv = ItemIdToAdd;
-
-    TArray<FName> BundlesToLoad;
-    BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
-
-    FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UIVInventoryComponent::AfterLoad);
-
-    AssetManager->LoadPrimaryAsset(ItemIdToAdd, BundlesToLoad, Delegate);
-    return true;
-}
-
-void UIVInventoryComponent::AfterLoad()
-{
-    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-
-    if (!AssetManager)
-        return;
-
-    UIVBaseItemDA *Item = Cast<UIVBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemIdToAddInv));
-
-    if (!Item)
-        return;
-
-    uint8 Rest = 0;
-    AddItem(Item, 1, Rest);
-}
 
 void UIVInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)
 {

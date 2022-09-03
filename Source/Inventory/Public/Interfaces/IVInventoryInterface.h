@@ -24,7 +24,7 @@ class INVENTORY_API IIVInventoryInterface
 
 public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
-    bool OnAddItemToInventory(FPrimaryAssetId ItemIdToAdd);
+    bool OnAddItemToInventory(FPrimaryAssetId ItemIdToAdd, uint8 Amount);
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
     void UpdateSlotAfterLoad(uint8 SlotIndex);

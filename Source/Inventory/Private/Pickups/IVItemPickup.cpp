@@ -10,6 +10,7 @@
 #include "GameFramework/Character.h"
 #include "Items/IVBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Medurval/Private/Characters/MDBaseCharacter.h"
 
 AIVItemPickup::AIVItemPickup()
 {
@@ -65,6 +66,14 @@ void AIVItemPickup::OnPickupItemLoaded()
 
 void AIVItemPickup::LoadPickupItem()
 {
+    TArray<AActor*> OverlappingActors;
+    PickupLoadRange->GetOverlappingActors(OverlappingActors);
+
+    if (OverlappingActors.Num() > 0)
+    {
+        UE_LOG(LogTemp,Warning, TEXT("Is overlapping"))
+    }
+    
     UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 
     if (!AssetManager)
@@ -108,7 +117,7 @@ void AIVItemPickup::AddItemToInventory(AActor *ActorToAddItem)
 
         if (InventoryInterface)
         {
-            bool bAddedSuccessfully = InventoryInterface->OnAddItemToInventory_Implementation(ItemId);
+            const bool bAddedSuccessfully = InventoryInterface->OnAddItemToInventory_Implementation(ItemId, AmountToAdd);
 
             if (!bAddedSuccessfully)
                 return;

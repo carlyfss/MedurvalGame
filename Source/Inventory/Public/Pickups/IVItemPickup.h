@@ -75,6 +75,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ItemInteraction")
 	void OnPickupEndFocus();
 
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnItemPickedUp);
+    UPROPERTY(BlueprintAssignable)
+    FOnItemPickedUp OnItemPickedUp;
+
 	virtual void OnInteract_Implementation(AActor *InstigatorActor) override;
 
 	virtual void OnStartFocus_Implementation() override;

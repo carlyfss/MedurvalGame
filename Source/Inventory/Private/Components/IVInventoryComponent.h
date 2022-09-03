@@ -85,6 +85,10 @@ protected:
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Interaction")
     bool AddItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
 
+    bool LoadAndAddItem(FPrimaryAssetId TargetItemId, uint8 Amount);
+    
+    void AddItemOnLoadCompleted(FPrimaryAssetId TargetItemId, uint8 Amount);
+
     UFUNCTION(BlueprintCallable, Category = "_Inventory|Interaction")
     bool AddToIndex(uint8 SourceIndex, uint8 TargetIndex);
 
@@ -166,11 +170,7 @@ public:
     void OnToggleInventory(const FInputActionInstance &InputInstance);
 #pragma endregion Inputs
 
-    virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd) override;
-
-    void AfterLoad();
-
-    FPrimaryAssetId ItemIdToAddInv;
+    virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd, uint8 Amount) override;
 
     virtual void UpdateSlotAfterLoad_Implementation(uint8 SlotIndex) override;
 };
