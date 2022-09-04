@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Base/STActor.h"
+#include "Components/STConstructionComponent.h"
 #include "DataAssets/STBuildingDA.h"
 #include "Structs/STBuildingTier.h"
 #include "STBuildingActor.generated.h"
@@ -24,6 +25,9 @@ class ASTBuildingActor : public ASTActor
     FPrimaryAssetId ConfigurationId;
 
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
+
+    UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TObjectPtr<USTBuildingDA> ConfigurationReference = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
@@ -33,48 +37,29 @@ class ASTBuildingActor : public ASTActor
     ESTCivilizationType Civilization = ESTCivilizationType::Human;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<USTMaintenanceComponent> Maintenance = nullptr;
+    TObjectPtr<USTMaintenanceComponent> MaintenanceComponent = nullptr;
 
-    UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
-
-    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    int CurrentTime = 0;
-
-    uint8 CurrentStep = 0;
-
-    uint8 ConstructionMeshesLength = 0;
-
-    UPROPERTY(BlueprintReadWrite, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    TArray<TSoftObjectPtr<UStaticMesh>> ConstructionMeshes;
-
+    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
+    TObjectPtr<USTConstructionComponent> ConstructionComponent = nullptr;
+    
 protected:
     void LoadConfiguration();
 
     void OnConfigurationLoaded();
 
-    FTimerHandle ConstructionTimerHandle;
+    void FindConstructionMeshes();
 
-    UFUNCTION(BlueprintCallable, Category="BuildingActor")
-    void StartConstructionTimer();
-
-    void TimerCountdown();
-
-    void UpdateConstructionProgress();
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BuildingActor")
-    void ChangeConstructionStep(int Index);
-
+    void CheckMeshVisibility() const;
+    
 public:
     ASTBuildingActor();
 
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionPercentage, float, Percentage);
-    UPROPERTY(BlueprintCallable, BlueprintAssignable)
-    FOnUpdateConstructionPercentage OnUpdateConstructionPercentage;
+    ESTCivilizationType GetCivilization();
 
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateConstructionTime, int, Time);
-    UPROPERTY(BlueprintCallable, BlueprintAssignable)
-    FOnUpdateConstructionTime OnUpdateConstructionTime;
+    void SetBuildingMesh(UStaticMesh *NewMesh) const;
+
+    UFUNCTION(BlueprintCallable, Category="BuildingActor")
+    void UpdateBuildingConstructionMesh(int Index);
     
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConfigurationLoadCompleted);
     UPROPERTY(BlueprintCallable, BlueprintAssignable)

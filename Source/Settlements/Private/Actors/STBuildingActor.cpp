@@ -10,51 +10,24 @@
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/STSettlementSubsystem.h"
 
-void ASTBuildingActor::StartConstructionTimer()
-{
-    ConstructionMeshesLength = ConstructionMeshes.Num();
-    CurrentTime += 1;
-
-    const FTimerDelegate CountdownDelegate = FTimerDelegate::CreateUObject(this, &ASTBuildingActor::TimerCountdown); 
-    GetWorld()->GetTimerManager().SetTimer(ConstructionTimerHandle, CountdownDelegate, 1.f, true, 0.f);
-}
-
-void ASTBuildingActor::TimerCountdown()
-{
-    CurrentTime -= 1;
-    OnUpdateConstructionTime.Broadcast(CurrentTime);
-    
-    UpdateConstructionProgress();
-    const int ConstructionPercentage = CurrentTime / Tier.ConstructionDuration;
-    OnUpdateConstructionPercentage.Broadcast(ConstructionPercentage);
-    
-    if (CurrentTime > 0)
-        return;
-
-    GetWorld()->GetTimerManager().ClearTimer(ConstructionTimerHandle);
-    ConstructionTimerHandle.Invalidate();
-    OnConstructionCompleted();
-}
-
-void ASTBuildingActor::UpdateConstructionProgress()
-{
-    const int UpdateSteps = Tier.ConstructionDuration / ConstructionMeshes.Num();
-    const int TimeForNextStep = UpdateSteps * ConstructionMeshesLength;
-
-    if (TimeForNextStep != CurrentTime)
-        return;
-
-    ChangeConstructionStep(CurrentStep);
-    CurrentStep += 1;
-    ConstructionMeshesLength -= 1;
-}
-
 ASTBuildingActor::ASTBuildingActor()
 {
-    Maintenance = CreateDefaultSubobject<USTMaintenanceComponent>("MaintenanceComponent");
+    MaintenanceComponent = CreateDefaultSubobject<USTMaintenanceComponent>("MaintenanceComponent");
+    ConstructionComponent = CreateDefaultSubobject<USTConstructionComponent>("ConstructionComponent");
 
     Mesh = CreateDefaultSubobject<UCBStaticMeshComponent>("BuildingMesh");
-    Mesh->SetupAttachment(RootComponent);    
+    Mesh->SetupAttachment(RootComponent);
+    Mesh->SetVisibility(false);
+}
+
+ESTCivilizationType ASTBuildingActor::GetCivilization()
+{
+    return Civilization;
+}
+
+void ASTBuildingActor::SetBuildingMesh(UStaticMesh *NewMesh) const
+{
+    Mesh->SetStaticMesh(NewMesh);
 }
 
 void ASTBuildingActor::LoadConfiguration()
@@ -89,17 +62,52 @@ void ASTBuildingActor::OnConfigurationLoaded()
     {
         Tier = ConfigurationReference->AvailableTiers[0];
 
-        Maintenance->SetDailyIncome(Tier.DailyIncome);
-        Maintenance->SetDailyUpkeep(Tier.DailyUpkeep);
-        Maintenance->SetCostToBuild(Tier.CostToBuild);
+        MaintenanceComponent->SetDailyIncome(Tier.DailyIncome);
+        MaintenanceComponent->SetDailyUpkeep(Tier.DailyUpkeep);
+        MaintenanceComponent->SetCostToBuild(Tier.CostToBuild);
     } else
     {
         UE_LOG(LogTemp, Warning, TEXT("Building configuration did not have any tiers configured!"))
     }
 
-    CurrentTime = Tier.ConstructionDuration;
+    ConstructionComponent->SetBuildingTier(Tier);
+    ConstructionComponent->SetCurrentTime(Tier.ConstructionDuration);
+    FindConstructionMeshes();
+
+    ConstructionComponent->OnUpdateConstructionStep.AddDynamic(this, &ASTBuildingActor::ASTBuildingActor::UpdateBuildingConstructionMesh);
+    ConstructionComponent->OnConstructionCompleted.AddDynamic(this, &ASTBuildingActor::OnConstructionCompleted);
     
     OnConfigurationLoadCompleted.Broadcast();
+}
+
+void ASTBuildingActor::FindConstructionMeshes()
+{
+    for (FSTBuildingConstructionMeshes ConstructionMeshes : Tier.ConstructionMeshes)
+    {
+        if (ConstructionMeshes.Civilization == GetCivilization())
+        {
+            ConstructionComponent->SetConstructionMeshes(ConstructionMeshes.Meshes);
+        }
+    }
+}
+
+void ASTBuildingActor::CheckMeshVisibility() const
+{
+    if (!Mesh->IsVisible())
+    {
+        Mesh->SetVisibility(true);
+    }
+}
+
+void ASTBuildingActor::UpdateBuildingConstructionMesh(int Index)
+{
+    UStaticMesh *NewMesh = ConstructionComponent->GetConstructionMeshAtIndex(Index);
+
+    if (NewMesh)
+    {
+        Mesh->SetStaticMesh(NewMesh);
+        CheckMeshVisibility();
+    }
 }
 
 void ASTBuildingActor::OnConstructionCompleted()
@@ -109,6 +117,7 @@ void ASTBuildingActor::OnConstructionCompleted()
     if (StaticMesh)
     {
         Mesh->SetStaticMesh(StaticMesh);
+        CheckMeshVisibility();
     }
 
     const UMDGameInstance* GameInstance = Cast<UMDGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -121,7 +130,7 @@ void ASTBuildingActor::OnConstructionCompleted()
 
     if (Settlement)
     {
-        Maintenance->EnableMaintenance(Settlement);
+        MaintenanceComponent->EnableMaintenance(Settlement);
     }
 }
 

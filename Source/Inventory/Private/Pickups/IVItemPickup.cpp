@@ -68,11 +68,6 @@ void AIVItemPickup::LoadPickupItem()
 {
     TArray<AActor*> OverlappingActors;
     PickupLoadRange->GetOverlappingActors(OverlappingActors);
-
-    if (OverlappingActors.Num() > 0)
-    {
-        UE_LOG(LogTemp,Warning, TEXT("Is overlapping"))
-    }
     
     UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
 

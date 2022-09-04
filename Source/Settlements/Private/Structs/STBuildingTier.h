@@ -47,12 +47,6 @@ struct SETTLEMENTS_API FSTBuildingTier
     int ConstructionDuration = 5;
 
     /**
-     * Delay to update the Construction Step.
-     */
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, ClampMin="1", ClampMax="5"))
-    int ConstructionStepUpdateDelay = 1;
-
-    /**
      * Defines construction meshes for each Settlement Type
      */
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BuildingTier|Construction", meta=(AllowPrivateAccess=true, AssetBundles = "World"))
