@@ -3,51 +3,18 @@
 #include "Components/IVInventoryComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Singleton/MDGameInstance.h"
-#include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
 #include "Items/IVBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Medurval/Private/Characters/MDBaseCharacter.h"
 #include "Widgets/IVInventorySlotWidget.h"
 #include "Widgets/IVInventoryWidget.h"
 
-void UIVInventoryComponent::OnRegister()
+void UIVInventoryComponent::BeginPlay()
 {
-    Super::OnRegister();
+    Super::BeginPlay();
 
-    PlayerCharacter = Cast<ACharacter>(GetOwner());
-
-    if (!IsValid(PlayerCharacter))
-        return;
-
-    if (!IsValid(PlayerCharacter->InputComponent))
-        return;
-
-    EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerCharacter->InputComponent);
-
-    if (!IsValid(EnhancedInputComponent))
-        return;
-
-    if (!ToggleInventoryAction)
-        return;
-
-    ToggleInventoryBindingHandle = EnhancedInputComponent->BindAction(ToggleInventoryAction, ETriggerEvent::Triggered,
-                                                                      this, &UIVInventoryComponent::OnToggleInventory)
-                                       .GetHandle();
-}
-
-void UIVInventoryComponent::OnUnregister()
-{
-    Super::OnUnregister();
-
-    if (EnhancedInputComponent != nullptr)
-    {
-        EnhancedInputComponent->RemoveBindingByHandle(ToggleInventoryBindingHandle);
-    }
-
-    PlayerCharacter = nullptr;
-    EnhancedInputComponent = nullptr;
-    InventoryWidgetClass = nullptr;
-    InventoryWidget = nullptr;
+    PlayerCharacter = Cast<AMDBaseCharacter>(GetOwner());
 }
 
 /** Checks if a given index is empty or not */
@@ -55,6 +22,7 @@ bool UIVInventoryComponent::IsSlotEmpty(uint8 Index) const
 {
     return !Slots[Index].Item || Slots[Index].Amount == 0;
 }
+
 
 /** Get item information at the given Index, if it doesn't find, it returns a
  * nullptr, and the bIsSlotEmpty = true */
@@ -82,14 +50,9 @@ uint8 UIVInventoryComponent::GetAmountAtIndex(uint8 Index) const
     check(Slots.Num() > Index) return Slots[Index].Amount;
 }
 
-void UIVInventoryComponent::ToggleInventory()
+TArray<FIVInventorySlot> UIVInventoryComponent::GetSlots() const
 {
-    if (bIsVisible)
-    {
-        HideInventory();
-    }
-
-    ShowInventory();
+    return Slots;
 }
 
 /** Searches for a empty slot, and if it finds, store the index in the parameter
@@ -478,30 +441,4 @@ void UIVInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)
     UIVInventorySlotWidget *SlotWidget = SlotWidgets[SlotIndex];
 
     SlotWidget->UpdateSlot();
-}
-
-TArray<FIVInventorySlot> UIVInventoryComponent::GetInventorySlots() const
-{
-    return Slots;
-}
-
-uint8 UIVInventoryComponent::GetSlotsPerRow() const { return SlotPerRow; }
-
-uint8 UIVInventoryComponent::GetSlotAmount() const { return SlotAmount; }
-
-void UIVInventoryComponent::SetInventoryWidget(UIVInventoryWidget *InventoryWidgetRef)
-{
-    InventoryWidget = InventoryWidgetRef;
-}
-
-void UIVInventoryComponent::SetIsVisible(bool bIsInventoryVisible)
-{
-    bIsVisible = bIsInventoryVisible;
-}
-
-bool UIVInventoryComponent::GetIsVisible() const { return bIsVisible; }
-
-UIVInventoryWidget *UIVInventoryComponent::GetInventoryWidget() const
-{
-    return InventoryWidget;
 }

@@ -220,6 +220,11 @@ void AMDBaseCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCom
             PlayerEnhancedInputComponent->BindAction(RunInputAction, ETriggerEvent::Completed, this,
                                                      &AMDBaseCharacter::StopRunning);
         }
+
+        if (ToggleInventoryAction)
+        {
+            PlayerEnhancedInputComponent->BindAction(ToggleInventoryAction, ETriggerEvent::Started, this, &AMDBaseCharacter::ToggleInventory);
+        }
     }
 
     // Setup Binds for the Ability System

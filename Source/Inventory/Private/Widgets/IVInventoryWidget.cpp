@@ -22,7 +22,7 @@ void UIVInventoryWidget::SetSlotsPerRow(uint8 Slots)
 void UIVInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
 {
 	UIVInventorySlotWidget *SlotWidget = GetSlotWidgets()[SlotIndex];
-	FIVInventorySlot TargetSlot = InventoryReference->GetInventorySlots()[SlotIndex];
+    FIVInventorySlot TargetSlot = InventoryReference->GetSlots()[SlotIndex];
 
     if (InventoryReference->IsSlotEmpty(SlotIndex))
     {

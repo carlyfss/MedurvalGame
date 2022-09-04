@@ -76,6 +76,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
     UInputAction *RunInputAction;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "BaseCharacter|Inputs", meta = (AllowPrivateAccess = true))
+    UInputAction *ToggleInventoryAction;
+
     void EnhancedLook(const FInputActionValue &Value);
 
     UFUNCTION(BlueprintImplementableEvent, Category="BaseCharacter|Inputs")
@@ -86,6 +89,9 @@ protected:
 
     UFUNCTION(BlueprintCallable, Category="BaseCharacter|Inputs")
     void StopRunning() const;
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BaseCharacter|Inputs")
+    void ToggleInventory();
 #pragma endregion Inputs
 
 public:
