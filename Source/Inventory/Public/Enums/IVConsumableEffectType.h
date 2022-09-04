@@ -2,7 +2,7 @@
 
 #pragma once
 
-UENUM(BlueprintType, meta = (DisplayName = "Item Categories"))
+UENUM(BlueprintType, meta = (DisplayName = "ConsumableEffectType"))
 enum class EIVConsumableEffectType : uint8
 {
 	None,

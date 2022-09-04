@@ -29,7 +29,7 @@ class UIVInventoryComponent : public UCBActorComponent, public IIVInventoryInter
     uint8 SlotAmount = 15;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))
-    uint8 SlotPerRow = 5;
+    uint8 SlotsPerRow = 5;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))
     uint8 MaxStackSize = 30;

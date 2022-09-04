@@ -7,19 +7,9 @@
 #include "Engine/StreamableManager.h"
 #include "Kismet/GameplayStatics.h"
 
-uint8 UIVInventorySlotWidget::GetAmount() const
-{
-	return Amount;
-}
-
 void UIVInventorySlotWidget::SetAmount(const uint8 NewAmount)
 {
 	Amount = NewAmount;
-}
-
-UIVBaseItemDA *UIVInventorySlotWidget::GetItem() const
-{
-	return Item;
 }
 
 void UIVInventorySlotWidget::SetItem(UIVBaseItemDA *NewItem)
@@ -36,6 +26,7 @@ void UIVInventorySlotWidget::CleanSlot()
 		SlotButton->SetToolTip(nullptr);
 		SlotButton->SetIsEnabled(false);
 
+        SetSlotFrameByRarity();
         Item = nullptr;
         Amount = 0;        
 	}
@@ -56,6 +47,7 @@ void UIVInventorySlotWidget::UpdateSlot()
 
 	SlotButton->SetIsEnabled(true);
 
+    SetSlotFrameByRarity();
 	CreateDetailWidget();
 }
 
@@ -69,19 +61,4 @@ void UIVInventorySlotWidget::SetWidgetProperties(UIVBaseItemDA *NewItem, const u
 	Item = NewItem;
 	Amount = NewAmount;
 	SlotIndex = NewSlotIndex;
-}
-
-UButton *UIVInventorySlotWidget::GetSlotButton() const
-{
-	return SlotButton;
-}
-
-UIVInventoryComponent *UIVInventorySlotWidget::GetInventoryReference() const
-{
-	return InventoryReference;
-}
-
-uint8 UIVInventorySlotWidget::GetSlotIndex() const
-{
-	return SlotIndex;
 }

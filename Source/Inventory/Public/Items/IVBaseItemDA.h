@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "DataAssets/MDBaseDataAsset.h"
 #include "Enums/IVItemCategories.h"
+#include "Enums/IVItemRarity.h"
 #include "Interfaces/IVUsableItemInterface.h"
 #include "IVBaseItemDA.generated.h"
 
@@ -33,6 +34,9 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Category"))
     EIVItemCategories Category = EIVItemCategories::None;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Rarity"))
+    EIVItemRarity Rarity = EIVItemRarity::None;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="On 'Use' Event text"))
     FText OnUseText = FText::FromString(TEXT(""));

@@ -20,21 +20,20 @@ class INVENTORY_API UIVInventorySlotWidget final : public UCBCommonActivatableWi
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Transient, BlueprintGetter = GetItem)
+    UPROPERTY(Transient, BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UIVBaseItemDA> Item = nullptr;
 
-	UPROPERTY(Transient, BlueprintGetter = GetAmount)
+    UPROPERTY(Transient, BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	uint8 Amount;
 
-	UPROPERTY(Transient, BlueprintGetter = GetSlotIndex)
+    UPROPERTY(Transient, BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	uint8 SlotIndex;
 
-	UPROPERTY(Transient, BlueprintSetter = SetInventoryReference, BlueprintGetter = GetInventoryReference)
+    UPROPERTY(Transient, BlueprintReadWrite, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UIVInventoryComponent> InventoryReference;
 
 	// Widget Components
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot",
-			  meta = (BindWidget, AllowPrivateAccess = true))
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot", meta = (BindWidget, AllowPrivateAccess = true))
 	TObjectPtr<UButton> SlotButton = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot",
@@ -59,6 +58,9 @@ protected:
 
 	void SetItem(UIVBaseItemDA *NewItem);
 
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventorySlot")
+    void SetSlotFrameByRarity();
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot")
 	void UpdateSlot();
@@ -68,19 +70,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
 	void SetWidgetProperties(UIVBaseItemDA *NewItem, const uint8 NewAmount, const uint8 NewSlotIndex);
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
-	UButton *GetSlotButton() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
-	UIVInventoryComponent *GetInventoryReference() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
-	uint8 GetAmount() const;
-
-	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Getter")
-	UIVBaseItemDA *GetItem() const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "InventorySlot|Getter")
-	uint8 GetSlotIndex() const;
 };

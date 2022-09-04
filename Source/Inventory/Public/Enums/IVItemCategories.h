@@ -2,7 +2,7 @@
 
 #pragma once
 
-UENUM(BlueprintType, meta = (DisplayName = "Item Categories"))
+UENUM(BlueprintType, meta = (DisplayName = "ItemCategories"))
 enum class EIVItemCategories : uint8
 {
 	None,
