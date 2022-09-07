@@ -36,6 +36,9 @@ class MEDURVAL_API UMDLineTraceComponent : public UCBActorComponent, public IMDL
     UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
     TArray<TEnumAsByte<ECollisionChannel>> CollisionChannels;
 
+    UPROPERTY(EditDefaultsOnly, Category="_LineTrace|Configuration")
+    TEnumAsByte<ECollisionChannel> CursorCollisionChannel;
+
 public:
     UPROPERTY(EditAnywhere, Category="_LineTrace|Configuration")
     bool bActivateLineTraceDebug = false;

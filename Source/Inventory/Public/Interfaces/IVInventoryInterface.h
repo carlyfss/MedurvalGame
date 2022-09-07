@@ -23,9 +23,12 @@ class INVENTORY_API IIVInventoryInterface
     // Add interface functions to this class. This is the class that will be inherited to implement this interface.
 
 public:
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="InventoryInterface")
     bool OnAddItemToInventory(FPrimaryAssetId ItemIdToAdd, uint8 Amount);
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="_Inventory|Interaction")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="InventoryInterface")
+    bool RemoveItemFromInventory(FPrimaryAssetId ItemIdToRemove, uint8 Amount, int &Rest);
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="InventoryInterface")
     void UpdateSlotAfterLoad(uint8 SlotIndex);
 };

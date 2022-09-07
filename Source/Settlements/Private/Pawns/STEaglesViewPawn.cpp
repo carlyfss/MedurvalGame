@@ -4,8 +4,8 @@
 #include "Pawns/STEaglesViewPawn.h"
 
 #include "EnhancedInputComponent.h"
-#include "Components/CBLineTraceComponent.h"
 #include "Components/CBSpringArmComponent.h"
+#include "Components/Utils/MDLineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -13,7 +13,7 @@ ASTEaglesViewPawn::ASTEaglesViewPawn()
 {
     this->GetSpringArmComponent()->TargetArmLength = DefaultZoomDistance;
 
-    LineTraceComponent = CreateDefaultSubobject<UCBLineTraceComponent>("LineTraceComponent");
+    LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
 }
 
 void ASTEaglesViewPawn::TurnRight(const FInputActionValue &Value)

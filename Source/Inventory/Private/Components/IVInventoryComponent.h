@@ -54,6 +54,8 @@ protected:
 
     bool SearchFreeStack(UIVBaseItemDA *Item, uint8 &Index);
 
+    bool SearchItem();
+
     bool AddUnstackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
 
     bool AddStackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
@@ -119,7 +121,9 @@ public:
     FOnUpdateSlotAtIndex OnUpdateSlotAtIndex;
 #pragma endregion Delegate;
 
-    virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd, uint8 Amount) override;
+    virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToRemove, uint8 Amount) override;
 
     virtual void UpdateSlotAfterLoad_Implementation(uint8 SlotIndex) override;
+
+    virtual bool RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToAdd, uint8 Amount, int &Rest) override;
 };

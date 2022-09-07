@@ -54,6 +54,23 @@ void ASTTerrainActor::BeginPlay()
     LoadAssignedBuilding();
 }
 
+void ASTTerrainActor::OnInteract_Implementation(AActor *InstigatorActor)
+{
+    IMDInteractableInterface::OnInteract_Implementation(InstigatorActor);
+}
+
+void ASTTerrainActor::OnStartFocus_Implementation()
+{
+    IMDInteractableInterface::OnStartFocus_Implementation();
+    OnTerrainStartFocus();
+}
+
+void ASTTerrainActor::OnEndFocus_Implementation()
+{
+    IMDInteractableInterface::OnEndFocus_Implementation();
+    OnTerrainEndFocus();
+}
+
 
 ASTTerrainActor::ASTTerrainActor()
 {

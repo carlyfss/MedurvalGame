@@ -442,3 +442,40 @@ void UIVInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)
 
     SlotWidget->UpdateSlot();
 }
+
+bool UIVInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToRemove, uint8 Amount, int &Rest)
+{
+    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
+        return false;
+
+    bool bHasRemovedItem = false;
+    Rest = 0;
+    int CurrentAmount = Amount;
+
+    UIVBaseItemDA *Item = Cast<UIVBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemIdToRemove));
+
+    for (int i = Slots.Num() - 1; i >= 0; i--)
+    {
+        FIVInventorySlot Slot = Slots[i];
+
+        if (Slot.Item && Slot.Item == Item)
+        {
+            if (Amount <= Slot.Amount)
+            {
+                RemoveItemAtIndex(i, CurrentAmount);
+                CurrentAmount = 0;
+                bHasRemovedItem = true;
+                break;
+            }
+
+            RemoveItemAtIndex(i, Slot.Amount);
+            CurrentAmount -= Slot.Amount;
+            break;
+        }
+    }
+
+    Rest = CurrentAmount;
+    return bHasRemovedItem;
+}

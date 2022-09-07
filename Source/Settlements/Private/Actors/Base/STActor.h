@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actors/CBActor.h"
+#include "Engine/StreamableManager.h"
 #include "STActor.generated.h"
 
 class UMDGameInstance;
@@ -18,4 +19,7 @@ class ASTActor : public ACBActor
 protected:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="SSActor")
     UMDGameInstance* GetMDGameInstance() const;
+
+public:
+    static void LoadObject(TSoftObjectPtr<UObject> ObjectToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
 };

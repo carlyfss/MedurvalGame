@@ -71,7 +71,8 @@ void ASTBuildingActor::OnConfigurationLoaded()
     }
 
     ConstructionComponent->SetBuildingTier(Tier);
-    ConstructionComponent->SetCurrentTime(Tier.ConstructionDuration);
+    ConstructionComponent->SetConstructionSiteTransform(this->GetActorLocation(), this->GetActorRotation());
+
     FindConstructionMeshes();
 
     ConstructionComponent->OnUpdateConstructionStep.AddDynamic(this, &ASTBuildingActor::ASTBuildingActor::UpdateBuildingConstructionMesh);

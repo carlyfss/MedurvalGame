@@ -10,8 +10,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEaglesViewPossessed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEaglesViewUnpossessed);
 
-
-class UCBLineTraceComponent;
+class UMDLineTraceComponent;
 /**
  * 
  */
@@ -45,7 +44,7 @@ class ASTEaglesViewPawn : public ACBCharacter
     float MaxZoomDistance = 4000.0f;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBLineTraceComponent> LineTraceComponent = nullptr;
+    TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
     TObjectPtr<USTSettlementManagementWidget> SettlementWidget = nullptr;

@@ -14,25 +14,24 @@ void UMDLineTraceComponent::BeginPlay()
 
 void UMDLineTraceComponent::CastLineTrace()
 {
-    if (!GetWorld()->IsTraceHandleValid(LastTraceHandle, false) && !bIsLineTraceEnabled)
+    if (!GetWorld()->IsTraceHandleValid(LastTraceHandle, false) && !bIsLineTraceEnabled && !bUseMouseLocation)
     {
         bIsLineTraceEnabled = true;
 
         return;
     }
 
-    if (!bIsLineTraceEnabled)
-        return;
-
     if (!IsValid(PlayerController))
         return;
 
-    if (bUseMouseLocation)
+    if (bUseMouseLocation && bIsLineTraceEnabled)
     {
         FHitResult HitResult;
-        PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_GameTraceChannel3, false, HitResult);
+        PlayerController->GetHitResultUnderCursor(CursorCollisionChannel, false, HitResult);
 
         HandleLineTraceResults(HitResult);
+
+        // TO|DO Call End Focus on linetrace actor;
 
         return;
     }
@@ -134,6 +133,18 @@ void UMDLineTraceComponent::HandleLineTraceResults(const FHitResult &TraceResult
 {
     if (IsValid(TraceResult.GetActor()))
     {
+        LineTraceHitActor = TraceResult.GetActor();
+
+        if (LineTraceHitActor)
+        {
+            IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+
+            if (Interactable)
+            {
+                Interactable->OnStartFocus_Implementation();
+            }
+        }
+        
         if (bActivateLineTraceHitBox)
         {
             DrawDebugBox(GetWorld(), TraceResult.ImpactPoint, FVector(5), FColor::Emerald, false, 0.25f);

@@ -139,4 +139,16 @@ public:
     virtual void OnConstruction(const FTransform &Transform) override;
 
     virtual void BeginPlay() override;
+
+    virtual void OnInteract_Implementation(AActor *InstigatorActor) override;
+
+    UFUNCTION(BlueprintImplementableEvent, Category="TerrainActor")
+    void OnTerrainStartFocus();
+
+    UFUNCTION(BlueprintImplementableEvent, Category="TerrainActor")
+    void OnTerrainEndFocus();
+
+    virtual void OnStartFocus_Implementation() override;
+
+    virtual void OnEndFocus_Implementation() override;
 };
