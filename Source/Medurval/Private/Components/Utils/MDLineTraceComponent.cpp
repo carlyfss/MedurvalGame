@@ -31,8 +31,6 @@ void UMDLineTraceComponent::CastLineTrace()
 
         HandleLineTraceResults(HitResult);
 
-        // TO|DO Call End Focus on linetrace actor;
-
         return;
     }
 
@@ -131,6 +129,18 @@ void UMDLineTraceComponent::HandleLineTraceResults(const FTraceDatum &TraceResul
 
 void UMDLineTraceComponent::HandleLineTraceResults(const FHitResult &TraceResult)
 {
+    if (LineTraceHitActor)
+    {
+        IMDInteractableInterface *Interactable = Cast<IMDInteractableInterface>(LineTraceHitActor);
+
+        if (Interactable)
+        {
+            Interactable->OnEndFocus_Implementation();
+        }
+
+        LineTraceHitActor = nullptr;
+    }
+    
     if (IsValid(TraceResult.GetActor()))
     {
         LineTraceHitActor = TraceResult.GetActor();
