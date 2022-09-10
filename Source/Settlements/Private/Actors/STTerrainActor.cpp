@@ -235,5 +235,4 @@ void ASTTerrainActor::StartConstruction_Implementation()
     bIsUnderConstruction = true;
     ConstructedBuilding->OnBeginConstruction();
     Status = ESTTerrainStatus::Constructed;
-    SetTargetColor(FSTTerrainConstants::DefaultTargetColor);
 }

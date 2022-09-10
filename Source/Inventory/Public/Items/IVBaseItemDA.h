@@ -20,32 +20,35 @@ class INVENTORY_API UIVBaseItemDA : public UMDBaseDataAsset, public IIVUsableIte
     GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item")
     FText Name = FText::FromString(TEXT("Item"));
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item")
     FText Description = FText::FromString(TEXT("Item description"));
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(AssetBundles = "World"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item")
     TSoftObjectPtr<UStaticMesh> Mesh = nullptr;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(AssetBundles = "UI"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item")
     TSoftObjectPtr<UTexture2D> Thumbnail = nullptr;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Category"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta=(DisplayName="Category"))
     EIVItemCategories Category = EIVItemCategories::None;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Rarity"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta=(DisplayName="Rarity"))
     EIVItemRarity Rarity = EIVItemRarity::None;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="On 'Use' Event text"))
-    FText OnUseText = FText::FromString(TEXT(""));
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta=(DisplayName="Item can be stacked?"))
+    int Value = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Item can be used?"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta=(DisplayName="Item can be used?"))
     bool bCanBeUsed = false;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item", meta=(DisplayName="Item can be stacked?"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta=(DisplayName="Item can be stacked?"))
     bool bCanBeStacked = false;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Item", meta=(DisplayName="On 'Use' Event text"))
+    FText OnUseText = FText::FromString(TEXT(""));
 
 #pragma region FUNCTIONS
     UFUNCTION()

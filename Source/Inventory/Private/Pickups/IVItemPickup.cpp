@@ -7,6 +7,7 @@
 #include "Components/IVInventoryComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
+#include "Core/Components/MDCapsuleComponent.h"
 #include "GameFramework/Character.h"
 #include "Items/IVBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -21,20 +22,28 @@ AIVItemPickup::AIVItemPickup()
 
     PickupLoadRange = CreateDefaultSubobject<UCBSphereComponent>("PickupLoadRange");
     PickupLoadRange->SetSphereRadius(500.f);
-    PickupLoadRange->ShapeColor = FColor::Blue;
+    PickupLoadRange->ShapeColor = FColor(30, 30, 200, 50);
     PickupLoadRange->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     PickupLoadRange->SetupAttachment(PickupMesh);
+    PickupLoadRange->SetCollisionResponseToAllChannels(ECR_Ignore);
+    PickupLoadRange->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 
     PickupLoadRange->OnComponentBeginOverlap.AddDynamic(this, &AIVItemPickup::OnBeginOverlap);
     PickupLoadRange->OnComponentEndOverlap.AddDynamic(this, &AIVItemPickup::OnEndOverlap);
+
+    PickupCollision = CreateDefaultSubobject<UMDCapsuleComponent>("PickupCollision");
+    PickupCollision->ShapeColor = FColor(100, 0, 200, 50);
+    PickupCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    PickupCollision->SetupAttachment(PickupMesh);
+
+    PickupCollision->SetCollisionObjectType(ECC_GameTraceChannel3);
+    PickupCollision->SetCollisionResponseToAllChannels(ECR_Ignore);
+    PickupCollision->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
 
 void AIVItemPickup::BeginPlay()
 {
     Super::BeginPlay();
-
-    TimerInterval = 3;
-    TimerStartDelay = 3;
 }
 
 void AIVItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -44,12 +53,7 @@ void AIVItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AIVItemPickup::OnPickupItemLoaded()
 {
-    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-
-    if (!AssetManager)
-        return;
-
-    LoadedItem = Cast<UIVBaseItemDA>(AssetManager->GetPrimaryAssetObject(ItemId));
+    LoadedItem = Cast<UIVBaseItemDA>(GetMedurvalAssetManager()->GetPrimaryAssetObject(ItemId));
 
     if (!LoadedItem)
         return;
@@ -61,38 +65,50 @@ void AIVItemPickup::OnPickupItemLoaded()
         PickupMesh->SetStaticMesh(Mesh);
     }
 
-    SetCollisionSize();
+    CalculateCollisionSize();
 }
 
 void AIVItemPickup::LoadPickupItem()
 {
-    TArray<AActor*> OverlappingActors;
-    PickupLoadRange->GetOverlappingActors(OverlappingActors);
-    
-    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-
-    if (!AssetManager)
-        return;
-
-    TArray<FName> BundlesToLoad;
-    BundlesToLoad.Add(UMedurvalAssetManager::WorldBundle);
-
     FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AIVItemPickup::OnPickupItemLoaded);
+    LoadPrimaryAssetId(ItemId, Delegate);
 
-    AssetManager->LoadPrimaryAsset(ItemId, BundlesToLoad, Delegate);
+    OnItemLoaded.Broadcast();
 }
 
 void AIVItemPickup::UnloadPickupItem()
 {
-    UMedurvalAssetManager *AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-
-    if (!AssetManager)
-        return;
-
-    AssetManager->UnloadPrimaryAsset(ItemId);
+    GetMedurvalAssetManager()->UnloadPrimaryAsset(ItemId);
 
     LoadedItem = nullptr;
     PickupMesh->SetStaticMesh(nullptr);
+    OnItemUnloaded.Broadcast();
+}
+
+void AIVItemPickup::CalculateCollisionSize()
+{
+    FVector Min;
+    FVector Max;
+    PickupMesh->GetLocalBounds(Min, Max);
+
+    FVector MeshSize = Max - Min;
+
+    float MeshX = (MeshSize.X + PickupCollisionOffset) / 2;
+    float MeshZ = (MeshSize.Z + PickupCollisionOffset) / 2;
+
+    if (bIsCollisionUp)
+    {
+        PickupCollision->SetCapsuleHalfHeight(MeshZ);
+        PickupCollision->SetCapsuleRadius(MeshX);
+    }
+    else
+    {
+        const FRotator Rotation = PickupCollision->GetComponentRotation();
+        PickupCollision->SetWorldRotation(FRotator(90, Rotation.Yaw, Rotation.Roll));
+
+        PickupCollision->SetCapsuleHalfHeight(MeshX);
+        PickupCollision->SetCapsuleRadius(MeshZ);
+    }
 }
 
 void AIVItemPickup::OnConstruction(const FTransform &Transform)
@@ -119,6 +135,7 @@ void AIVItemPickup::AddItemToInventory(AActor *ActorToAddItem)
 
             MarkPickupForGarbage();
             MarkAsGarbage();
+            Destroy();
         }
     }
 }

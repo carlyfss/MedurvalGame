@@ -3,23 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Actors/CBActor.h"
-#include "Engine/StreamableManager.h"
+#include "Core/Actors/MDActor.h"
 #include "STActor.generated.h"
 
-class UMDGameInstance;
 /**
  * 
  */
 UCLASS()
-class ASTActor : public ACBActor
+class ASTActor : public AMDActor
 {
 	GENERATED_BODY()
-
-protected:
-    UFUNCTION(BlueprintCallable, BlueprintPure, Category="SSActor")
-    UMDGameInstance* GetMDGameInstance() const;
-
-public:
-    static void LoadObject(TSoftObjectPtr<UObject> ObjectToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
 };

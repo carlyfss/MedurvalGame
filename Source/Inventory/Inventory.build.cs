@@ -12,7 +12,8 @@ public class Inventory : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { 
 			"CommonBase",
 			"CommonUI",
-			"EnhancedInput"
+			"EnhancedInput",
+			"Medurval"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new[]
@@ -21,8 +22,7 @@ public class Inventory : ModuleRules
 			"Core", 
 			"CoreUObject", 
 			"Engine",
-			"SlateCore",
-			"Medurval"
+			"SlateCore"
 		});
 	}
 }

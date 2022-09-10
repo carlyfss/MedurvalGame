@@ -10,6 +10,9 @@ ASTConstructionSiteActor::ASTConstructionSiteActor()
 {
     SiteMesh = CreateDefaultSubobject<UCBStaticMeshComponent>("Mesh");
     SiteMesh->SetupAttachment(RootComponent);
+
+    SiteMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+    SiteMesh->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
 }
 
 void ASTConstructionSiteActor::SetMesh()

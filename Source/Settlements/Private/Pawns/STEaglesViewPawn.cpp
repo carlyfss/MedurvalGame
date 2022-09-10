@@ -14,6 +14,12 @@ ASTEaglesViewPawn::ASTEaglesViewPawn()
     this->GetSpringArmComponent()->TargetArmLength = DefaultZoomDistance;
 
     LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
+
+    // Movement setup
+    this->GetCharacterMovement()->MaxFlySpeed = DefaultZoomDistance + CameraSpeedOffset;
+    this->GetCharacterMovement()->BrakingDecelerationFlying = DefaultZoomDistance + MovementSpeedDecelerationOffset;
+    this->GetCharacterMovement()->MaxAcceleration = DefaultZoomDistance * CameraAccelerationMultiplier;
+    this->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 }
 
 void ASTEaglesViewPawn::TurnRight(const FInputActionValue &Value)

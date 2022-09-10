@@ -29,7 +29,7 @@ class ASTEaglesViewPawn : public ACBCharacter
     float CameraAccelerationMultiplier = 4.0f;
 
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
-    float DefaultZoomDistance = 2000.0f;
+    float DefaultZoomDistance = 4000.0f;
 
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
     float ZoomSpeed = 100.0f;
@@ -41,7 +41,7 @@ class ASTEaglesViewPawn : public ACBCharacter
     float MinZoomDistance = 500.0f;
 
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
-    float MaxZoomDistance = 4000.0f;
+    float MaxZoomDistance = 6500.0f;
 
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;

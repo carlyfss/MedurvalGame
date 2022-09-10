@@ -25,4 +25,6 @@ protected:
 
 public:
     ACBActor();
+
+    static void LoadObject(TSoftObjectPtr<UObject> ObjectToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
 };

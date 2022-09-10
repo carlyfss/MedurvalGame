@@ -3,16 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Actors/CBActor.h"
+#include "Core/Actors/MDActor.h"
 #include "Interfaces/MDInteractableInterface.h"
 #include "IVItemPickup.generated.h"
 
+class UMDCapsuleComponent;
 class UCBSphereComponent;
 class UCBStaticMeshComponent;
 class UIVBaseItemDA;
 
 UCLASS(meta = (DisplayName = "ItemPickup"))
-class AIVItemPickup : public ACBActor, public IMDInteractableInterface
+class AIVItemPickup : public AMDActor, public IMDInteractableInterface
 {
 	GENERATED_BODY()
 
@@ -28,24 +29,25 @@ class AIVItemPickup : public ACBActor, public IMDInteractableInterface
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UCBSphereComponent> PickupLoadRange = nullptr;
 
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+    TObjectPtr<UMDCapsuleComponent> PickupCollision = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+    int PickupCollisionOffset = 10;
+    
 	UPROPERTY(EditInstanceOnly, Category = "ItemPickup")
 	uint8 AmountToAdd = 1;
+
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+    bool bIsCollisionUp = false;
 
 	UPROPERTY(EditInstanceOnly, Category = "ItemPickup")
 	float PickupLoadRangeRadius = 3000.f;
 
-public:
-	// Sets default values for this actor's properties
-	AIVItemPickup();
-
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="ItemPickup")
-    void SetCollisionSize();
 
 	void OnPickupItemLoaded();
 
@@ -55,6 +57,8 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "ItemPickup")
 	void MarkPickupForGarbage();
+
+    void CalculateCollisionSize();
 
 	virtual void OnConstruction(const FTransform &Transform) override;
 
@@ -69,6 +73,8 @@ protected:
 										class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex);
 
 public:
+    AIVItemPickup();
+    
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ItemInteraction")
 	void OnPickupStartFocus();
 
@@ -78,6 +84,16 @@ public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnItemPickedUp);
     UPROPERTY(BlueprintAssignable)
     FOnItemPickedUp OnItemPickedUp;
+
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnItemUnloaded);
+
+    UPROPERTY(BlueprintAssignable)
+    FOnItemUnloaded OnItemUnloaded;
+
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnItemLoaded);
+
+    UPROPERTY(BlueprintAssignable)
+    FOnItemLoaded OnItemLoaded;
 
 	virtual void OnInteract_Implementation(AActor *InstigatorActor) override;
 
