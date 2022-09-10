@@ -14,6 +14,7 @@ ASTEaglesViewPawn::ASTEaglesViewPawn()
     this->GetSpringArmComponent()->TargetArmLength = DefaultZoomDistance;
 
     LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
+    LineTraceComponent->SetCursorCollisionChannel(ECC_GameTraceChannel1);
 
     // Movement setup
     this->GetCharacterMovement()->MaxFlySpeed = DefaultZoomDistance + CameraSpeedOffset;

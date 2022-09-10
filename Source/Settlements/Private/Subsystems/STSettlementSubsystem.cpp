@@ -78,9 +78,16 @@ TArray<FPrimaryAssetId> USTSettlementSubsystem::GetAllBuildings() const
     return AllBuildings;
 }
 
-void USTSettlementSubsystem::SetAllTerrains(TArray<ASTTerrainActor *> TerrainActors)
+void USTSettlementSubsystem::AddNewTerrain(ASTTerrainActor *NewTerrain)
 {
-    AllTerrains = TerrainActors;
+    if (NewTerrain)
+    {
+        AllTerrains.Add(NewTerrain);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Terrain is not valid!"));
+    }
 }
 
 TArray<ASTTerrainActor *> USTSettlementSubsystem::GetAllTerrains() const

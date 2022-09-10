@@ -48,7 +48,7 @@ public:
     TArray<FPrimaryAssetId> GetAllBuildings() const;
 
     UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
-    void SetAllTerrains(TArray<ASTTerrainActor*> TerrainActors);
+    void AddNewTerrain(ASTTerrainActor *NewTerrain);
 
     UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
     TArray<ASTTerrainActor*> GetAllTerrains() const;

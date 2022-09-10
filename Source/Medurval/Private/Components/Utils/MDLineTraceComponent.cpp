@@ -199,3 +199,8 @@ void UMDLineTraceComponent::SetPlayerController(APlayerController *PlayerControl
 {
     PlayerController = PlayerControl;
 }
+
+void UMDLineTraceComponent::SetCursorCollisionChannel(TEnumAsByte<ECollisionChannel> CollisionChannel)
+{
+    CursorCollisionChannel = CollisionChannel;
+}

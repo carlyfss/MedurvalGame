@@ -36,12 +36,15 @@ void ASTTerrainActor::BeginPlay()
 {
     Super::BeginPlay();
 
+    GetSettlementSubsystem()->AddNewTerrain(this);
+
     SnapSize(Width, Length);
     const FVector TerrainSize = CalculateTerrainSize(Width, Length);
     const FVector TargetSize = FVector(FSTTerrainConstants::DefaultTargetHeight, TerrainSize.Y, TerrainSize.X);
     const FVector Location = this->GetActorLocation();
     const FRotator Rotation = FRotator(0, this->GetActorRotation().Yaw, 90);
     Target = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), DefaultTargetMaterial, TargetSize, Location, Rotation);
+    Target->SetVisibility(false);
     Target->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetIncludingScale);
 
     TargetMaterialInstance = UKismetMaterialLibrary::CreateDynamicMaterialInstance(GetWorld(), DefaultTargetMaterial, FSTTerrainConstants::TargetColorParameterName);
@@ -79,7 +82,8 @@ ASTTerrainActor::ASTTerrainActor()
     Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     Collision->SetCollisionObjectType(ECC_GameTraceChannel4);
     Collision->SetCollisionResponseToAllChannels(ECR_Ignore);
-    Collision->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Block);
+    Collision->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
+    Collision->SetCollisionResponseToChannel(ECC_GameTraceChannel5, ECR_Overlap);
 
     RootComponent = Collision;
 }

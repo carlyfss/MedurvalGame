@@ -73,5 +73,7 @@ public:
     UFUNCTION(BlueprintCallable, Category="_LineTrace|Configuration")
     void SetPlayerController(APlayerController *PlayerControl);
 
+    void SetCursorCollisionChannel(TEnumAsByte<ECollisionChannel> CollisionChannel);
+
     virtual void BeginPlay() override;
 };
