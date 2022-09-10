@@ -162,6 +162,11 @@ void UMDLineTraceComponent::HandleLineTraceResults(const FHitResult &TraceResult
     }
 }
 
+void UMDLineTraceComponent::SetLineTraceEnabled(bool bIsEnabled)
+{
+    bIsLineTraceEnabled = bIsEnabled;
+}
+
 void UMDLineTraceComponent::StartLineTrace_Implementation()
 {
     bIsLineTraceEnabled = true;

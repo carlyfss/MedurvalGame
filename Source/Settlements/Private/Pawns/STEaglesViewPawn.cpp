@@ -23,6 +23,21 @@ ASTEaglesViewPawn::ASTEaglesViewPawn()
     this->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 }
 
+float ASTEaglesViewPawn::GetMaxZoomDistance() const
+{
+    return MaxZoomDistance;
+}
+
+void ASTEaglesViewPawn::EnableLineTrace()
+{
+    LineTraceComponent->SetLineTraceEnabled(true);
+}
+
+void ASTEaglesViewPawn::DisableLineTrace()
+{
+    LineTraceComponent->SetLineTraceEnabled(false);
+}
+
 void ASTEaglesViewPawn::TurnRight(const FInputActionValue &Value)
 {
     if ((Controller != nullptr) && (Value.GetMagnitude() != 0.0f))

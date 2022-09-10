@@ -38,6 +38,9 @@ class USTSettlementEconomyComponent : public UCBActorComponent
     // SettlementTaxesComponent - Taxes
 
 public:
+    UFUNCTION()
+    void SetStartingTreasury(int Amount);
+    
     UFUNCTION(BlueprintCallable, Category="SettlementEconomyComponent")
     void AddToTreasury(int Amount);
 

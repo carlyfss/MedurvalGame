@@ -32,6 +32,12 @@ class USTSettlementComponent : public UCBActorComponent
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementComponent", meta=(AllowPrivateAccess=true))
     float InfluenceRadius = 2000;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    float SettlementSize = 2500;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    float SettlementRange = 5000;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="SettlementComponent", meta=(AllowPrivateAccess=true))
     ESTSettlementStages CurrentStage = ESTSettlementStages::Camp;
 
@@ -48,6 +54,10 @@ class USTSettlementComponent : public UCBActorComponent
 
 public:
     USTSettlementComponent();
+
+    float GetSettlementRange() const;
+
+    float GetSettlementSize() const;
     
     UFUNCTION(BlueprintCallable, Category="SettlementComponent")
     void SetSettlementOwner(ACharacter *SettlementOwner);

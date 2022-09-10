@@ -62,6 +62,8 @@ protected:
     void HandleLineTraceResults(const FHitResult &TraceResult);
 
 public:
+    void SetLineTraceEnabled(bool bIsEnabled);
+    
     virtual void StartLineTrace_Implementation() override;
 
     virtual void EndLineTrace_Implementation() override;

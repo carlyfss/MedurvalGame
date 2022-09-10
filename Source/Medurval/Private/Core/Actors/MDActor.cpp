@@ -40,10 +40,16 @@ UMedurvalAssetManager *AMDActor::GetMedurvalAssetManager() const
     return AssetManager;
 }
 
-void AMDActor::LoadObject(TSoftObjectPtr<UObject> ObjectToLoad, FStreamableDelegate DelegateToCall)
+void AMDActor::LoadObject(TSoftObjectPtr<> ObjectToLoad, FStreamableDelegate DelegateToCall)
 {
     FStreamableManager &StreamableManager = UAssetManager::GetStreamableManager();
     StreamableManager.RequestAsyncLoad(ObjectToLoad.ToSoftObjectPath(), DelegateToCall);
+}
+
+void AMDActor::LoadClass(TSoftClassPtr<> ClassToLoad, FStreamableDelegate DelegateToCall)
+{
+    FStreamableManager &StreamableManager = UAssetManager::GetStreamableManager();
+    StreamableManager.RequestAsyncLoad(ClassToLoad.ToSoftObjectPath(), DelegateToCall);
 }
 
 void AMDActor::LoadPrimaryAssetId(FPrimaryAssetId AssetId, FStreamableDelegate DelegateToCall, TArray<FName> BundlesToLoad)

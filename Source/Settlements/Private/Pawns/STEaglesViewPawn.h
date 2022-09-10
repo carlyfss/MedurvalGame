@@ -72,6 +72,14 @@ class ASTEaglesViewPawn : public ACBCharacter
 public:
     ASTEaglesViewPawn();
 
+    float GetMaxZoomDistance() const;
+
+    UFUNCTION(BlueprintCallable, Category="EaglesView")
+    void EnableLineTrace();
+
+    UFUNCTION(BlueprintCallable, Category="EaglesView")
+    void DisableLineTrace();
+
     UPROPERTY(BlueprintAssignable, BlueprintCallable)
     FOnEaglesViewPossessed OnEaglesViewPossessed;
 

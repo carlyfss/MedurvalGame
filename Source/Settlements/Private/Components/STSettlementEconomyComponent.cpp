@@ -8,6 +8,11 @@ USTSettlementEconomyComponent::USTSettlementEconomyComponent()
 {
 }
 
+void USTSettlementEconomyComponent::SetStartingTreasury(int Amount)
+{
+    Treasury = Amount;
+}
+
 void USTSettlementEconomyComponent::AddToTreasury(int Amount)
 {
     UCBCurrencySubsystem *Subsystem = GetCurrencySubsystem();

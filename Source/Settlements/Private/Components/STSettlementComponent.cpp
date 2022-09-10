@@ -10,6 +10,16 @@ USTSettlementComponent::USTSettlementComponent()
     Economy = CreateDefaultSubobject<USTSettlementEconomyComponent>("EconomyComponent");
 }
 
+float USTSettlementComponent::GetSettlementRange() const
+{
+    return SettlementRange;
+}
+
+float USTSettlementComponent::GetSettlementSize() const
+{
+    return SettlementSize;
+}
+
 void USTSettlementComponent::SetSettlementOwner(ACharacter *SettlementOwner)
 {
     Owner = SettlementOwner;
