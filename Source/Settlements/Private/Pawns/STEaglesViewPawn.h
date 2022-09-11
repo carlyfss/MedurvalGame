@@ -80,6 +80,9 @@ public:
     UFUNCTION(BlueprintCallable, Category="EaglesView")
     void DisableLineTrace();
 
+    UFUNCTION(BlueprintCallable, Category="EaglesView")
+    void SetSettlementWidget(UCommonActivatableWidget *Widget);
+
     UPROPERTY(BlueprintAssignable, BlueprintCallable)
     FOnEaglesViewPossessed OnEaglesViewPossessed;
 

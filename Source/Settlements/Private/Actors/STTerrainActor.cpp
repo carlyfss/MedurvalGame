@@ -172,12 +172,10 @@ void ASTTerrainActor::SnapSize(float &NewWidth, float &NewLength) const
 
 bool ASTTerrainActor::Claim(ACharacter *OwnerReference, ESTCivilizationType CivilizationType)
 {
-    const UGameInstance *GameInstance = GetWorld()->GetGameInstance();
-
-    if (!GameInstance)
+    if (!bIsClaimable)
         return false;
 
-    USTSettlementSubsystem *Subsystem = GameInstance->GetSubsystem<USTSettlementSubsystem>();
+    USTSettlementSubsystem *Subsystem = GetSettlementSubsystem();
 
     if (!Subsystem)
         return false;
@@ -197,6 +195,11 @@ bool ASTTerrainActor::Claim(ACharacter *OwnerReference, ESTCivilizationType Civi
     return true;
 }
 
+void ASTTerrainActor::SetIsClaimable(bool bIsTerrainClaimable)
+{
+    bIsClaimable = bIsTerrainClaimable;
+}
+
 bool ASTTerrainActor::IsUnclaimed()
 {
     return Status == ESTTerrainStatus::Unclaimed;
@@ -205,6 +208,16 @@ bool ASTTerrainActor::IsUnclaimed()
 void ASTTerrainActor::ShowTarget()
 {
     Target->SetVisibility(true);
+
+    if (bIsClaimable)
+    {
+        Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    }
+    else
+    {
+        SetTargetColor(FSTTerrainConstants::DefaultUnclaimableTargetColor);
+        Collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    }
 }
 
 void ASTTerrainActor::HideTarget()

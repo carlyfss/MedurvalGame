@@ -79,6 +79,16 @@ void AMDBaseCharacter::StopRunning() const
     GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed - RunSpeedIncreaseAmount;
 }
 
+void AMDBaseCharacter::EnableLineTrace()
+{
+    LineTraceComponent->SetLineTraceEnabled(true);
+}
+
+void AMDBaseCharacter::DisableLineTrace()
+{
+    LineTraceComponent->SetLineTraceEnabled(false);
+}
+
 void AMDBaseCharacter::PossessedBy(AController *NewController)
 {
     Super::PossessedBy(NewController);

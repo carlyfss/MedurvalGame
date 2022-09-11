@@ -3,13 +3,32 @@
 
 #include "Core/MDPlayerController.h"
 
+#include "Core/AssetManager/MedurvalAssetManager.h"
+
 AMDPlayerController::AMDPlayerController()
 {
 }
 
-void AMDPlayerController::SetInputModeGameOnly(bool InConsumeCaptureMouseDown)
+void AMDPlayerController::LoadWidgets()
 {
-    FInputModeGameOnly InputMode;
-    InputMode.SetConsumeCaptureMouseDown(InConsumeCaptureMouseDown);
-    SetInputMode(InputMode);
+    FStreamableManager &StreamableManager = UAssetManager::GetStreamableManager();
+
+    TArray<FSoftObjectPath> Objects;
+
+    Objects.Add(CharacterWidgetClass.ToSoftObjectPath());
+    Objects.Add(SettlementWidgetClass.ToSoftObjectPath());
+    Objects.Add(BuildingsListWidgetClass.ToSoftObjectPath());
+
+    StreamableManager.RequestAsyncLoad(Objects);
 }
+
+void AMDPlayerController::SetSettlementView(bool bIsOnSettlementView)
+{
+    bIsSettlementView = bIsOnSettlementView;
+}
+
+UCommonActivatableWidget *AMDPlayerController::GetSettlementWidget()
+{
+    return SettlementWidget;
+}
+

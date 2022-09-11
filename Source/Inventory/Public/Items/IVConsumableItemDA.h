@@ -16,18 +16,18 @@ class INVENTORY_API UIVConsumableItemDA : public UIVBaseItemDA
 	GENERATED_BODY()
 
 public:
-
+    // Effects are going to be GameplayEffect / Abilities 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
-	float HealthAmount = 0;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
-	float DamageAmount = 0;
+    float Effect = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
 	float Duration = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
 	bool bIsInstantUsage = true;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
+    float UsageDuration = 2;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item|Consumable")
 	EIVConsumableEffectType EffectType = EIVConsumableEffectType::None;

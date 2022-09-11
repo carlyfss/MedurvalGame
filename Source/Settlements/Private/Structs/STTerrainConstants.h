@@ -23,11 +23,13 @@ public:
 
     inline static float UnitsPerMeter = 100.f;
 
-    inline static FLinearColor DefaultTargetColor = FLinearColor::White;
+    inline static FLinearColor DefaultTargetColor = FLinearColor(0.85f, 0.85f, 0.85f, 0.75f);;
 
-    inline static FLinearColor DefaultSelectedTargetColor = FLinearColor(0.9f, 0.75f, 0.f);
+    inline static FLinearColor DefaultSelectedTargetColor = FLinearColor(0.9f, 0.75f, 0.f, 0.75f);
 
-    inline static FLinearColor DefaultUnclaimedTargetColor = FLinearColor(0.1f, 0.1f, 0.1f);
+    inline static FLinearColor DefaultUnclaimedTargetColor = FLinearColor(0.1f, 0.1f, 0.1f, 0.35f);
+
+    inline static FLinearColor DefaultUnclaimableTargetColor = FLinearColor(0.35f, 0.35f, 0.35f, 0.35f);
 
     inline static FName TargetColorParameterName = FName(TEXT("BaseColor"));
 };

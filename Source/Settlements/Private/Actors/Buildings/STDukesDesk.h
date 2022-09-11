@@ -29,22 +29,49 @@ class ASTDukesDesk : public ASTBuildingActor
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
     int StartingTreasury = 1000;
 
-    UPROPERTY(BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDSphereComponent> SettlementSizeCollision;
 
-    UPROPERTY(BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDBoxComponent> SettlementRangeCollision;
 
-    UPROPERTY(BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDBoxComponent> DeskCollision;
 
     UPROPERTY(BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
-    TArray<ASTTerrainActor *> OverlappedActors;
+    TArray<ASTTerrainActor *> OverlappedTerrains;
+
+    UPROPERTY(BlueprintReadWrite, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UDecalComponent> SettlementSizeDecal = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMaterialInterface> SettlementSizeDecalMaterial = nullptr;
+
+    UPROPERTY(BlueprintReadWrite, Category="DukesDesk", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMaterialInstanceDynamic> SettlementSizeDecalMaterialInstance = nullptr;
 
 protected:
     void CreateEaglesViewActor();
 
     void RegisterSettlement();
+
+    void FinishSettlementConfiguration();
+
+    UFUNCTION(BlueprintCallable, Category="DukesDesk")
+    void PossessEaglesViewActor();
+
+    UFUNCTION(BlueprintCallable, Category="DukesDesk")
+    void PossessCharacterActor();
+
+    void GetAndShowTerrainsInSettlementRange();
+
+    void ShowTerrainsInRange();
+
+    void HideTerrainsInRange();
+
+    void SetClaimableTerrainsInSettlementSize();
+
+    void SpawnSettlementSizeDecal();
     
 public:
     ASTDukesDesk();

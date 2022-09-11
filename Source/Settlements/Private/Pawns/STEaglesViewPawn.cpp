@@ -38,6 +38,16 @@ void ASTEaglesViewPawn::DisableLineTrace()
     LineTraceComponent->SetLineTraceEnabled(false);
 }
 
+void ASTEaglesViewPawn::SetSettlementWidget(UCommonActivatableWidget *Widget)
+{
+    USTSettlementManagementWidget *NewWidget = Cast<USTSettlementManagementWidget>(Widget);
+
+    if (NewWidget)
+    {
+        SettlementWidget = NewWidget;
+    }
+}
+
 void ASTEaglesViewPawn::TurnRight(const FInputActionValue &Value)
 {
     if ((Controller != nullptr) && (Value.GetMagnitude() != 0.0f))

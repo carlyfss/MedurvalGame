@@ -15,6 +15,9 @@ AMDActor::AMDActor()
     PrimaryActorTick.bCanEverTick = false;
     PrimaryActorTick.bStartWithTickEnabled = false;
     PrimaryActorTick.TickInterval = FCBConstants::TickInterval;
+
+    USceneComponent *SceneComponent = CreateDefaultSubobject<USceneComponent>("Root");
+    RootComponent = SceneComponent;
 }
 
 UMDGameInstance *AMDActor::GetMDGameInstance() const

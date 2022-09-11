@@ -74,6 +74,9 @@ private:
     UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     bool bIsUnderConstruction = false;
 
+    UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
+    bool bIsClaimable = false;
+
 protected:
     void OnAssignedBuildingLoaded();
 
@@ -95,6 +98,9 @@ public:
     
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     bool Claim(ACharacter *OwnerReference, ESTCivilizationType CivilizationType);
+
+    UFUNCTION(BlueprintCallable, Category="TerrainActor")
+    void SetIsClaimable(bool bIsTerrainClaimable);
 
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClaimed, ASTTerrainActor*, TerrainActor);
     UPROPERTY(BlueprintCallable, BlueprintAssignable)

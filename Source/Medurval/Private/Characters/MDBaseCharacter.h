@@ -95,6 +95,10 @@ protected:
 #pragma endregion Inputs
 
 public:
+    void EnableLineTrace();
+
+    void DisableLineTrace();
+    
     virtual void PossessedBy(AController *NewController) override;
 
     virtual void OnRep_PlayerState() override;
