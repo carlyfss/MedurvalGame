@@ -37,6 +37,17 @@ void AMDPlayerController::BeginPlay()
     Super::BeginPlay();
 
     LoadWidgets();
-    CompleteConfiguration();
+
+    FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AMDPlayerController::CompleteConfiguration);
+
+    if (WidgetLoadHandle->HasLoadCompleted())
+    {
+        CompleteConfiguration();
+    }
+    else
+    {
+        WidgetLoadHandle->BindCompleteDelegate(Delegate);
+    }
+    
 }
 

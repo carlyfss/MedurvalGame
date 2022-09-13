@@ -42,6 +42,10 @@ class MEDURVAL_API AMDPlayerController : public APlayerController
 
     TSharedPtr<FStreamableHandle> WidgetLoadHandle;
 
+protected:
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDPlayerController")
+    void CompleteConfiguration();
+    
 public:
     AMDPlayerController();
     virtual ~AMDPlayerController() = default;
@@ -59,8 +63,7 @@ public:
 
     void SetSettlementView(bool bIsOnSettlementView);
 
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDPlayerController")
-    void CompleteConfiguration();
+    
 
     UFUNCTION(BlueprintCallable, Category="MDPlayerController")
     UCommonActivatableWidget *GetSettlementWidget();
