@@ -19,7 +19,7 @@ void AMDPlayerController::LoadWidgets()
     Objects.Add(SettlementWidgetClass.ToSoftObjectPath());
     Objects.Add(BuildingsListWidgetClass.ToSoftObjectPath());
 
-    StreamableManager.RequestAsyncLoad(Objects);
+    WidgetLoadHandle = StreamableManager.RequestAsyncLoad(Objects);
 }
 
 void AMDPlayerController::SetSettlementView(bool bIsOnSettlementView)
@@ -30,5 +30,13 @@ void AMDPlayerController::SetSettlementView(bool bIsOnSettlementView)
 UCommonActivatableWidget *AMDPlayerController::GetSettlementWidget()
 {
     return SettlementWidget;
+}
+
+void AMDPlayerController::BeginPlay()
+{
+    Super::BeginPlay();
+
+    LoadWidgets();
+    CompleteConfiguration();
 }
 

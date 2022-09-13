@@ -50,6 +50,8 @@ class ASTDukesDesk : public ASTBuildingActor
     UPROPERTY(BlueprintReadWrite, Category="DukesDesk", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMaterialInstanceDynamic> SettlementSizeDecalMaterialInstance = nullptr;
 
+    FTimerHandle SetSettlementWidgetTimerHandle;
+
 protected:
     void CreateEaglesViewActor();
 
@@ -72,6 +74,8 @@ protected:
     void SetClaimableTerrainsInSettlementSize();
 
     void SpawnSettlementSizeDecal();
+
+    void SetSettlementWidgetOnEaglesViewActor();
     
 public:
     ASTDukesDesk();

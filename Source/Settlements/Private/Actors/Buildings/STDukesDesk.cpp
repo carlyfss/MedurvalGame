@@ -127,8 +127,17 @@ void ASTDukesDesk::PossessEaglesViewActor()
 
         Controller->PushSettlementWidget();
         Controller->SetSettlementView(true);
-        EaglesViewActor->SetSettlementWidget(Controller->GetSettlementWidget());
-        ShowTerrainsInRange();
+
+        if (Controller->GetSettlementWidget())
+        {
+            EaglesViewActor->SetSettlementWidget(Controller->GetSettlementWidget());
+            ShowTerrainsInRange();
+        }
+        else
+        {
+            FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &ASTDukesDesk::SetSettlementWidgetOnEaglesViewActor);
+            GetWorld()->GetTimerManager().SetTimer(SetSettlementWidgetTimerHandle, Delegate, 0.1, true);
+        }
     }
 }
 
@@ -234,6 +243,20 @@ void ASTDukesDesk::SpawnSettlementSizeDecal()
 
     SettlementSizeDecal->SetDecalMaterial(SettlementSizeDecalMaterialInstance);
     SettlementSizeDecal->SetWorldRotation(FRotator(90, this->GetActorRotation().Yaw, 0));
+}
+
+void ASTDukesDesk::SetSettlementWidgetOnEaglesViewActor()
+{
+    AMDPlayerController *Controller = GetMDPlayerController();
+
+    if (Controller->GetSettlementWidget())
+    {
+        EaglesViewActor->SetSettlementWidget(Controller->GetSettlementWidget());
+        ShowTerrainsInRange();
+
+        GetWorld()->GetTimerManager().ClearTimer(SetSettlementWidgetTimerHandle);
+        SetSettlementWidgetTimerHandle.Invalidate();
+    }
 }
 
 

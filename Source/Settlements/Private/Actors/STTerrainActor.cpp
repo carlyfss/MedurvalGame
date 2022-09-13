@@ -140,6 +140,12 @@ void ASTTerrainActor::UpdateWidthLengthValues()
 
 void ASTTerrainActor::SetTargetColor(FLinearColor NewColor)
 {
+    if (!bIsClaimable)
+    {
+        TargetMaterialInstance->SetVectorParameterValue(FSTTerrainConstants::TargetColorParameterName, FSTTerrainConstants::DefaultUnclaimableTargetColor);
+        return;
+    }
+    
     if (Status == ESTTerrainStatus::Unclaimed && NewColor == FSTTerrainConstants::DefaultTargetColor)
     {
         TargetMaterialInstance->SetVectorParameterValue(FSTTerrainConstants::TargetColorParameterName, FSTTerrainConstants::DefaultUnclaimedTargetColor);
@@ -208,16 +214,6 @@ bool ASTTerrainActor::IsUnclaimed()
 void ASTTerrainActor::ShowTarget()
 {
     Target->SetVisibility(true);
-
-    if (bIsClaimable)
-    {
-        Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-    }
-    else
-    {
-        SetTargetColor(FSTTerrainConstants::DefaultUnclaimableTargetColor);
-        Collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    }
 }
 
 void ASTTerrainActor::HideTarget()
