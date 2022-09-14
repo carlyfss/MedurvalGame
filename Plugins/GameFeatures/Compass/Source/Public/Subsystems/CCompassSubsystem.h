@@ -14,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateMarkerWidgets);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddMarkerToCompass, FCMarkerInfo, TargetMarker);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSwitchVisibility);
+
 
 class UCCompassWidget;
 /**
@@ -58,13 +58,14 @@ protected:
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnAddMarkerToCompass OnAddMarkerToCompass;
 
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSwitchVisibility, bool, bSetVisibility);
+    
     UPROPERTY(BlueprintCallable, BlueprintAssignable)
     FOnSwitchVisibility OnSwitchVisibility;
 
     UFUNCTION(BlueprintCallable, Category="Compass")
     void PauseUnpauseTimer(bool bIsToPause, bool bIsToUnpause);
 
-public:
     UFUNCTION(BlueprintCallable, Category="Compass")
     float RotationToCircleDegrees(float In) const;
 
@@ -75,13 +76,14 @@ public:
     FVector2D RotationsToTranslations(FRotator RotationA, FRotator RotationB, bool &bIsClockwise, bool &bIsInRadarSigth) const;
 
     UFUNCTION(BlueprintCallable, Category="Compass")
+    int UpdateMarkerDistance(FCMarkerInfo MarkerToCalculate) const;
+
+public:
+    UFUNCTION(BlueprintCallable, Category="Compass")
     TArray<FCDirectionInfo> GetDirections() const;
 
     UFUNCTION(BlueprintCallable, Category="Compass")
     TArray<FCMarkerInfo> GetMarkers() const;
-
-    UFUNCTION(BlueprintCallable, Category="Compass")
-    int UpdateMarkerDistance(FCMarkerInfo MarkerToCalculate) const;
 
     UFUNCTION(BlueprintCallable, Category="Compass")
     void AddMarkerToCompass(FCMarkerInfo Marker);

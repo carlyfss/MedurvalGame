@@ -138,6 +138,8 @@ void ASTDukesDesk::PossessEaglesViewActor()
             FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &ASTDukesDesk::SetSettlementWidgetOnEaglesViewActor);
             GetWorld()->GetTimerManager().SetTimer(SetSettlementWidgetTimerHandle, Delegate, 0.1, true);
         }
+
+        EaglesViewActor->OnEaglesViewPossessed.Broadcast();
     }
 }
 
@@ -161,6 +163,8 @@ void ASTDukesDesk::PossessCharacterActor()
     Controller->PushCharacterWidget();
     Controller->SetSettlementView(false);
     HideTerrainsInRange();
+
+    EaglesViewActor->OnEaglesViewUnpossessed.Broadcast();
 }
 
 void ASTDukesDesk::GetAndShowTerrainsInSettlementRange()
@@ -224,6 +228,7 @@ void ASTDukesDesk::SetClaimableTerrainsInSettlementSize()
             if (Terrain)
             {
                 Terrain->SetIsClaimable(true);
+                Terrain->ShowTarget();
             }
         }
     }

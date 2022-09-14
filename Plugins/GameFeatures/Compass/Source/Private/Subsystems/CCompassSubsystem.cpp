@@ -3,7 +3,6 @@
 #include "Subsystems/CCompassSubsystem.h"
 
 #include "GameFramework/Character.h"
-#include "Subsystems/GameInstanceSubsystem.h"
 
 void UCCompassSubsystem::Initialize(FSubsystemCollectionBase &Collection)
 {

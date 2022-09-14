@@ -214,6 +214,7 @@ bool ASTTerrainActor::IsUnclaimed()
 void ASTTerrainActor::ShowTarget()
 {
     Target->SetVisibility(true);
+    SetTargetColor(FSTTerrainConstants::DefaultTargetColor);
 }
 
 void ASTTerrainActor::HideTarget()
