@@ -12,7 +12,7 @@ void USTBasePopupWidget::UpdateWidgetInfo_Implementation(ASTTerrainActor *Terrai
 {
 }
 
-void USTBasePopupWidget::UpdateWidget()
+void USTBasePopupWidget::UpdatePopupWidget()
 {
     FVector2D WidgetPosition;
     UGameplayStatics::ProjectWorldToScreen(GetMDPlayerController(), TerrainLocation, WidgetPosition, true);
@@ -27,7 +27,7 @@ void USTBasePopupWidget::UpdateWidget()
 
 void USTBasePopupWidget::StartUpdatingPosition()
 {
-    const FTimerDelegate UpdateDelegate = FTimerDelegate::CreateUObject(this, &USTBasePopupWidget::UpdateWidget);
+    const FTimerDelegate UpdateDelegate = FTimerDelegate::CreateUObject(this, &USTBasePopupWidget::UpdatePopupWidget);
     GetWorld()->GetTimerManager().SetTimer(TimerHandle, UpdateDelegate, UpdateWidgetInterval, true, 0.f);
 }
 

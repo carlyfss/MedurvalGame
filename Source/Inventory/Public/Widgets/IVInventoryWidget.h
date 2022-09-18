@@ -34,7 +34,7 @@ class INVENTORY_API UIVInventoryWidget : public UMDActivatableWidget
 
 protected:
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void SetInventoryReference(UIVInventoryComponent *InventoryRef);
+	void SetInventoryReference(UIVInventoryComponent* InventoryRef);
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void SetSlotsPerRow(uint8 Slots);

@@ -9,7 +9,7 @@ TArray<UIVInventorySlotWidget *> UIVInventoryWidget::GetSlotWidgets()
 	return SlotWidgets;
 }
 
-void UIVInventoryWidget::SetInventoryReference(UIVInventoryComponent *InventoryRef)
+void UIVInventoryWidget::SetInventoryReference(UIVInventoryComponent* InventoryRef)
 {
 	InventoryReference = InventoryRef;
 }
@@ -22,7 +22,7 @@ void UIVInventoryWidget::SetSlotsPerRow(uint8 Slots)
 void UIVInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
 {
 	UIVInventorySlotWidget *SlotWidget = GetSlotWidgets()[SlotIndex];
-    FIVInventorySlot TargetSlot = InventoryReference->GetSlots()[SlotIndex];
+	FIVInventorySlot TargetSlot = InventoryReference->GetSlots()[SlotIndex];
 
     if (InventoryReference->IsSlotEmpty(SlotIndex))
     {

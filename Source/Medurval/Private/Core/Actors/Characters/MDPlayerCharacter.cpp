@@ -14,6 +14,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Core/Components/Utils/MDLineTraceComponent.h"
 #include "Core/Singletons/MDGameInstance.h"
+#include "Core/Singletons/MDGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -28,9 +29,6 @@ AMDPlayerCharacter::AMDPlayerCharacter()
     /** Create an attribute component so the player can have those attributes
      *	Like Health, Stamina, etc... or any attributes in the AttributeSet */
     AttributeSetComponent = CreateDefaultSubobject<UMDBaseAttributeSet>(TEXT("AttributeSetComponent"));
-
-    // Setup LineTraceComponent (Move to ACBCharacter class)
-    LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
 }
 
 #pragma region Overrides
@@ -50,13 +48,13 @@ void AMDPlayerCharacter::BeginPlay()
     Super::BeginPlay();
 
     // Initialize Player Reference in MDGameInstance
-    UMDGameInstance* GameInstance = Cast<UMDGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-    if (GameInstance)
+    AMDGameMode* GameMode = Cast<AMDGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+    if (GameMode)
     {
-        ACharacter* PlayerRef = GameInstance->GetPlayerReference();
+        ACharacter* PlayerRef = GameMode->GetPlayerReference();
         if (!PlayerRef)
         {
-            GameInstance->SetPlayerReference(this);
+            GameMode->SetPlayerReference(this);
         }
     }
 }
@@ -76,16 +74,6 @@ void AMDPlayerCharacter::StartRunning() const
 void AMDPlayerCharacter::StopRunning() const
 {
     GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed - RunSpeedIncreaseAmount;
-}
-
-void AMDPlayerCharacter::EnableLineTrace()
-{
-    LineTraceComponent->SetLineTraceEnabled(true);
-}
-
-void AMDPlayerCharacter::DisableLineTrace()
-{
-    LineTraceComponent->SetLineTraceEnabled(false);
 }
 
 void AMDPlayerCharacter::PossessedBy(AController *NewController)

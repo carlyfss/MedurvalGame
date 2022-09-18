@@ -12,7 +12,7 @@ void UIVInventorySlotWidget::SetAmount(const uint8 NewAmount)
 	Amount = NewAmount;
 }
 
-void UIVInventorySlotWidget::SetItem(UIVBaseItemDA *NewItem)
+void UIVInventorySlotWidget::SetItem(UIVBaseItemDA* NewItem)
 {
 	Item = NewItem;
 }
@@ -51,12 +51,13 @@ void UIVInventorySlotWidget::UpdateSlot()
 	CreateDetailWidget();
 }
 
-void UIVInventorySlotWidget::SetInventoryReference(UIVInventoryComponent *TargetInventory)
+void UIVInventorySlotWidget::SetInventoryReference(UIVInventoryComponent* TargetInventory)
 {
 	InventoryReference = TargetInventory;
 }
 
-void UIVInventorySlotWidget::SetWidgetProperties(UIVBaseItemDA *NewItem, const uint8 NewAmount, const uint8 NewSlotIndex)
+void UIVInventorySlotWidget::SetWidgetProperties(UIVBaseItemDA* NewItem, const uint8 NewAmount,
+                                                 const uint8 NewSlotIndex)
 {
 	Item = NewItem;
 	Amount = NewAmount;

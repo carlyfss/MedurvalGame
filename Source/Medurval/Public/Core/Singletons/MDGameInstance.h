@@ -7,6 +7,7 @@
 #include "Engine/StreamableManager.h"
 #include "MDGameInstance.generated.h"
 
+class UMedurvalAssetManager;
 class UMDEconomyComponent;
 /**
  * 
@@ -15,22 +16,19 @@ UCLASS()
 class MEDURVAL_API UMDGameInstance final : public UGameInstance
 {
 	GENERATED_BODY()
-
-    UPROPERTY(BlueprintReadOnly, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDEconomyComponent> Currency;
-
-    UPROPERTY(BlueprintReadOnly, Category="MDGameInstance", meta=(AllowPrivateAccess=true))
-    TObjectPtr<ACharacter> PlayerReference;
     
 public:
     UMDGameInstance();
-    
-	FStreamableManager AssetLoader;
 
-    UFUNCTION(BlueprintCallable, Category="MDGameInstance")
-    ACharacter* GetPlayerReference() const;
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDActor")
+	UMedurvalAssetManager* GetMedurvalAssetManager() const;
 
-    void SetPlayerReference(ACharacter* Character);
+	static void LoadObject(TSoftObjectPtr<> ObjectToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
+
+	static void LoadClass(TSoftClassPtr<> ClassToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
+
+	static void LoadPrimaryAssetId(FPrimaryAssetId AssetId, FStreamableDelegate DelegateToCall = FStreamableDelegate(),
+	                               TArray<FName> BundlesToLoad = TArray<FName>());
 
     virtual void Init() override;
 };

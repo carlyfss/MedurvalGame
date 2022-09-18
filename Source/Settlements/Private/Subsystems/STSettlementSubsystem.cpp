@@ -40,7 +40,7 @@ void USTSettlementSubsystem::OnSettlementBuildingsLoaded()
     }
 }
 
-USTSettlementComponent *USTSettlementSubsystem::GetSettlementByOwner(ACharacter *OwnerCharacter) const
+USTSettlementComponent* USTSettlementSubsystem::GetSettlementByOwner(AMDCharacter* OwnerCharacter) const
 {
     USTSettlementComponent *ReturnedSettlement = nullptr;
 

@@ -18,12 +18,12 @@ float USTSettlementComponent::GetSettlementSize() const
     return SettlementSize;
 }
 
-void USTSettlementComponent::SetSettlementOwner(ACharacter *SettlementOwner)
+void USTSettlementComponent::SetSettlementOwner(AMDCharacter* SettlementOwner)
 {
     Owner = SettlementOwner;
 }
 
-ACharacter *USTSettlementComponent::GetSettlementOwner() const
+AMDCharacter* USTSettlementComponent::GetSettlementOwner() const
 {
     return Owner;
 }

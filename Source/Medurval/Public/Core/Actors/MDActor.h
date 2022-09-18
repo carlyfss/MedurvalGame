@@ -24,13 +24,4 @@ public:
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDActor")
     AMDPlayerController *GetMDPlayerController() const;
-
-    UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDActor")
-    UMedurvalAssetManager *GetMedurvalAssetManager() const;
-
-    static void LoadObject(TSoftObjectPtr<> ObjectToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
-
-    static void LoadClass(TSoftClassPtr<> ClassToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
-
-    static void LoadPrimaryAssetId(FPrimaryAssetId AssetId, FStreamableDelegate DelegateToCall = FStreamableDelegate(), TArray<FName> BundlesToLoad = TArray<FName>());
 };

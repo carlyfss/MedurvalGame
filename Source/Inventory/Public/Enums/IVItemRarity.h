@@ -5,11 +5,11 @@
 UENUM(BlueprintType, meta = (DisplayName = "ItemRarity"))
 enum class EIVItemRarity : uint8
 {
-    None,
-    Common,
-    Uncommon,
-    Rare,
-    Epic,
-    Legendary,
-    Mythical
+	None,
+	Common,
+	Uncommon,
+	Rare,
+	Epic,
+	Legendary,
+	Mythical
 };

@@ -35,9 +35,6 @@ public:
     void CloseTerrainInfo();
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
-    void UpdateWidget();
-
-    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")
     void SetBindOnUpdateTreasury();
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="SettlementWidget")

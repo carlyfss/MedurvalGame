@@ -27,9 +27,6 @@ class MEDURVAL_API AMDPlayerCharacter : public AMDCharacter, public IAbilitySyst
 {
     GENERATED_BODY()
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDPlayerCharacter|Components", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
-
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="MDPlayerCharacter|Components", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDActivatableWidget> MainWidgetReference = nullptr;
 
@@ -95,10 +92,6 @@ protected:
 #pragma endregion Inputs
 
 public:
-    void EnableLineTrace();
-
-    void DisableLineTrace();
-
     virtual void PossessedBy(AController *NewController) override;
 
     virtual void OnRep_PlayerState() override;

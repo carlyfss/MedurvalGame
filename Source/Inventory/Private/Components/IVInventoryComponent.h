@@ -51,17 +51,17 @@ protected:
 
     bool SearchEmptySlot(uint8 &Index);
 
-    bool SearchFreeStack(UIVBaseItemDA *Item, uint8 &Index);
+    bool SearchFreeStack(UIVBaseItemDA* Item, uint8& Index);
 
     bool SearchItem();
 
-    bool AddUnstackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
+    bool AddUnstackableItem(UIVBaseItemDA* Item, uint8 Amount, uint8& Rest);
 
-    bool AddStackableItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
+    bool AddStackableItem(UIVBaseItemDA* Item, uint8 Amount, uint8& Rest);
 
 #pragma region Interaction
     UFUNCTION(BlueprintCallable, Category = "Inventory|Interaction")
-    bool AddItem(UIVBaseItemDA *Item, uint8 Amount, uint8 &Rest);
+    bool AddItem(UIVBaseItemDA* Item, uint8 Amount, uint8& Rest);
 
     bool LoadAndAddItem(FPrimaryAssetId TargetItemId, uint8 Amount);
     
@@ -99,7 +99,7 @@ public:
     bool IsSlotEmpty(uint8 Index) const;
 
     UFUNCTION(BlueprintCallable, Category = "Inventory")
-    UIVBaseItemDA *GetItemInfoAtIndex(uint8 Index, bool &bIsSlotEmpty, uint8 &Amount) const;
+    UIVBaseItemDA* GetItemInfoAtIndex(uint8 Index, bool& bIsSlotEmpty, uint8& Amount) const;
 
     UFUNCTION(BlueprintCallable, Category = "Inventory")
     uint8 GetAmountAtIndex(uint8 Index) const;

@@ -50,7 +50,7 @@ class USTSettlementComponent : public UMDActorComponent
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="SettlementComponent", meta=(AllowPrivateAccess=true))
     TObjectPtr<USTSettlementEconomyComponent> Economy;
 
-    TObjectPtr<ACharacter> Owner;
+    TObjectPtr<AMDCharacter> Owner;
 
 public:
     USTSettlementComponent();
@@ -60,10 +60,10 @@ public:
     float GetSettlementSize() const;
     
     UFUNCTION(BlueprintCallable, Category="SettlementComponent")
-    void SetSettlementOwner(ACharacter *SettlementOwner);
+    void SetSettlementOwner(AMDCharacter* SettlementOwner);
 
     UFUNCTION(BlueprintCallable, Category="SettlementComponent")
-    ACharacter *GetSettlementOwner() const;
+    AMDCharacter* GetSettlementOwner() const;
 
     USTSettlementEconomyComponent *GetEconomy() const;
 

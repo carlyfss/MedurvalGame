@@ -8,8 +8,12 @@
 #include "Components/CapsuleComponent.h"
 #include "Core/Components/MDCameraComponent.h"
 #include "Core/Components/MDSpringArmComponent.h"
+#include "Core/Components/Utils/MDLineTraceComponent.h"
 #include "Core/Constants/MDConstants.h"
+#include "Core/Singletons/MDGameInstance.h"
+#include "Core/Singletons/MDPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 void AMDCharacter::PawnClientRestart()
 {
@@ -95,6 +99,9 @@ AMDCharacter::AMDCharacter()
     CameraComponent = CreateDefaultSubobject<UMDCameraComponent>(TEXT("CameraComponent"));
     CameraComponent->SetupAttachment(SpringArmComponent);
     CameraComponent->AddWorldRotation(FRotator(-5.0f, 0.0f, 0.0f));
+
+    // Setup LineTrace component
+    LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
 }
 
 void AMDCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
@@ -121,3 +128,24 @@ void AMDCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompone
         }
     }
 }
+
+UMDGameInstance* AMDCharacter::GetMDGameInstance() const
+{
+    return Cast<UMDGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+}
+
+AMDPlayerController* AMDCharacter::GetMDPlayerController() const
+{
+    return Cast<AMDPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+}
+
+void AMDCharacter::EnableLineTrace() const
+{
+    LineTraceComponent->SetLineTraceEnabled(true);
+}
+
+void AMDCharacter::DisableLineTrace() const
+{
+    LineTraceComponent->SetLineTraceEnabled(false);
+}
+

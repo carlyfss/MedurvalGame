@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Core/Actors/MDActor.h"
-#include "Interfaces/MDInteractableInterface.h"
+#include "Core/Interfaces/MDInteractableInterface.h"
 #include "IVItemPickup.generated.h"
 
 class UMDSphereComponent;
@@ -75,7 +75,7 @@ protected:
 										class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex);
 
 public:
-    AIVItemPickup();
+	AIVItemPickup();
     
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ItemInteraction")
 	void OnPickupStartFocus();

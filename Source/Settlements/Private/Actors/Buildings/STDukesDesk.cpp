@@ -6,13 +6,14 @@
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/DecalComponent.h"
 #include "Components/STSettlementComponent.h"
+#include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/Singletons/MDPlayerController.h"
 #include "Core/Components/MDBoxComponent.h"
 #include "Core/Components/MDSphereComponent.h"
 #include "Core/Singletons/MDGameInstance.h"
+#include "Core/Singletons/MDGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMaterialLibrary.h"
-#include "Medurval/Private/Characters/MDBaseCharacter.h"
 #include "Pawns/STEaglesViewPawn.h"
 
 ASTDukesDesk::ASTDukesDesk()
@@ -57,7 +58,7 @@ void ASTDukesDesk::BeginPlay()
     Super::BeginPlay();
 
     FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &ASTDukesDesk::CreateEaglesViewActor);
-    LoadClass(EaglesViewActorClass, Delegate);
+    GetMDGameInstance()->LoadClass(EaglesViewActorClass, Delegate);
 
     SpawnSettlementSizeDecal();
 }
@@ -87,15 +88,21 @@ void ASTDukesDesk::RegisterSettlement()
 {
     if (SettlementComponent && EaglesViewActor)
     {
-        SettlementComponent->SetSettlementOwner(GetMDGameInstance()->GetPlayerReference());
+        AMDGameMode* GameMode = Cast<AMDGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+        AMDPlayerCharacter* PlayerCharacter = GameMode->GetPlayerReference();
 
-        GetSettlementSubsystem()->RegisterNewSettlement(SettlementComponent);
-
-        USTSettlementComponent *Settlement = GetSettlementSubsystem()->GetSettlementByOwner(GetMDGameInstance()->GetPlayerReference());
-
-        if (Settlement)
+        if (PlayerCharacter)
         {
-            Settlement->GetEconomy()->SetStartingTreasury(StartingTreasury);
+            SettlementComponent->SetSettlementOwner(PlayerCharacter);
+
+            GetSettlementSubsystem()->RegisterNewSettlement(SettlementComponent);
+
+            USTSettlementComponent* Settlement = GetSettlementSubsystem()->GetSettlementByOwner(PlayerCharacter);
+
+            if (Settlement)
+            {
+                Settlement->GetEconomy()->SetStartingTreasury(StartingTreasury);
+            }
         }
     }
 }
@@ -116,7 +123,8 @@ void ASTDukesDesk::PossessEaglesViewActor()
 
         EaglesViewActor->EnableLineTrace();
 
-        AMDBaseCharacter *PlayerCharacter = Cast<AMDBaseCharacter>(GetMDGameInstance()->GetPlayerReference());
+        AMDGameMode* GameMode = Cast<AMDGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+        AMDPlayerCharacter* PlayerCharacter = GameMode->GetPlayerReference();
 
         if (PlayerCharacter)
         {
@@ -150,7 +158,8 @@ void ASTDukesDesk::PossessCharacterActor()
 
     EaglesViewActor->DisableLineTrace();
 
-    AMDBaseCharacter *PlayerCharacter = Cast<AMDBaseCharacter>(GetMDGameInstance()->GetPlayerReference());
+    AMDGameMode* GameMode = Cast<AMDGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+    AMDPlayerCharacter* PlayerCharacter = GameMode->GetPlayerReference();
 
     if (PlayerCharacter)
     {

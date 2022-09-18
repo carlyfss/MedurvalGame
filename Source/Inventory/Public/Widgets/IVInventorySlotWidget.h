@@ -52,11 +52,11 @@ protected:
 	void CreateDetailWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
-	void SetInventoryReference(UIVInventoryComponent *TargetInventory);
+	void SetInventoryReference(UIVInventoryComponent* TargetInventory);
 
 	void SetAmount(const uint8 NewAmount);
 
-	void SetItem(UIVBaseItemDA *NewItem);
+	void SetItem(UIVBaseItemDA* NewItem);
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventorySlot")
     void SetSlotFrameByRarity();
@@ -69,5 +69,5 @@ public:
 	void CleanSlot();
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
-	void SetWidgetProperties(UIVBaseItemDA *NewItem, const uint8 NewAmount, const uint8 NewSlotIndex);
+	void SetWidgetProperties(UIVBaseItemDA* NewItem, const uint8 NewAmount, const uint8 NewSlotIndex);
 };

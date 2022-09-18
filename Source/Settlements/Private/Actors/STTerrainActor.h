@@ -9,10 +9,11 @@
 #include "Enums/STCivilizationType.h"
 #include "Enums/STTerrainSize.h"
 #include "Enums/STTerrainStatus.h"
-#include "Interfaces/MDInteractableInterface.h"
+#include "Core/Interfaces/MDInteractableInterface.h"
 #include "STTerrainActor.generated.h"
 
 class ASTBuildingActor;
+class AMDCharacter;
 class UMDBoxComponent;
 
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="TerrainActor"))
@@ -98,7 +99,7 @@ public:
     void LoadAssignedBuilding();
     
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
-    bool Claim(ACharacter *OwnerReference, ESTCivilizationType CivilizationType);
+    bool Claim(AMDCharacter* OwnerReference, ESTCivilizationType CivilizationType);
 
     UFUNCTION(BlueprintCallable, Category="TerrainActor")
     void SetIsClaimable(bool bIsTerrainClaimable);

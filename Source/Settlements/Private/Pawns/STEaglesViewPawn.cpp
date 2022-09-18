@@ -13,7 +13,6 @@ ASTEaglesViewPawn::ASTEaglesViewPawn()
 {
     this->GetSpringArmComponent()->TargetArmLength = DefaultZoomDistance;
 
-    LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
     LineTraceComponent->SetCursorCollisionChannel(ECC_GameTraceChannel1);
 
     // Movement setup
@@ -26,16 +25,6 @@ ASTEaglesViewPawn::ASTEaglesViewPawn()
 float ASTEaglesViewPawn::GetMaxZoomDistance() const
 {
     return MaxZoomDistance;
-}
-
-void ASTEaglesViewPawn::EnableLineTrace()
-{
-    LineTraceComponent->SetLineTraceEnabled(true);
-}
-
-void ASTEaglesViewPawn::DisableLineTrace()
-{
-    LineTraceComponent->SetLineTraceEnabled(false);
 }
 
 void ASTEaglesViewPawn::SetSettlementWidget(UCommonActivatableWidget *Widget)

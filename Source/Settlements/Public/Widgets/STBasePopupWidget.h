@@ -28,13 +28,13 @@ protected:
     
     FTimerHandle TimerHandle;
 
-    UFUNCTION(BlueprintCallable, BlueprintCallable, Category="BasePopupWidget")
-    void UpdateWidget();
+    UFUNCTION(BlueprintCallable, Category="BasePopupWidget")
+    void UpdatePopupWidget();
 
-    UFUNCTION(BlueprintCallable, BlueprintCallable, Category="BasePopupWidget")
+    UFUNCTION(BlueprintCallable, Category="BasePopupWidget")
     void StartUpdatingPosition();
 
-    UFUNCTION(BlueprintCallable, BlueprintCallable, Category="BasePopupWidget")
+    UFUNCTION(BlueprintCallable, Category="BasePopupWidget")
     void StopUpdatingPosition();
 
 public:

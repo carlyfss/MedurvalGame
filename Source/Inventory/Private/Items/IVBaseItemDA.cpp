@@ -11,7 +11,7 @@ FPrimaryAssetId UIVBaseItemDA::GetPrimaryAssetId() const
     return FPrimaryAssetId(UMedurvalAssetManager::DefaultItemType, GetFName());
 }
 
-void UIVBaseItemDA::UseItem_Implementation(AActor *ItemOwner)
+void UIVBaseItemDA::UseItem_Implementation(AActor* ItemOwner)
 {
     IIVUsableItemInterface::UseItem_Implementation(ItemOwner);
 }

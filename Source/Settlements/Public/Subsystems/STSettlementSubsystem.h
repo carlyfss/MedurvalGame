@@ -7,6 +7,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "STSettlementSubsystem.generated.h"
 
+class AMDCharacter;
 class ASTTerrainActor;
 class USTSettlementComponent;
 /**
@@ -33,7 +34,7 @@ class SETTLEMENTS_API USTSettlementSubsystem : public UGameInstanceSubsystem
 
 public:
     UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
-    USTSettlementComponent *GetSettlementByOwner(ACharacter *OwnerCharacter) const;
+    USTSettlementComponent* GetSettlementByOwner(AMDCharacter* OwnerCharacter) const;
 
     UFUNCTION(BlueprintCallable, Category="SettlementSubsystem")
     TArray<USTSettlementComponent *> GetSettlements() const;

@@ -6,6 +6,8 @@
 #include "CommonActivatableWidget.h"
 #include "MDActivatableWidget.generated.h"
 
+class UMedurvalAssetManager;
+class AMDPlayerController;
 class UMDGameInstance;
 /**
  * 
@@ -16,6 +18,16 @@ class MEDURVAL_API UMDActivatableWidget : public UCommonActivatableWidget
 	GENERATED_BODY()
 
 protected:
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="MDActivatableWidget")
+	UFUNCTION(BlueprintCallable, Category="MDActivatableWidget")
     void InitializeWidget();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDActivatableWidget")
+	void UpdateWidget();
+
+public:
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDActor")
+	UMDGameInstance* GetMDGameInstance() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDActor")
+	AMDPlayerController* GetMDPlayerController() const;
 };

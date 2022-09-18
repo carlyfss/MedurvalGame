@@ -35,12 +35,9 @@ class INVENTORY_API UIVDetailWidget : public UMDActivatableWidget
 
 protected:
     UFUNCTION(BlueprintCallable, Category="DraggedItem")
-    void SetItemInfo(UIVBaseItemDA *Item);
+    void SetItemInfo(UIVBaseItemDA* Item);
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="_Item")
-    UIVBaseItemDA *GetItemInfo() const;
-
-    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="DraggedItem")
-    void UpdateWidget();
+    UIVBaseItemDA* GetItemInfo() const;
 };

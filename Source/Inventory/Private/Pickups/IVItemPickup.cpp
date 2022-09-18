@@ -9,187 +9,189 @@
 #include "Core/Components/MDCapsuleComponent.h"
 #include "Core/Components/MDSphereComponent.h"
 #include "Core/Components/MDStaticMeshComponent.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "Items/IVBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AIVItemPickup::AIVItemPickup()
 {
-    PickupMesh = CreateDefaultSubobject<UMDStaticMeshComponent>("PickupMesh");
-    PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    PickupMesh->SetGenerateOverlapEvents(false);
-    PickupMesh->SetupAttachment(RootComponent);
+	PickupMesh = CreateDefaultSubobject<UMDStaticMeshComponent>("PickupMesh");
+	PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	PickupMesh->SetGenerateOverlapEvents(false);
+	PickupMesh->SetupAttachment(RootComponent);
 
-    PickupLoadRange = CreateDefaultSubobject<UMDSphereComponent>("PickupLoadRange");
-    PickupLoadRange->SetSphereRadius(500.f);
-    PickupLoadRange->ShapeColor = FColor(30, 30, 200, 15);
-    PickupLoadRange->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-    PickupLoadRange->SetupAttachment(PickupMesh);
-    PickupLoadRange->SetCollisionResponseToAllChannels(ECR_Ignore);
-    PickupLoadRange->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	PickupLoadRange = CreateDefaultSubobject<UMDSphereComponent>("PickupLoadRange");
+	PickupLoadRange->SetSphereRadius(500.f);
+	PickupLoadRange->ShapeColor = FColor(30, 30, 200, 15);
+	PickupLoadRange->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	PickupLoadRange->SetupAttachment(PickupMesh);
+	PickupLoadRange->SetCollisionResponseToAllChannels(ECR_Ignore);
+	PickupLoadRange->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 
-    PickupLoadRange->OnComponentBeginOverlap.AddDynamic(this, &AIVItemPickup::OnBeginOverlap);
-    PickupLoadRange->OnComponentEndOverlap.AddDynamic(this, &AIVItemPickup::OnEndOverlap);
+	PickupLoadRange->OnComponentBeginOverlap.AddDynamic(this, &AIVItemPickup::OnBeginOverlap);
+	PickupLoadRange->OnComponentEndOverlap.AddDynamic(this, &AIVItemPickup::OnEndOverlap);
 
-    PickupCollision = CreateDefaultSubobject<UMDCapsuleComponent>("PickupCollision");
-    PickupCollision->ShapeColor = FColor(100, 0, 200, 50);
-    PickupCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-    PickupCollision->SetupAttachment(PickupMesh);
+	PickupCollision = CreateDefaultSubobject<UMDCapsuleComponent>("PickupCollision");
+	PickupCollision->ShapeColor = FColor(100, 0, 200, 50);
+	PickupCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	PickupCollision->SetupAttachment(PickupMesh);
 
-    PickupCollision->SetCollisionObjectType(ECC_GameTraceChannel3);
-    PickupCollision->SetCollisionResponseToAllChannels(ECR_Ignore);
-    PickupCollision->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	PickupCollision->SetCollisionObjectType(ECC_GameTraceChannel3);
+	PickupCollision->SetCollisionResponseToAllChannels(ECR_Ignore);
+	PickupCollision->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
 
 void AIVItemPickup::BeginPlay()
 {
-    Super::BeginPlay();
+	Super::BeginPlay();
 
-    FTimerHandle TimerHandle;
-    FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &AIVItemPickup::CheckForOverlappedActors);
-    GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, 0.1f, false);
+	FTimerHandle TimerHandle;
+	FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &AIVItemPickup::CheckForOverlappedActors);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, 0.1f, false);
 }
 
 void AIVItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-    Super::EndPlay(EndPlayReason);
+	Super::EndPlay(EndPlayReason);
 }
 
 void AIVItemPickup::OnPickupItemLoaded()
 {
-    LoadedItem = Cast<UIVBaseItemDA>(GetMedurvalAssetManager()->GetPrimaryAssetObject(ItemId));
+	LoadedItem = Cast<UIVBaseItemDA>(GetMDGameInstance()->GetMedurvalAssetManager()->GetPrimaryAssetObject(ItemId));
 
-    if (!LoadedItem)
-        return;
+	if (!LoadedItem)
+		return;
 
-    UStaticMesh *Mesh = LoadedItem->Mesh.Get();
+	UStaticMesh* Mesh = LoadedItem->Mesh.Get();
 
-    if (Mesh)
-    {
-        PickupMesh->SetStaticMesh(Mesh);
-    }
+	if (Mesh)
+	{
+		PickupMesh->SetStaticMesh(Mesh);
+	}
 
-    CalculateCollisionSize();
+	CalculateCollisionSize();
 }
 
 void AIVItemPickup::CheckForOverlappedActors()
 {
-    TArray<AActor *> OverlappedActors;
-    TSubclassOf<AMDPlayerCharacter> PlayerClass;
-    PickupLoadRange->GetOverlappingActors(OverlappedActors, PlayerClass);
+	TArray<AActor*> OverlappedActors;
+	TSubclassOf<AMDPlayerCharacter> PlayerClass;
+	PickupLoadRange->GetOverlappingActors(OverlappedActors, PlayerClass);
 
-    if (OverlappedActors.Num() > 0)
-    {
-        LoadPickupItem();
-    }
+	if (OverlappedActors.Num() > 0)
+	{
+		LoadPickupItem();
+	}
 }
 
 void AIVItemPickup::LoadPickupItem()
 {
-    FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AIVItemPickup::OnPickupItemLoaded);
-    LoadPrimaryAssetId(ItemId, Delegate);
+	FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AIVItemPickup::OnPickupItemLoaded);
+	GetMDGameInstance()->LoadPrimaryAssetId(ItemId, Delegate);
 
-    OnItemLoaded.Broadcast();
+	OnItemLoaded.Broadcast();
 }
 
 void AIVItemPickup::UnloadPickupItem()
 {
-    GetMedurvalAssetManager()->UnloadPrimaryAsset(ItemId);
+	GetMDGameInstance()->GetMedurvalAssetManager()->UnloadPrimaryAsset(ItemId);
 
-    LoadedItem = nullptr;
-    PickupMesh->SetStaticMesh(nullptr);
-    OnItemUnloaded.Broadcast();
+	LoadedItem = nullptr;
+	PickupMesh->SetStaticMesh(nullptr);
+	OnItemUnloaded.Broadcast();
 }
 
 void AIVItemPickup::CalculateCollisionSize()
 {
-    FVector Min;
-    FVector Max;
-    PickupMesh->GetLocalBounds(Min, Max);
+	FVector Min;
+	FVector Max;
+	PickupMesh->GetLocalBounds(Min, Max);
 
-    FVector MeshSize = Max - Min;
+	FVector MeshSize = Max - Min;
 
-    float MeshX = (MeshSize.X + PickupCollisionOffset) / 2;
-    float MeshZ = (MeshSize.Z + PickupCollisionOffset) / 2;
+	float MeshX = (MeshSize.X + PickupCollisionOffset) / 2;
+	float MeshZ = (MeshSize.Z + PickupCollisionOffset) / 2;
 
-    if (bIsCollisionUp)
-    {
-        PickupCollision->SetCapsuleHalfHeight(MeshZ);
-        PickupCollision->SetCapsuleRadius(MeshX);
-    }
-    else
-    {
-        const FRotator Rotation = PickupCollision->GetComponentRotation();
-        PickupCollision->SetWorldRotation(FRotator(90, Rotation.Yaw, Rotation.Roll));
+	if (bIsCollisionUp)
+	{
+		PickupCollision->SetCapsuleHalfHeight(MeshZ);
+		PickupCollision->SetCapsuleRadius(MeshX);
+	}
+	else
+	{
+		const FRotator Rotation = PickupCollision->GetComponentRotation();
+		PickupCollision->SetWorldRotation(FRotator(90, Rotation.Yaw, Rotation.Roll));
 
-        PickupCollision->SetCapsuleHalfHeight(MeshX);
-        PickupCollision->SetCapsuleRadius(MeshZ);
-    }
+		PickupCollision->SetCapsuleHalfHeight(MeshX);
+		PickupCollision->SetCapsuleRadius(MeshZ);
+	}
 }
 
-void AIVItemPickup::OnConstruction(const FTransform &Transform)
+void AIVItemPickup::OnConstruction(const FTransform& Transform)
 {
-    Super::OnConstruction(Transform);
+	Super::OnConstruction(Transform);
 
-    PickupLoadRange->SetSphereRadius(PickupLoadRangeRadius);
+	PickupLoadRange->SetSphereRadius(PickupLoadRangeRadius);
 }
 
-void AIVItemPickup::AddItemToInventory(AActor *ActorToAddItem)
+void AIVItemPickup::AddItemToInventory(AActor* ActorToAddItem)
 {
-    UActorComponent *ComponentExists = ActorToAddItem->GetComponentByClass(UIVInventoryComponent::StaticClass());
+	UActorComponent* ComponentExists = ActorToAddItem->GetComponentByClass(UIVInventoryComponent::StaticClass());
 
-    if (ComponentExists)
-    {
-        IIVInventoryInterface *InventoryInterface = Cast<IIVInventoryInterface>(ComponentExists);
+	if (ComponentExists)
+	{
+		IIVInventoryInterface* InventoryInterface = Cast<IIVInventoryInterface>(ComponentExists);
 
-        if (InventoryInterface)
-        {
-            const bool bAddedSuccessfully = InventoryInterface->OnAddItemToInventory_Implementation(ItemId, AmountToAdd);
+		if (InventoryInterface)
+		{
+			const bool bAddedSuccessfully = InventoryInterface->
+				OnAddItemToInventory_Implementation(ItemId, AmountToAdd);
 
-            if (!bAddedSuccessfully)
-                return;
+			if (!bAddedSuccessfully)
+				return;
 
-            MarkPickupForGarbage();
-            MarkAsGarbage();
-            Destroy();
-        }
-    }
+			MarkPickupForGarbage();
+			MarkAsGarbage();
+			Destroy();
+		}
+	}
 }
 
-void AIVItemPickup::OnBeginOverlap(UPrimitiveComponent *OverlappedComp, AActor *OtherActor,
-                                   UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-                                   const FHitResult &SweepResult)
+void AIVItemPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+                                   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                   const FHitResult& SweepResult)
 {
-    if (IsValid(OtherActor))
-    {
-        const UActorComponent *ComponentExists = OtherActor->GetComponentByClass(UIVInventoryComponent::StaticClass());
+	if (IsValid(OtherActor))
+	{
+		const UActorComponent* ComponentExists = OtherActor->GetComponentByClass(UIVInventoryComponent::StaticClass());
 
-        if (!ComponentExists)
-            return;
+		if (!ComponentExists)
+			return;
 
-        LoadPickupItem();
-    }
+		LoadPickupItem();
+	}
 }
 
-void AIVItemPickup::OnEndOverlap(UPrimitiveComponent *OverlappedComp, AActor *OtherActor,
-                                 UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
+void AIVItemPickup::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-    UnloadPickupItem();
+	UnloadPickupItem();
 }
 
-void AIVItemPickup::OnInteract_Implementation(AActor *InstigatorActor)
+void AIVItemPickup::OnInteract_Implementation(AActor* InstigatorActor)
 {
-    IMDInteractableInterface::OnInteract_Implementation(InstigatorActor);
-    AddItemToInventory(InstigatorActor);
+	IMDInteractableInterface::OnInteract_Implementation(InstigatorActor);
+	AddItemToInventory(InstigatorActor);
 }
 
 void AIVItemPickup::OnStartFocus_Implementation()
 {
-    IMDInteractableInterface::OnStartFocus_Implementation();
-    OnPickupStartFocus();
+	IMDInteractableInterface::OnStartFocus_Implementation();
+	OnPickupStartFocus();
 }
 
 void AIVItemPickup::OnEndFocus_Implementation()
 {
-    IMDInteractableInterface::OnEndFocus_Implementation();
-    OnPickupEndFocus();
+	IMDInteractableInterface::OnEndFocus_Implementation();
+	OnPickupEndFocus();
 }

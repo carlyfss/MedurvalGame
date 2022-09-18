@@ -7,6 +7,8 @@
 #include "GameFramework/Character.h"
 #include "MDCharacter.generated.h"
 
+class AMDPlayerController;
+class UMDGameInstance;
 class UMDLineTraceComponent;
 class UMDCameraComponent;
 class UMDSpringArmComponent;
@@ -16,15 +18,6 @@ UCLASS()
 class MEDURVAL_API AMDCharacter : public ACharacter
 {
     GENERATED_BODY()
-
-    // UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
-    // TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSpringArmComponent> SpringArmComponent = nullptr;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDCameraComponent> CameraComponent = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
     UInputMappingContext *MappingContext;
@@ -41,6 +34,15 @@ class MEDURVAL_API AMDCharacter : public ACharacter
     virtual void PawnClientRestart() override;
 
 protected:
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSpringArmComponent> SpringArmComponent = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDCameraComponent> CameraComponent = nullptr;
+    
     void EnhancedMoveForward(const FInputActionValue &Value);
     void EnhancedMoveRight(const FInputActionValue &Value);
 
@@ -53,7 +55,15 @@ public:
     FORCEINLINE UMDSpringArmComponent *GetSpringArmComponent() const { return SpringArmComponent; }
     FORCEINLINE UMDCameraComponent *GetCameraComponent() const { return CameraComponent; }
 
-    // void EnableLineTrace() const;
-    //
-    // void DisableLineTrace() const;
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDCharacter")
+    UMDGameInstance* GetMDGameInstance() const;
+
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDCharacter")
+    AMDPlayerController* GetMDPlayerController() const;
+
+    UFUNCTION(BlueprintCallable, Category="MDCharacter")
+    void EnableLineTrace() const;
+
+    UFUNCTION(BlueprintCallable, Category="MDCharacter")
+    void DisableLineTrace() const;
 };

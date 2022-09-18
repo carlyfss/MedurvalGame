@@ -15,13 +15,6 @@ UCLASS()
 class SETTLEMENTS_API USTBaseWidget : public UMDActivatableWidget
 {
     GENERATED_BODY()
-
-protected:
-    UFUNCTION(BlueprintCallable, BlueprintPure, Category="SSActor")
-    UMDGameInstance* GetMDGameInstance() const;
-
-    UFUNCTION(BlueprintCallable, BlueprintPure, Category="SSActor")
-    AMDPlayerController* GetMDPlayerController() const;
     
 public:
     virtual void NativeOnDeactivated() override;

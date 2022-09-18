@@ -9,6 +9,7 @@
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Components/MDBoxComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Core/Actors/Characters/MDCharacter.h"
 #include "Kismet/KismetMaterialLibrary.h"
 #include "Structs/STTerrainConstants.h"
 #include "Subsystems/STSettlementSubsystem.h"
@@ -178,7 +179,7 @@ void ASTTerrainActor::SnapSize(float &NewWidth, float &NewLength) const
     NewLength = FMath::TruncToInt(Length) - LengthRest;
 }
 
-bool ASTTerrainActor::Claim(ACharacter *OwnerReference, ESTCivilizationType CivilizationType)
+bool ASTTerrainActor::Claim(AMDCharacter* OwnerReference, ESTCivilizationType CivilizationType)
 {
     if (!bIsClaimable)
         return false;

@@ -43,9 +43,6 @@ class ASTEaglesViewPawn : public AMDCharacter
     UPROPERTY(EditDefaultsOnly, Category="EaglesView|Inputs")
     float MaxZoomDistance = 6500.0f;
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
-
     UPROPERTY(BlueprintReadWrite, Category="EaglesView|Inputs", meta=(AllowPrivateAccess=true))
     TObjectPtr<USTSettlementManagementWidget> SettlementWidget = nullptr;
 
@@ -66,19 +63,13 @@ class ASTEaglesViewPawn : public AMDCharacter
 
     void CameraZoom(const FInputActionValue &Value);
 
-    virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
+    virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 #pragma endregion Inputs
 
 public:
     ASTEaglesViewPawn();
 
     float GetMaxZoomDistance() const;
-
-    UFUNCTION(BlueprintCallable, Category="EaglesView")
-    void EnableLineTrace();
-
-    UFUNCTION(BlueprintCallable, Category="EaglesView")
-    void DisableLineTrace();
 
     UFUNCTION(BlueprintCallable, Category="EaglesView")
     void SetSettlementWidget(UCommonActivatableWidget *Widget);

@@ -38,20 +38,20 @@ class INVENTORY_API UIVDraggedItemWidget : public UMDActivatableWidget
     TObjectPtr<UTextBlock> AmountText = nullptr;
 
     UFUNCTION(BlueprintCallable, Category="DraggedItem")
-    void SetItemInfo(UIVBaseItemDA *Item);
+    void SetItemInfo(UIVBaseItemDA* Item);
 
     UFUNCTION(BlueprintCallable, Category="DraggedItem")
     void SetAmount(uint8 DraggedAmount);
 
     UFUNCTION(BlueprintCallable, Category="DraggedItem")
-    void SetInventoryReference(UIVInventoryComponent *InventoryRef);
+    void SetInventoryReference(UIVInventoryComponent* InventoryRef);
 
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-    UIVInventoryComponent *GetInventoryReference() const;
+    UIVInventoryComponent* GetInventoryReference() const;
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-    UIVBaseItemDA *GetItemInfo() const;
+    UIVBaseItemDA* GetItemInfo() const;
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
     uint8 GetAmount() const;

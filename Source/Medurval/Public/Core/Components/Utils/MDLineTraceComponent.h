@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Core/Components/MDActorComponent.h"
-#include "Interfaces/MDLineTraceInterface.h"
 #include "MDLineTraceComponent.generated.h"
+
+class AMDPlayerController;
 
 UCLASS(Blueprintable, meta=(BlueprintSpawnableComponent))
 class MEDURVAL_API UMDLineTraceComponent : public UMDActorComponent
 {
     GENERATED_BODY()
 
-    UPROPERTY(BlueprintSetter=SetPlayerController, Category="MDLineTraceComponent|Configuration")
-    TObjectPtr<APlayerController> PlayerController = nullptr;
+    TObjectPtr<AMDPlayerController> PlayerController = nullptr;
 
     UPROPERTY(EditDefaultsOnly, Category="MDLineTraceComponent|Configuration")
     float LineTraceDistance = 500.0f;
@@ -33,7 +33,7 @@ class MEDURVAL_API UMDLineTraceComponent : public UMDActorComponent
     FTimerHandle LineTraceTimerHandle;
 
     UPROPERTY(EditDefaultsOnly, Category="MDLineTraceComponent|Configuration")
-    TArray<TEnumAsByte<ECollisionChannel>> CollisionChannels;
+    TArray<TEnumAsByte<ECollisionChannel>> AimCollisionChannels;
 
     UPROPERTY(EditDefaultsOnly, Category="MDLineTraceComponent|Configuration")
     TEnumAsByte<ECollisionChannel> CursorCollisionChannel;
@@ -61,14 +61,14 @@ protected:
     void HandleLineTraceResults(const FHitResult &TraceResult);
 
 public:
+    UFUNCTION(BlueprintCallable, Category="MDLineTraceComponent")
     bool IsLineTraceEnabled() const;
-    
+
+    UFUNCTION(BlueprintCallable, Category="MDLineTraceComponent")
     void SetLineTraceEnabled(bool bIsEnabled);
 
+    UFUNCTION(BlueprintCallable, Category="MDLineTraceComponent")
     AActor* GetHitActor() const;
-
-    UFUNCTION(BlueprintCallable, Category="MDLineTraceComponent|Configuration")
-    void SetPlayerController(APlayerController *PlayerControl);
 
     void SetCursorCollisionChannel(TEnumAsByte<ECollisionChannel> CollisionChannel);
 

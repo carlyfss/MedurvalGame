@@ -7,6 +7,8 @@
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Components/MDStaticMeshComponent.h"
 #include "Core/Singletons/MDGameInstance.h"
+#include "Core/Singletons/MDGameMode.h"
+#include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/STSettlementSubsystem.h"
 
@@ -127,7 +129,10 @@ void ASTBuildingActor::OnConstructionCompleted()
         return;
 
     USTSettlementSubsystem *Subsystem = GameInstance->GetSubsystem<USTSettlementSubsystem>();
-    USTSettlementComponent* Settlement = Subsystem->GetSettlementByOwner(GameInstance->GetPlayerReference());
+
+    AMDGameMode* GameMode = Cast<AMDGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+    USTSettlementComponent* Settlement = Subsystem->GetSettlementByOwner(GameMode->GetPlayerReference());
 
     if (Settlement)
     {

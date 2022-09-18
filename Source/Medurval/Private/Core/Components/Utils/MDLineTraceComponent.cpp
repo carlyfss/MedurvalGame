@@ -2,12 +2,14 @@
 
 #include "Core/Components/Utils/MDLineTraceComponent.h"
 #include "DrawDebugHelpers.h"
-#include "Interfaces/MDInteractableInterface.h"
+#include "Core/Interfaces/MDInteractableInterface.h"
+#include "Core/Singletons/MDPlayerController.h"
 
 void UMDLineTraceComponent::BeginPlay()
 {
     Super::BeginPlay();
 
+    PlayerController = GetMDPlayerController();
     bIsLineTraceEnabled = true;
 
     if (!LineTraceTimerHandle.IsValid())
@@ -17,6 +19,7 @@ void UMDLineTraceComponent::BeginPlay()
     }
     
     TraceDelegate.BindUObject(this, &UMDLineTraceComponent::OnLineTraceCompleted);
+
 }
 
 void UMDLineTraceComponent::CastLineTrace()
@@ -73,9 +76,9 @@ FTraceHandle UMDLineTraceComponent::RequestLineTrace()
     FCollisionResponseParams Params = FCollisionResponseParams::DefaultResponseParam;
     Params.CollisionResponse.SetAllChannels(ECR_Ignore);
 
-    if (CollisionChannels.Num() > 0)
+    if (AimCollisionChannels.Num() > 0)
     {
-        for (ECollisionChannel CollisionChannel : CollisionChannels)
+        for (ECollisionChannel CollisionChannel : AimCollisionChannels)
         {
             Params.CollisionResponse.SetResponse(CollisionChannel, ECR_Block);
         }
@@ -182,11 +185,6 @@ void UMDLineTraceComponent::SetLineTraceEnabled(bool bIsEnabled)
 AActor* UMDLineTraceComponent::GetHitActor() const
 {
     return LineTraceHitActor;
-}
-
-void UMDLineTraceComponent::SetPlayerController(APlayerController *PlayerControl)
-{
-    PlayerController = PlayerControl;
 }
 
 void UMDLineTraceComponent::SetCursorCollisionChannel(TEnumAsByte<ECollisionChannel> CollisionChannel)
