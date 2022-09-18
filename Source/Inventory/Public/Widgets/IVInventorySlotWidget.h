@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Core/Widgets/MDActivatableWidget.h"
 #include "Interfaces/IVInventoryInterface.h"
-#include "Widgets/CBCommonActivatableWidget.h"
 #include "IVInventorySlotWidget.generated.h"
 
 class UIVDetailWidget;
@@ -16,7 +16,7 @@ class UButton;
 class UImage;
 
 UCLASS(meta = (DisplayName = "InventorySlotWidget"))
-class INVENTORY_API UIVInventorySlotWidget final : public UCBCommonActivatableWidget, public IIVInventoryInterface
+class INVENTORY_API UIVInventorySlotWidget final : public UMDActivatableWidget, public IIVInventoryInterface
 {
 	GENERATED_BODY()
 

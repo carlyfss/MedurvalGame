@@ -4,8 +4,7 @@
 #include "Actors/Base/STActor.h"
 
 #include "Core/AssetManager/MedurvalAssetManager.h"
-#include "Core/Singleton/MDGameInstance.h"
-#include "Kismet/GameplayStatics.h"
+#include "Core/Singletons/MDGameInstance.h"
 
 USTSettlementSubsystem *ASTActor::GetSettlementSubsystem() const
 {

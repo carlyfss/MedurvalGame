@@ -7,9 +7,9 @@
 #include "Interfaces/MDInteractableInterface.h"
 #include "IVItemPickup.generated.h"
 
+class UMDSphereComponent;
+class UMDStaticMeshComponent;
 class UMDCapsuleComponent;
-class UCBSphereComponent;
-class UCBStaticMeshComponent;
 class UIVBaseItemDA;
 
 UCLASS(meta = (DisplayName = "ItemPickup"))
@@ -24,10 +24,10 @@ class AIVItemPickup : public AMDActor, public IMDInteractableInterface
 	FPrimaryAssetId ItemId;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UCBStaticMeshComponent> PickupMesh = nullptr;
+    TObjectPtr<UMDStaticMeshComponent> PickupMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UCBSphereComponent> PickupLoadRange = nullptr;
+    TObjectPtr<UMDSphereComponent> PickupLoadRange = nullptr;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
     TObjectPtr<UMDCapsuleComponent> PickupCollision = nullptr;
@@ -50,6 +50,8 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void OnPickupItemLoaded();
+
+    void CheckForOverlappedActors();
 
 	void LoadPickupItem();
 

@@ -14,3 +14,13 @@ set COMMON_BASE_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\CommonBase
 set COMMON_CURRENCY_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\CommonCurrency
 set INVENTORY_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\InventoryManager
 set SETTLEMENT_PLUGIN_DIR=%ROOTDIR%\Plugins\GameFeatures\SettlementSystem
+
+
+## Clean files and folders
+@RD /S /Q "./Binaries"
+@RD /S /Q "./DerivedDataCache"
+@RD /S /Q "./Intermediate"
+@RD /S /Q "./Saved"
+@RD /S /Q "./Script"
+@RD /S /Q "%COMPASS_PLUGIN_DIR%\Binaries"
+@RD /S /Q "%COMPASS_PLUGIN_DIR%\Intermediate"

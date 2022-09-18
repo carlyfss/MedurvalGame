@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/CBActorComponent.h"
+#include "Core/Components/MDActorComponent.h"
 #include "Structs/STBuildingTier.h"
 #include "Structs/STConstructionResource.h"
 #include "STConstructionComponent.generated.h"
@@ -15,7 +15,7 @@ class ASTConstructionSiteActor;
  * 
  */
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="ConstructionComponent"))
-class USTConstructionComponent : public UCBActorComponent
+class USTConstructionComponent : public UMDActorComponent
 {
     GENERATED_BODY()
 

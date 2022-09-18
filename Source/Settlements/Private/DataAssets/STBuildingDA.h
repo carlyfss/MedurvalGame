@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
-#include "DataAsset/CBPrimaryDataAsset.h"
+#include "Core/DataAssets/MDPrimaryDataAsset.h"
 #include "Enums/STBuildingType.h"
 #include "Enums/STTerrainSize.h"
 #include "Structs/STBuildingTier.h"
@@ -16,7 +16,7 @@ class ASTBuildingActor;
  * 
  */
 UCLASS()
-class USTBuildingDA : public UCBPrimaryDataAsset
+class USTBuildingDA : public UMDPrimaryDataAsset
 {
     GENERATED_BODY()
 

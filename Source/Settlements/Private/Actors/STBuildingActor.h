@@ -9,7 +9,7 @@
 #include "Structs/STBuildingTier.h"
 #include "STBuildingActor.generated.h"
 
-class UCBStaticMeshComponent;
+class UMDStaticMeshComponent;
 class USTBuildingTierComponent;
 class USTMaintenanceComponent;
 class USTSettlementComponent;
@@ -25,7 +25,7 @@ class ASTBuildingActor : public ASTActor
     FPrimaryAssetId ConfigurationId;
 
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBStaticMeshComponent> Mesh = nullptr;
+    TObjectPtr<UMDStaticMeshComponent> Mesh = nullptr;
 
     UPROPERTY(BlueprintReadOnly, Category="BuildingActor", meta=(AllowPrivateAccess=true))
     TObjectPtr<USTBuildingDA> ConfigurationReference = nullptr;

@@ -1,12 +1,12 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #include "Components/IVInventoryComponent.h"
+
+#include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
-#include "Core/Singleton/MDGameInstance.h"
-#include "GameFramework/Character.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "Items/IVBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Medurval/Private/Characters/MDBaseCharacter.h"
 #include "Widgets/IVInventorySlotWidget.h"
 #include "Widgets/IVInventoryWidget.h"
 
@@ -14,7 +14,7 @@ void UIVInventoryComponent::BeginPlay()
 {
     Super::BeginPlay();
 
-    PlayerCharacter = Cast<AMDBaseCharacter>(GetOwner());
+    PlayerCharacter = Cast<AMDPlayerCharacter>(GetOwner());
 }
 
 /** Checks if a given index is empty or not */

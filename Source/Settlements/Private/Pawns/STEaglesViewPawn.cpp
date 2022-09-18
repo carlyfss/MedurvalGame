@@ -4,8 +4,8 @@
 #include "Pawns/STEaglesViewPawn.h"
 
 #include "EnhancedInputComponent.h"
-#include "Components/CBSpringArmComponent.h"
-#include "Components/Utils/MDLineTraceComponent.h"
+#include "Core/Components/MDSpringArmComponent.h"
+#include "Core/Components/Utils/MDLineTraceComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 

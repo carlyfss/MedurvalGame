@@ -2,8 +2,6 @@
 
 
 #include "Components/STSettlementComponent.h"
-#include "GameFramework/Character.h"
-#include "Kismet/GameplayStatics.h"
 
 USTSettlementComponent::USTSettlementComponent()
 {

@@ -2,13 +2,13 @@
 
 
 #include "Actors/STConstructionSiteActor.h"
-#include "Components/CBStaticMeshComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
+#include "Core/Components/MDStaticMeshComponent.h"
 #include "Engine/StreamableManager.h"
 
 ASTConstructionSiteActor::ASTConstructionSiteActor()
 {
-    SiteMesh = CreateDefaultSubobject<UCBStaticMeshComponent>("Mesh");
+    SiteMesh = CreateDefaultSubobject<UMDStaticMeshComponent>("Mesh");
     SiteMesh->SetupAttachment(RootComponent);
 
     SiteMesh->SetCollisionResponseToAllChannels(ECR_Ignore);

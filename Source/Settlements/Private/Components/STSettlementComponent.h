@@ -6,8 +6,8 @@
 #include "GameplayTagContainer.h"
 #include "STSettlementEconomyComponent.h"
 #include "Actors/STTerrainActor.h"
-#include "Components/CBActorComponent.h"
 #include "Enums/STSettlementStages.h"
+#include "Core/Components/MDActorComponent.h"
 #include "Enums/STCivilizationType.h"
 #include "Structs/STSettlementStage.h"
 #include "STSettlementComponent.generated.h"
@@ -16,7 +16,7 @@
  * 
  */
 UCLASS()
-class USTSettlementComponent : public UCBActorComponent
+class USTSettlementComponent : public UMDActorComponent
 {
     GENERATED_BODY()
 

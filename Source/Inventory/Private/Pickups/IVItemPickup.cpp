@@ -2,27 +2,26 @@
 
 #include "Pickups/IVItemPickup.h"
 
-#include "Components/CBSphereComponent.h"
-#include "Components/CBStaticMeshComponent.h"
 #include "Components/IVInventoryComponent.h"
 #include "Components/PrimitiveComponent.h"
+#include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Components/MDCapsuleComponent.h"
-#include "GameFramework/Character.h"
+#include "Core/Components/MDSphereComponent.h"
+#include "Core/Components/MDStaticMeshComponent.h"
 #include "Items/IVBaseItemDA.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Medurval/Private/Characters/MDBaseCharacter.h"
 
 AIVItemPickup::AIVItemPickup()
 {
-    PickupMesh = CreateDefaultSubobject<UCBStaticMeshComponent>("PickupMesh");
+    PickupMesh = CreateDefaultSubobject<UMDStaticMeshComponent>("PickupMesh");
     PickupMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     PickupMesh->SetGenerateOverlapEvents(false);
     PickupMesh->SetupAttachment(RootComponent);
 
-    PickupLoadRange = CreateDefaultSubobject<UCBSphereComponent>("PickupLoadRange");
+    PickupLoadRange = CreateDefaultSubobject<UMDSphereComponent>("PickupLoadRange");
     PickupLoadRange->SetSphereRadius(500.f);
-    PickupLoadRange->ShapeColor = FColor(30, 30, 200, 50);
+    PickupLoadRange->ShapeColor = FColor(30, 30, 200, 15);
     PickupLoadRange->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     PickupLoadRange->SetupAttachment(PickupMesh);
     PickupLoadRange->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -44,6 +43,10 @@ AIVItemPickup::AIVItemPickup()
 void AIVItemPickup::BeginPlay()
 {
     Super::BeginPlay();
+
+    FTimerHandle TimerHandle;
+    FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &AIVItemPickup::CheckForOverlappedActors);
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle, Delegate, 0.1f, false);
 }
 
 void AIVItemPickup::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -66,6 +69,18 @@ void AIVItemPickup::OnPickupItemLoaded()
     }
 
     CalculateCollisionSize();
+}
+
+void AIVItemPickup::CheckForOverlappedActors()
+{
+    TArray<AActor *> OverlappedActors;
+    TSubclassOf<AMDPlayerCharacter> PlayerClass;
+    PickupLoadRange->GetOverlappingActors(OverlappedActors, PlayerClass);
+
+    if (OverlappedActors.Num() > 0)
+    {
+        LoadPickupItem();
+    }
 }
 
 void AIVItemPickup::LoadPickupItem()

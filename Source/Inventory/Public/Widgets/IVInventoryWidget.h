@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Widgets/CBCommonActivatableWidget.h"
+#include "Core/Widgets/MDActivatableWidget.h"
 #include "IVInventoryWidget.generated.h"
 
 class UIVInventorySlotWidget;
@@ -14,7 +14,7 @@ class UUniformGridPanel;
  *
  */
 UCLASS(meta = (DisplayName = "InventoryWidget"))
-class INVENTORY_API UIVInventoryWidget : public UCBCommonActivatableWidget
+class INVENTORY_API UIVInventoryWidget : public UMDActivatableWidget
 {
 	GENERATED_BODY()
 

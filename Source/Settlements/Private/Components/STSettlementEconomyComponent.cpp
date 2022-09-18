@@ -2,7 +2,6 @@
 
 
 #include "Components/STSettlementEconomyComponent.h"
-#include "Subsystems/CBCurrencySubsystem.h"
 
 USTSettlementEconomyComponent::USTSettlementEconomyComponent()
 {
@@ -15,47 +14,53 @@ void USTSettlementEconomyComponent::SetStartingTreasury(int Amount)
 
 void USTSettlementEconomyComponent::AddToTreasury(int Amount)
 {
-    UCBCurrencySubsystem *Subsystem = GetCurrencySubsystem();
-
-    if (!Subsystem)
-        return;
-
-    Subsystem->AddAmount(Treasury, Amount);
+    // UMDCurrencySubsystem *Subsystem = GetCurrencySubsystem();
+    //
+    // if (!Subsystem)
+    //     return;
+    //
+    // Subsystem->AddAmount(Treasury, Amount);
+    Treasury += Amount;
+    
     UpdateTreasury();
 }
 
 void USTSettlementEconomyComponent::AddToIncome(int Amount)
 {
-    UCBCurrencySubsystem *Subsystem = GetCurrencySubsystem();
-
-    if (!Subsystem)
-        return;
-
-    Subsystem->AddAmount(TotalTreasuryIncome, Amount);
+    // UMDCurrencySubsystem *Subsystem = GetCurrencySubsystem();
+    //
+    // if (!Subsystem)
+    //     return;
+    //
+    // Subsystem->AddAmount(TotalTreasuryIncome, Amount);
+    TotalTreasuryIncome += Amount;
     IsToUpdateDailyChange = true;
     UpdateTreasury();
 }
 
 void USTSettlementEconomyComponent::AddToUpkeep(int Amount)
 {
-    UCBCurrencySubsystem *Subsystem = GetCurrencySubsystem();
-
-    if (!Subsystem)
-        return;
-
-    Subsystem->AddAmount(TotalTreasuryUpkeep, Amount);
+    // UMDCurrencySubsystem *Subsystem = GetCurrencySubsystem();
+    //
+    // if (!Subsystem)
+    //     return;
+    //
+    // Subsystem->AddAmount(TotalTreasuryUpkeep, Amount);
+    TotalTreasuryUpkeep += Amount;
     IsToUpdateDailyChange = true;
     UpdateTreasury();
 }
 
 void USTSettlementEconomyComponent::RemoveFromTreasury(int Amount)
 {
-    UCBCurrencySubsystem *Subsystem = GetCurrencySubsystem();
+    // UMDCurrencySubsystem *Subsystem = GetCurrencySubsystem();
+    //
+    // if (!Subsystem)
+    //     return;
+    //
+    // Subsystem->RemoveAmount(Treasury, Amount);
 
-    if (!Subsystem)
-        return;
-
-    Subsystem->RemoveAmount(Treasury, Amount);
+    Treasury -= Amount;
 
     UpdateTreasury();
 }

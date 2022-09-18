@@ -14,10 +14,10 @@ public class Settlements : ModuleRules
 			{
 				"Core",
 				"Engine",
-				"CommonBase",
 				"CommonUI",
+				"Inventory",
 				"Medurval",
-				"Inventory"
+				"EnhancedInput"
 			});
 
 
@@ -26,7 +26,6 @@ public class Settlements : ModuleRules
 			{
 				"CoreUObject",
 				"UMG",
-				"EnhancedInput",
 				"GameplayTags"
 			});
 	}

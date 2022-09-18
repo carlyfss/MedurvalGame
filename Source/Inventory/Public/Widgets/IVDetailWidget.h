@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Widgets/CBCommonActivatableWidget.h"
+#include "Core/Widgets/MDActivatableWidget.h"
 #include "IVDetailWidget.generated.h"
 
 class UIVBaseItemDA;
@@ -14,7 +14,7 @@ class UTextBlock;
  * 
  */
 UCLASS(meta = (DisplayName = "DetailWidget"))
-class INVENTORY_API UIVDetailWidget : public UCBCommonActivatableWidget
+class INVENTORY_API UIVDetailWidget : public UMDActivatableWidget
 {
     GENERATED_BODY()
 

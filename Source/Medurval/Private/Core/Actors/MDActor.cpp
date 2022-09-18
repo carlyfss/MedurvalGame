@@ -2,10 +2,10 @@
 
 #include "Core/Actors/MDActor.h"
 
-#include "Constants/CBConstants.h"
-#include "Core/MDPlayerController.h"
+#include "Core/Constants/MDConstants.h"
+#include "Core/Singletons/MDPlayerController.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
-#include "Core/Singleton/MDGameInstance.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "Engine/AssetManager.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -14,7 +14,7 @@ AMDActor::AMDActor()
 {
     PrimaryActorTick.bCanEverTick = false;
     PrimaryActorTick.bStartWithTickEnabled = false;
-    PrimaryActorTick.TickInterval = FCBConstants::TickInterval;
+    PrimaryActorTick.TickInterval = FMDConstants::TickInterval;
 
     USceneComponent *SceneComponent = CreateDefaultSubobject<USceneComponent>("Root");
     RootComponent = SceneComponent;

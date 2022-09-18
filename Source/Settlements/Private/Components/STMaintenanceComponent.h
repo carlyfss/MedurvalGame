@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/CBActorComponent.h"
+#include "Core/Components/MDActorComponent.h"
 #include "STMaintenanceComponent.generated.h"
 
 class USTSettlementComponent;
@@ -12,7 +12,7 @@ class USTSettlementComponent;
  * 
  */
 UCLASS()
-class USTMaintenanceComponent : public UCBActorComponent
+class USTMaintenanceComponent : public UMDActorComponent
 {
     GENERATED_BODY()
 

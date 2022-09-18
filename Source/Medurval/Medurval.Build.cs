@@ -12,7 +12,7 @@ public class Medurval : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"GameplayAbilities", "GameplayTags", "GameplayTasks", "Core", "CoreUObject", "Engine", "InputCore",
-			"GameFeatures", "ModularGameplay", "EnhancedInput", "CommonUI", "CommonBase"
+			"GameFeatures", "ModularGameplay", "EnhancedInput", "CommonUI"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]

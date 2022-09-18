@@ -4,9 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
-#include "STBuildingActor.h"
 #include "Base/STActor.h"
-#include "Components/CBBoxComponent.h"
 #include "Engine/StreamableManager.h"
 #include "Enums/STCivilizationType.h"
 #include "Enums/STTerrainSize.h"
@@ -14,8 +12,11 @@
 #include "Interfaces/MDInteractableInterface.h"
 #include "STTerrainActor.generated.h"
 
+class ASTBuildingActor;
+class UMDBoxComponent;
+
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="TerrainActor"))
-class ASTTerrainActor : public ASTActor, public IMDInteractableInterface
+class SETTLEMENTS_API ASTTerrainActor : public ASTActor, public IMDInteractableInterface
 {
     GENERATED_BODY()
 
@@ -24,7 +25,7 @@ public:
 
 private:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="TerrainActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBBoxComponent> Collision = nullptr;
+    TObjectPtr<UMDBoxComponent> Collision = nullptr;
 
     UPROPERTY(BlueprintReadWrite, Category="TerrainActor", meta=(AllowPrivateAccess=true))
     TObjectPtr<UDecalComponent> Target = nullptr;

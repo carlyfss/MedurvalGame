@@ -3,10 +3,10 @@
 
 #include "Actors/STBuildingActor.h"
 
-#include "Components/CBStaticMeshComponent.h"
 #include "Components/STMaintenanceComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
-#include "Core/Singleton/MDGameInstance.h"
+#include "Core/Components/MDStaticMeshComponent.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/STSettlementSubsystem.h"
 
@@ -15,7 +15,7 @@ ASTBuildingActor::ASTBuildingActor()
     MaintenanceComponent = CreateDefaultSubobject<USTMaintenanceComponent>("MaintenanceComponent");
     ConstructionComponent = CreateDefaultSubobject<USTConstructionComponent>("ConstructionComponent");
 
-    Mesh = CreateDefaultSubobject<UCBStaticMeshComponent>("BuildingMesh");
+    Mesh = CreateDefaultSubobject<UMDStaticMeshComponent>("BuildingMesh");
     Mesh->SetupAttachment(RootComponent);
     Mesh->SetVisibility(false);
 }

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Actors/CBCharacter.h"
+#include "Core/Actors/Characters/MDCharacter.h"
 #include "Widgets/STSettlementManagementWidget.h"
 #include "STEaglesViewPawn.generated.h"
 
@@ -15,7 +15,7 @@ class UMDLineTraceComponent;
  * 
  */
 UCLASS()
-class ASTEaglesViewPawn : public ACBCharacter
+class ASTEaglesViewPawn : public AMDCharacter
 {
     GENERATED_BODY()
 

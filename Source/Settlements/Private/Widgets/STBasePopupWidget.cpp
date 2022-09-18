@@ -5,7 +5,7 @@
 
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Actors/STTerrainActor.h"
-#include "Core/MDPlayerController.h"
+#include "Core/Singletons/MDPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
 void USTBasePopupWidget::UpdateWidgetInfo_Implementation(ASTTerrainActor *TerrainActor)

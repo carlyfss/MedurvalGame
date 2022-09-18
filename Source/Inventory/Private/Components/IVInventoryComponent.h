@@ -2,27 +2,26 @@
 
 #pragma once
 
-#include "Components/CBActorComponent.h"
 #include "CoreMinimal.h"
+#include "Core/Components/MDActorComponent.h"
 #include "Interfaces/IVInventoryInterface.h"
 #include "Structs/IVInventorySlot.h"
 #include "IVInventoryComponent.generated.h"
 
-class AMDBaseCharacter;
+class AMDPlayerCharacter;
 class UIVInventoryWidget;
-class ACharacter;
 class UIVBaseItemDA;
 class UInputMappingContext;
 
 UCLASS(BlueprintType, Blueprintable, meta = (DisplayName = "InventoryComponent"))
-class UIVInventoryComponent : public UCBActorComponent, public IIVInventoryInterface
+class UIVInventoryComponent : public UMDActorComponent, public IIVInventoryInterface
 {
     GENERATED_BODY()
 
     FCriticalSection SocketsCriticalSection;
 
     UPROPERTY(Transient)
-    TObjectPtr<AMDBaseCharacter> PlayerCharacter = nullptr;
+    TObjectPtr<AMDPlayerCharacter> PlayerCharacter = nullptr;
 
 #pragma region Configurations
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))

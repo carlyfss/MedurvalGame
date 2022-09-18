@@ -3,9 +3,11 @@
 
 #include "Actors/STTerrainActor.h"
 
+#include "STBuildingActor.h"
 #include "Components/DecalComponent.h"
 #include "Components/STSettlementComponent.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
+#include "Core/Components/MDBoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMaterialLibrary.h"
 #include "Structs/STTerrainConstants.h"
@@ -77,7 +79,7 @@ void ASTTerrainActor::OnEndFocus_Implementation()
 
 ASTTerrainActor::ASTTerrainActor()
 {
-    Collision = CreateDefaultSubobject<UCBBoxComponent>("Collision");
+    Collision = CreateDefaultSubobject<UMDBoxComponent>("Collision");
 
     Collision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     Collision->SetCollisionObjectType(ECC_GameTraceChannel4);

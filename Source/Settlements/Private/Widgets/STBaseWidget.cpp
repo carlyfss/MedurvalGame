@@ -3,8 +3,8 @@
 
 #include "Widgets/STBaseWidget.h"
 
-#include "Core/MDPlayerController.h"
-#include "Core/Singleton/MDGameInstance.h"
+#include "Core/Singletons/MDPlayerController.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 void USTBaseWidget::NativeOnDeactivated()

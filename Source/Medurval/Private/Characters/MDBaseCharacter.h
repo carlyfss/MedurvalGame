@@ -6,10 +6,10 @@
 #include "AbilitySystemInterface.h"
 #include "Abilities/Components/MDBaseGameplayAbility.h"
 #include "InputActionValue.h"
-#include "Actors/CBCharacter.h"
-#include "Widgets/MDMainWidget.h"
+#include "Core/Actors/Characters/MDCharacter.h"
 #include "MDBaseCharacter.generated.h"
 
+class UMDActivatableWidget;
 class UCBCameraComponent;
 class UCBSpringArmComponent;
 class UMDLineTraceComponent;
@@ -23,7 +23,7 @@ class UInputAction;
 class UInputMappingContext;
 
 UCLASS()
-class MEDURVAL_API AMDBaseCharacter : public ACBCharacter, public IAbilitySystemInterface
+class MEDURVAL_API AMDBaseCharacter : public AMDCharacter, public IAbilitySystemInterface
 {
     GENERATED_BODY()
 
@@ -31,7 +31,7 @@ class MEDURVAL_API AMDBaseCharacter : public ACBCharacter, public IAbilitySystem
     TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="CBCharacter|Components", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDMainWidget> MainWidgetReference = nullptr;
+    TObjectPtr<UMDActivatableWidget> MainWidgetReference = nullptr;
 
 #pragma region AbilitiesProps
     UPROPERTY(EditDefaultsOnly, Category="BaseCharacter|Attributes")

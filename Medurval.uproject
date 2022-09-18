@@ -9,12 +9,12 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"CommonBase",
 				"EnhancedInput",
 				"ModularGameplay",
 				"GameFeatures",
 				"GameplayAbilities",
 				"Engine",
+				"CommonBase",
 				"UMG",
 				"CommonUI"
 			]
@@ -24,17 +24,23 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine",
-				"CommonBase"
+				"Engine"
 			]
 		},
 		{
 			"Name": "Inventory",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		}
 	],
 	"Plugins": [
+		{
+			"Name": "CommonBase",
+			"Enabled": true
+		},
 		{
 			"Name": "GameplayAbilities",
 			"Enabled": true
@@ -95,10 +101,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "CommonBase",
-			"Enabled": true
-		},
-		{
 			"Name": "MassAI",
 			"Enabled": true
 		},
@@ -112,10 +114,6 @@
 		},
 		{
 			"Name": "MassGameplay",
-			"Enabled": true
-		},
-		{
-			"Name": "Compass",
 			"Enabled": true
 		},
 		{

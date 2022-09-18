@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/CBActorComponent.h"
+#include "Core/Components/MDActorComponent.h"
 #include "STSettlementEconomyComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateTresury);
@@ -12,7 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateTresury);
  * 
  */
 UCLASS()
-class USTSettlementEconomyComponent : public UCBActorComponent
+class USTSettlementEconomyComponent : public UMDActorComponent
 {
     GENERATED_BODY()
 

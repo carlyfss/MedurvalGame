@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Widgets/CBCommonActivatableWidget.h"
+#include "Core/Widgets/MDActivatableWidget.h"
 #include "IVDraggedItemWidget.generated.h"
 
 class UIVBaseItemDA;
@@ -15,7 +15,7 @@ class UImage;
  * 
  */
 UCLASS(meta = (DisplayName = "DraggedItemWidget"))
-class INVENTORY_API UIVDraggedItemWidget : public UCBCommonActivatableWidget
+class INVENTORY_API UIVDraggedItemWidget : public UMDActivatableWidget
 {
     GENERATED_BODY()
 

@@ -2,11 +2,11 @@
 
 
 #include "Core/Components/MDCapsuleComponent.h"
-#include "Constants/CBConstants.h"
+#include "core/Constants/MDConstants.h"
 
 UMDCapsuleComponent::UMDCapsuleComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
     PrimaryComponentTick.bStartWithTickEnabled = false;
-    PrimaryComponentTick.TickInterval = FCBConstants::TickInterval;
+    PrimaryComponentTick.TickInterval = FMDConstants::TickInterval;
 }

@@ -2,11 +2,11 @@
 
 
 #include "Core/Components/MDSphereComponent.h"
-#include "Constants/CBConstants.h"
+#include "Core/Constants/MDConstants.h"
 
 UMDSphereComponent::UMDSphereComponent()
 {
     PrimaryComponentTick.bCanEverTick = false;
     PrimaryComponentTick.bStartWithTickEnabled = false;
-    PrimaryComponentTick.TickInterval = FCBConstants::TickInterval;
+    PrimaryComponentTick.TickInterval = FMDConstants::TickInterval;
 }

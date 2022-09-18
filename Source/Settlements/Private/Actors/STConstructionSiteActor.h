@@ -6,7 +6,7 @@
 #include "Base/STActor.h"
 #include "STConstructionSiteActor.generated.h"
 
-class UCBStaticMeshComponent;
+class UMDStaticMeshComponent;
 class UStaticMesh;
 
 UCLASS(Blueprintable, BlueprintType, meta=(DisplayName="ConstructionSiteActor"))
@@ -15,7 +15,7 @@ class ASTConstructionSiteActor : public ASTActor
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ConstructionSiteActor", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCBStaticMeshComponent> SiteMesh = nullptr;
+    TObjectPtr<UMDStaticMeshComponent> SiteMesh = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ConstructionSiteActor", meta=(AllowPrivateAccess=true, AssetBundles="World"))
     TSoftObjectPtr<UStaticMesh> ConstructionSiteMesh = nullptr;

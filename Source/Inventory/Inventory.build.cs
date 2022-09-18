@@ -8,9 +8,9 @@ public class Inventory : ModuleRules
  
 		PublicIncludePaths.AddRange(new string[] {"Inventory/Public"});
 		PrivateIncludePaths.AddRange(new string[] {"Inventory/Private"});
-		
-		PublicDependencyModuleNames.AddRange(new string[] { 
-			"CommonBase",
+
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
 			"CommonUI",
 			"EnhancedInput",
 			"Medurval"

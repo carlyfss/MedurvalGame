@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DataAssets/MDBaseDataAsset.h"
+#include "Core/DataAssets/MDPrimaryDataAsset.h"
 #include "Enums/IVItemCategories.h"
 #include "Enums/IVItemRarity.h"
 #include "Interfaces/IVUsableItemInterface.h"
@@ -15,7 +15,7 @@ class UTexture2D;
  * 
  */
 UCLASS(meta=(DisplayName="BaseItemDA"))
-class INVENTORY_API UIVBaseItemDA : public UMDBaseDataAsset, public IIVUsableItemInterface
+class INVENTORY_API UIVBaseItemDA : public UMDPrimaryDataAsset, public IIVUsableItemInterface
 {
     GENERATED_BODY()
 

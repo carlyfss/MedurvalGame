@@ -3,7 +3,6 @@
 #include "MDBaseCharacter.h"
 
 #include "Abilities/GameplayAbilityTypes.h"
-#include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Abilities/Components/MDAbilitySystemComponent.h"
 #include "Abilities/Components/MDBaseAttributeSet.h"
@@ -11,10 +10,9 @@
 #include "Abilities/Enums/EMDGameplayAbilityInputID.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include <GameplayEffectTypes.h>
-
 #include "Blueprint/UserWidget.h"
-#include "Components/Utils/MDLineTraceComponent.h"
-#include "Core/Singleton/MDGameInstance.h"
+#include "Core/Components/Utils/MDLineTraceComponent.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
