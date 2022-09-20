@@ -15,7 +15,6 @@ public class Settlements : ModuleRules
 				"Core",
 				"Engine",
 				"CommonUI",
-				"Inventory",
 				"Medurval",
 				"EnhancedInput"
 			});

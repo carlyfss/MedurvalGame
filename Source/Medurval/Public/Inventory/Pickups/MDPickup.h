@@ -12,7 +12,7 @@ class UMDStaticMeshComponent;
 class UMDCapsuleComponent;
 class UMDItemDataAsset;
 
-UCLASS(meta = (DisplayName = "ItemPickup"))
+UCLASS(meta = (DisplayName = "Pickup"))
 class AMDPickup : public AMDActor, public IMDInteractableInterface
 {
 	GENERATED_BODY()
@@ -20,28 +20,28 @@ class AMDPickup : public AMDActor, public IMDInteractableInterface
 	UPROPERTY(Transient)
 	TObjectPtr<UMDItemDataAsset> LoadedItem = nullptr;
 
-	UPROPERTY(EditInstanceOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditInstanceOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
 	FPrimaryAssetId ItemId;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDStaticMeshComponent> PickupMesh = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDSphereComponent> PickupLoadRange = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDCapsuleComponent> PickupCollision = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
 	int PickupCollisionOffset = 10;
 
-	UPROPERTY(EditInstanceOnly, Category = "ItemPickup")
+	UPROPERTY(EditInstanceOnly, Category = "Pickup")
 	uint8 AmountToAdd = 1;
 
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "ItemPickup", meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
 	bool bIsCollisionUp = false;
 
-	UPROPERTY(EditInstanceOnly, Category = "ItemPickup")
+	UPROPERTY(EditInstanceOnly, Category = "Pickup")
 	float PickupLoadRangeRadius = 3000.f;
 
 protected:
@@ -57,7 +57,7 @@ protected:
 
 	void UnloadPickupItem();
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "ItemPickup")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Pickup")
 	void MarkPickupForGarbage();
 
 	void CalculateCollisionSize();
