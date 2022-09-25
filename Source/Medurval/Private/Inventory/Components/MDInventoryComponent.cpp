@@ -7,8 +7,6 @@
 #include "Core/Singletons/MDGameInstance.h"
 #include "Inventory/Items/MDItemDataAsset.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Inventory/Widgets/MDInventorySlotWidget.h"
-#include "Inventory/Widgets/MDInventoryWidget.h"
 
 void UMDInventoryComponent::BeginPlay()
 {
@@ -345,18 +343,13 @@ bool UMDInventoryComponent::SplitStackToIndex(uint8 SourceIndex, uint8 TargetInd
 
 bool UMDInventoryComponent::LoadAndAddItem(FPrimaryAssetId TargetItemId, uint8 Amount)
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
-
-	if (!AssetManager)
-		return false;
-
 	TArray<FName> BundlesToLoad;
 	BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
-
+	
 	FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(
 		this, &UMDInventoryComponent::AddItemOnLoadCompleted, TargetItemId, Amount);
 
-	AssetManager->LoadPrimaryAsset(TargetItemId, BundlesToLoad, Delegate);
+	GetMDGameInstance()->LoadPrimaryAssetId(TargetItemId, Delegate, BundlesToLoad);
 	return true;
 }
 
@@ -367,21 +360,17 @@ bool UMDInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId 
 
 void UMDInventoryComponent::AddItemOnLoadCompleted(FPrimaryAssetId TargetItemId, uint8 Amount)
 {
-	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+	UMDItemDataAsset* Item = Cast<UMDItemDataAsset>(GetMDGameInstance()->GetPrimaryAssetIdObject(TargetItemId));
 
-	if (!AssetManager)
-		return;
-
-	UMDItemDataAsset* Item = Cast<UMDItemDataAsset>(AssetManager->GetPrimaryAssetObject(TargetItemId));
-
-	if (!Item)
+	if (Item)
+	{
+		uint8 Rest = 0;
+		AddItem(Item, Amount, Rest);	
+	}
+	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("ItemID %s was not loaded yet!"), *TargetItemId.ToString());
-		return;
 	}
-
-	uint8 Rest = 0;
-	AddItem(Item, Amount, Rest);
 }
 
 bool UMDInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
@@ -477,4 +466,9 @@ bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAsset
 
 	Rest = CurrentAmount;
 	return bHasRemovedItem;
+}
+
+uint8 UMDInventoryComponent::GetSlotsPerRow() const
+{
+	return SlotsPerRow;
 }

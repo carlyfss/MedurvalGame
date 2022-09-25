@@ -3,6 +3,7 @@
 
 #include "Core/Singletons/MDPlayerController.h"
 
+#include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
 
 AMDPlayerController::AMDPlayerController()
@@ -20,7 +21,30 @@ void AMDPlayerController::LoadWidgets()
     Objects.Add(BuildingsListWidgetClass.ToSoftObjectPath());
     Objects.Add(GameMenuWidgetClass.ToSoftObjectPath());
 
-    WidgetLoadHandle = StreamableManager.RequestAsyncLoad(Objects);
+    FStreamableDelegate Delegate =
+        FStreamableDelegate::CreateUObject(this, &AMDPlayerController::OnWidgetsLoaded);
+    WidgetLoadHandle = StreamableManager.RequestAsyncLoad(Objects, Delegate);
+}
+
+void AMDPlayerController::OnWidgetsLoaded()
+{
+    AMDPlayerCharacter* PlayerCharacter = Cast<AMDPlayerCharacter>(GetCharacter());
+
+    if (PlayerCharacter)
+    {
+        TSubclassOf<UMDInventoryComponent> InventoryClass;
+        UMDInventoryComponent* Inventory = Cast<UMDInventoryComponent>(
+            PlayerCharacter->GetComponentByClass(InventoryClass));
+
+        if (Inventory && GameMenuWidget)
+        {
+            GameMenuWidget->ConfigureInventoryWidget(Inventory);
+            UE_LOG(LogTemp, Warning, TEXT("Inventory is being configured on Player Controller!"))
+        }
+    }
+
+    UE_LOG(LogTemp, Warning, TEXT("Finishing widget configuration on Player Controller!"))
+    CompleteConfiguration();
 }
 
 UMDActivatableWidget* AMDPlayerController::PushWidget(TSubclassOf<UMDActivatableWidget> WidgetClass)
@@ -50,17 +74,5 @@ void AMDPlayerController::BeginPlay()
     Super::BeginPlay();
 
     LoadWidgets();
-
-    FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AMDPlayerController::CompleteConfiguration);
-
-    if (WidgetLoadHandle->HasLoadCompleted())
-    {
-        CompleteConfiguration();
-    }
-    else
-    {
-        WidgetLoadHandle->BindCompleteDelegate(Delegate);
-    }
-    
 }
 

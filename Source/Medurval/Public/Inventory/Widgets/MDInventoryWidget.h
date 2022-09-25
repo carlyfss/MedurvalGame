@@ -5,11 +5,13 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Core/Widgets/MDActivatableWidget.h"
+#include "Inventory/Structs/MDInventorySlot.h"
 #include "MDInventoryWidget.generated.h"
 
 class UMDInventorySlotWidget;
 class UMDInventoryComponent;
 class UUniformGridPanel;
+class UGridPanel;
 /**
  *
  */
@@ -23,8 +25,14 @@ class MEDURVAL_API UMDInventoryWidget : public UMDActivatableWidget
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true, BindWidget))
 	TObjectPtr<UUniformGridPanel> SlotPanel = nullptr;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true, BindWidget))
+	TObjectPtr<UGridPanel> EquipmentSlotGrid = nullptr;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDInventoryComponent> InventoryReference = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	TSoftClassPtr<UMDInventorySlotWidget> SlotWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	uint8 SlotsPerRow = 4;
@@ -39,12 +47,25 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void SetSlotsPerRow(uint8 Slots);
 
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInventorySlot SlotInfo, int32 Index);
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
+	UMDInventorySlotWidget* CreateInventorySlotWidget();
+
+	void CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void OnItemRemoved(UMDItemDataAsset* ItemRemoved, uint8 Amount, uint8 Index);
+	
 public:
 	TArray<UMDInventorySlotWidget*> GetSlotWidgets();
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "InventoryWidget")
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void GenerateSlotWidgets();
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void UpdateSlotAtIndex(uint8 SlotIndex);
+
+	virtual void NativeConstruct() override;
 };

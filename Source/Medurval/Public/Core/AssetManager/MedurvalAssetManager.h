@@ -29,4 +29,5 @@ public:
 
     inline static const FName WorldBundle = "World";
     inline static const FName UIBundle = "UI";
+    inline static const FName MandatoryBundle = "Mandatory";
 };

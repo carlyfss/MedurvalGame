@@ -59,6 +59,8 @@ public:
 
     void LoadWidgets();
 
+    void OnWidgetsLoaded();
+
     UFUNCTION(BlueprintCallable, Category="MDPlayerController")
     UMDActivatableWidget* PushWidget(TSubclassOf<UMDActivatableWidget> WidgetClass);
 

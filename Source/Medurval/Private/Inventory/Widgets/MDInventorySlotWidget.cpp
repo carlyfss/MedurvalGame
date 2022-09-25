@@ -3,8 +3,10 @@
 #include "Inventory/Widgets/MDInventorySlotWidget.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
+#include "Core/Widgets/MDButtonWidget.h"
 #include "Inventory/Components/MDInventoryComponent.h"
 #include "Engine/StreamableManager.h"
+#include "CommonNumericTextBlock.h"
 #include "Kismet/GameplayStatics.h"
 
 void UMDInventorySlotWidget::SetAmount(const uint8 NewAmount)
@@ -21,7 +23,8 @@ void UMDInventorySlotWidget::CleanSlot()
 {
 	if (InventoryReference->IsSlotEmpty(SlotIndex))
 	{
-		ItemIcon->SetVisibility(ESlateVisibility::Hidden);
+		ItemIcon->SetVisibility(ESlateVisibility::Collapsed);
+		SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
 
 		SlotButton->SetToolTip(nullptr);
 		SlotButton->SetIsEnabled(false);
@@ -41,10 +44,20 @@ void UMDInventorySlotWidget::UpdateSlot()
 		return;
 
 	ItemIcon->SetBrushFromTexture(Item->Thumbnail.Get());
-	ItemIcon->SetVisibility(ESlateVisibility::HitTestInvisible);
+	ItemIcon->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
 	Amount = InventoryReference->GetAmountAtIndex(SlotIndex);
 
+	if (Amount <= 0)
+	{
+		SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
+	}
+	else
+	{
+		SlotAmount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	}
+
+	SlotAmount->SetCurrentValue(Amount);
 	SlotButton->SetIsEnabled(true);
 
 	SetSlotFrameByRarity();

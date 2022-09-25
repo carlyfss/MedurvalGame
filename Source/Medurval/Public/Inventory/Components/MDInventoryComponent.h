@@ -40,6 +40,18 @@ class MEDURVAL_API UMDInventoryComponent : public UMDActorComponent, public IMDI
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
+	int32 SidebarEquipmentSlotAmount = 5;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
+	TMap<EMDEquipmentAttachment, TSoftObjectPtr<UTexture2D>> EquipmentSlotsMap;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
+	TMap<EMDWeaponAttachment, TSoftObjectPtr<UTexture2D>> WeaponSlotsMap;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
 	uint8 SlotsPerRow = 6;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
@@ -58,7 +70,7 @@ class MEDURVAL_API UMDInventoryComponent : public UMDActorComponent, public IMDI
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
 	TArray<FMDInventoryWeaponSlot> WeaponSlots;
-	
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -142,4 +154,6 @@ public:
 	virtual void UpdateSlotAfterLoad_Implementation(uint8 SlotIndex) override;
 
 	virtual bool RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToAdd, uint8 Amount, int& Rest) override;
+
+	uint8 GetSlotsPerRow() const;
 };

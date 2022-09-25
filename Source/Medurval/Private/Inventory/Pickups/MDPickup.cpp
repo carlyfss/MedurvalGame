@@ -86,8 +86,11 @@ void AMDPickup::CheckForOverlappedActors()
 
 void AMDPickup::LoadPickupItem()
 {
+	TArray<FName> BundlesToLoad;
+	BundlesToLoad.Add(UMedurvalAssetManager::WorldBundle);
+	
 	FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &AMDPickup::OnPickupItemLoaded);
-	GetMDGameInstance()->LoadPrimaryAssetId(ItemId, Delegate);
+	GetMDGameInstance()->LoadPrimaryAssetId(ItemId, Delegate, BundlesToLoad);
 
 	OnItemLoaded.Broadcast();
 }

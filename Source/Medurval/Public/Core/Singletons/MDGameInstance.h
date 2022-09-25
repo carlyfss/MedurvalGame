@@ -20,8 +20,11 @@ class MEDURVAL_API UMDGameInstance final : public UGameInstance
 public:
     UMDGameInstance();
 
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDActor")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="MDGameInstance")
 	UMedurvalAssetManager* GetMedurvalAssetManager() const;
+
+	UFUNCTION(BlueprintCallable, Category="MDGameInstance")
+	static UObject* GetPrimaryAssetIdObject(FPrimaryAssetId AssetId);
 
 	static void LoadObject(TSoftObjectPtr<> ObjectToLoad, FStreamableDelegate DelegateToCall = FStreamableDelegate());
 

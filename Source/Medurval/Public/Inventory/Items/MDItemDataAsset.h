@@ -26,10 +26,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset")
 	FText Description = FText::FromString(TEXT("Item description"));
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="World"))
 	TSoftObjectPtr<UStaticMesh> Mesh = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="UI"))
 	TSoftObjectPtr<UTexture2D> Thumbnail = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(DisplayName="Category"))

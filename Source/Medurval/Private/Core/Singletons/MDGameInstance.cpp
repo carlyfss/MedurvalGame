@@ -25,6 +25,20 @@ UMedurvalAssetManager* UMDGameInstance::GetMedurvalAssetManager() const
     return AssetManager;
 }
 
+UObject* UMDGameInstance::GetPrimaryAssetIdObject(FPrimaryAssetId AssetId)
+{
+    UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
+    {
+        UE_LOG(LogTemp, Error, TEXT("MedurvalAssetManager not available to get primary asset: %s!"),
+               *AssetId.ToString());
+        return nullptr;
+    }
+
+    return AssetManager->GetPrimaryAssetObject(AssetId);
+}
+
 void UMDGameInstance::LoadObject(TSoftObjectPtr<> ObjectToLoad, FStreamableDelegate DelegateToCall)
 {
     FStreamableManager& StreamableManager = UAssetManager::GetStreamableManager();
