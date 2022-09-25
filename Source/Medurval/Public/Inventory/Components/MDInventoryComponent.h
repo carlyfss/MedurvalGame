@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Core/Components/MDActorComponent.h"
 #include "Inventory/Interfaces/MDInventoryInterface.h"
+#include "Inventory/Structs/MDInventoryEquipmentSlot.h"
 #include "Inventory/Structs/MDInventorySlot.h"
+#include "Inventory/Structs/MDInventoryWeaponSlot.h"
 #include "MDInventoryComponent.generated.h"
 
 class AMDPlayerCharacter;
@@ -26,31 +28,37 @@ class MEDURVAL_API UMDInventoryComponent : public UMDActorComponent, public IMDI
 #pragma region Configurations
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
-	uint8 SlotAmount = 15;
+	int32 SlotAmount = 24;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
-	uint8 SlotsPerRow = 5;
+	int32 EquipmentSlotsAmount = 10;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
-	uint8 MaxStackSize = 30;
+	int32 WeaponSlotsAmount = 3;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory|Configuration",
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
-	bool bIsVisible = false;
+	uint8 SlotsPerRow = 6;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory|Configuration",
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
-	TSubclassOf<UUserWidget> InventoryWidgetClass = nullptr;
+	uint8 MaxStackSize = 150;
+#pragma endregion Configurations
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UMDInventoryWidget> InventoryWidget = nullptr;
-#pragma endregion Configurations
+	bool bIsVisible = false;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
 	TArray<FMDInventorySlot> Slots;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
+	TArray<FMDInventoryEquipmentSlot> EquipmentSlots;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
+	TArray<FMDInventoryWeaponSlot> WeaponSlots;
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -117,7 +125,8 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnItemAdded OnItemAdded;
 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemRemoved, UMDItemDataAsset *, ItemRemoved, uint8, Amount);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnItemRemoved, UMDItemDataAsset *, ItemRemoved, uint8, Amount,
+	                                               uint8, Index);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnItemRemoved OnItemRemoved;

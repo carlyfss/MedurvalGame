@@ -11,10 +11,10 @@ struct MEDURVAL_API FMDInventorySlot
 
 	FORCEINLINE FMDInventorySlot();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Slot")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="InventorySlot")
 	TObjectPtr<UMDItemDataAsset> Item = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="_Slot")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="InventorySlot")
 	uint8 Amount = 0;
 };
 

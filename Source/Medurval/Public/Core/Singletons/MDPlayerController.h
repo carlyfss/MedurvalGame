@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "CommonActivatableWidget.h"
+#include "Core/Widgets/MDGameBaseWidget.h"
+#include "Core/Widgets/MDGameMenuWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "MDPlayerController.generated.h"
 
@@ -16,25 +18,31 @@ class MEDURVAL_API AMDPlayerController : public APlayerController
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TSubclassOf<UCommonActivatableWidget> BaseWidgetClass;
+    TSubclassOf<UMDGameBaseWidget> BaseWidgetClass;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TSoftClassPtr<UCommonActivatableWidget> CharacterWidgetClass;
+    TSoftClassPtr<UMDGameMenuWidget> GameMenuWidgetClass;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TSoftClassPtr<UCommonActivatableWidget> SettlementWidgetClass;
+    TSoftClassPtr<UMDActivatableWidget> CharacterWidgetClass;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TSoftClassPtr<UCommonActivatableWidget> BuildingsListWidgetClass;
+    TSoftClassPtr<UMDActivatableWidget> SettlementWidgetClass;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
+    TSoftClassPtr<UMDActivatableWidget> BuildingsListWidgetClass;
 
     UPROPERTY(BlueprintReadWrite, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCommonActivatableWidget> BaseWidget;
+    TObjectPtr<UMDGameBaseWidget> BaseWidget;
 
     UPROPERTY(BlueprintReadWrite, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCommonActivatableWidget> CharacterWidget;
+    TObjectPtr<UMDGameMenuWidget> GameMenuWidget;
 
     UPROPERTY(BlueprintReadWrite, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UCommonActivatableWidget> SettlementWidget;
+    TObjectPtr<UMDActivatableWidget> CharacterWidget;
+
+    UPROPERTY(BlueprintReadWrite, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDActivatableWidget> SettlementWidget;
 
     UPROPERTY(BlueprintReadWrite, Category="MDPlayerController", meta=(AllowPrivateAccess=true))
     bool bIsSettlementView = false;
@@ -51,6 +59,12 @@ public:
 
     void LoadWidgets();
 
+    UFUNCTION(BlueprintCallable, Category="MDPlayerController")
+    UMDActivatableWidget* PushWidget(TSubclassOf<UMDActivatableWidget> WidgetClass);
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDPlayerController")
+    void PushGameMenuWidget();
+
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDPlayerController")
     void PushSettlementWidget();
 
@@ -61,11 +75,9 @@ public:
     void OpenBuildingsList(AActor *TerrainActor, bool bIsOnSettlementView);
 
     void SetSettlementView(bool bIsOnSettlementView);
-
     
-
     UFUNCTION(BlueprintCallable, Category="MDPlayerController")
-    UCommonActivatableWidget *GetSettlementWidget();
+    UMDActivatableWidget* GetSettlementWidget();
 
     virtual void BeginPlay() override;
 };

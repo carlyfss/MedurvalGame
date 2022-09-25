@@ -23,6 +23,8 @@ public:
     static const FPrimaryAssetType DefaultItemType;
     static const FPrimaryAssetType ConsumableItemType;
     static const FPrimaryAssetType ResourceItemType;
+    static const FPrimaryAssetType EquipmentItemType;
+    static const FPrimaryAssetType WeaponItemType;
     static const FPrimaryAssetType SettlementBuildingType;
 
     inline static const FName WorldBundle = "World";

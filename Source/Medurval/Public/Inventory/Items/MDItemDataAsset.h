@@ -38,8 +38,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(DisplayName="Rarity"))
 	EMDItemRarity Rarity = EMDItemRarity::None;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset",
-		meta=(DisplayName="Item can be stacked?"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset")
 	int Value = 0;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(DisplayName="Item can be used?"))

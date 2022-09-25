@@ -7,6 +7,8 @@ const FPrimaryAssetType UMedurvalAssetManager::DefaultItemType = TEXT("DefaultIt
 const FPrimaryAssetType UMedurvalAssetManager::ConsumableItemType = TEXT("ConsumableItem");
 const FPrimaryAssetType UMedurvalAssetManager::ResourceItemType = TEXT("ResourceItem");
 const FPrimaryAssetType UMedurvalAssetManager::SettlementBuildingType = TEXT("SettlementBuilding");
+const FPrimaryAssetType UMedurvalAssetManager::WeaponItemType = TEXT("WeaponItem");
+const FPrimaryAssetType UMedurvalAssetManager::EquipmentItemType = TEXT("EquipmentItem");
 
 void UMedurvalAssetManager::StartInitialLoading()
 {

@@ -18,8 +18,21 @@ void AMDPlayerController::LoadWidgets()
     Objects.Add(CharacterWidgetClass.ToSoftObjectPath());
     Objects.Add(SettlementWidgetClass.ToSoftObjectPath());
     Objects.Add(BuildingsListWidgetClass.ToSoftObjectPath());
+    Objects.Add(GameMenuWidgetClass.ToSoftObjectPath());
 
     WidgetLoadHandle = StreamableManager.RequestAsyncLoad(Objects);
+}
+
+UMDActivatableWidget* AMDPlayerController::PushWidget(TSubclassOf<UMDActivatableWidget> WidgetClass)
+{
+    UMDActivatableWidget* Widget = nullptr;
+
+    if (BaseWidget)
+    {
+        Widget = BaseWidget->PushPrompt(WidgetClass);
+    }
+
+    return Widget;
 }
 
 void AMDPlayerController::SetSettlementView(bool bIsOnSettlementView)
@@ -27,7 +40,7 @@ void AMDPlayerController::SetSettlementView(bool bIsOnSettlementView)
     bIsSettlementView = bIsOnSettlementView;
 }
 
-UCommonActivatableWidget *AMDPlayerController::GetSettlementWidget()
+UMDActivatableWidget* AMDPlayerController::GetSettlementWidget()
 {
     return SettlementWidget;
 }

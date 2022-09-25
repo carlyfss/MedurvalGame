@@ -15,6 +15,10 @@ void UMDInventoryComponent::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerCharacter = Cast<AMDPlayerCharacter>(GetOwner());
+
+	Slots.SetNum(SlotAmount);
+	EquipmentSlots.SetNum(EquipmentSlotsAmount);
+	WeaponSlots.SetNum(WeaponSlotsAmount);
 }
 
 /** Checks if a given index is empty or not */
@@ -22,7 +26,6 @@ bool UMDInventoryComponent::IsSlotEmpty(uint8 Index) const
 {
 	return !Slots[Index].Item || Slots[Index].Amount == 0;
 }
-
 
 /** Get item information at the given Index, if it doesn't find, it returns a
  * nullptr, and the bIsSlotEmpty = true */
@@ -233,22 +236,17 @@ bool UMDInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
 
 		if (Amount >= GetAmountAtIndex(Index))
 		{
-			TArray<UMDInventorySlotWidget*> SlotWidgets = InventoryWidget->GetSlotWidgets();
-			UMDInventorySlotWidget* SlotWidget = SlotWidgets[Index];
-
 			Slots[Index].Item = nullptr;
 			Slots[Index].Amount = 0;
 
-			SlotWidget->CleanSlot();
-
-			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
+			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount, Index);
 			bIsItemRemoved = true;
 		}
 		else
 		{
 			Slots[Index].Amount -= Amount;
 
-			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount);
+			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount, Index);
 			OnUpdateSlotAtIndex.Broadcast(Index);
 
 			bIsItemRemoved = true;
@@ -440,10 +438,7 @@ bool UMDInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 
 void UMDInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)
 {
-	TArray<UMDInventorySlotWidget*> SlotWidgets = InventoryWidget->GetSlotWidgets();
-	UMDInventorySlotWidget* SlotWidget = SlotWidgets[SlotIndex];
-
-	SlotWidget->UpdateSlot();
+	OnUpdateSlotAtIndex.Broadcast(SlotIndex);
 }
 
 bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToRemove, uint8 Amount,
