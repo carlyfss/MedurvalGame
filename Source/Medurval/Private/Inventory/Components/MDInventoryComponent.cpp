@@ -6,7 +6,18 @@
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Singletons/MDGameInstance.h"
 #include "Inventory/Items/MDItemDataAsset.h"
-#include "Kismet/KismetSystemLibrary.h"
+
+void UMDInventoryComponent::InitializeSlotArrays()
+{
+	Slots.SetNum(SlotAmount);
+	EquipmentSlots.SetNum(EquipmentSlotsAmount);
+	WeaponSlots.SetNum(WeaponSlotsAmount);
+
+	for (int i = 0; i < Slots.Num(); i++)
+	{
+		Slots[i] = FMDInventorySlot();
+	}
+}
 
 void UMDInventoryComponent::BeginPlay()
 {
@@ -14,39 +25,36 @@ void UMDInventoryComponent::BeginPlay()
 
 	PlayerCharacter = Cast<AMDPlayerCharacter>(GetOwner());
 
-	Slots.SetNum(SlotAmount);
-	EquipmentSlots.SetNum(EquipmentSlotsAmount);
-	WeaponSlots.SetNum(WeaponSlotsAmount);
+	InitializeSlotArrays();
 }
 
 /** Checks if a given index is empty or not */
-bool UMDInventoryComponent::IsSlotEmpty(uint8 Index) const
+bool UMDInventoryComponent::IsSlotEmpty(int32 Index) const
 {
-	return !Slots[Index].Item || Slots[Index].Amount == 0;
+	return !Slots[Index].IsValid();
 }
 
 /** Get item information at the given Index, if it doesn't find, it returns a
  * nullptr, and the bIsSlotEmpty = true */
-UMDItemDataAsset* UMDInventoryComponent::GetItemInfoAtIndex(uint8 Index, bool& bIsSlotEmpty, uint8& Amount) const
+FPrimaryAssetId UMDInventoryComponent::GetItemInfoAtIndex(int32 Index, bool& bIsSlotEmpty, int32& Amount) const
 {
 	check(Slots.Num() > Index);
 
 	const FMDInventorySlot Slot = Slots[Index];
 
-	if (IsValid(Slot.Item))
+	if (Slot.Item.IsValid())
 	{
-		UMDItemDataAsset* ItemInfo = Slot.Item;
 		Amount = Slot.Amount;
 		bIsSlotEmpty = false;
 
-		return ItemInfo;
+		return Slot.Item;
 	}
 
 	bIsSlotEmpty = true;
-	return nullptr;
+	return FPrimaryAssetId();
 }
 
-uint8 UMDInventoryComponent::GetAmountAtIndex(uint8 Index) const
+int32 UMDInventoryComponent::GetAmountAtIndex(int32 Index) const
 {
 	check(Slots.Num() > Index)
 	return Slots[Index].Amount;
@@ -59,10 +67,10 @@ TArray<FMDInventorySlot> UMDInventoryComponent::GetSlots() const
 
 /** Searches for a empty slot, and if it finds, store the index in the parameter
  * &Index */
-bool UMDInventoryComponent::SearchEmptySlot(uint8& Index)
+bool UMDInventoryComponent::SearchEmptySlot(int32& Index)
 {
 	bool bEmptySlot = false;
-	uint8 FoundIndex = 0;
+	int32 FoundIndex = 0;
 
 	if (!Slots.IsEmpty())
 	{
@@ -70,7 +78,7 @@ bool UMDInventoryComponent::SearchEmptySlot(uint8& Index)
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (Slots[i].Item || Slots[i].Amount > 0)
+			if (Slots[i].IsValid())
 			{
 				continue;
 			}
@@ -93,10 +101,10 @@ bool UMDInventoryComponent::SearchEmptySlot(uint8& Index)
  * slot and stores the index in the parameter &Index and if the stack is full it
  * return false
  */
-bool UMDInventoryComponent::SearchFreeStack(UMDItemDataAsset* Item, uint8& Index)
+bool UMDInventoryComponent::SearchFreeStack(FPrimaryAssetId Item, int32& Index)
 {
-	bool bSlotAvaiable = false;
-	uint8 FoundIndex = 0;
+	bool bSlotAvailable = false;
+	int32 FoundIndex = 0;
 
 	if (!Slots.IsEmpty())
 	{
@@ -104,12 +112,12 @@ bool UMDInventoryComponent::SearchFreeStack(UMDItemDataAsset* Item, uint8& Index
 
 		for (int i = 0; i < Slots.Num(); i++)
 		{
-			if (Slots[i].Item && Slots[i].Item != Item)
+			if (Slots[i].IsValid() && !Slots[i].IsSameItem(Item))
 				continue;
-			if (Slots[i].Amount == MaxStackSize)
+			if (Slots[i].IsFull())
 				continue;
 
-			bSlotAvaiable = true;
+			bSlotAvailable = true;
 			FoundIndex = i;
 			break;
 		}
@@ -117,30 +125,31 @@ bool UMDInventoryComponent::SearchFreeStack(UMDItemDataAsset* Item, uint8& Index
 
 	Index = FoundIndex;
 
-	return bSlotAvaiable;
+	return bSlotAvailable;
 }
 
-bool UMDInventoryComponent::AddItem(UMDItemDataAsset* Item, uint8 Amount, uint8& Rest)
+bool UMDInventoryComponent::AddItem(FPrimaryAssetId Item, int32 Amount, int32& Rest)
 {
-	if (!Item)
+	if (!Item.IsValid())
 		return false;
 
-	if (!Item->bCanBeStacked)
+	UMDItemDataAsset* ItemInfo = GetMDGameInstance()->GetCastPrimaryAssetId<UMDItemDataAsset>(Item);
+
+	if (ItemInfo && !ItemInfo->bCanBeStacked)
 	{
-		OnItemAdded.Broadcast(Item, Amount);
 		return AddUnstackableItem(Item, Amount, Rest);
 	}
 
-	OnItemAdded.Broadcast(Item, Amount);
+	
 	return AddStackableItem(Item, Amount, Rest);
 }
 
-bool UMDInventoryComponent::AddUnstackableItem(UMDItemDataAsset* Item, uint8 Amount, uint8& Rest)
+bool UMDInventoryComponent::AddUnstackableItem(FPrimaryAssetId Item, int32 Amount, int32& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
 	bool bAddedSuccessfully = false;
-	uint8 FoundIndex = 0;
+	int32 FoundIndex = 0;
 
 	if (!SearchEmptySlot(FoundIndex))
 	{
@@ -154,42 +163,42 @@ bool UMDInventoryComponent::AddUnstackableItem(UMDItemDataAsset* Item, uint8 Amo
 
 		if (Amount > 1)
 		{
-			const uint8 NewAmount = Amount - 1;
-
+			const int32 NewAmount = Amount - 1;
 			bAddedSuccessfully = AddItem(Item, NewAmount, Rest);
 		}
 
 		Rest = 0;
 	}
 
+	OnItemAdded.Broadcast(Item, Amount);
 	OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 	return bAddedSuccessfully;
 }
 
-bool UMDInventoryComponent::AddStackableItem(UMDItemDataAsset* Item, uint8 Amount, uint8& Rest)
+bool UMDInventoryComponent::AddStackableItem(FPrimaryAssetId Item, int32 Amount, int32& Rest)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
 	bool bAddedSuccessfully = false;
-	uint8 AmountRest = 0;
-	uint8 FoundIndex = 0;
+	int32 AmountRest = 0;
+	int32 FoundIndex = 0;
 
 	if (!SearchFreeStack(Item, FoundIndex))
 	{
+		// Add to empty slot
 		if (SearchEmptySlot(FoundIndex))
 		{
-			if (Amount > MaxStackSize)
+			if (Amount > FMDInventorySlot::MAX_SlotAmount)
 			{
 				Slots[FoundIndex].Item = Item;
-				Slots[FoundIndex].Amount = MaxStackSize;
 
-				const uint8 NewAmount = Amount - MaxStackSize;
-				bAddedSuccessfully = AddItem(Item, NewAmount, AmountRest);
+				const int32 RestAmount = Slots[FoundIndex].AddAmount(Amount);
+				bAddedSuccessfully = AddItem(Item, RestAmount, AmountRest);
 			}
 			else
 			{
 				Slots[FoundIndex].Item = Item;
-				Slots[FoundIndex].Amount = Amount;
+				Slots[FoundIndex].AddAmount(Amount);
 
 				Rest = 0;
 				bAddedSuccessfully = true;
@@ -202,29 +211,26 @@ bool UMDInventoryComponent::AddStackableItem(UMDItemDataAsset* Item, uint8 Amoun
 	}
 	else
 	{
-		uint8 CurrentStackAmount = Slots[FoundIndex].Amount + Amount;
+		const int32 RestAmount = Slots[FoundIndex].AddAmount(Amount);
 
-		if (CurrentStackAmount > MaxStackSize)
+		if (RestAmount > 0)
 		{
 			Slots[FoundIndex].Item = Item;
-			Slots[FoundIndex].Amount = MaxStackSize;
-
-			const uint8 RestAmount = CurrentStackAmount - MaxStackSize;
 			bAddedSuccessfully = AddItem(Item, RestAmount, AmountRest);
 		}
 		else
 		{
 			Slots[FoundIndex].Item = Item;
-			Slots[FoundIndex].Amount = CurrentStackAmount;
 			bAddedSuccessfully = true;
 		}
 	}
 
+	OnItemAdded.Broadcast(Item, Amount);
 	OnUpdateSlotAtIndex.Broadcast(FoundIndex);
 	return bAddedSuccessfully;
 }
 
-bool UMDInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
+bool UMDInventoryComponent::RemoveItemAtIndex(int32 Index, int32 Amount)
 {
 	bool bIsItemRemoved = false;
 
@@ -234,17 +240,18 @@ bool UMDInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
 
 		if (Amount >= GetAmountAtIndex(Index))
 		{
-			Slots[Index].Item = nullptr;
+			const int32 RemovedAmount = Slots[Index].Amount;
+			Slots[Index].Item = FPrimaryAssetId();
 			Slots[Index].Amount = 0;
 
-			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount, Index);
+			OnItemRemoved.Broadcast(Slots[Index].Item, RemovedAmount, Index);
 			bIsItemRemoved = true;
 		}
 		else
 		{
-			Slots[Index].Amount -= Amount;
+			Slots[Index].RemoveAmount(Amount);
 
-			OnItemRemoved.Broadcast(Slots[Index].Item, Slots[Index].Amount, Index);
+			OnItemRemoved.Broadcast(Slots[Index].Item, Amount, Index);
 			OnUpdateSlotAtIndex.Broadcast(Index);
 
 			bIsItemRemoved = true;
@@ -254,11 +261,11 @@ bool UMDInventoryComponent::RemoveItemAtIndex(uint8 Index, uint8 Amount)
 	return bIsItemRemoved;
 }
 
-bool UMDInventoryComponent::SwapSlots(uint8 OriginIndex, uint8 TargetIndex)
+bool UMDInventoryComponent::SwapSlots(int32 OriginIndex, int32 TargetIndex)
 {
 	FScopeLock Lock(&SocketsCriticalSection);
 
-	const uint8 SlotsLastIndex = Slots.Num() - 1;
+	const int32 SlotsLastIndex = Slots.Num() - 1;
 
 	if (OriginIndex > SlotsLastIndex || TargetIndex > SlotsLastIndex)
 	{
@@ -280,30 +287,31 @@ bool UMDInventoryComponent::SwapSlots(uint8 OriginIndex, uint8 TargetIndex)
 	return true;
 }
 
-bool UMDInventoryComponent::SplitStack(uint8 Index)
+bool UMDInventoryComponent::SplitStack(int32 Index)
 {
 	bool bHasSplitTheStack = false;
 	bool bIsSlotEmpty = false;
-	uint8 CurrentAmount = 0;
+	int32 CurrentAmount = 0;
 
 	if (!IsSlotEmpty(Index))
 	{
-		UMDItemDataAsset* ItemInfo = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
+		FPrimaryAssetId ItemId = GetItemInfoAtIndex(Index, bIsSlotEmpty, CurrentAmount);
+		UMDItemDataAsset* ItemInfo = GetMDGameInstance()->GetCastPrimaryAssetId<UMDItemDataAsset>(ItemId);
 
 		if (ItemInfo && ItemInfo->bCanBeStacked && CurrentAmount > 1)
 		{
-			uint8 FoundSlotIndex = 0;
-			uint8 HalfAmount = (CurrentAmount / 2);
+			int32 FoundSlotIndex = 0;
+			int32 HalfAmount = (CurrentAmount / 2);
 
 			if (SearchEmptySlot(FoundSlotIndex))
 			{
 				FScopeLock Lock(&SocketsCriticalSection);
 
-				Slots[Index].Item = ItemInfo;
-				Slots[Index].Amount = CurrentAmount - HalfAmount;
+				Slots[Index].Item = ItemId;
+				Slots[Index].RemoveAmount(HalfAmount);
 
-				Slots[FoundSlotIndex].Item = ItemInfo;
-				Slots[FoundSlotIndex].Amount = HalfAmount;
+				Slots[FoundSlotIndex].Item = ItemId;
+				Slots[FoundSlotIndex].AddAmount(HalfAmount);
 
 				OnUpdateSlotAtIndex.Broadcast(Index);
 				OnUpdateSlotAtIndex.Broadcast(FoundSlotIndex);
@@ -315,22 +323,23 @@ bool UMDInventoryComponent::SplitStack(uint8 Index)
 	return bHasSplitTheStack;
 }
 
-bool UMDInventoryComponent::SplitStackToIndex(uint8 SourceIndex, uint8 TargetIndex, uint8 Amount)
+bool UMDInventoryComponent::SplitStackToIndex(int32 SourceIndex, int32 TargetIndex, int32 Amount)
 {
 	bool bIsSlotEmpty;
-	uint8 AmountAtSlot;
+	int32 AmountAtSlot;
 
-	UMDItemDataAsset* ItemAtSourceSlot = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+	FPrimaryAssetId ItemId = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+	UMDItemDataAsset* ItemInfo = GetMDGameInstance()->GetCastPrimaryAssetId<UMDItemDataAsset>(ItemId);
 
 	bool bTargetSlotHasAmount = AmountAtSlot > 1;
 	bool bIsAmountLessThanTargetAmount = AmountAtSlot > Amount;
 
 	if (IsSlotEmpty(TargetIndex) && !IsSlotEmpty(SourceIndex) &&
-		ItemAtSourceSlot->bCanBeStacked && bTargetSlotHasAmount &&
+		ItemInfo->bCanBeStacked && bTargetSlotHasAmount &&
 		bIsAmountLessThanTargetAmount)
 	{
 		Slots[SourceIndex].Amount -= Amount;
-		Slots[TargetIndex].Item = ItemAtSourceSlot;
+		Slots[TargetIndex].Item = ItemId;
 		Slots[TargetIndex].Amount = Amount;
 
 		OnUpdateSlotAtIndex.Broadcast(SourceIndex);
@@ -341,80 +350,53 @@ bool UMDInventoryComponent::SplitStackToIndex(uint8 SourceIndex, uint8 TargetInd
 	return false;
 }
 
-bool UMDInventoryComponent::LoadAndAddItem(FPrimaryAssetId TargetItemId, uint8 Amount)
+bool UMDInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd, int32 Amount)
 {
-	TArray<FName> BundlesToLoad;
-	BundlesToLoad.Add(UMedurvalAssetManager::UIBundle);
-	
-	FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(
-		this, &UMDInventoryComponent::AddItemOnLoadCompleted, TargetItemId, Amount);
-
-	GetMDGameInstance()->LoadPrimaryAssetId(TargetItemId, Delegate, BundlesToLoad);
-	return true;
+	int32 Rest = 0;
+	return AddItem(ItemIdToAdd, Amount, Rest);
 }
 
-bool UMDInventoryComponent::OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToAdd, uint8 Amount)
+void UMDInventoryComponent::AddItemOnLoadCompleted(FPrimaryAssetId TargetItemId, int32 Amount)
 {
-	return LoadAndAddItem(ItemIdToAdd, Amount);
+	int32 Rest = 0;
+	AddItem(TargetItemId, Amount, Rest);
 }
 
-void UMDInventoryComponent::AddItemOnLoadCompleted(FPrimaryAssetId TargetItemId, uint8 Amount)
+bool UMDInventoryComponent::AddToIndex(int32 SourceIndex, int32 TargetIndex)
 {
-	UMDItemDataAsset* Item = Cast<UMDItemDataAsset>(GetMDGameInstance()->GetPrimaryAssetIdObject(TargetItemId));
-
-	if (Item)
+	if (Slots[TargetIndex].IsValid())
 	{
-		uint8 Rest = 0;
-		AddItem(Item, Amount, Rest);	
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ItemID %s was not loaded yet!"), *TargetItemId.ToString());
-	}
-}
-
-bool UMDInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
-{
-	const UClass* SourceSlotClass = Slots[SourceIndex].Item->GetClass();
-
-	if (Slots[TargetIndex].Item)
-	{
-		const UClass* TargetSlotClass = Slots[TargetIndex].Item->GetClass();
-
-		bool bIsClassEqual = SourceSlotClass == TargetSlotClass;
-		bool bIsTargetLessThanMaxSize = Slots[TargetIndex].Amount < MaxStackSize;
+		const bool bIsClassEqual = Slots[SourceIndex].IsSameItem(Slots[TargetIndex].Item);
+		const bool bIsTargetLessThanMaxSize = !Slots[TargetIndex].IsFull();
 		bool bIsSlotEmpty;
 
-		uint8 AmountAtSlot;
+		int32 AmountAtSlot;
 
-		const UMDItemDataAsset* SourceItem = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+		const FPrimaryAssetId SourceItem = GetItemInfoAtIndex(SourceIndex, bIsSlotEmpty, AmountAtSlot);
+		const UMDItemDataAsset* ItemInfo = GetMDGameInstance()->GetCastPrimaryAssetId<UMDItemDataAsset>(SourceItem);
 
-		if (!bIsClassEqual && !bIsTargetLessThanMaxSize && !SourceItem->bCanBeStacked)
+		if (!bIsClassEqual && !bIsTargetLessThanMaxSize && !ItemInfo->bCanBeStacked)
 		{
 			return false;
 		}
 	}
 
-	uint8 TargetTotalRestAmount = MaxStackSize - GetAmountAtIndex(TargetIndex);
-	uint8 SourceAmount = GetAmountAtIndex(SourceIndex);
+	int32 TargetTotalRestAmount = FMDInventorySlot::MAX_SlotAmount - GetAmountAtIndex(TargetIndex);
+	int32 SourceAmount = GetAmountAtIndex(SourceIndex);
 
 	if (TargetTotalRestAmount <= SourceAmount)
 	{
-		uint8 SourceRestAmount = GetAmountAtIndex(SourceIndex) - (MaxStackSize - GetAmountAtIndex(TargetIndex));
-
-		Slots[SourceIndex].Amount = SourceRestAmount;
+		Slots[SourceIndex].RemoveAmount(TargetTotalRestAmount);
 
 		Slots[TargetIndex].Item = Slots[SourceIndex].Item;
-		Slots[TargetIndex].Amount = MaxStackSize;
+		Slots[TargetIndex].Amount = FMDInventorySlot::MAX_SlotAmount;
 	}
 	else
 	{
-		uint8 NewTotalAmount = GetAmountAtIndex(SourceIndex) + GetAmountAtIndex(TargetIndex);
-
 		Slots[TargetIndex].Item = Slots[SourceIndex].Item;
-		Slots[TargetIndex].Amount = NewTotalAmount;
+		Slots[TargetIndex].AddAmount(SourceAmount);
 
-		Slots[SourceIndex].Item = nullptr;
+		Slots[SourceIndex].Item = FPrimaryAssetId();
 		Slots[SourceIndex].Amount = 0;
 	}
 
@@ -425,12 +407,12 @@ bool UMDInventoryComponent::AddToIndex(uint8 SourceIndex, uint8 TargetIndex)
 }
 #pragma endregion InventoryInteractions
 
-void UMDInventoryComponent::UpdateSlotAfterLoad_Implementation(uint8 SlotIndex)
+void UMDInventoryComponent::UpdateSlotAfterLoad_Implementation(int32 SlotIndex)
 {
 	OnUpdateSlotAtIndex.Broadcast(SlotIndex);
 }
 
-bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToRemove, uint8 Amount,
+bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToRemove, int32 Amount,
                                                                    int& Rest)
 {
 	UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
@@ -439,16 +421,14 @@ bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAsset
 		return false;
 
 	bool bHasRemovedItem = false;
-	Rest = 0;
 	int CurrentAmount = Amount;
-
-	UMDItemDataAsset* Item = Cast<UMDItemDataAsset>(AssetManager->GetPrimaryAssetObject(ItemIdToRemove));
+	Rest = 0;
 
 	for (int i = Slots.Num() - 1; i >= 0; i--)
 	{
 		FMDInventorySlot Slot = Slots[i];
 
-		if (Slot.Item && Slot.Item == Item)
+		if (Slot.IsValid() && Slot.IsSameItem(ItemIdToRemove))
 		{
 			if (Amount <= Slot.Amount)
 			{
@@ -468,7 +448,7 @@ bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAsset
 	return bHasRemovedItem;
 }
 
-uint8 UMDInventoryComponent::GetSlotsPerRow() const
+int32 UMDInventoryComponent::GetSlotsPerRow() const
 {
 	return SlotsPerRow;
 }

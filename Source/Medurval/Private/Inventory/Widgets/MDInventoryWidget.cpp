@@ -8,13 +8,13 @@
 #include "Inventory/Components/MDInventoryComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
-void UMDInventoryWidget::CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column)
+void UMDInventoryWidget::CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column) const
 {
 	Row = UKismetMathLibrary::FTrunc(Index / SlotsPerRow);
 	Column = UKismetMathLibrary::FTrunc(Index % SlotsPerRow);
 }
 
-void UMDInventoryWidget::OnItemRemoved(UMDItemDataAsset* ItemRemoved, uint8 Amount, uint8 Index)
+void UMDInventoryWidget::OnItemRemoved(FPrimaryAssetId ItemRemoved, int32 Amount, int32 Index)
 {
 	SlotWidgets[Index]->CleanSlot();
 }
@@ -47,6 +47,7 @@ void UMDInventoryWidget::GenerateSlotWidgets()
 			SlotPanel->AddChildToUniformGrid(SlotWidget, Row, Column);
 
 			SlotWidget->CleanSlot();
+			SlotWidget->SetSlotInfo(Slots[i], i);
 		}
 
 		InventoryReference->OnItemRemoved.RemoveAll(this);
@@ -67,16 +68,16 @@ void UMDInventoryWidget::SetSlotsPerRow(uint8 Slots)
 	SlotsPerRow = Slots;
 }
 
-void UMDInventoryWidget::SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInventorySlot SlotInfo, int32 Index)
+void UMDInventoryWidget::SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInventorySlot SlotInfo, int32 SlotIndex)
 {
 	SlotWidget->SetInventoryReference(InventoryReference);
-	SlotWidget->SetWidgetProperties(SlotInfo.Item, SlotInfo.Amount, Index);
+	SlotWidget->SetSlotInfo(SlotInfo, SlotIndex);
 
 	SlotWidgets.Add(SlotWidget);
 	SlotWidget->UpdateSlot();
 }
 
-void UMDInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
+void UMDInventoryWidget::UpdateSlotAtIndex(int32 SlotIndex)
 {
 	UMDInventorySlotWidget* SlotWidget = GetSlotWidgets()[SlotIndex];
 	FMDInventorySlot TargetSlot = InventoryReference->GetSlots()[SlotIndex];
@@ -87,7 +88,7 @@ void UMDInventoryWidget::UpdateSlotAtIndex(uint8 SlotIndex)
 	}
 	else
 	{
-		SlotWidget->SetWidgetProperties(TargetSlot.Item, TargetSlot.Amount, SlotIndex);
+		SlotWidget->SetSlotInfo(TargetSlot, SlotIndex);
 		SlotWidget->UpdateSlot();
 	}
 }

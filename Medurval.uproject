@@ -28,12 +28,9 @@
 			]
 		},
 		{
-			"Name": "Inventory",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"Engine"
-			]
+			"Name": "MDLoadingScreen",
+			"Type": "ClientOnly",
+			"LoadingPhase": "PreLoadingScreen"
 		}
 	],
 	"Plugins": [

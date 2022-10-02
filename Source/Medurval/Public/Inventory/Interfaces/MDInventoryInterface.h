@@ -24,11 +24,11 @@ class MEDURVAL_API IMDInventoryInterface
 
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="MDInventoryInterface")
-	bool OnAddItemToInventory(FPrimaryAssetId ItemIdToAdd, uint8 Amount);
+	bool OnAddItemToInventory(FPrimaryAssetId ItemIdToAdd, int32 Amount);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="MDInventoryInterface")
-	bool RemoveItemFromInventory(FPrimaryAssetId ItemIdToRemove, uint8 Amount, int& Rest);
+	bool RemoveItemFromInventory(FPrimaryAssetId ItemIdToRemove, int32 Amount, int32& Rest);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="MDInventoryInterface")
-	void UpdateSlotAfterLoad(uint8 SlotIndex);
+	void UpdateSlotAfterLoad(int32 SlotIndex);
 };

@@ -1,78 +1,63 @@
 // MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #include "Inventory/Widgets/MDInventorySlotWidget.h"
-#include "Components/Button.h"
 #include "Components/Image.h"
 #include "Core/Widgets/MDButtonWidget.h"
 #include "Inventory/Components/MDInventoryComponent.h"
 #include "Engine/StreamableManager.h"
 #include "CommonNumericTextBlock.h"
+#include "Core/Singletons/MDGameInstance.h"
 #include "Kismet/GameplayStatics.h"
-
-void UMDInventorySlotWidget::SetAmount(const uint8 NewAmount)
-{
-	Amount = NewAmount;
-}
-
-void UMDInventorySlotWidget::SetItem(UMDItemDataAsset* NewItem)
-{
-	Item = NewItem;
-}
 
 void UMDInventorySlotWidget::CleanSlot()
 {
-	if (InventoryReference->IsSlotEmpty(SlotIndex))
-	{
-		ItemIcon->SetVisibility(ESlateVisibility::Collapsed);
-		SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
+	Icon->SetVisibility(ESlateVisibility::Collapsed);
+	Icon->SetBrushFromLazyTexture(nullptr);
+	SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
 
-		SlotButton->SetToolTip(nullptr);
-		SlotButton->SetIsEnabled(false);
+	SlotButton->SetToolTip(nullptr);
+	SlotButton->SetIsEnabled(false);
 
-		SetSlotFrameByRarity();
-		Item = nullptr;
-		Amount = 0;
-	}
+	SetSlotFrameByRarity();
+
+	SlotInfo.ClearSlot();
+}
+
+void UMDInventorySlotWidget::SetSlotInfo(FMDInventorySlot NewSlotInfo, int32 NewIndex)
+{
+	SlotInfo.Item = NewSlotInfo.Item;
+	SlotInfo.Amount = NewSlotInfo.Amount;
+	SlotIndex = NewIndex;
+	Item = GetMDGameInstance()->GetCastPrimaryAssetId<UMDItemDataAsset>(SlotInfo.Item);
+
+	UpdateSlot();
 }
 
 void UMDInventorySlotWidget::UpdateSlot()
 {
-	if (!IsValid(InventoryReference))
-		return;
-
-	if (!Item)
-		return;
-
-	ItemIcon->SetBrushFromTexture(Item->Thumbnail.Get());
-	ItemIcon->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-
-	Amount = InventoryReference->GetAmountAtIndex(SlotIndex);
-
-	if (Amount <= 0)
+	if (IsValid(InventoryReference) && SlotInfo.IsValid())
 	{
-		SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
-	}
-	else
-	{
-		SlotAmount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-	}
+		Icon->SetBrushFromLazyTexture(Item->Thumbnail);
+		Icon->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
-	SlotAmount->SetCurrentValue(Amount);
-	SlotButton->SetIsEnabled(true);
+		if (SlotInfo.Amount <= 1)
+		{
+			SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		else
+		{
+			SlotAmount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		}
 
-	SetSlotFrameByRarity();
-	CreateDetailWidget();
+		SlotAmount->SetCurrentValue(SlotInfo.Amount);
+		SlotButton->SetIsEnabled(true);
+
+		SetSlotFrameByRarity();
+		CreateDetailWidget();
+	}
 }
 
 void UMDInventorySlotWidget::SetInventoryReference(UMDInventoryComponent* TargetInventory)
 {
 	InventoryReference = TargetInventory;
-}
-
-void UMDInventorySlotWidget::SetWidgetProperties(UMDItemDataAsset* NewItem, const uint8 NewAmount,
-                                                 const uint8 NewSlotIndex)
-{
-	Item = NewItem;
-	Amount = NewAmount;
-	SlotIndex = NewSlotIndex;
 }

@@ -48,15 +48,15 @@ protected:
 	void SetSlotsPerRow(uint8 Slots);
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInventorySlot SlotInfo, int32 Index);
+	void SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInventorySlot SlotInfo, int32 SlotIndex);
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
 	UMDInventorySlotWidget* CreateInventorySlotWidget();
 
-	void CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column);
+	void CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column) const;
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void OnItemRemoved(UMDItemDataAsset* ItemRemoved, uint8 Amount, uint8 Index);
+	void OnItemRemoved(FPrimaryAssetId ItemRemoved, int32 Amount, int32 Index);
 	
 public:
 	TArray<UMDInventorySlotWidget*> GetSlotWidgets();
@@ -65,7 +65,7 @@ public:
 	void GenerateSlotWidgets();
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void UpdateSlotAtIndex(uint8 SlotIndex);
+	void UpdateSlotAtIndex(int32 SlotIndex);
 
 	virtual void NativeConstruct() override;
 };

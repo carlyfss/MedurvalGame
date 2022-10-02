@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Core/Widgets/MDActivatableWidget.h"
 #include "Inventory/Interfaces/MDInventoryInterface.h"
+#include "CommonLazyImage.h"
+#include "Inventory/Structs/MDInventorySlot.h"
 #include "MDInventorySlotWidget.generated.h"
 
 class UCommonNumericTextBlock;
@@ -15,7 +17,6 @@ class UMDItemDataAsset;
 class UMDInventoryComponent;
 class UTextBlock;
 class UButton;
-class UImage;
 
 UCLASS(meta = (DisplayName = "InventorySlotWidget"))
 class MEDURVAL_API UMDInventorySlotWidget final : public UMDActivatableWidget, public IMDInventoryInterface
@@ -25,14 +26,14 @@ class MEDURVAL_API UMDInventorySlotWidget final : public UMDActivatableWidget, p
 	UPROPERTY(Transient, BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDItemDataAsset> Item = nullptr;
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
-	uint8 Amount;
+	UPROPERTY(BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
+	FMDInventorySlot SlotInfo = FMDInventorySlot();
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
-	uint8 SlotIndex;
-
-	UPROPERTY(Transient, BlueprintReadWrite, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadWrite, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDInventoryComponent> InventoryReference;
+
+	UPROPERTY(BlueprintReadWrite, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
+	int32 SlotIndex = -1;
 
 	// Widget Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot",
@@ -45,7 +46,7 @@ class MEDURVAL_API UMDInventorySlotWidget final : public UMDActivatableWidget, p
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot",
 		meta = (BindWidget, AllowPrivateAccess = true))
-	TObjectPtr<UImage> ItemIcon = nullptr;
+	TObjectPtr<UCommonLazyImage> Icon = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "InventorySlot", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UMDDetailWidget> DetailWidget = nullptr;
@@ -57,11 +58,7 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
 	void SetInventoryReference(UMDInventoryComponent* TargetInventory);
-
-	void SetAmount(const uint8 NewAmount);
-
-	void SetItem(UMDItemDataAsset* NewItem);
-
+	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventorySlot")
 	void SetSlotFrameByRarity();
 	
@@ -72,5 +69,5 @@ public:
 	void CleanSlot();
 
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot|Setter")
-	void SetWidgetProperties(UMDItemDataAsset* NewItem, const uint8 NewAmount, const uint8 NewSlotIndex);
+	void SetSlotInfo(FMDInventorySlot NewSlotInfo, int32 NewIndex);
 };

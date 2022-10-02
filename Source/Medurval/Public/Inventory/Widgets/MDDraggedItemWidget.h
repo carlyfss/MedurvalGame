@@ -5,54 +5,44 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Core/Widgets/MDActivatableWidget.h"
+#include "Inventory/Structs/MDInventorySlot.h"
 #include "MDDraggedItemWidget.generated.h"
 
+class UCommonNumericTextBlock;
+class UCommonLazyImage;
 class UMDItemDataAsset;
 class UMDInventoryComponent;
-class UTextBlock;
-class UImage;
+
 /**
  * 
  */
-UCLASS(meta = (DisplayName = "DraggedItemWidget"))
+UCLASS(meta = (DisplayName = "MDDraggedItemWidget"))
 class MEDURVAL_API UMDDraggedItemWidget : public UMDActivatableWidget
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Transient, BlueprintGetter=GetItemInfo, BlueprintSetter=SetItemInfo)
-	TObjectPtr<UMDItemDataAsset> ItemInfo = nullptr;
+	UPROPERTY(BlueprintReadOnly, Category = "MDDraggedItemWidget", meta = (AllowPrivateAccess = true))
+	FMDInventorySlot SlotInfo = FMDInventorySlot();
 
-	UPROPERTY(Transient)
-	int SlotIndex = 0;
+	UPROPERTY(BlueprintReadWrite, Category="MDDetailWidget", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDItemDataAsset> Item = nullptr;
 
-	UPROPERTY(Transient, BlueprintGetter=GetAmount, BlueprintSetter=SetAmount)
-	uint8 Amount;
-
-	UPROPERTY(Transient, BlueprintGetter=GetInventoryReference, BlueprintSetter=SetInventoryReference)
+	UPROPERTY(BlueprintReadWrite, Category="MDDraggedItemWidget", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UMDInventoryComponent> InventoryReference;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="DraggedItem", meta=(BindWidget, AllowPrivateAccess=true))
-	TObjectPtr<UImage> ItemIcon = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="MDDraggedItemWidget",
+		meta=(BindWidget, AllowPrivateAccess=true))
+	TObjectPtr<UCommonLazyImage> Icon = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="DraggedItem", meta=(BindWidget, AllowPrivateAccess=true))
-	TObjectPtr<UTextBlock> AmountText = nullptr;
-
-	UFUNCTION(BlueprintCallable, Category="DraggedItem")
-	void SetItemInfo(UMDItemDataAsset* Item);
-
-	UFUNCTION(BlueprintCallable, Category="DraggedItem")
-	void SetAmount(uint8 DraggedAmount);
-
-	UFUNCTION(BlueprintCallable, Category="DraggedItem")
-	void SetInventoryReference(UMDInventoryComponent* InventoryRef);
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="MDDraggedItemWidget",
+		meta=(BindWidget, AllowPrivateAccess=true))
+	TObjectPtr<UCommonNumericTextBlock> Amount = nullptr;
 
 public:
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-	UMDInventoryComponent* GetInventoryReference() const;
+	UFUNCTION(BlueprintCallable, Category="MDDraggedItemWidget")
+	void SetInventoryReference(UMDInventoryComponent* InventoryRef);
 
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-	UMDItemDataAsset* GetItemInfo() const;
+	UFUNCTION(BlueprintCallable, Category="MDDraggedItemWidget")
+	void SetSlotInfo(FMDInventorySlot NewSlotInfo);
 
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="DraggedItem")
-	uint8 GetAmount() const;
 };

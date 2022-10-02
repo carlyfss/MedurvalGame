@@ -12,7 +12,7 @@ class UMDEconomyComponent;
  * 
  */
 UCLASS()
-class MEDURVAL_API AMDGameMode final : public AGameModeBase
+class MEDURVAL_API AMDGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
