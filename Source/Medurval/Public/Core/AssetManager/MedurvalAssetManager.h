@@ -24,6 +24,7 @@ public:
     static const FPrimaryAssetType ConsumableItemType;
     static const FPrimaryAssetType ResourceItemType;
     static const FPrimaryAssetType EquipmentItemType;
+    static const FPrimaryAssetType AccessoryItemType;
     static const FPrimaryAssetType WeaponItemType;
     static const FPrimaryAssetType SettlementBuildingType;
 

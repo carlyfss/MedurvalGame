@@ -9,6 +9,7 @@ const FPrimaryAssetType UMedurvalAssetManager::ResourceItemType = TEXT("Resource
 const FPrimaryAssetType UMedurvalAssetManager::SettlementBuildingType = TEXT("SettlementBuilding");
 const FPrimaryAssetType UMedurvalAssetManager::WeaponItemType = TEXT("WeaponItem");
 const FPrimaryAssetType UMedurvalAssetManager::EquipmentItemType = TEXT("EquipmentItem");
+const FPrimaryAssetType UMedurvalAssetManager::AccessoryItemType = TEXT("AccessoryItem");
 
 void UMedurvalAssetManager::StartInitialLoading()
 {

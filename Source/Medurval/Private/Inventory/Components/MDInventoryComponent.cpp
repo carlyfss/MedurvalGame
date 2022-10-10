@@ -11,11 +11,27 @@ void UMDInventoryComponent::InitializeSlotArrays()
 {
 	Slots.SetNum(SlotAmount);
 	EquipmentSlots.SetNum(EquipmentSlotsAmount);
+	AccessorySlots.SetNum(AccessorySlotsAmount);
 	WeaponSlots.SetNum(WeaponSlotsAmount);
 
 	for (int i = 0; i < Slots.Num(); i++)
 	{
 		Slots[i] = FMDInventorySlot();
+	}
+
+	for (int i = 0; i < EquipmentSlots.Num(); i++)
+	{
+		EquipmentSlots[i] = FMDInventoryEquipmentSlot();
+	}
+
+	for (int i = 0; i < AccessorySlots.Num(); i++)
+	{
+		AccessorySlots[i] = FMDInventoryAccessorySlot();
+	}
+
+	for (int i = 0; i < WeaponSlots.Num(); i++)
+	{
+		WeaponSlots[i] = FMDInventoryWeaponSlot();
 	}
 }
 
@@ -63,6 +79,21 @@ int32 UMDInventoryComponent::GetAmountAtIndex(int32 Index) const
 TArray<FMDInventorySlot> UMDInventoryComponent::GetSlots() const
 {
 	return Slots;
+}
+
+TArray<FMDInventoryEquipmentSlot> UMDInventoryComponent::GetEquipmentSlots() const
+{
+	return EquipmentSlots;
+}
+
+TArray<FMDInventoryAccessorySlot> UMDInventoryComponent::GetAccessorySlots() const
+{
+	return AccessorySlots;
+}
+
+TArray<FMDInventoryWeaponSlot> UMDInventoryComponent::GetWeaponSlots() const
+{
+	return WeaponSlots;
 }
 
 /** Searches for a empty slot, and if it finds, store the index in the parameter
@@ -451,4 +482,19 @@ bool UMDInventoryComponent::RemoveItemFromInventory_Implementation(FPrimaryAsset
 int32 UMDInventoryComponent::GetSlotsPerRow() const
 {
 	return SlotsPerRow;
+}
+
+int32 UMDInventoryComponent::GetEquipmentSlotsAmount() const
+{
+	return EquipmentSlotsAmount;
+}
+
+int32 UMDInventoryComponent::GetAccessorySlotsAmount() const
+{
+	return AccessorySlotsAmount;
+}
+
+int32 UMDInventoryComponent::GetWeaponSlotsAmount() const
+{
+	return WeaponSlotsAmount;
 }

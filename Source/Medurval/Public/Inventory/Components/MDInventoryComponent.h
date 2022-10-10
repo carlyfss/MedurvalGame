@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Core/Components/MDActorComponent.h"
 #include "Inventory/Interfaces/MDInventoryInterface.h"
+#include "Inventory/Structs/MDInventoryAccessorySlot.h"
 #include "Inventory/Structs/MDInventoryEquipmentSlot.h"
 #include "Inventory/Structs/MDInventorySlot.h"
 #include "Inventory/Structs/MDInventoryWeaponSlot.h"
@@ -32,8 +33,12 @@ class MEDURVAL_API UMDInventoryComponent : public UMDActorComponent, public IMDI
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
-	int32 EquipmentSlotsAmount = 10;
+	int32 EquipmentSlotsAmount = 5;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
+	int32 AccessorySlotsAmount = 5;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
 	int32 WeaponSlotsAmount = 3;
@@ -63,6 +68,9 @@ class MEDURVAL_API UMDInventoryComponent : public UMDActorComponent, public IMDI
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
 	TArray<FMDInventoryEquipmentSlot> EquipmentSlots;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
+	TArray<FMDInventoryAccessorySlot> AccessorySlots;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = true))
 	TArray<FMDInventoryWeaponSlot> WeaponSlots;
@@ -119,6 +127,12 @@ public:
 
 	TArray<FMDInventorySlot> GetSlots() const;
 
+	TArray<FMDInventoryEquipmentSlot> GetEquipmentSlots() const;
+
+	TArray<FMDInventoryAccessorySlot> GetAccessorySlots() const;
+
+	TArray<FMDInventoryWeaponSlot> GetWeaponSlots() const;
+
 #pragma region Delegates
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, FPrimaryAssetId, ItemAdded, int32, Amount);
 
@@ -144,4 +158,10 @@ public:
 	virtual bool RemoveItemFromInventory_Implementation(FPrimaryAssetId ItemIdToAdd, int32 Amount, int& Rest) override;
 
 	int32 GetSlotsPerRow() const;
+
+	int32 GetEquipmentSlotsAmount() const;
+
+	int32 GetAccessorySlotsAmount() const;
+
+	int32 GetWeaponSlotsAmount() const;
 };

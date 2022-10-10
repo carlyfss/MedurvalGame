@@ -40,6 +40,15 @@ class MEDURVAL_API UMDInventoryWidget : public UMDActivatableWidget
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
 	TArray<UMDInventorySlotWidget*> SlotWidgets;
 
+	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
+	TArray<UMDInventorySlotWidget*> EquipmentSlotWidgets;
+
+	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
+	TArray<UMDInventorySlotWidget*> AccessorySlotWidgets;
+
+	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
+	TArray<UMDInventorySlotWidget*> WeaponSlotWidgets;
+
 protected:
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void SetInventoryReference(UMDInventoryComponent* InventoryRef);
@@ -57,12 +66,24 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void OnItemRemoved(FPrimaryAssetId ItemRemoved, int32 Amount, int32 Index);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void GenerateSlotWidgets();
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void GenerateEquipmentSlotWidgets();
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void GenerateAccessorySlotWidgets();
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void GenerateWeaponSlotWidgets();
 	
 public:
 	TArray<UMDInventorySlotWidget*> GetSlotWidgets();
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
-	void GenerateSlotWidgets();
+	void GenerateAllSlotWidgets();
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void UpdateSlotAtIndex(int32 SlotIndex);

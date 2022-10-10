@@ -6,21 +6,15 @@
 #include "MDInventoryWeaponSlot.generated.h"
 
 USTRUCT(BlueprintType, meta = (DisplayName = "InventoryEquipmentSlot"))
-struct MEDURVAL_API FMDInventoryWeaponSlot
+struct MEDURVAL_API FMDInventoryWeaponSlot : public FMDInventorySlot
 {
 	GENERATED_BODY()
 
-	FORCEINLINE FMDInventoryWeaponSlot();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="InventoryEquipmentSlot")
-	TObjectPtr<UMDWeaponDataAsset> Weapon = nullptr;
+	FMDInventoryWeaponSlot() : Attachment(EMDWeaponAttachment::None)
+	{
+		Super();
+	}
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="InventoryEquipmentSlot")
 	EMDWeaponAttachment Attachment;
 };
-
-inline FMDInventoryWeaponSlot::FMDInventoryWeaponSlot()
-{
-	Weapon = nullptr;
-	Attachment = EMDWeaponAttachment::None;
-}
