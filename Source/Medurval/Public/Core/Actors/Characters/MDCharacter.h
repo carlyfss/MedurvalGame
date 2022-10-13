@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InputMappingContext.h"
+#include "Core/Components/MDSkeletalMeshComponent.h"
 #include "GameFramework/Character.h"
 #include "MDCharacter.generated.h"
 
@@ -31,7 +32,32 @@ class MEDURVAL_API AMDCharacter : public ACharacter
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
     UInputAction *MoveRightInput;
 
+#pragma region EquipmentSlots
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> HelmetSlot;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> ChestSlot;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> GlovesSlot;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> PantsSlot;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> BootsSlot;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> ShoulderSlot;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    TObjectPtr<UMDSkeletalMeshComponent> BeltSlot;
+#pragma endregion EquipmentSlots
+
     virtual void PawnClientRestart() override;
+
+    void GenerateEquipmentMeshSlots();
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
@@ -44,6 +70,7 @@ protected:
     TObjectPtr<UMDCameraComponent> CameraComponent = nullptr;
     
     void EnhancedMoveForward(const FInputActionValue &Value);
+    
     void EnhancedMoveRight(const FInputActionValue &Value);
 
 public:

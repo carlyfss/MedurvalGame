@@ -4,6 +4,7 @@
 
 #include "Components/GridPanel.h"
 #include "Components/UniformGridPanel.h"
+#include "Components/UniformGridSlot.h"
 #include "Core/Singletons/MDGameInstance.h"
 #include "Inventory/Widgets/MDInventorySlotWidget.h"
 #include "Inventory/Components/MDInventoryComponent.h"

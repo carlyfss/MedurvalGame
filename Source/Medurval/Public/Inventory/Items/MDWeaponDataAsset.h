@@ -16,4 +16,6 @@ class MEDURVAL_API UMDWeaponDataAsset : public UMDItemDataAsset
 
 public:
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
+
+	virtual void UseItem_Implementation(AActor* ItemOwner) override;
 };

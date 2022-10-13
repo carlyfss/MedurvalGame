@@ -6,7 +6,4 @@
 
 UMDSkeletalMeshComponent::UMDSkeletalMeshComponent()
 {
-    PrimaryComponentTick.bCanEverTick = false;
-    PrimaryComponentTick.bStartWithTickEnabled = false;
-    PrimaryComponentTick.TickInterval = FMDConstants::TickInterval;
 }
