@@ -6,8 +6,12 @@
 #include "InputMappingContext.h"
 #include "Core/Components/MDSkeletalMeshComponent.h"
 #include "GameFramework/Character.h"
+#include "Inventory/Enums/MDAccessoryAttachment.h"
+#include "Inventory/Enums/MDEquipmentAttachment.h"
+#include "Inventory/Enums/MDWeaponAttachment.h"
 #include "MDCharacter.generated.h"
 
+class UMDItemDataAsset;
 class AMDPlayerController;
 class UMDGameInstance;
 class UMDLineTraceComponent;
@@ -32,32 +36,7 @@ class MEDURVAL_API AMDCharacter : public ACharacter
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
     UInputAction *MoveRightInput;
 
-#pragma region EquipmentSlots
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> HelmetSlot;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> ChestSlot;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> GlovesSlot;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> PantsSlot;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> BootsSlot;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> ShoulderSlot;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    TObjectPtr<UMDSkeletalMeshComponent> BeltSlot;
-#pragma endregion EquipmentSlots
-
     virtual void PawnClientRestart() override;
-
-    void GenerateEquipmentMeshSlots();
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
@@ -93,4 +72,6 @@ public:
 
     UFUNCTION(BlueprintCallable, Category="MDCharacter")
     void DisableLineTrace() const;
+
+    virtual void BeginPlay() override;
 };

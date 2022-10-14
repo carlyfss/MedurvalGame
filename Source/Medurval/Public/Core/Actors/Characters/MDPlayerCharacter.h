@@ -6,6 +6,7 @@
 #include "AbilitySystemInterface.h"
 #include "Abilities/Components/MDBaseGameplayAbility.h"
 #include "InputActionValue.h"
+#include "MDEnhancedCharacter.h"
 #include "Core/Actors/Characters/MDCharacter.h"
 #include "MDPlayerCharacter.generated.h"
 
@@ -23,7 +24,7 @@ class UInputAction;
 class UInputMappingContext;
 
 UCLASS()
-class MEDURVAL_API AMDPlayerCharacter : public AMDCharacter, public IAbilitySystemInterface
+class MEDURVAL_API AMDPlayerCharacter : public AMDEnhancedCharacter, public IAbilitySystemInterface
 {
     GENERATED_BODY()
 

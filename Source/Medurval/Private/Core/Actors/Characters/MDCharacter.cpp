@@ -13,6 +13,7 @@
 #include "Core/Singletons/MDGameInstance.h"
 #include "Core/Singletons/MDPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Inventory/Items/MDEquipmentDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 
 void AMDCharacter::PawnClientRestart()
@@ -32,47 +33,6 @@ void AMDCharacter::PawnClientRestart()
             // Add each mapping context, along with their priority values. Higher values outprioritize lower values.
             Subsystem->AddMappingContext(MappingContext, BaseMappingPriority);
         }
-    }
-}
-
-void AMDCharacter::GenerateEquipmentMeshSlots()
-{
-    if (GetMesh())
-    {
-        HelmetSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("HelmetSlot");
-        HelmetSlot->SetupAttachment(GetMesh());
-        HelmetSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        HelmetSlot->SetAnimClass(GetMesh()->GetAnimClass());
-
-        ChestSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("ChestSlot");
-        ChestSlot->SetupAttachment(GetMesh());
-        ChestSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        ChestSlot->SetAnimClass(GetMesh()->GetAnimClass());
-
-        GlovesSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("GlovesSlot");
-        GlovesSlot->SetupAttachment(GetMesh());
-        GlovesSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        GlovesSlot->SetAnimClass(GetMesh()->GetAnimClass());
-
-        PantsSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("PantsSlot");
-        PantsSlot->SetupAttachment(GetMesh());
-        PantsSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        PantsSlot->SetAnimClass(GetMesh()->GetAnimClass());
-
-        BootsSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("BootsSlot");
-        BootsSlot->SetupAttachment(GetMesh());
-        BootsSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        BootsSlot->SetAnimClass(GetMesh()->GetAnimClass());
-
-        ShoulderSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("ShoulderSlot");
-        ShoulderSlot->SetupAttachment(GetMesh());
-        ShoulderSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        ShoulderSlot->SetAnimClass(GetMesh()->GetAnimClass());
-
-        BeltSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("BeltSlot");
-        BeltSlot->SetupAttachment(GetMesh());
-        BeltSlot->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-        BeltSlot->SetAnimClass(GetMesh()->GetAnimClass());
     }
 }
 
@@ -139,8 +99,6 @@ AMDCharacter::AMDCharacter()
 
     // Setup LineTrace component
     LineTraceComponent = CreateDefaultSubobject<UMDLineTraceComponent>(TEXT("LineTraceComponent"));
-
-    GenerateEquipmentMeshSlots();
 }
 
 void AMDCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
@@ -186,5 +144,10 @@ void AMDCharacter::EnableLineTrace() const
 void AMDCharacter::DisableLineTrace() const
 {
     LineTraceComponent->SetLineTraceEnabled(false);
+}
+
+void AMDCharacter::BeginPlay()
+{
+    Super::BeginPlay();
 }
 
