@@ -54,8 +54,18 @@ public:
 	void EquipItem(EMDWeaponAttachment Attachment, FPrimaryAssetId ItemId);
 
 	void EquipItem(EMDAccessoryAttachment Attachment, FPrimaryAssetId ItemId);
+	
 	void UnequipItem(EMDEquipmentAttachment Attachment);
+
+	void UnequipItem(EMDWeaponAttachment Attachment);
+
+	void UnequipItem(EMDAccessoryAttachment Attachment);
+
 	bool IsSlotEquipped(EMDEquipmentAttachment Attachment) const;
 
+	bool IsSlotEquipped(EMDWeaponAttachment Attachment) const;
+
+	bool IsSlotEquipped(EMDAccessoryAttachment Attachment) const;
+	
 	virtual void BeginPlay() override;
 };

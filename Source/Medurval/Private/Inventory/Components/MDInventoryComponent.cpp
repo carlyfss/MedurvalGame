@@ -135,16 +135,19 @@ void UMDInventoryComponent::EquipItem(EMDEquipmentAttachment Attachment, FPrimar
 		bool bHasFound;
 		int32 SlotIndex = FindSlotIndexByAttachment(Attachment, bHasFound);
 
-		switch (Attachment)
+		if (bHasFound)
 		{
-		case EMDEquipmentAttachment::Chest:
 			EquipmentSlots[SlotIndex].Item = ItemId;
 			EquipmentSlots[SlotIndex].Amount = 1;
-			OnItemEquipped.Broadcast(ItemId, Attachment);
 
-		default:
-			UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+			PlayerCharacter->EquipItem(Attachment, ItemId);
+			OnItemEquipped.Broadcast(ItemId, Attachment);
 		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."));
+		}
+			
 	}
 }
 
@@ -153,18 +156,19 @@ void UMDInventoryComponent::UnequipItem(EMDEquipmentAttachment Attachment)
 	bool bHasFound;
 	const int32 SlotIndex = FindSlotIndexByAttachment(Attachment, bHasFound);
 
-	switch (Attachment)
+	if (bHasFound)
 	{
-	case EMDEquipmentAttachment::Chest:
 		int32 Rest;
 		AddItem(EquipmentSlots[SlotIndex].Item, 1, Rest);
-
 		EquipmentSlots[SlotIndex].Item = FPrimaryAssetId();
 		EquipmentSlots[SlotIndex].Amount = 0;
-		OnItemUnequipped.Broadcast(Attachment);
 
-	default:
-		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+		PlayerCharacter->UnequipItem(Attachment);
+		OnItemUnequipped.Broadcast(Attachment);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."));
 	}
 }
 

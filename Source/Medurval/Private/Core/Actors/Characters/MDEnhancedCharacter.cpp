@@ -83,11 +83,33 @@ void AMDEnhancedCharacter::EquipItem(EMDEquipmentAttachment Attachment, FPrimary
 	{
 		switch (Attachment)
 		{
+		case EMDEquipmentAttachment::Helmet:
+			HelmetSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			break;
+			
 		case EMDEquipmentAttachment::Chest:
 			ChestSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			break;
+
+		case EMDEquipmentAttachment::Gloves:
+			GlovesSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			break;
+
+		case EMDEquipmentAttachment::Pants:
+			PantsSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			break;
+
+		case EMDEquipmentAttachment::Boots:
+			BootsSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			break;
+
+		case EMDEquipmentAttachment::None:
+			UE_LOG(LogTemp, Warning, TEXT("Equipment attachment was not defined."));
+			break;
 
 		default:
-			UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+			UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."));
+			break;
 		}
 	}
 }
@@ -104,12 +126,42 @@ void AMDEnhancedCharacter::UnequipItem(EMDEquipmentAttachment Attachment)
 {
 	switch (Attachment)
 	{
+	case EMDEquipmentAttachment::Helmet:
+		HelmetSlot->SetSkeletalMesh(nullptr);
+		break;
+			
 	case EMDEquipmentAttachment::Chest:
-		ChestSlot->SetSkeletalMeshWithoutResettingAnimation(nullptr);
+		ChestSlot->SetSkeletalMesh(nullptr);
+		break;
+
+	case EMDEquipmentAttachment::Gloves:
+		GlovesSlot->SetSkeletalMesh(nullptr);
+		break;
+
+	case EMDEquipmentAttachment::Pants:
+		PantsSlot->SetSkeletalMesh(nullptr);
+		break;
+
+	case EMDEquipmentAttachment::Boots:
+		BootsSlot->SetSkeletalMesh(nullptr);
+		break;
+
+	case EMDEquipmentAttachment::None:
+		UE_LOG(LogTemp, Warning, TEXT("Equipment attachment was not defined."));
+		break;
 
 	default:
-		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."));
+		break;
 	}
+}
+
+void AMDEnhancedCharacter::UnequipItem(EMDWeaponAttachment Attachment)
+{
+}
+
+void AMDEnhancedCharacter::UnequipItem(EMDAccessoryAttachment Attachment)
+{
 }
 
 bool AMDEnhancedCharacter::IsSlotEquipped(EMDEquipmentAttachment Attachment) const
@@ -118,17 +170,61 @@ bool AMDEnhancedCharacter::IsSlotEquipped(EMDEquipmentAttachment Attachment) con
 
 	switch (Attachment)
 	{
+	case EMDEquipmentAttachment::Helmet:
+		if (HelmetSlot->SkeletalMesh)
+		{
+			IsEquipped = true;
+		}
+		break;
+		
 	case EMDEquipmentAttachment::Chest:
 		if (ChestSlot->SkeletalMesh)
 		{
 			IsEquipped = true;
 		}
+		break;
 
+	case EMDEquipmentAttachment::Gloves:
+		if (GlovesSlot->SkeletalMesh)
+		{
+			IsEquipped = true;
+		}
+		break;
+
+	case EMDEquipmentAttachment::Pants:
+		if (PantsSlot->SkeletalMesh)
+		{
+			IsEquipped = true;
+		}
+		break;
+
+	case EMDEquipmentAttachment::Boots:
+		if (BootsSlot->SkeletalMesh)
+		{
+			IsEquipped = true;
+		}
+		break;
+
+	case EMDEquipmentAttachment::None:
+		UE_LOG(LogTemp, Warning, TEXT("Equipment attachment was not defined."));
+		break;
+		
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+		break;
 	}
 
 	return IsEquipped;
+}
+
+bool AMDEnhancedCharacter::IsSlotEquipped(EMDWeaponAttachment Attachment) const
+{
+	return true;
+}
+
+bool AMDEnhancedCharacter::IsSlotEquipped(EMDAccessoryAttachment Attachment) const
+{
+	return true;
 }
 
 void AMDEnhancedCharacter::BeginPlay()

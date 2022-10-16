@@ -8,8 +8,6 @@
 
 void UMDEquipmentDataAsset::UnequipItemAtAttachment(AMDEnhancedCharacter* Character)
 {
-	Character->UnequipItem(Attachment);
-
 	UMDInventoryComponent* Inventory = Cast<UMDInventoryComponent>(
 		Character->GetComponentByClass(UMDInventoryComponent::StaticClass()));
 
@@ -21,8 +19,6 @@ void UMDEquipmentDataAsset::UnequipItemAtAttachment(AMDEnhancedCharacter* Charac
 
 void UMDEquipmentDataAsset::EquipItemAtAttachment(AMDEnhancedCharacter* Character)
 {
-	Character->EquipItem(Attachment, GetPrimaryAssetId());
-
 	UMDInventoryComponent* Inventory = Cast<UMDInventoryComponent>(
 		Character->GetComponentByClass(UMDInventoryComponent::StaticClass()));
 
@@ -52,6 +48,7 @@ void UMDEquipmentDataAsset::UseItem_Implementation(AActor* ItemOwner)
 		else
 		{
 			UnequipItemAtAttachment(Character);
+			EquipItemAtAttachment(Character);
 		}
 	}
 }
