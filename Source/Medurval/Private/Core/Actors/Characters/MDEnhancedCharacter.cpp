@@ -42,24 +42,31 @@ void AMDEnhancedCharacter::GenerateEquipmentSlots()
 	{
 		HelmetSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("HelmetSlot");
 		HelmetSlot->SetupAttachment(GetMesh());
+		HelmetSlot->SetMasterPoseComponent(GetMesh());
 
 		ChestSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("ChestSlot");
 		ChestSlot->SetupAttachment(GetMesh());
+		ChestSlot->SetMasterPoseComponent(GetMesh());
 
 		GlovesSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("GlovesSlot");
 		GlovesSlot->SetupAttachment(GetMesh());
+		GlovesSlot->SetMasterPoseComponent(GetMesh());
 
 		PantsSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("PantsSlot");
 		PantsSlot->SetupAttachment(GetMesh());
+		PantsSlot->SetMasterPoseComponent(GetMesh());
 
 		BootsSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("BootsSlot");
 		BootsSlot->SetupAttachment(GetMesh());
+		BootsSlot->SetMasterPoseComponent(GetMesh());
 
 		ShoulderSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("ShoulderSlot");
 		ShoulderSlot->SetupAttachment(GetMesh());
+		ShoulderSlot->SetMasterPoseComponent(GetMesh());
 
 		BeltSlot = CreateDefaultSubobject<UMDSkeletalMeshComponent>("BeltSlot");
 		BeltSlot->SetupAttachment(GetMesh());
+		BeltSlot->SetMasterPoseComponent(GetMesh());
 	}
 }
 
@@ -98,7 +105,7 @@ void AMDEnhancedCharacter::UnequipItem(EMDEquipmentAttachment Attachment)
 	switch (Attachment)
 	{
 	case EMDEquipmentAttachment::Chest:
-		ChestSlot->SetSkeletalMesh(nullptr);
+		ChestSlot->SetSkeletalMeshWithoutResettingAnimation(nullptr);
 
 	default:
 		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
