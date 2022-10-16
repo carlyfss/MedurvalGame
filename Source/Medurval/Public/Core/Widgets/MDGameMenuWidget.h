@@ -45,7 +45,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category="MDGameMenuWidget")
 	void ClearHeaderButtonsSelection();
-
+	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDGameMenuWidget")
 	void SetupInventoryWidget();
 

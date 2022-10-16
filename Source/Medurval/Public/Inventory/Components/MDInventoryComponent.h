@@ -82,13 +82,17 @@ protected:
 
 	bool SearchFreeStack(FPrimaryAssetId Item, int32& Index);
 
-	bool SearchItem();
-
 	bool AddUnstackableItem(FPrimaryAssetId Item, int32 Amount, int32& Rest);
 
 	bool AddStackableItem(FPrimaryAssetId Item, int32 Amount, int32& Rest);
 
 	void InitializeSlotArrays();
+
+	void SetupEquipmentSlots();
+
+	void SetupAccessorySlots();
+
+	void SetupWeaponSlots();
 
 #pragma region Interaction
 	UFUNCTION(BlueprintCallable, Category = "Inventory|Interaction")
@@ -125,13 +129,29 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	int32 GetAmountAtIndex(int32 Index) const;
 
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FMDInventorySlot> GetSlots() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FMDInventoryEquipmentSlot> GetEquipmentSlots() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FMDInventoryAccessorySlot> GetAccessorySlots() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FMDInventoryWeaponSlot> GetWeaponSlots() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void EquipItem(EMDEquipmentAttachment Attachment, FPrimaryAssetId ItemId);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void UnequipItem(EMDEquipmentAttachment Attachment);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	int32 FindSlotIndexByAttachment(EMDEquipmentAttachment Attachment, bool& bHasFound) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	bool IsSlotEmptyAtAttachment(EMDEquipmentAttachment Attachment) const;
 
 #pragma region Delegates
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, FPrimaryAssetId, ItemAdded, int32, Amount);
@@ -149,6 +169,17 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnUpdateSlotAtIndex OnUpdateSlotAtIndex;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemEquipped, FPrimaryAssetId, Item, EMDEquipmentAttachment,
+	                                             Attachment);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnItemEquipped OnItemEquipped;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemUnequipped, EMDEquipmentAttachment, Attachment);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnItemUnequipped OnItemUnequipped;
 #pragma endregion Delegate;
 
 	virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToRemove, int32 Amount) override;

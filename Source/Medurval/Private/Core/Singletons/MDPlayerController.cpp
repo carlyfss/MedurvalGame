@@ -6,6 +6,33 @@
 #include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
 
+bool AMDPlayerController::IsClassesLoaded()
+{
+    bool IsAllClassesLoaded = false;
+
+    if (SettlementWidgetClass.Get())
+    {
+        IsAllClassesLoaded = true;
+    }
+
+    if (BuildingsListWidgetClass.Get())
+    {
+        IsAllClassesLoaded = true;
+    }
+
+    if (GameMenuWidgetClass.Get())
+    {
+        IsAllClassesLoaded = true;
+    }
+
+    if (CharacterWidgetClass.Get())
+    {
+        IsAllClassesLoaded = true;
+    }
+
+    return IsAllClassesLoaded;
+}
+
 AMDPlayerController::AMDPlayerController()
 {
 }
@@ -28,23 +55,27 @@ void AMDPlayerController::LoadWidgets()
 
 void AMDPlayerController::OnWidgetsLoaded()
 {
+    UE_LOG(LogTemp, Warning, TEXT("Setup widget configuration on Player Controller after load!"))
+    SetupWidgetConfiguration();
+    
     AMDPlayerCharacter* PlayerCharacter = Cast<AMDPlayerCharacter>(GetCharacter());
 
     if (PlayerCharacter)
     {
-        TSubclassOf<UMDInventoryComponent> InventoryClass;
-        UMDInventoryComponent* Inventory = Cast<UMDInventoryComponent>(
-            PlayerCharacter->GetComponentByClass(InventoryClass));
+        TArray<UActorComponent*> PlayerComponents;
+        PlayerCharacter->GetComponents(PlayerComponents);
 
-        if (Inventory && GameMenuWidget)
+        for (UActorComponent* Component : PlayerComponents)
         {
-            GameMenuWidget->ConfigureInventoryWidget(Inventory);
-            UE_LOG(LogTemp, Warning, TEXT("Inventory is being configured on Player Controller!"))
+            UMDInventoryComponent* Inventory = Cast<UMDInventoryComponent>(Component);
+
+            if (Inventory && GameMenuWidget)
+            {
+                GameMenuWidget->ConfigureInventoryWidget(Inventory);
+                UE_LOG(LogTemp, Warning, TEXT("Inventory is being configured on Player Controller after load!"))
+            }    
         }
     }
-
-    UE_LOG(LogTemp, Warning, TEXT("Finishing widget configuration on Player Controller!"))
-    CompleteConfiguration();
 }
 
 UMDActivatableWidget* AMDPlayerController::PushWidget(TSubclassOf<UMDActivatableWidget> WidgetClass)

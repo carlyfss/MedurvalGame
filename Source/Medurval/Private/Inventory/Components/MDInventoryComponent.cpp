@@ -5,6 +5,7 @@
 #include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
 #include "Core/Singletons/MDGameInstance.h"
+#include "Inventory/Items/MDEquipmentDataAsset.h"
 #include "Inventory/Items/MDItemDataAsset.h"
 
 void UMDInventoryComponent::InitializeSlotArrays()
@@ -33,6 +34,35 @@ void UMDInventoryComponent::InitializeSlotArrays()
 	{
 		WeaponSlots[i] = FMDInventoryWeaponSlot();
 	}
+
+	SetupEquipmentSlots();
+	SetupAccessorySlots();
+	SetupWeaponSlots();
+}
+
+void UMDInventoryComponent::SetupEquipmentSlots()
+{
+	EquipmentSlots[0].Attachment = EMDEquipmentAttachment::Helmet;
+	EquipmentSlots[1].Attachment = EMDEquipmentAttachment::Chest;
+	EquipmentSlots[2].Attachment = EMDEquipmentAttachment::Gloves;
+	EquipmentSlots[3].Attachment = EMDEquipmentAttachment::Pants;
+	EquipmentSlots[4].Attachment = EMDEquipmentAttachment::Boots;
+}
+
+void UMDInventoryComponent::SetupAccessorySlots()
+{
+	AccessorySlots[0].Attachment = EMDAccessoryAttachment::Shoulder;
+	AccessorySlots[1].Attachment = EMDAccessoryAttachment::Necklace;
+	AccessorySlots[2].Attachment = EMDAccessoryAttachment::Ring;
+	AccessorySlots[3].Attachment = EMDAccessoryAttachment::Belt;
+	AccessorySlots[4].Attachment = EMDAccessoryAttachment::Gem;
+}
+
+void UMDInventoryComponent::SetupWeaponSlots()
+{
+	WeaponSlots[0].Attachment = EMDWeaponAttachment::Primary;
+	WeaponSlots[1].Attachment = EMDWeaponAttachment::Secondary;
+	WeaponSlots[2].Attachment = EMDWeaponAttachment::Ammo;
 }
 
 void UMDInventoryComponent::BeginPlay()
@@ -94,6 +124,81 @@ TArray<FMDInventoryAccessorySlot> UMDInventoryComponent::GetAccessorySlots() con
 TArray<FMDInventoryWeaponSlot> UMDInventoryComponent::GetWeaponSlots() const
 {
 	return WeaponSlots;
+}
+
+void UMDInventoryComponent::EquipItem(EMDEquipmentAttachment Attachment, FPrimaryAssetId ItemId)
+{
+	UMDEquipmentDataAsset* Equipment = GetMDGameInstance()->GetCastPrimaryAssetId<UMDEquipmentDataAsset>(ItemId);
+
+	if (Equipment)
+	{
+		bool bHasFound;
+		int32 SlotIndex = FindSlotIndexByAttachment(Attachment, bHasFound);
+
+		switch (Attachment)
+		{
+		case EMDEquipmentAttachment::Chest:
+			EquipmentSlots[SlotIndex].Item = ItemId;
+			EquipmentSlots[SlotIndex].Amount = 1;
+			OnItemEquipped.Broadcast(ItemId, Attachment);
+
+		default:
+			UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+		}
+	}
+}
+
+void UMDInventoryComponent::UnequipItem(EMDEquipmentAttachment Attachment)
+{
+	bool bHasFound;
+	const int32 SlotIndex = FindSlotIndexByAttachment(Attachment, bHasFound);
+
+	switch (Attachment)
+	{
+	case EMDEquipmentAttachment::Chest:
+		int32 Rest;
+		AddItem(EquipmentSlots[SlotIndex].Item, 1, Rest);
+
+		EquipmentSlots[SlotIndex].Item = FPrimaryAssetId();
+		EquipmentSlots[SlotIndex].Amount = 0;
+		OnItemUnequipped.Broadcast(Attachment);
+
+	default:
+		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+	}
+}
+
+
+int32 UMDInventoryComponent::FindSlotIndexByAttachment(EMDEquipmentAttachment Attachment, bool& bHasFound) const
+{
+	bHasFound = false;
+	int32 FoundSlotIndex = -1;
+
+	for (int i = 0; i < EquipmentSlots.Num(); i++)
+	{
+		if (EquipmentSlots[i].Attachment == Attachment)
+		{
+			FoundSlotIndex = i;
+			bHasFound = true;
+			break;
+		}
+	}
+
+	return FoundSlotIndex;
+}
+
+bool UMDInventoryComponent::IsSlotEmptyAtAttachment(EMDEquipmentAttachment Attachment) const
+{
+	bool IsIndexValid;
+	int32 SlotIndex = FindSlotIndexByAttachment(Attachment, IsIndexValid);
+	bool IsEmpty = true;
+
+	if (IsIndexValid && EquipmentSlots[SlotIndex].IsValid())
+	{
+		IsEmpty = false;
+	}
+
+	return IsEmpty;
 }
 
 /** Searches for a empty slot, and if it finds, store the index in the parameter

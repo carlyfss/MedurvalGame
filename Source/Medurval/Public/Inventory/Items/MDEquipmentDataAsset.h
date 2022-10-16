@@ -8,6 +8,7 @@
 #include "Inventory/Items/MDItemDataAsset.h"
 #include "MDEquipmentDataAsset.generated.h"
 
+class AMDEnhancedCharacter;
 /**
  * 
  */
@@ -15,6 +16,10 @@ UCLASS(meta=(DisplayName="MDEquipmentDataAsset"))
 class MEDURVAL_API UMDEquipmentDataAsset : public UMDItemDataAsset
 {
 	GENERATED_BODY()
+
+	void UnequipItemAtAttachment(AMDEnhancedCharacter* Character);
+
+	void EquipItemAtAttachment(AMDEnhancedCharacter* Character);
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="World"))

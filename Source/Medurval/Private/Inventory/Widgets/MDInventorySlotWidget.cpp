@@ -11,16 +11,16 @@
 
 void UMDInventorySlotWidget::CleanSlot()
 {
+	Item = nullptr;
 	Icon->SetVisibility(ESlateVisibility::Collapsed);
 	Icon->SetBrushFromLazyTexture(nullptr);
 	SlotAmount->SetVisibility(ESlateVisibility::Collapsed);
 
 	SlotButton->SetToolTip(nullptr);
 	SlotButton->SetIsEnabled(false);
+	SlotInfo.ClearSlot();
 
 	SetSlotFrameByRarity();
-
-	SlotInfo.ClearSlot();
 }
 
 void UMDInventorySlotWidget::SetSlotInfo(FMDInventorySlot NewSlotInfo, int32 NewIndex)
@@ -31,6 +31,11 @@ void UMDInventorySlotWidget::SetSlotInfo(FMDInventorySlot NewSlotInfo, int32 New
 	Item = GetMDGameInstance()->GetCastPrimaryAssetId<UMDItemDataAsset>(SlotInfo.Item);
 
 	UpdateSlot();
+}
+
+bool UMDInventorySlotWidget::IsEmpty() const
+{
+	return SlotInfo.IsEmpty() || !SlotInfo.IsValid();
 }
 
 void UMDInventorySlotWidget::UpdateSlot()
@@ -47,9 +52,9 @@ void UMDInventorySlotWidget::UpdateSlot()
 		else
 		{
 			SlotAmount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+			SlotAmount->SetCurrentValue(SlotInfo.Amount);
 		}
-
-		SlotAmount->SetCurrentValue(SlotInfo.Amount);
+		
 		SlotButton->SetIsEnabled(true);
 
 		SetSlotFrameByRarity();

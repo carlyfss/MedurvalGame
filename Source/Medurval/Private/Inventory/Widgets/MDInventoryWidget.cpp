@@ -4,7 +4,6 @@
 
 #include "Components/GridPanel.h"
 #include "Components/UniformGridPanel.h"
-#include "Components/UniformGridSlot.h"
 #include "Core/Singletons/MDGameInstance.h"
 #include "Inventory/Widgets/MDInventorySlotWidget.h"
 #include "Inventory/Components/MDInventoryComponent.h"
@@ -35,16 +34,20 @@ void UMDInventoryWidget::GenerateSlotWidgets()
 	for (int i = 0; i < Slots.Num(); i++)
 	{
 		UMDInventorySlotWidget* SlotWidget = CreateInventorySlotWidget();
-		SetupSlot(SlotWidget, Slots[i], i);
+		if (SlotWidget)
+		{
+			SetupSlot(SlotWidget, Slots[i], i);
 
-		int32 Row;
-		int32 Column;
-		CalculateSlotRowAndColumn(i, Row, Column);
+			int32 Row;
+			int32 Column;
+			CalculateSlotRowAndColumn(i, Row, Column);
 
-		SlotPanel->AddChildToUniformGrid(SlotWidget, Row, Column);
+			SlotPanel->AddChildToUniformGrid(SlotWidget, Row, Column);
 
-		SlotWidget->CleanSlot();
-		SlotWidget->SetSlotInfo(Slots[i], i);
+			SlotWidget->CleanSlot();
+			SlotWidget->SetSlotInfo(Slots[i], i);
+			SlotWidget->UpdateSlot();
+		}
 	}
 }
 
@@ -55,15 +58,20 @@ void UMDInventoryWidget::GenerateEquipmentSlotWidgets()
 	TArray<FMDInventoryEquipmentSlot> EquipmentSlots = InventoryReference->GetEquipmentSlots();
 	for (int i = 0; i < EquipmentSlots.Num(); i++)
 	{
-		UMDInventorySlotWidget* SlotWidget = CreateInventorySlotWidget();
-		SetupSlot(SlotWidget, EquipmentSlots[i], i);
+		UMDInventoryEquipmentSlotWidget* SlotWidget = CreateInventoryEquipmentSlotWidget();
+		if (SlotWidget)
+		{
+			SetupEquipmentSlot(SlotWidget, EquipmentSlots[i]);
 
-		SlotWidget->SetPadding(FMargin(5, 5));
+			SlotWidget->SetPadding(FMargin(5, 5));
 
-		EquipmentSlotGrid->AddChildToGrid(SlotWidget, i, 0);
+			EquipmentSlotGrid->AddChildToGrid(SlotWidget, i, 0);
 
-		SlotWidget->CleanSlot();
-		SlotWidget->SetSlotInfo(EquipmentSlots[i], i);
+			SlotWidget->CleanSlot();
+			SlotWidget->SetSlotInfo(EquipmentSlots[i]);
+			SlotWidget->SetSlotAttachment(EquipmentSlots[i].Attachment);
+			SlotWidget->UpdateSlot();
+		}
 	}
 }
 
@@ -85,6 +93,7 @@ void UMDInventoryWidget::GenerateAccessorySlotWidgets()
 
 		SlotWidget->CleanSlot();
 		SlotWidget->SetSlotInfo(AccessorySlots[i], i);
+		SlotWidget->UpdateSlot();
 	}
 }
 
@@ -107,6 +116,7 @@ void UMDInventoryWidget::GenerateWeaponSlotWidgets()
 
 		SlotWidget->CleanSlot();
 		SlotWidget->SetSlotInfo(WeaponSlots[i], i);
+		SlotWidget->UpdateSlot();
 	}
 }
 
@@ -124,9 +134,13 @@ void UMDInventoryWidget::GenerateAllSlotWidgets()
 
 		InventoryReference->OnItemRemoved.RemoveAll(this);
 		InventoryReference->OnUpdateSlotAtIndex.RemoveAll(this);
+		InventoryReference->OnItemEquipped.RemoveAll(this);
+		InventoryReference->OnItemUnequipped.RemoveAll(this);
 
 		InventoryReference->OnItemRemoved.AddDynamic(this, &UMDInventoryWidget::OnItemRemoved);
 		InventoryReference->OnUpdateSlotAtIndex.AddDynamic(this, &UMDInventoryWidget::UpdateSlotAtIndex);
+		InventoryReference->OnItemEquipped.AddDynamic(this, &UMDInventoryWidget::UpdateEquipmentSlots);
+		InventoryReference->OnItemUnequipped.AddDynamic(this, &UMDInventoryWidget::UpdateEquipmentSlotAtAttachment);
 	}
 }
 
@@ -149,6 +163,16 @@ void UMDInventoryWidget::SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInvent
 	SlotWidget->UpdateSlot();
 }
 
+void UMDInventoryWidget::SetupEquipmentSlot(UMDInventoryEquipmentSlotWidget* SlotWidget,
+                                            FMDInventoryEquipmentSlot SlotInfo)
+{
+	SlotWidget->SetInventoryReference(InventoryReference);
+	SlotWidget->SetSlotInfo(SlotInfo);
+
+	EquipmentSlotWidgets.Add(SlotWidget);
+	SlotWidget->UpdateSlot();
+}
+
 void UMDInventoryWidget::UpdateSlotAtIndex(int32 SlotIndex)
 {
 	UMDInventorySlotWidget* SlotWidget = GetSlotWidgets()[SlotIndex];
@@ -165,6 +189,47 @@ void UMDInventoryWidget::UpdateSlotAtIndex(int32 SlotIndex)
 	}
 }
 
+void UMDInventoryWidget::UpdateEquipmentSlots(FPrimaryAssetId Item, EMDEquipmentAttachment Attachment)
+{
+	TArray<FMDInventoryEquipmentSlot> EquipmentSlots = InventoryReference->GetEquipmentSlots();
+
+	for (int i = 0; i < EquipmentSlotWidgets.Num(); i++)
+	{
+		UMDInventoryEquipmentSlotWidget* SlotWidget = EquipmentSlotWidgets[i];
+
+		if (!EquipmentSlots[i].IsValid())
+		{
+			SlotWidget->SetSlotInfo(FMDInventoryEquipmentSlot());
+			SlotWidget->CleanSlot();
+		}
+		else
+		{
+			SlotWidget->SetSlotInfo(EquipmentSlots[i]);
+			SlotWidget->UpdateSlot();
+		}
+	}
+}
+
+void UMDInventoryWidget::UpdateEquipmentSlotAtAttachment(EMDEquipmentAttachment Attachment)
+{
+	bool bHasFound;
+	TArray<FMDInventoryEquipmentSlot> EquipmentSlots = InventoryReference->GetEquipmentSlots();
+	int32 SlotIndex = InventoryReference->FindSlotIndexByAttachment(Attachment, bHasFound);
+
+	UMDInventoryEquipmentSlotWidget* SlotWidget = EquipmentSlotWidgets[SlotIndex];
+
+	if (EquipmentSlots[SlotIndex].IsEmpty())
+	{
+		SlotWidget->SetSlotInfo(FMDInventoryEquipmentSlot());
+		SlotWidget->CleanSlot();
+	}
+	else
+	{
+		SlotWidget->SetSlotInfo(EquipmentSlots[SlotIndex]);
+		SlotWidget->UpdateSlot();
+	}
+}
+
 void UMDInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -172,5 +237,10 @@ void UMDInventoryWidget::NativeConstruct()
 	if (SlotWidgetClass)
 	{
 		GetMDGameInstance()->LoadClass(SlotWidgetClass);
+	}
+
+	if (EquipmentSlotWidgetClass)
+	{
+		GetMDGameInstance()->LoadClass(EquipmentSlotWidgetClass);
 	}
 }

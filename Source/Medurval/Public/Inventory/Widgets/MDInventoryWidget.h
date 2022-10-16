@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MDInventoryEquipmentSlotWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Core/Widgets/MDActivatableWidget.h"
+#include "Inventory/Enums/MDEquipmentAttachment.h"
 #include "Inventory/Structs/MDInventorySlot.h"
 #include "MDInventoryWidget.generated.h"
 
@@ -35,13 +37,16 @@ class MEDURVAL_API UMDInventoryWidget : public UMDActivatableWidget
 	TSoftClassPtr<UMDInventorySlotWidget> SlotWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	TSoftClassPtr<UMDInventoryEquipmentSlotWidget> EquipmentSlotWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	uint8 SlotsPerRow = 4;
 
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
 	TArray<UMDInventorySlotWidget*> SlotWidgets;
 
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
-	TArray<UMDInventorySlotWidget*> EquipmentSlotWidgets;
+	TArray<UMDInventoryEquipmentSlotWidget*> EquipmentSlotWidgets;
 
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
 	TArray<UMDInventorySlotWidget*> AccessorySlotWidgets;
@@ -59,8 +64,14 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void SetupSlot(UMDInventorySlotWidget* SlotWidget, FMDInventorySlot SlotInfo, int32 SlotIndex);
 
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetupEquipmentSlot(UMDInventoryEquipmentSlotWidget* SlotWidget, FMDInventoryEquipmentSlot SlotInfo);
+
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
 	UMDInventorySlotWidget* CreateInventorySlotWidget();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
+	UMDInventoryEquipmentSlotWidget* CreateInventoryEquipmentSlotWidget();
 
 	void CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column) const;
 
@@ -87,6 +98,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void UpdateSlotAtIndex(int32 SlotIndex);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateEquipmentSlots(FPrimaryAssetId Item, EMDEquipmentAttachment Attachment);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateEquipmentSlotAtAttachment(EMDEquipmentAttachment Attachment);
 
 	virtual void NativeConstruct() override;
 };

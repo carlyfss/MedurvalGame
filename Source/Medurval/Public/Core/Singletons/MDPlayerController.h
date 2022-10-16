@@ -50,8 +50,10 @@ class MEDURVAL_API AMDPlayerController : public APlayerController
     TSharedPtr<FStreamableHandle> WidgetLoadHandle;
 
 protected:
+    bool IsClassesLoaded();
+    
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="MDPlayerController")
-    void CompleteConfiguration();
+    void SetupWidgetConfiguration();
     
 public:
     AMDPlayerController();

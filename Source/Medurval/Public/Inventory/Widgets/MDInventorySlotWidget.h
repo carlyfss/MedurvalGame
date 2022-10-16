@@ -6,7 +6,10 @@
 #include "Core/Widgets/MDActivatableWidget.h"
 #include "Inventory/Interfaces/MDInventoryInterface.h"
 #include "CommonLazyImage.h"
+#include "Inventory/Structs/MDInventoryAccessorySlot.h"
+#include "Inventory/Structs/MDInventoryEquipmentSlot.h"
 #include "Inventory/Structs/MDInventorySlot.h"
+#include "Inventory/Structs/MDInventoryWeaponSlot.h"
 #include "MDInventorySlotWidget.generated.h"
 
 class UCommonNumericTextBlock;
@@ -19,7 +22,7 @@ class UTextBlock;
 class UButton;
 
 UCLASS(meta = (DisplayName = "InventorySlotWidget"))
-class MEDURVAL_API UMDInventorySlotWidget final : public UMDActivatableWidget, public IMDInventoryInterface
+class MEDURVAL_API UMDInventorySlotWidget : public UMDActivatableWidget, public IMDInventoryInterface
 {
 	GENERATED_BODY()
 
@@ -61,6 +64,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventorySlot")
 	void SetSlotFrameByRarity();
+
+	bool IsEmpty() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "InventorySlot")
 	void UpdateSlot();

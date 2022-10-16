@@ -93,6 +93,37 @@ void AMDEnhancedCharacter::EquipItem(EMDAccessoryAttachment Attachment, FPrimary
 {
 }
 
+void AMDEnhancedCharacter::UnequipItem(EMDEquipmentAttachment Attachment)
+{
+	switch (Attachment)
+	{
+	case EMDEquipmentAttachment::Chest:
+		ChestSlot->SetSkeletalMesh(nullptr);
+
+	default:
+		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+	}
+}
+
+bool AMDEnhancedCharacter::IsSlotEquipped(EMDEquipmentAttachment Attachment) const
+{
+	bool IsEquipped = false;
+
+	switch (Attachment)
+	{
+	case EMDEquipmentAttachment::Chest:
+		if (ChestSlot->SkeletalMesh)
+		{
+			IsEquipped = true;
+		}
+
+	default:
+		UE_LOG(LogTemp, Warning, TEXT("Item is not an valid Equipment."))
+	}
+
+	return IsEquipped;
+}
+
 void AMDEnhancedCharacter::BeginPlay()
 {
 	Super::BeginPlay();
