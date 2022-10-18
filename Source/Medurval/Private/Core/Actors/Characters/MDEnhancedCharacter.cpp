@@ -4,10 +4,7 @@
 #include "Core/Actors/Characters/MDEnhancedCharacter.h"
 
 #include "Core/Singletons/MDGameInstance.h"
-#include "Core/Singletons/MDPlayerController.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "Inventory/Items/MDEquipmentDataAsset.h"
-#include "Kismet/GameplayStatics.h"
 
 void AMDEnhancedCharacter::SetupEquipmentSlots()
 {
@@ -84,23 +81,23 @@ void AMDEnhancedCharacter::EquipItem(EMDEquipmentAttachment Attachment, FPrimary
 		switch (Attachment)
 		{
 		case EMDEquipmentAttachment::Helmet:
-			HelmetSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			HelmetSlot->SetSkeletalMesh(Equipment->EquipableMesh.Get());
 			break;
 			
 		case EMDEquipmentAttachment::Chest:
-			ChestSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			ChestSlot->SetSkeletalMesh(Equipment->EquipableMesh.Get());
 			break;
 
 		case EMDEquipmentAttachment::Gloves:
-			GlovesSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			GlovesSlot->SetSkeletalMesh(Equipment->EquipableMesh.Get());
 			break;
 
 		case EMDEquipmentAttachment::Pants:
-			PantsSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			PantsSlot->SetSkeletalMesh(Equipment->EquipableMesh.Get());
 			break;
 
 		case EMDEquipmentAttachment::Boots:
-			BootsSlot->SetSkeletalMesh(Equipment->EquipmentMesh.Get());
+			BootsSlot->SetSkeletalMesh(Equipment->EquipableMesh.Get());
 			break;
 
 		case EMDEquipmentAttachment::None:

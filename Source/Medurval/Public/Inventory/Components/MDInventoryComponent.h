@@ -141,17 +141,38 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	TArray<FMDInventoryWeaponSlot> GetWeaponSlots() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void EquipItem(EMDEquipmentAttachment Attachment, FPrimaryAssetId ItemId);
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void EquipItem(EMDAccessoryAttachment Attachment, FPrimaryAssetId ItemId);
+
+	void EquipItem(EMDWeaponAttachment Attachment, FPrimaryAssetId ItemId);
+
 	void UnequipItem(EMDEquipmentAttachment Attachment);
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void UnequipItem(EMDAccessoryAttachment Attachment);
+
+	void UnequipItem(EMDWeaponAttachment Attachment);
+
 	int32 FindSlotIndexByAttachment(EMDEquipmentAttachment Attachment, bool& bHasFound) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	int32 FindSlotIndexByAttachment(EMDAccessoryAttachment Attachment, bool& bHasFound) const;
+
+	int32 FindSlotIndexByAttachment(EMDWeaponAttachment Attachment, bool& bHasFound) const;
+
 	bool IsSlotEmptyAtAttachment(EMDEquipmentAttachment Attachment) const;
+
+	bool IsSlotEmptyAtAttachment(EMDAccessoryAttachment Attachment) const;
+
+	bool IsSlotEmptyAtAttachment(EMDWeaponAttachment Attachment) const;
+
+	UFUNCTION(BlueprintCallable, Category="InventoryComponent")
+	bool IsSlotEmptyAtAttachmentByItem(FPrimaryAssetId ItemId) const;
+
+	UFUNCTION(BlueprintCallable, Category="InventoryComponent")
+	bool EquipItemByPrimaryId(FPrimaryAssetId ItemId);
+
+	UFUNCTION(BlueprintCallable, Category="InventoryComponent")
+	bool UnequipItemByPrimaryId(FPrimaryAssetId ItemId);
 
 #pragma region Delegates
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemAdded, FPrimaryAssetId, ItemAdded, int32, Amount);
@@ -170,16 +191,41 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnUpdateSlotAtIndex OnUpdateSlotAtIndex;
 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemEquipped, FPrimaryAssetId, Item, EMDEquipmentAttachment,
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquipmentItemEquipped, FPrimaryAssetId, Item,
+	                                             EMDEquipmentAttachment,
 	                                             Attachment);
 
 	UPROPERTY(BlueprintAssignable)
-	FOnItemEquipped OnItemEquipped;
+	FOnEquipmentItemEquipped OnEquipmentItemEquipped;
 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnItemUnequipped, EMDEquipmentAttachment, Attachment);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAccessoryItemEquipped, FPrimaryAssetId, Item,
+	                                             EMDAccessoryAttachment,
+	                                             Attachment);
 
 	UPROPERTY(BlueprintAssignable)
-	FOnItemUnequipped OnItemUnequipped;
+	FOnAccessoryItemEquipped OnAccessoryItemEquipped;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnWeaponItemEquipped, FPrimaryAssetId, Item,
+	                                             EMDWeaponAttachment,
+	                                             Attachment);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnWeaponItemEquipped OnWeaponItemEquipped;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentItemUnequipped, EMDEquipmentAttachment, Attachment);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnEquipmentItemUnequipped OnEquipmentItemUnequipped;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAccessoryItemUnequipped, EMDAccessoryAttachment, Attachment);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAccessoryItemUnequipped OnAccessoryItemUnequipped;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWeaponItemUnequipped, EMDWeaponAttachment, Attachment);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnWeaponItemUnequipped OnWeaponItemUnequipped;
 #pragma endregion Delegate;
 
 	virtual bool OnAddItemToInventory_Implementation(FPrimaryAssetId ItemIdToRemove, int32 Amount) override;

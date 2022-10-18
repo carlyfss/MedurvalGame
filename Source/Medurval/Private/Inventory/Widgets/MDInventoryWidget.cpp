@@ -5,8 +5,10 @@
 #include "Components/GridPanel.h"
 #include "Components/UniformGridPanel.h"
 #include "Core/Singletons/MDGameInstance.h"
-#include "Inventory/Widgets/MDInventorySlotWidget.h"
 #include "Inventory/Components/MDInventoryComponent.h"
+#include "Inventory/Widgets/MDInventoryAccessorySlotWidget.h"
+#include "Inventory/Widgets/MDInventorySlotWidget.h"
+#include "Inventory/Widgets/MDInventoryWeaponSlotWidget.h"
 #include "Kismet/KismetMathLibrary.h"
 
 void UMDInventoryWidget::CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column) const
@@ -84,16 +86,21 @@ void UMDInventoryWidget::GenerateAccessorySlotWidgets()
 	TArray<FMDInventoryAccessorySlot> AccessorySlots = InventoryReference->GetAccessorySlots();
 	for (int i = 0; i < AccessorySlots.Num(); i++)
 	{
-		UMDInventorySlotWidget* SlotWidget = CreateInventorySlotWidget();
-		SetupSlot(SlotWidget, AccessorySlots[i], i);
+		UMDInventoryAccessorySlotWidget* SlotWidget =
+			CreateInventoryAccessorySlotWidget();
+		if (SlotWidget)
+		{
+			SetupAccessorySlot(SlotWidget, AccessorySlots[i]);
 
-		SlotWidget->SetPadding(FMargin(5, 5));
+			SlotWidget->SetPadding(FMargin(5, 5));
 
-		EquipmentSlotGrid->AddChildToGrid(SlotWidget, i, AccessorySlotColumn);
+			EquipmentSlotGrid->AddChildToGrid(SlotWidget, i,
+			                                  AccessorySlotColumn);
 
-		SlotWidget->CleanSlot();
-		SlotWidget->SetSlotInfo(AccessorySlots[i], i);
-		SlotWidget->UpdateSlot();
+			SlotWidget->CleanSlot();
+			SlotWidget->SetSlotInfo(AccessorySlots[i]);
+			SlotWidget->UpdateSlot();
+		}
 	}
 }
 
@@ -101,13 +108,13 @@ void UMDInventoryWidget::GenerateWeaponSlotWidgets()
 {
 	WeaponSlotWidgets.Empty();
 
-	const int32 WeaponSlotRow = InventoryReference->GetEquipmentSlotsAmount() + 1;
+	const int32 WeaponSlotRow = InventoryReference->GetEquipmentSlotsAmount();
 
 	TArray<FMDInventoryWeaponSlot> WeaponSlots = InventoryReference->GetWeaponSlots();
 	for (int i = 0; i < WeaponSlots.Num(); i++)
 	{
-		UMDInventorySlotWidget* SlotWidget = CreateInventorySlotWidget();
-		SetupSlot(SlotWidget, WeaponSlots[i], i);
+		UMDInventoryWeaponSlotWidget* SlotWidget = CreateInventoryWeaponSlotWidget();
+		SetupWeaponSlot(SlotWidget, WeaponSlots[i]);
 
 		SlotWidget->SetPadding(FMargin(10, 5));
 
@@ -115,7 +122,7 @@ void UMDInventoryWidget::GenerateWeaponSlotWidgets()
 		EquipmentSlotGrid->AddChildToGrid(SlotWidget, WeaponSlotRow, i + 1);
 
 		SlotWidget->CleanSlot();
-		SlotWidget->SetSlotInfo(WeaponSlots[i], i);
+		SlotWidget->SetSlotInfo(WeaponSlots[i]);
 		SlotWidget->UpdateSlot();
 	}
 }
@@ -134,13 +141,14 @@ void UMDInventoryWidget::GenerateAllSlotWidgets()
 
 		InventoryReference->OnItemRemoved.RemoveAll(this);
 		InventoryReference->OnUpdateSlotAtIndex.RemoveAll(this);
-		InventoryReference->OnItemEquipped.RemoveAll(this);
-		InventoryReference->OnItemUnequipped.RemoveAll(this);
+		InventoryReference->OnEquipmentItemEquipped.RemoveAll(this);
+		InventoryReference->OnEquipmentItemUnequipped.RemoveAll(this);
 
 		InventoryReference->OnItemRemoved.AddDynamic(this, &UMDInventoryWidget::OnItemRemoved);
 		InventoryReference->OnUpdateSlotAtIndex.AddDynamic(this, &UMDInventoryWidget::UpdateSlotAtIndex);
-		InventoryReference->OnItemEquipped.AddDynamic(this, &UMDInventoryWidget::UpdateEquipmentSlots);
-		InventoryReference->OnItemUnequipped.AddDynamic(this, &UMDInventoryWidget::UpdateEquipmentSlotAtAttachment);
+		InventoryReference->OnEquipmentItemEquipped.AddDynamic(this, &UMDInventoryWidget::UpdateEquipmentSlots);
+		InventoryReference->OnEquipmentItemUnequipped.AddDynamic(
+			this, &UMDInventoryWidget::UpdateEquipmentSlotAtAttachment);
 	}
 }
 
@@ -170,6 +178,26 @@ void UMDInventoryWidget::SetupEquipmentSlot(UMDInventoryEquipmentSlotWidget* Slo
 	SlotWidget->SetSlotInfo(SlotInfo);
 
 	EquipmentSlotWidgets.Add(SlotWidget);
+	SlotWidget->UpdateSlot();
+}
+
+void UMDInventoryWidget::SetupAccessorySlot(
+	UMDInventoryAccessorySlotWidget* SlotWidget,
+	FMDInventoryAccessorySlot SlotInfo)
+{
+	SlotWidget->SetInventoryReference(InventoryReference);
+	SlotWidget->SetSlotInfo(SlotInfo);
+
+	AccessorySlotWidgets.Add(SlotWidget);
+	SlotWidget->UpdateSlot();
+}
+
+void UMDInventoryWidget::SetupWeaponSlot(UMDInventoryWeaponSlotWidget* SlotWidget, FMDInventoryWeaponSlot SlotInfo)
+{
+	SlotWidget->SetInventoryReference(InventoryReference);
+	SlotWidget->SetSlotInfo(SlotInfo);
+
+	WeaponSlotWidgets.Add(SlotWidget);
 	SlotWidget->UpdateSlot();
 }
 
@@ -227,6 +255,88 @@ void UMDInventoryWidget::UpdateEquipmentSlotAtAttachment(EMDEquipmentAttachment 
 	{
 		SlotWidget->SetSlotInfo(EquipmentSlots[SlotIndex]);
 		SlotWidget->UpdateSlot();
+	}
+}
+
+void UMDInventoryWidget::UpdateAccessorySlotAtAttachment(EMDAccessoryAttachment Attachment)
+{
+	bool bHasFound;
+	TArray<FMDInventoryAccessorySlot> AccessorySlots = InventoryReference->GetAccessorySlots();
+	int32 SlotIndex = InventoryReference->FindSlotIndexByAttachment(Attachment, bHasFound);
+
+	UMDInventoryAccessorySlotWidget* SlotWidget = AccessorySlotWidgets[SlotIndex];
+
+	if (AccessorySlots[SlotIndex].IsEmpty())
+	{
+		SlotWidget->SetSlotInfo(FMDInventoryAccessorySlot());
+		SlotWidget->CleanSlot();
+	}
+	else
+	{
+		SlotWidget->SetSlotInfo(AccessorySlots[SlotIndex]);
+		SlotWidget->UpdateSlot();
+	}
+}
+
+void UMDInventoryWidget::UpdateWeaponSlotAtAttachment(EMDWeaponAttachment Attachment)
+{
+	bool bHasFound;
+	TArray<FMDInventoryWeaponSlot> WeaponSlots = InventoryReference->GetWeaponSlots();
+	int32 SlotIndex = InventoryReference->FindSlotIndexByAttachment(Attachment, bHasFound);
+
+	UMDInventoryWeaponSlotWidget* SlotWidget = WeaponSlotWidgets[SlotIndex];
+
+	if (WeaponSlots[SlotIndex].IsEmpty())
+	{
+		SlotWidget->SetSlotInfo(FMDInventoryWeaponSlot());
+		SlotWidget->CleanSlot();
+	}
+	else
+	{
+		SlotWidget->SetSlotInfo(WeaponSlots[SlotIndex]);
+		SlotWidget->UpdateSlot();
+	}
+}
+
+void UMDInventoryWidget::UpdateAccessorySlots(FPrimaryAssetId Item, EMDAccessoryAttachment Attachment)
+{
+	TArray<FMDInventoryAccessorySlot> AccessorySlots = InventoryReference->GetAccessorySlots();
+
+	for (int i = 0; i < AccessorySlotWidgets.Num(); i++)
+	{
+		UMDInventoryAccessorySlotWidget* SlotWidget = AccessorySlotWidgets[i];
+
+		if (!AccessorySlots[i].IsValid())
+		{
+			SlotWidget->SetSlotInfo(FMDInventoryAccessorySlot());
+			SlotWidget->CleanSlot();
+		}
+		else
+		{
+			SlotWidget->SetSlotInfo(AccessorySlots[i]);
+			SlotWidget->UpdateSlot();
+		}
+	}
+}
+
+void UMDInventoryWidget::UpdateWeaponSlots(FPrimaryAssetId Item, EMDWeaponAttachment Attachment)
+{
+	TArray<FMDInventoryWeaponSlot> WeaponSlots = InventoryReference->GetWeaponSlots();
+
+	for (int i = 0; i < WeaponSlotWidgets.Num(); i++)
+	{
+		UMDInventoryWeaponSlotWidget* SlotWidget = WeaponSlotWidgets[i];
+
+		if (!WeaponSlots[i].IsValid())
+		{
+			SlotWidget->SetSlotInfo(FMDInventoryWeaponSlot());
+			SlotWidget->CleanSlot();
+		}
+		else
+		{
+			SlotWidget->SetSlotInfo(WeaponSlots[i]);
+			SlotWidget->UpdateSlot();
+		}
 	}
 }
 

@@ -40,6 +40,7 @@ class MEDURVAL_API AMDEnhancedCharacter : public AMDCharacter
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UMDSkeletalMeshComponent> BeltSlot;
+
 #pragma endregion EquipmentSlots
 
 	void SetupEquipmentSlots();

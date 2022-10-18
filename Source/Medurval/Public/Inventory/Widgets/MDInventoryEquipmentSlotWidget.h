@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CommonLazyImage.h"
 #include "MDInventorySlotWidget.h"
 #include "MDInventoryEquipmentSlotWidget.generated.h"
 

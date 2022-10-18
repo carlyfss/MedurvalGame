@@ -10,6 +10,8 @@
 #include "Inventory/Structs/MDInventorySlot.h"
 #include "MDInventoryWidget.generated.h"
 
+class UMDInventoryWeaponSlotWidget;
+class UMDInventoryAccessorySlotWidget;
 class UMDInventorySlotWidget;
 class UMDInventoryComponent;
 class UUniformGridPanel;
@@ -40,6 +42,12 @@ class MEDURVAL_API UMDInventoryWidget : public UMDActivatableWidget
 	TSoftClassPtr<UMDInventoryEquipmentSlotWidget> EquipmentSlotWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	TSoftClassPtr<UMDInventoryAccessorySlotWidget> AccessorySlotWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	TSoftClassPtr<UMDInventoryWeaponSlotWidget> WeaponSlotWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	uint8 SlotsPerRow = 4;
 
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
@@ -49,10 +57,10 @@ class MEDURVAL_API UMDInventoryWidget : public UMDActivatableWidget
 	TArray<UMDInventoryEquipmentSlotWidget*> EquipmentSlotWidgets;
 
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
-	TArray<UMDInventorySlotWidget*> AccessorySlotWidgets;
+	TArray<UMDInventoryAccessorySlotWidget*> AccessorySlotWidgets;
 
 	UPROPERTY(BlueprintReadWrite, Category = "InventoryWidget", meta = (AllowPrivateAccess = true))
-	TArray<UMDInventorySlotWidget*> WeaponSlotWidgets;
+	TArray<UMDInventoryWeaponSlotWidget*> WeaponSlotWidgets;
 
 protected:
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
@@ -67,11 +75,23 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void SetupEquipmentSlot(UMDInventoryEquipmentSlotWidget* SlotWidget, FMDInventoryEquipmentSlot SlotInfo);
 
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetupAccessorySlot(UMDInventoryAccessorySlotWidget* SlotWidget, FMDInventoryAccessorySlot SlotInfo);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void SetupWeaponSlot(UMDInventoryWeaponSlotWidget* SlotWidget, FMDInventoryWeaponSlot SlotInfo);
+
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
 	UMDInventorySlotWidget* CreateInventorySlotWidget();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
 	UMDInventoryEquipmentSlotWidget* CreateInventoryEquipmentSlotWidget();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
+	UMDInventoryAccessorySlotWidget* CreateInventoryAccessorySlotWidget();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "InventoryWidget")
+	UMDInventoryWeaponSlotWidget* CreateInventoryWeaponSlotWidget();
 
 	void CalculateSlotRowAndColumn(int32 Index, int32& Row, int32& Column) const;
 
@@ -103,7 +123,19 @@ public:
 	void UpdateEquipmentSlots(FPrimaryAssetId Item, EMDEquipmentAttachment Attachment);
 
 	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateAccessorySlots(FPrimaryAssetId Item, EMDAccessoryAttachment Attachment);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateWeaponSlots(FPrimaryAssetId Item, EMDWeaponAttachment Attachment);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
 	void UpdateEquipmentSlotAtAttachment(EMDEquipmentAttachment Attachment);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateAccessorySlotAtAttachment(EMDAccessoryAttachment Attachment);
+
+	UFUNCTION(BlueprintCallable, Category = "InventoryWidget")
+	void UpdateWeaponSlotAtAttachment(EMDWeaponAttachment Attachment);
 
 	virtual void NativeConstruct() override;
 };
