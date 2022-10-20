@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset")
 	FText Description = FText::FromString(TEXT("Item description"));
 
+	/**
+	 * Mesh used for the pickup object.
+	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="World"))
 	TSoftObjectPtr<UStaticMesh> Mesh = nullptr;
 

@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/GameFrameworkComponentManager.h"
 #include "Core/Components/MDCameraComponent.h"
 #include "Core/Components/MDSpringArmComponent.h"
 #include "Core/Components/Utils/MDLineTraceComponent.h"
@@ -148,6 +149,16 @@ void AMDCharacter::DisableLineTrace() const
 
 void AMDCharacter::BeginPlay()
 {
+    UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(
+        this, UGameFrameworkComponentManager::NAME_GameActorReady);
+    
     Super::BeginPlay();
+}
+
+void AMDCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    Super::EndPlay(EndPlayReason);
+
+    UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
 }
 

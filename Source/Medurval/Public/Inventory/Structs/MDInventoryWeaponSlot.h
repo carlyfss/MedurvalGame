@@ -1,8 +1,8 @@
 ﻿// MEDURVAL PROJECT copyrighted code by Fireheet Games
 
 #pragma once
+#include "MDInventorySlot.h"
 #include "Inventory/Enums/MDWeaponAttachment.h"
-#include "Inventory/Items/MDWeaponDataAsset.h"
 #include "MDInventoryWeaponSlot.generated.h"
 
 USTRUCT(BlueprintType, meta = (DisplayName = "InventoryEquipmentSlot"))

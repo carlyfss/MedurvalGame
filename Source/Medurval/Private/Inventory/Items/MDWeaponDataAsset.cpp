@@ -8,7 +8,7 @@ FPrimaryAssetId UMDWeaponDataAsset::GetPrimaryAssetId() const
 	return FPrimaryAssetId(UMedurvalAssetManager::WeaponItemType, GetFName());
 }
 
-void UMDWeaponDataAsset::UseItem_Implementation(AActor* ItemOwner)
+EMDWeaponAttachment UMDWeaponDataAsset::GetWeaponAttachment()
 {
-	Super::UseItem_Implementation(ItemOwner);
+	return Attachment;
 }

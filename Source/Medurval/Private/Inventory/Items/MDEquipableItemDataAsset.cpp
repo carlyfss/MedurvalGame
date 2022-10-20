@@ -25,7 +25,7 @@ void UMDEquipableItemDataAsset::UnequipItemAtAttachment(AMDEnhancedCharacter* Ch
 
 		if (GetWeaponAttachment() != EMDWeaponAttachment::None)
 		{
-			Inventory->UnequipItem(GetAccessoryAttachment());
+			Inventory->UnequipItem(GetWeaponAttachment());
 		}
 	}
 }

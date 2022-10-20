@@ -23,6 +23,9 @@ class MEDURVAL_API UMDEquipableItemDataAsset : public UMDItemDataAsset
 	void EquipItemAtAttachment(AMDEnhancedCharacter* Character);
 
 public:
+	/**
+	 * Mesh used to be equipped on the character. This mesh should not be used in Sockets on the character skeleton.
+	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDEquipableItemDataAsset", meta=(AssetBundles="World"))
 	TSoftObjectPtr<USkeletalMesh> EquipableMesh = nullptr;
 

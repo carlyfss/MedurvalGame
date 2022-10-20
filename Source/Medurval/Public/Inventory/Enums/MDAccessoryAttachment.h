@@ -7,8 +7,8 @@ enum class EMDAccessoryAttachment : uint8
 {
 	None,
 	Shoulder,
-	Ring,
-	Necklace,
+	Back,
 	Belt,
-	Gem
+	Necklace,
+	Ring,
 };

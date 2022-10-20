@@ -8,6 +8,7 @@
 #include "Inventory/Items/MDAccessoryDataAsset.h"
 #include "Inventory/Items/MDEquipmentDataAsset.h"
 #include "Inventory/Items/MDItemDataAsset.h"
+#include "Inventory/Items/MDWeaponDataAsset.h"
 
 void UMDInventoryComponent::InitializeSlotArrays()
 {
@@ -52,11 +53,11 @@ void UMDInventoryComponent::SetupEquipmentSlots()
 
 void UMDInventoryComponent::SetupAccessorySlots()
 {
-	AccessorySlots[0].Attachment = EMDAccessoryAttachment::Shoulder;
-	AccessorySlots[1].Attachment = EMDAccessoryAttachment::Necklace;
-	AccessorySlots[2].Attachment = EMDAccessoryAttachment::Ring;
+	AccessorySlots[0].Attachment = EMDAccessoryAttachment::Necklace;
+	AccessorySlots[1].Attachment = EMDAccessoryAttachment::Ring;
+	AccessorySlots[2].Attachment = EMDAccessoryAttachment::Shoulder;
 	AccessorySlots[3].Attachment = EMDAccessoryAttachment::Belt;
-	AccessorySlots[4].Attachment = EMDAccessoryAttachment::Gem;
+	AccessorySlots[4].Attachment = EMDAccessoryAttachment::Back;
 }
 
 void UMDInventoryComponent::SetupWeaponSlots()

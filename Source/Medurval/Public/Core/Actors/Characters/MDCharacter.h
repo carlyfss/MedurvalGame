@@ -4,11 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InputMappingContext.h"
-#include "Core/Components/MDSkeletalMeshComponent.h"
 #include "GameFramework/Character.h"
-#include "Inventory/Enums/MDAccessoryAttachment.h"
-#include "Inventory/Enums/MDEquipmentAttachment.h"
-#include "Inventory/Enums/MDWeaponAttachment.h"
 #include "MDCharacter.generated.h"
 
 class UMDItemDataAsset;
@@ -74,4 +70,6 @@ public:
     void DisableLineTrace() const;
 
     virtual void BeginPlay() override;
+
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

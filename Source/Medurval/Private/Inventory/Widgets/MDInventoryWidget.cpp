@@ -143,12 +143,21 @@ void UMDInventoryWidget::GenerateAllSlotWidgets()
 		InventoryReference->OnUpdateSlotAtIndex.RemoveAll(this);
 		InventoryReference->OnEquipmentItemEquipped.RemoveAll(this);
 		InventoryReference->OnEquipmentItemUnequipped.RemoveAll(this);
-
+		InventoryReference->OnAccessoryItemEquipped.RemoveAll(this);
+		InventoryReference->OnAccessoryItemUnequipped.RemoveAll(this);
+		InventoryReference->OnWeaponItemEquipped.RemoveAll(this);
+		InventoryReference->OnWeaponItemUnequipped.RemoveAll(this);
+		
 		InventoryReference->OnItemRemoved.AddDynamic(this, &UMDInventoryWidget::OnItemRemoved);
 		InventoryReference->OnUpdateSlotAtIndex.AddDynamic(this, &UMDInventoryWidget::UpdateSlotAtIndex);
 		InventoryReference->OnEquipmentItemEquipped.AddDynamic(this, &UMDInventoryWidget::UpdateEquipmentSlots);
 		InventoryReference->OnEquipmentItemUnequipped.AddDynamic(
 			this, &UMDInventoryWidget::UpdateEquipmentSlotAtAttachment);
+		InventoryReference->OnAccessoryItemEquipped.AddDynamic(this, &UMDInventoryWidget::UpdateAccessorySlots);
+		InventoryReference->OnAccessoryItemUnequipped.AddDynamic(
+			this, &UMDInventoryWidget::UpdateAccessorySlotAtAttachment);
+		InventoryReference->OnWeaponItemEquipped.AddDynamic(this, &UMDInventoryWidget::UpdateWeaponSlots);
+		InventoryReference->OnWeaponItemUnequipped.AddDynamic(this, &UMDInventoryWidget::UpdateWeaponSlotAtAttachment);
 	}
 }
 

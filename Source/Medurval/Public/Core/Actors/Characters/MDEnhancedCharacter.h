@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "MDCharacter.h"
-#include "Core/Components/MDSkeletalMeshComponent.h"
 #include "GameFramework/Character.h"
 #include "Inventory/Enums/MDAccessoryAttachment.h"
 #include "Inventory/Enums/MDEquipmentAttachment.h"
 #include "Inventory/Enums/MDWeaponAttachment.h"
 #include "MDEnhancedCharacter.generated.h"
 
+class UMDStaticMeshComponent;
+class UMDSkeletalMeshComponent;
 class UMDItemDataAsset;
 class UMDGameInstance;
 
@@ -34,18 +35,54 @@ class MEDURVAL_API AMDEnhancedCharacter : public AMDCharacter
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UMDSkeletalMeshComponent> BootsSlot;
+#pragma endregion EquipmentSlots
 
+#pragma region AccessorySlots
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UMDSkeletalMeshComponent> ShoulderSlot;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
 	TObjectPtr<UMDSkeletalMeshComponent> BeltSlot;
 
-#pragma endregion EquipmentSlots
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDSkeletalMeshComponent> BackSlot;
+#pragma endregion AccessorySlots
 
+#pragma region WeaponSlots
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDStaticMeshComponent> PrimaryWeaponSlot;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	FName PrimaryWeaponSlotSocketName = FName("RightHandSocket");
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDSkeletalMeshComponent> PrimaryWeaponSheathSlot;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDStaticMeshComponent> SecondaryWeaponSlot;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	FName SecondaryWeaponSlotSocketName = FName("LeftHandSocket");
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDSkeletalMeshComponent> SecondaryWeaponSheathSlot;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDCharacter|Inputs", meta=(AllowPrivateAccess=true))
+	TObjectPtr<UMDSkeletalMeshComponent> AmmoWeaponSlot;
+#pragma endregion WeaponSlots
+
+protected:
 	void SetupEquipmentSlots();
 
 	void GenerateEquipmentSlots();
+
+	void SetupAccessorySlots();
+
+	void GenerateAccessorySlots();
+
+	void SetupWeaponSlots();
+
+	void GenerateWeaponSlots();
 
 public:
 	AMDEnhancedCharacter();

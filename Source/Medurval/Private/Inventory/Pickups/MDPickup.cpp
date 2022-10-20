@@ -125,6 +125,8 @@ void AMDPickup::CalculateCollisionSize()
 		const FRotator Rotation = PickupCollision->GetComponentRotation();
 		PickupCollision->SetWorldRotation(FRotator(90, Rotation.Yaw, Rotation.Roll));
 
+		int32 MeshZHalfSize = MeshZ / 2;
+		PickupCollision->AddLocalOffset(FVector(MeshZHalfSize, 0, 0));
 		PickupCollision->SetCapsuleHalfHeight(MeshX);
 		PickupCollision->SetCapsuleRadius(MeshZ);
 	}
