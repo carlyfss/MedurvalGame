@@ -7,6 +7,7 @@
 #include "Core/Interfaces/MDInteractableInterface.h"
 #include "MDPickup.generated.h"
 
+class UMDBoxComponent;
 class UMDSphereComponent;
 class UMDStaticMeshComponent;
 class UMDCapsuleComponent;
@@ -16,7 +17,7 @@ UCLASS(meta = (DisplayName = "Pickup"))
 class AMDPickup : public AMDActor, public IMDInteractableInterface
 {
 	GENERATED_BODY()
-
+	
 	UPROPERTY(Transient)
 	TObjectPtr<UMDItemDataAsset> LoadedItem = nullptr;
 
@@ -30,10 +31,10 @@ class AMDPickup : public AMDActor, public IMDInteractableInterface
 	TObjectPtr<UMDSphereComponent> PickupLoadRange = nullptr;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UMDCapsuleComponent> PickupCollision = nullptr;
+	TObjectPtr<UMDBoxComponent> PickupCollision = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
-	int PickupCollisionOffset = 10;
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = true))
+	int PickupCollisionOffset = 5;
 
 	UPROPERTY(EditInstanceOnly, Category = "Pickup")
 	uint8 AmountToAdd = 1;
@@ -57,10 +58,11 @@ protected:
 
 	void UnloadPickupItem();
 
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Pickup")
+	void CalculateCollisionSize();
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "Pickup")
 	void MarkPickupForGarbage();
-
-	void CalculateCollisionSize();
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 

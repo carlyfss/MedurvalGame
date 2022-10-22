@@ -2,10 +2,13 @@
 
 #include "Inventory/Pickups/MDPickup.h"
 
+#include <string>
+
 #include "Inventory/Components/MDInventoryComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Core/Actors/Characters/MDPlayerCharacter.h"
 #include "Core/AssetManager/MedurvalAssetManager.h"
+#include "Core/Components/MDBoxComponent.h"
 #include "Core/Components/MDCapsuleComponent.h"
 #include "Core/Components/MDSphereComponent.h"
 #include "Core/Components/MDStaticMeshComponent.h"
@@ -31,7 +34,7 @@ AMDPickup::AMDPickup()
 	PickupLoadRange->OnComponentBeginOverlap.AddDynamic(this, &AMDPickup::OnBeginOverlap);
 	PickupLoadRange->OnComponentEndOverlap.AddDynamic(this, &AMDPickup::OnEndOverlap);
 
-	PickupCollision = CreateDefaultSubobject<UMDCapsuleComponent>("PickupCollision");
+	PickupCollision = CreateDefaultSubobject<UMDBoxComponent>("PickupCollision");
 	PickupCollision->ShapeColor = FColor(100, 0, 200, 50);
 	PickupCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	PickupCollision->SetupAttachment(PickupMesh);
@@ -108,27 +111,23 @@ void AMDPickup::CalculateCollisionSize()
 {
 	FVector Min;
 	FVector Max;
-	PickupMesh->GetLocalBounds(Min, Max);
 
-	FVector MeshSize = Max - Min;
-
-	float MeshX = (MeshSize.X + PickupCollisionOffset) / 2;
-	float MeshZ = (MeshSize.Z + PickupCollisionOffset) / 2;
-
-	if (bIsCollisionUp)
+	if (PickupMesh)
 	{
-		PickupCollision->SetCapsuleHalfHeight(MeshZ);
-		PickupCollision->SetCapsuleRadius(MeshX);
-	}
-	else
-	{
-		const FRotator Rotation = PickupCollision->GetComponentRotation();
-		PickupCollision->SetWorldRotation(FRotator(90, Rotation.Yaw, Rotation.Roll));
+		PickupMesh->GetLocalBounds(Min, Max);
 
-		int32 MeshZHalfSize = MeshZ / 2;
-		PickupCollision->AddLocalOffset(FVector(MeshZHalfSize, 0, 0));
-		PickupCollision->SetCapsuleHalfHeight(MeshX);
-		PickupCollision->SetCapsuleRadius(MeshZ);
+		const FVector MeshSize = Max - Min;
+		const FVector Offset = FVector(PickupCollisionOffset, PickupCollisionOffset, PickupCollisionOffset);
+		const FVector FinalSize = MeshSize + Offset;
+		const float SizeX = FinalSize.X / 2;
+		const float SizeY = FinalSize.Y / 2;
+		const float SizeZ = FinalSize.Z / 2;
+
+		PickupCollision->SetBoxExtent(FVector(SizeX, SizeY, SizeZ));
+
+		const float HalfZSize = SizeZ / 2;
+		PickupCollision->SetWorldLocation(PickupMesh->GetComponentLocation());
+		PickupCollision->AddWorldOffset(FVector(0, 0, HalfZSize));
 	}
 }
 
@@ -152,12 +151,13 @@ void AMDPickup::AddItemToInventory(AActor* ActorToAddItem)
 			const bool bAddedSuccessfully = InventoryInterface->
 				OnAddItemToInventory_Implementation(ItemId, AmountToAdd);
 
-			if (!bAddedSuccessfully)
-				return;
-
-			MarkPickupForGarbage();
-			MarkAsGarbage();
-			Destroy();
+			if (bAddedSuccessfully)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Destroying pickup"))
+				MarkPickupForGarbage();
+				MarkAsGarbage();
+				Destroy();
+			}
 		}
 	}
 }
@@ -170,10 +170,10 @@ void AMDPickup::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Othe
 	{
 		const UActorComponent* ComponentExists = OtherActor->GetComponentByClass(UMDInventoryComponent::StaticClass());
 
-		if (!ComponentExists)
-			return;
-
-		LoadPickupItem();
+		if (ComponentExists)
+		{
+			LoadPickupItem();
+		}
 	}
 }
 
