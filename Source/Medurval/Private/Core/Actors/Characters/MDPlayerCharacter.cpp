@@ -26,6 +26,8 @@ void AMDPlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
 
+    GetCharacterMovement()->MaxWalkSpeed = DefaultRunSpeed;
+
     // Initialize Player Reference in MDGameInstance
     AMDGameMode* GameMode = Cast<AMDGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
     if (GameMode)
@@ -38,14 +40,52 @@ void AMDPlayerCharacter::BeginPlay()
     }
 }
 
-void AMDPlayerCharacter::StartRunning() const
+void AMDPlayerCharacter::StartRunning()
 {
-    GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed + RunSpeedIncreaseAmount;  
+    const FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &AMDPlayerCharacter::IncreaseCharacterSpeed);
+    GetWorld()->GetTimerManager().SetTimer(RunTimerHandle, Delegate, 0.01f, true, 0.f);
 }
 
-void AMDPlayerCharacter::StopRunning() const
+void AMDPlayerCharacter::IncreaseCharacterSpeed()
 {
-    GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed - RunSpeedIncreaseAmount;
+    if (GetCharacterMovement()->MaxWalkSpeed < TargetRunSpeed)
+    {
+        GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed + SpeedIncreaseByTick;
+    }
+    else
+    {
+        GetCharacterMovement()->MaxWalkSpeed = TargetRunSpeed;
+        GetWorldTimerManager().ClearTimer(RunTimerHandle);
+        RunTimerHandle.Invalidate();
+    }
+}
+
+void AMDPlayerCharacter::DecreaseCharacterSpeed()
+{
+    if (GetCharacterMovement()->MaxWalkSpeed > DefaultRunSpeed)
+    {
+        GetCharacterMovement()->MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed - SpeedIncreaseByTick;
+    }
+    else
+    {
+        GetCharacterMovement()->MaxWalkSpeed = DefaultRunSpeed;
+        GetWorldTimerManager().ClearTimer(RunTimerHandle);
+        RunTimerHandle.Invalidate();
+    }
+}
+
+void AMDPlayerCharacter::StopRunning()
+{
+    FTimerManager& TimerManager = GetWorld()->GetTimerManager();
+
+    if (TimerManager.TimerExists(RunTimerHandle))
+    {
+        GetWorldTimerManager().ClearTimer(RunTimerHandle);
+        RunTimerHandle.Invalidate();
+    }
+
+    FTimerDelegate Delegate = FTimerDelegate::CreateUObject(this, &AMDPlayerCharacter::DecreaseCharacterSpeed);
+    TimerManager.SetTimer(RunTimerHandle, Delegate, 0.01f, true);
 }
 
 void AMDPlayerCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)

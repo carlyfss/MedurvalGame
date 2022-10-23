@@ -38,10 +38,10 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDLineTraceComponent> LineTraceComponent = nullptr;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDSpringArmComponent> SpringArmComponent = nullptr;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="MDCharacter|Components", meta=(AllowPrivateAccess=true))
     TObjectPtr<UMDCameraComponent> CameraComponent = nullptr;
     
     void EnhancedMoveForward(const FInputActionValue &Value);

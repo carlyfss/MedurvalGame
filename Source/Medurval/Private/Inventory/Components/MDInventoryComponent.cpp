@@ -190,6 +190,14 @@ void UMDInventoryComponent::EquipItem(EMDWeaponAttachment Attachment, FPrimaryAs
 			WeaponSlots[SlotIndex].Item = ItemId;
 			WeaponSlots[SlotIndex].Amount = 1;
 
+			if (Weapon->IsTwoHanded())
+			{
+				if (WeaponSlots[SlotIndex].Item.IsValid())
+				{
+					UnequipItem(EMDWeaponAttachment::Secondary);
+				}
+			}
+
 			PlayerCharacter->EquipItem(Attachment, ItemId);
 			OnWeaponItemEquipped.Broadcast(ItemId, Attachment);
 		}
@@ -560,7 +568,6 @@ bool UMDInventoryComponent::AddUnstackableItem(FPrimaryAssetId Item, int32 Amoun
 	if (!SearchEmptySlot(FoundIndex))
 	{
 		Rest = Amount;
-		bAddedSuccessfully = false;
 	}
 	else
 	{

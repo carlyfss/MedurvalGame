@@ -76,9 +76,11 @@ AMDCharacter::AMDCharacter()
     GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 
     // Configure character movement
-    GetCharacterMovement()->bOrientRotationToMovement = true;            // Character moves in the direction of input...	
-    GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+    GetCharacterMovement()->bUseControllerDesiredRotation = true;
+    GetCharacterMovement()->bOrientRotationToMovement = false; // Character moves in the direction of input...	
+    GetCharacterMovement()->RotationRate = FRotator(0.0f, 300.0f, 0.0f); // ...at this rotation rate
     GetCharacterMovement()->JumpZVelocity = 600.f;
+    GetCharacterMovement()->MaxWalkSpeed = 300.f;
     GetCharacterMovement()->AirControl = 0.2f;
 
     // Additional settings

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MDEquipableItemDataAsset.h"
+#include "Core/Enums/MDCombatStyles.h"
 #include "Inventory/Enums/MDWeaponAttachment.h"
 #include "MDWeaponDataAsset.generated.h"
 
@@ -18,6 +19,9 @@ class MEDURVAL_API UMDWeaponDataAsset : public UMDEquipableItemDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDWeaponDataAsset", meta=(DisplayName="Attachment"))
 	EMDWeaponAttachment Attachment = EMDWeaponAttachment::None;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDWeaponDataAsset", meta=(DisplayName="Attachment"))
+	EMDCombatStyles CombatStyle = EMDCombatStyles::None;
 
 	/**
 	 * Mesh used in the Socket on the character skeleton to display the Weapon's mesh.
@@ -34,6 +38,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDWeaponDataAsset")
 	TArray<FText> BonusEffects = TArray<FText>();
 
+	bool IsTwoHanded() const;
+	
 	virtual EMDWeaponAttachment GetWeaponAttachment() override;
 	
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override;

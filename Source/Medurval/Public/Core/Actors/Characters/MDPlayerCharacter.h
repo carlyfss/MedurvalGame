@@ -22,9 +22,19 @@ class MEDURVAL_API AMDPlayerCharacter : public AMDDamageableCharacter
     TObjectPtr<UMDActivatableWidget> MainWidgetReference = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerCharacter|Inputs", meta=(AllowPrivateAccess=true))
-    float RunSpeedIncreaseAmount = 300.f;
+    float DefaultRunSpeed = 350.f;
+    
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    float TargetRunSpeed = 600.f;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="MDPlayerCharacter|Inputs", meta=(AllowPrivateAccess=true))
+    float SpeedIncreaseByTick = 5.f;
+
+    
 
 protected:
+    FTimerHandle RunTimerHandle;
+
 #pragma region Inputs
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="BaseCharacter|Inputs")
     UInputAction* LookInputAction;
@@ -48,10 +58,14 @@ protected:
     void InteractWithObject() const;
 
     UFUNCTION(BlueprintCallable, Category="BaseCharacter|Inputs")
-    void StartRunning() const;
+    void StartRunning();
+
+    void IncreaseCharacterSpeed();
+
+    void DecreaseCharacterSpeed();
 
     UFUNCTION(BlueprintCallable, Category="BaseCharacter|Inputs")
-    void StopRunning() const;
+    void StopRunning();
 
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category="BaseCharacter|Inputs")
     void ToggleInventory();

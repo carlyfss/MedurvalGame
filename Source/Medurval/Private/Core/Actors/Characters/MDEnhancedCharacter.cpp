@@ -163,6 +163,7 @@ void AMDEnhancedCharacter::EquipItem(EMDWeaponAttachment Attachment, FPrimaryAss
 		switch (Attachment)
 		{
 		case EMDWeaponAttachment::Primary:
+			CombatStyle = Weapon->CombatStyle;
 			PrimaryWeaponSlot->SetStaticMesh(Weapon->WeaponEquipableMesh.Get());
 			PrimaryWeaponSheathSlot->SetSkeletalMesh(Weapon->EquipableMesh.Get());
 			break;
@@ -257,6 +258,7 @@ void AMDEnhancedCharacter::UnequipItem(EMDWeaponAttachment Attachment)
 	switch (Attachment)
 	{
 	case EMDWeaponAttachment::Primary:
+		CombatStyle = EMDCombatStyles::None;
 		PrimaryWeaponSlot->SetStaticMesh(nullptr);
 		PrimaryWeaponSheathSlot->SetSkeletalMesh(nullptr);
 		break;
