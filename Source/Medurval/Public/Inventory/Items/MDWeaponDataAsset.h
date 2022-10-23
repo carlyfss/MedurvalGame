@@ -26,7 +26,7 @@ public:
 	/**
 	 * Mesh used in the Socket on the character skeleton to display the Weapon's mesh.
 	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDWeaponDataAsset", meta=(AssetBundles="World"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDWeaponDataAsset", meta=(AssetBundles="World,Mandatory"))
 	TSoftObjectPtr<UStaticMesh> WeaponEquipableMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDWeaponDataAsset")

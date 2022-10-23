@@ -67,6 +67,49 @@ void UMDInventoryComponent::SetupWeaponSlots()
 	WeaponSlots[2].Attachment = EMDWeaponAttachment::Ammo;
 }
 
+void UMDInventoryComponent::LoadStartingItems()
+{
+	TArray<EMDWeaponAttachment> WeaponAttachments;
+	TArray<FPrimaryAssetId> WeaponIds;
+
+	GetMDGameInstance()->LoadPrimaryAssetId(WeaponIds);
+
+	StartingWeapons.GenerateKeyArray(WeaponAttachments);
+	StartingWeapons.GenerateValueArray(WeaponIds);
+
+	for (int i = 0; i < WeaponAttachments.Num(); i++)
+	{
+		EquipItem(WeaponAttachments[i], WeaponIds[i]);
+	}
+
+	TArray<EMDEquipmentAttachment> EquipmentAttachments;
+	TArray<FPrimaryAssetId> EquipmentIds;
+
+	StartingEquipments.GenerateKeyArray(EquipmentAttachments);
+	StartingEquipments.GenerateValueArray(EquipmentIds);
+
+	GetMDGameInstance()->LoadPrimaryAssetId(EquipmentIds);
+
+	for (int i = 0; i < EquipmentAttachments.Num(); i++)
+	{
+		EquipItem(EquipmentAttachments[i], EquipmentIds[i]);
+	}
+
+	TArray<FPrimaryAssetId> ItemIds;
+	TArray<int32> ItemQuantities;
+
+	StartingInventory.GenerateKeyArray(ItemIds);
+	StartingInventory.GenerateValueArray(ItemQuantities);
+
+	GetMDGameInstance()->LoadPrimaryAssetId(ItemIds);
+
+	for (int i = 0; i < ItemIds.Num(); i++)
+	{
+		int32 Rest;
+		AddItem(ItemIds[i], ItemQuantities[i], Rest);
+	}
+}
+
 void UMDInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -74,6 +117,7 @@ void UMDInventoryComponent::BeginPlay()
 	PlayerCharacter = Cast<AMDPlayerCharacter>(GetOwner());
 
 	InitializeSlotArrays();
+	LoadStartingItems();
 }
 
 /** Checks if a given index is empty or not */

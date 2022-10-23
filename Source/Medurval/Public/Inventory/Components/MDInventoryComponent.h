@@ -31,33 +31,44 @@ class MEDURVAL_API UMDInventoryComponent : public UMDActorComponent, public IMDI
 		meta = (AllowPrivateAccess = true))
 	int32 SlotAmount = 24;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
 	int32 EquipmentSlotsAmount = 5;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
 	int32 AccessorySlotsAmount = 5;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
 	int32 WeaponSlotsAmount = 3;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
 	int32 SidebarEquipmentSlotAmount = 5;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
-		meta = (AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))
 	TMap<EMDEquipmentAttachment, TSoftObjectPtr<UTexture2D>> EquipmentSlotsMap;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
-		meta = (AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))
 	TMap<EMDWeaponAttachment, TSoftObjectPtr<UTexture2D>> WeaponSlotsMap;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
 		meta = (AllowPrivateAccess = true))
 	int32 SlotsPerRow = 6;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
+	TMap<EMDWeaponAttachment, FPrimaryAssetId> StartingWeapons;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
+	TMap<EMDEquipmentAttachment, FPrimaryAssetId> StartingEquipments;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory|Configuration",
+		meta = (AllowPrivateAccess = true))
+	TMap<FPrimaryAssetId, int32> StartingInventory;
+
 #pragma endregion Configurations
 
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory|Configuration", meta = (AllowPrivateAccess = true))
@@ -93,6 +104,8 @@ protected:
 	void SetupAccessorySlots();
 
 	void SetupWeaponSlots();
+
+	void LoadStartingItems();
 
 #pragma region Interaction
 	UFUNCTION(BlueprintCallable, Category = "Inventory|Interaction")

@@ -29,10 +29,10 @@ public:
 	/**
 	 * Mesh used for the pickup object.
 	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="World"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="World,Mandatory"))
 	TSoftObjectPtr<UStaticMesh> Mesh = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="UI"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(AssetBundles="UI,Mandatory"))
 	TSoftObjectPtr<UTexture2D> Thumbnail = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDItemDataAsset", meta=(DisplayName="Category"))

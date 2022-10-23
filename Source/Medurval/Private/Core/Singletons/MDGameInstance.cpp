@@ -173,7 +173,31 @@ void UMDGameInstance::LoadPrimaryAssetId(FPrimaryAssetId AssetId, FStreamableDel
         return;
     }
 
+    if (BundlesToLoad.Num() <= 0)
+    {
+        BundlesToLoad.Add(UMedurvalAssetManager::MandatoryBundle);
+    }
+
     AssetManager->LoadPrimaryAsset(AssetId, BundlesToLoad, DelegateToCall);
+}
+
+void UMDGameInstance::LoadPrimaryAssetId(TArray<FPrimaryAssetId> AssetIds, FStreamableDelegate DelegateToCall,
+                                         TArray<FName> BundlesToLoad)
+{
+    UMedurvalAssetManager* AssetManager = Cast<UMedurvalAssetManager>(UMedurvalAssetManager::GetIfValid());
+
+    if (!AssetManager)
+    {
+        UE_LOG(LogTemp, Error, TEXT("MedurvalAssetManager not available to load primary assets!"));
+        return;
+    }
+
+    if (BundlesToLoad.Num() <= 0)
+    {
+        BundlesToLoad.Add(UMedurvalAssetManager::MandatoryBundle);
+    }
+
+    AssetManager->LoadPrimaryAssets(AssetIds, BundlesToLoad, DelegateToCall);
 }
 
 void UMDGameInstance::Init()

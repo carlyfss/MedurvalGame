@@ -26,7 +26,8 @@ public:
 	/**
 	 * Mesh used to be equipped on the character. This mesh should not be used in Sockets on the character skeleton.
 	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDEquipableItemDataAsset", meta=(AssetBundles="World"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="MDEquipableItemDataAsset",
+		meta=(AssetBundles="World,Mandatory"))
 	TSoftObjectPtr<USkeletalMesh> EquipableMesh = nullptr;
 
 	virtual EMDEquipmentAttachment GetEquipmentAttachment()

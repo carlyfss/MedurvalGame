@@ -63,6 +63,10 @@ public:
 	static void LoadPrimaryAssetId(FPrimaryAssetId AssetId, FStreamableDelegate DelegateToCall = FStreamableDelegate(),
 	                               TArray<FName> BundlesToLoad = TArray<FName>());
 
+	static void LoadPrimaryAssetId(TArray<FPrimaryAssetId> AssetIds,
+	                               FStreamableDelegate DelegateToCall = FStreamableDelegate(),
+	                               TArray<FName> BundlesToLoad = TArray<FName>());
+
 	virtual void Init() override;
 
 	/** The slot name used for saving */
